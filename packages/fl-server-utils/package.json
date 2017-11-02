@@ -19,6 +19,9 @@
     "test": "eval $(cat test/.env) mocha test/**/*.tests.js",
     "cover": "eval $(cat test/.env) istanbul cover _mocha -- test/**/*.tests.js"
   },
+  "devDependencies": {
+    "babel-cli": "^6.0.0",
+  },
   "dependencies": {
     "lodash": "^4.0.0",
     "queue-async": "^1.0.7"

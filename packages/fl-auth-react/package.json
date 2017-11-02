@@ -18,6 +18,9 @@
     "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
     "test": "eval $(cat test/.env) mocha test/**/*.tests.js"
   },
+  "devDependencies": {
+    "babel-cli": "^6.0.0",
+  },
   "dependencies": {
     "fl-react-utils": "^0.15.0",
     "react": ">=15.3.1",
