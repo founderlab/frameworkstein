@@ -1,0 +1,30 @@
+$gray-base:              #000 !default;
+$gray-darker:            lighten($gray-base, 13.5%) !default; // #222
+$gray-dark:              lighten($gray-base, 20%) !default;   // #333
+$gray:                   lighten($gray-base, 33.5%) !default; // #555
+$gray-light:             lighten($gray-base, 60%) !default;   // #999
+$gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
+$gray-lighterer:         lighten($gray-base, 97%) !default;   // #f7f7f7
+
+$brand-primary:         #2596e7 !default;
+$brand-success:         #86E825 !default;
+$brand-info:            #75CAEB !default;
+$brand-warning:         #E9C378 !default;
+$brand-danger:          #FF5959 !default;
+
+// General
+$fla-bg:                              #fff !default;
+$fla-link-color:                      $brand-primary !default;
+$fla-link-hover-color:                #5DD39E !default;
+
+
+// Sidebar / navbar
+$fla-sidebar-background:              #2C3D52 !default;
+$fla-sidebar-header-color:            #fff !default;
+$fla-sidebar-header-background:       #243142 !default;
+$fla-sidebar-link-color:              #5DD39E !default;
+$fla-sidebar-link-background:         transparent !default;
+$fla-sidebar-link-hover-color:        #6FFFE9 !default;
+$fla-sidebar-link-hover-background:   transparent !default;
+$fla-sidebar-link-active-color:       #fff !default;
+$fla-sidebar-link-active-background:  #3A506B !default;

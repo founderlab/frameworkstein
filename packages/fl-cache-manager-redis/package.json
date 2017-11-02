@@ -1,0 +1,31 @@
+{
+  "name": "fl-cache-manager-redis",
+  "version": "0.1.4",
+  "description": "Redis store for the node-cache-manager that stores keys in hashes based on a key's prefix",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/fl-server-utils.git"
+  },
+  "scripts": {
+    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat test/.env) mocha test/**/*.tests.js",
+    "cover": "eval $(cat test/.env) istanbul cover _mocha -- test/**/*.tests.js"
+  },
+  "dependencies": {
+    "cache-manager": "^2.1.2",
+    "lodash": "^4.16.2",
+    "queue-async": "^1.2.1",
+    "redis-url": "^1.2.1",
+    "sol-redis-pool": "^0.3.1"
+  },
+  "devDependencies": {
+  }
+}

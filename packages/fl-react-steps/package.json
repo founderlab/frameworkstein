@@ -1,0 +1,27 @@
+{
+  "name": "fl-react-steps",
+  "version": "0.10.3",
+  "description": "Step header and content components with which to make a multi step form",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/fl-react-steps"
+  },
+  "scripts": {
+    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat test/.env) mocha test/**/*.tests.js"
+  },
+  "dependencies": {
+    "react": "^15.3.2",
+    "classnames": "^2.2.3"
+  },
+  "devDependencies": {
+  }
+}

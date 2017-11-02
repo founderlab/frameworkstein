@@ -1,0 +1,32 @@
+{
+  "name": "fl-stripe-server",
+  "version": "0.5.6",
+  "description": "Stripe controller for FounderLab apps",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/fl-stripe-server.git"
+  },
+  "scripts": {
+    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat test/.env) mocha test/**/*.tests.js"
+  },
+  "dependencies": {
+    "backbone": "^1.2.0",
+    "lodash": "^4.0.0",
+    "moment": "^2.10.6",
+    "queue-async": "^1.0.7",
+    "stripe": "^4.10.0",
+    "fl-auth-server": "*",
+    "fl-server-utils": "*"
+  },
+  "devDependencies": {
+  }
+}

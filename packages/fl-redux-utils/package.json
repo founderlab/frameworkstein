@@ -1,0 +1,34 @@
+{
+  "name": "fl-redux-utils",
+  "version": "0.4.3",
+  "description": "Boilerplate and helper functions for redux that can be shared amongst FounderLab apps",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/fl-redux-utils.git"
+  },
+  "scripts": {
+    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat test/.env) mocha test/**/*.tests.js",
+    "cover": "eval $(cat test/.env) istanbul cover _mocha -- test/**/*.tests.js"
+  },
+  "dependencies": {
+    "classnames": "^2.2.3",
+    "immutable": "^3.7.4",
+    "lodash": "^4.0.0",
+    "queue-async": "^1.0.7",
+    "warning": "^2.1.0",
+    "react": "^15.3.2",
+    "reselect": "^2.0.2",
+    "redux": "^3.0.0"
+  },
+  "devDependencies": {
+  }
+}

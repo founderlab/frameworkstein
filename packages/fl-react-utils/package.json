@@ -1,0 +1,48 @@
+{
+  "name": "fl-react-utils",
+  "version": "0.18.1",
+  "description": "Boilerplate and helper functions for react/redux that can be shared amongst FounderLab apps",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/fl-react-utils.git"
+  },
+  "scripts": {
+    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat test/.env) mocha test/**/*.tests.js",
+    "cover": "eval $(cat test/.env) istanbul cover _mocha -- test/**/*.tests.js"
+  },
+  "dependencies": {
+    "classnames": "^2.2.3",
+    "immutable": "^3.7.4",
+    "lodash": "^4.0.0",
+    "queue-async": "^1.0.7",
+    "warning": "^2.1.0",
+    "react-select": "^0.9.1",
+    "prop-types": "*",
+    "moment": "^2.11.1",
+
+    "react": "^15.3.2",
+    "react-dom": "^15.3.1",
+    "reselect": "^2.0.2",
+
+    "react-datetime": "^2.6.2",
+    "react-markdown": "^2.4.2",
+    "redux-form": "^6.6.3",
+    "react-sidebar": "^2.1.1",
+    "react-bootstrap": "^0.30.3",
+    "react-dropzone-s3-uploader": "^1.0.0",
+    "react-router": "^2.8.1",
+    "react-router-bootstrap": "^0.23.1",
+    "redux-router": "^2.1.2"
+  },
+  "devDependencies": {
+  }
+}
