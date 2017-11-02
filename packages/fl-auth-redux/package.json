@@ -1,6 +1,6 @@
 {
   "name": "fl-auth-redux",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "Redux actions and reducer for fl-auth-*",
   "main": "lib/index.js",
   "author": {

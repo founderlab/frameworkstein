@@ -1,6 +1,6 @@
 {
   "name": "fl-server-utils",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "Helper functions for the server side of FounderLab apps",
   "main": "lib/index.js",
   "author": {
