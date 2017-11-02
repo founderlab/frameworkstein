@@ -20,7 +20,7 @@
     "cover": "eval $(cat test/.env) istanbul cover _mocha -- test/**/*.tests.js"
   },
   "devDependencies": {
-    "babel-cli": "^6.0.0",
+    "babel-cli": "^6.0.0"
   },
   "dependencies": {
     "classnames": "^2.2.3",
