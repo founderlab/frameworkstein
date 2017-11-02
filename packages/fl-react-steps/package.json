@@ -1,6 +1,6 @@
 {
   "name": "fl-react-steps",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Step header and content components with which to make a multi step form",
   "main": "lib/index.js",
   "author": {
