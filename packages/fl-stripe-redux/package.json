@@ -1,6 +1,6 @@
 {
   "name": "fl-stripe-redux",
-  "version": "0.1.0",
+  "version": "1.0.0-alpha.1",
   "description": "Redux actions and reducer for stripe card management with fl-stripe-server",
   "main": "lib/index.js",
   "author": {
@@ -19,10 +19,8 @@
     "test": "eval $(cat test/.env) mocha test/**/*.tests.js"
   },
   "dependencies": {
-    "lodash": "^4.0.0",
     "immutable": "^3.7.4",
+    "lodash": "^4.0.0",
     "superagent": "0.18.0"
-  },
-  "devDependencies": {
   }
 }

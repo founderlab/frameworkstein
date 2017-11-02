@@ -1,6 +1,6 @@
 {
   "name": "fl-auth-server",
-  "version": "0.16.2",
+  "version": "1.0.0-alpha.1",
   "description": "Auth server package for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -29,7 +29,5 @@
     "passport-linkedin-oauth2": "^1.4.0",
     "passport-local": "^1.0.0",
     "queue-async": "^1.0.7"
-  },
-  "devDependencies": {
   }
 }

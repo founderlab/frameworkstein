@@ -1,6 +1,6 @@
 {
   "name": "fl-react-utils",
-  "version": "0.18.1",
+  "version": "1.0.0-alpha.1",
   "description": "Boilerplate and helper functions for react/redux that can be shared amongst FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -23,26 +23,22 @@
     "classnames": "^2.2.3",
     "immutable": "^3.7.4",
     "lodash": "^4.0.0",
-    "queue-async": "^1.0.7",
-    "warning": "^2.1.0",
-    "react-select": "^0.9.1",
-    "prop-types": "*",
     "moment": "^2.11.1",
-
+    "prop-types": "*",
+    "queue-async": "^1.0.7",
     "react": "^15.3.2",
-    "react-dom": "^15.3.1",
-    "reselect": "^2.0.2",
-
-    "react-datetime": "^2.6.2",
-    "react-markdown": "^2.4.2",
-    "redux-form": "^6.6.3",
-    "react-sidebar": "^2.1.1",
     "react-bootstrap": "^0.30.3",
+    "react-datetime": "^2.6.2",
+    "react-dom": "^15.3.1",
     "react-dropzone-s3-uploader": "^1.0.0",
+    "react-markdown": "^2.4.2",
     "react-router": "^2.8.1",
     "react-router-bootstrap": "^0.23.1",
-    "redux-router": "^2.1.2"
-  },
-  "devDependencies": {
+    "react-select": "^0.9.1",
+    "react-sidebar": "^2.1.1",
+    "redux-form": "^6.6.3",
+    "redux-router": "^2.1.2",
+    "reselect": "^2.0.2",
+    "warning": "^2.1.0"
   }
 }

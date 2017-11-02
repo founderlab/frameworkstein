@@ -1,6 +1,6 @@
 {
   "name": "fl-admin",
-  "version": "0.15.0",
+  "version": "1.0.0-alpha.1",
   "description": "Admin panel for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -20,21 +20,19 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
+    "fl-react-utils": "^1.0.0-alpha.1",
+    "fl-redux-utils": "^1.0.0-alpha.1",
     "inflection": "^1.7.2",
     "lodash": "^4.13.1",
+    "react": ">=15.3.1",
+    "react-bootstrap": ">=0.30.3",
     "react-datetime": "^2.0.1",
     "react-dropzone-s3-uploader": ">=0.3.1",
     "react-helmet": "^3.0.1",
+    "react-redux": ">=4.0.0",
     "react-select": "^0.9.1",
     "react-sidebar": "^2.1.1",
-    "warning": "^2.1.0",
-    "react": ">=15.3.1",
-    "react-bootstrap": ">=0.30.3",
-    "react-redux": ">=4.0.0",
-    "fl-react-utils": ">=0.15.0",
-    "fl-redux-utils": ">=0.2.0",
-    "redux-form": ">=6.0.2"
-  },
-  "devDependencies": {
+    "redux-form": ">=6.0.2",
+    "warning": "^2.1.0"
   }
 }
