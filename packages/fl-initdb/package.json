@@ -1,0 +1,29 @@
+{
+  "name": "fl-initdb",
+  "version": "0.10.4",
+  "description": "Auto create and populate a database",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/fl-initdb.git"
+  },
+  "scripts": {
+    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat test/.env) mocha test/**/*.tests.js"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.6.1",
+    "lodash": "^4.13.1",
+    "queue-async": "^1.0.7",
+    "fl-server-utils": "*"
+  },
+  "devDependencies": {
+  }
+}

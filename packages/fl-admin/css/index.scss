@@ -1,0 +1,32 @@
+@import '~react-datetime/css/react-datetime.css';
+
+// load first
+@import './variables.scss';
+
+@import './forms.scss';
+@import './list.scss';
+@import './loader.scss';
+@import './sidebar.scss';
+
+.fla-main {
+  min-height: 100%;
+  background: $fla-bg;
+  padding-top: 60px;
+
+  a:not(.btn) {
+    color: $fla-link-color;
+    transition: all 0.2s;
+    &:hover {
+      text-decoration: none;
+      color: $fla-link-hover-color;
+    }
+  }
+
+  > section {
+    padding: 0 40px 80px;
+  }
+
+  .fla-back {
+    margin-bottom: 15px;
+  }
+}

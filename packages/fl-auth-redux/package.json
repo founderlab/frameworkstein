@@ -1,0 +1,31 @@
+{
+  "name": "fl-auth-redux",
+  "version": "0.11.5",
+  "description": "Redux actions and reducer for fl-auth-*",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/fl-auth-redux.git"
+  },
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat test/.env) mocha test/**/*.tests.js"
+  },
+  "dependencies": {
+    "immutable": "^3.7.5",
+    "moment": "^2.13.0",
+    "superagent": "0.18.0",
+    "lodash": "^4.13.1",
+    "react": ">=15.3.1",
+    "redux": "*"
+  },
+  "devDependencies": {
+  }
+}

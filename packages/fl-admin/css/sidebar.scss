@@ -1,0 +1,55 @@
+
+.fla-sidebar, .navbar {
+  background-color: $fla-sidebar-background;
+
+  a.fla-sidebar-header {
+    padding: 30px 20px 20px;
+    display: block;
+    text-align: center;
+    font-size: 50px;
+    width: 100%;
+    color: $fla-sidebar-header-color;
+    background: $fla-sidebar-header-background;
+    &:hover {
+      color: $fla-sidebar-link-hover-color;
+    }
+  }
+
+  ul.nav {
+    li {
+      a {
+        color: $fla-sidebar-link-color;
+        transition: all 0.2s;
+      }
+      a:hover, a:focus {
+        color: $fla-sidebar-link-hover-color;
+        background-color: $fla-sidebar-link-hover-background;
+      }
+      &.active a {
+        color: $fla-sidebar-link-active-color;
+        background-color: $fla-sidebar-link-active-background;
+      }
+    }
+  }
+}
+
+.navbar {
+  z-index: 0;
+  ul.nav {
+    width: 100%;
+    li {
+      border: none;
+    }
+  }
+}
+
+.sidebar-toggle {
+  top: 10px;
+  left: 10px;
+  position: fixed;
+  z-index: 1;
+  a { color: $fla-sidebar-link-color; }
+  a:hover, a:focus {
+    color: $fla-sidebar-link-hover-color;
+  }
+}

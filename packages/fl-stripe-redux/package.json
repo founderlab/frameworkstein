@@ -1,0 +1,28 @@
+{
+  "name": "fl-stripe-redux",
+  "version": "0.1.0",
+  "description": "Redux actions and reducer for stripe card management with fl-stripe-server",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/fl-stripe-redux.git"
+  },
+  "scripts": {
+    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat test/.env) mocha test/**/*.tests.js"
+  },
+  "dependencies": {
+    "lodash": "^4.0.0",
+    "immutable": "^3.7.4",
+    "superagent": "0.18.0"
+  },
+  "devDependencies": {
+  }
+}

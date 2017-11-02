@@ -1,0 +1,170 @@
+
+$complete-color: #5BE5B9 !default;
+$dot-color: #75CAEB !default;
+
+$text-color: #333 !default;
+$text-active-color: #fff !default;
+$text-disabled-color: #999 !default;
+
+$dot-size: 20px !default;
+$dot-size-xs: 20px !default;
+$dot-active-size: 100px !default;
+$dot-active-size-xs: 70px !default;
+
+$step-font-size: 18px !default;
+$step-height: 180px !default;
+$step-height-xs: 130px !default;
+
+.step-header {
+  display: flex;
+
+  .step {
+    flex: 1;
+    font-size: $step-font-size;
+    font-weight: 300;
+
+    position: relative;
+    height: $step-height;
+
+    &.disabled {
+      color: $text-disabled-color;
+    }
+
+    &:hover:not(.disabled) {
+      cursor: pointer;
+      color: $dot-color;
+      .dot {
+        width: 30px;
+        height: 30px;
+        margin-left: -15px;
+        margin-top: -15px;
+      }
+    }
+
+    &.active, &.active:hover {
+      cursor: default;
+      .text {
+        height: $step-height;
+        color: $text-active-color;
+      }
+      .bar-left {
+        background: $complete-color;
+      }
+      .dot {
+        border-radius: 50%;
+
+        width: $dot-active-size;
+        height: $dot-active-size;
+
+        left: 50%;
+        top: 50%;
+        margin-left: -$dot-active-size/2;
+        margin-top: -$dot-active-size/2;
+      }
+    }
+    &.complete {
+      .dot, .bar {
+        background: $complete-color;
+      }
+      .text {
+        color: $text-color;
+      }
+    }
+    &.complete:hover .text {
+      color: $complete-color;
+    }
+
+    .text {
+      transition: all 0.5s;
+      color: $text-color;
+      display: table;
+      height: 66px;
+      width: 100%;
+      max-width: $dot-active-size * 0.80;
+      margin: 0 auto;
+      z-index: 4;
+      text-align: center;
+      position: relative;
+      height: $step-height/2;
+
+      .text-inner {
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
+    .dot {
+      transition: all 0.5s;
+      z-index: 2;
+      background: $dot-color;
+
+      border-radius: 50%;
+
+      position: absolute;
+      width: $dot-size;
+      height: $dot-size;
+
+      left: 50%;
+      top: 50%;
+      margin-left: -$dot-size/2;
+      margin-top: -$dot-size/2;
+    }
+    .bar {
+      transition: all 0.5s;
+      z-index: 1;
+      background: $dot-color;
+
+      position: absolute;
+      width: 50%;
+      height: 6px;
+
+      top: 50%;
+      margin-top: -3px;
+
+      &.bar-left {
+        left: 0;
+      }
+      &.bar-right {
+        right: 0;
+      }
+    }
+
+    .number {
+      z-index: 3;
+      display: none;
+    }
+  }
+}
+
+@media(max-width:768px) {
+
+  .step-header .step {
+    font-size: 14px;
+    height: $step-height-xs;
+
+    &.active, &.active:hover {
+      .text {
+        height: $step-height-xs;
+      }
+      .dot {
+        width: $dot-active-size-xs;
+        height: $dot-active-size-xs;
+        margin-left: -$dot-active-size-xs/2;
+        margin-top: -$dot-active-size-xs/2;
+      }
+    }
+
+    .text {
+      height: $step-height-xs/2;
+    }
+    .dot {
+      width: $dot-size-xs;
+      height: $dot-size-xs;
+      margin-left: -$dot-size-xs/2;
+      margin-top: -$dot-size-xs/2;
+    }
+    .bar {
+      height: 4px;
+      margin-top: -2px;
+    }
+  }
+}
