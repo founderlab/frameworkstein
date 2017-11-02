@@ -1,6 +1,6 @@
 {
   "name": "fl-react-steps",
-  "version": "0.10.3",
+  "version": "1.0.0-alpha.1",
   "description": "Step header and content components with which to make a multi step form",
   "main": "lib/index.js",
   "author": {
@@ -19,9 +19,7 @@
     "test": "eval $(cat test/.env) mocha test/**/*.tests.js"
   },
   "dependencies": {
-    "react": "^15.3.2",
-    "classnames": "^2.2.3"
-  },
-  "devDependencies": {
+    "classnames": "^2.2.3",
+    "react": "^15.3.2"
   }
 }
