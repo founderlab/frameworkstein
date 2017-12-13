@@ -59,12 +59,12 @@ export class ModelListForm extends React.Component {
 
         {showSave ? (
           <td className="fla-save-td">
-            <Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button>
+            <Button bsStyle="primary" bsSize="small" onClick={handleSubmit}>Save</Button>
           </td>
         ) : null}
         {modelAdmin.listDelete && (
           <td className="fla-delete-td">
-            <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button>
+            <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}>Delete</Button>
           </td>
         )}
       </tr>

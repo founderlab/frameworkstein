@@ -1,6 +1,6 @@
 # Server side of fl-auth-*, an auth package for FounderLab apps
 
-Usage (server):
+Usage (server) - values shown are defaults:
 
     import {configure as configureAuth, loggedIn} from 'fl-auth-server'
 
@@ -27,8 +27,17 @@ Usage (server):
         success: '/',                     // Go here when a user logs in or registers 
                                           // (if there's no other location specified) <- This isn't implemented yet
       },
+      
+      /*
+       *  A facebook oath route will be created at the `paths.redirect` url
+       *  When signing in users with facebook open this url, they will be redirected to facebook for authentication and back
+       *  Your User model should have `facebookId` and `facebookAccessToken` fields where their facebook info will be saved
+       *  
+       */
+      facebook: {                         
+        clientId: ,                       // Your facebook app id (required)
+        clientSecret: ,                   // Your facebook app secret (required)
 
-      facebook: {                         // facebook login info
         url: process.env.URL,
         paths: {
           redirect: '/auth/facebook',
@@ -36,6 +45,22 @@ Usage (server):
         },
         scope: ['email'],
         profileFields: ['id', 'displayName', 'email'],
+      },
+      
+      /*
+       *  Same deal for linkedin
+       */
+      facebook: {                         
+        clientId: ,                       // Your facebook app id (required)
+        clientSecret: ,                   // Your facebook app secret (required)
+
+        url: process.env.URL,
+        paths: {
+          redirect: '/auth/linkedin',
+          callback: '/auth/linkedin/callback',
+        },
+        scope: ['r_emailaddress', 'r_basicprofile'],
+        profileFields: ['first-name', 'last-name', 'email-address', 'formatted-name', 'location', 'industry', 'summary', 'specialties', 'positions', 'picture-url', 'public-profile-url'],
       },
       
       login: {                          

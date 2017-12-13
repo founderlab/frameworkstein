@@ -109,20 +109,6 @@ export default function createModelEditor(modelAdmin) {
 
       _.forEach(visibleIds, id => modelStore.get('models').get(id) && visibleItems.push(modelStore.get('models').get(id).toJSON()))
 
-      // Format dates for form initial values
-      _.forEach(visibleItems, model => {
-        _.forEach(modelAdmin.fields, (f, key) => {
-          const type = f.type && f.type.toLowerCase()
-          if (!type) return
-          if (type === 'datetime' && model[key]) {
-            model[key] = moment(new Date(model[key])).format('L LT')
-          }
-          else if (type === 'date' && model[key]) {
-            model[key] = moment(new Date(model[key])).format('L')
-          }
-        })
-      })
-
       const componentProps = {
         id,
         modelAdmin,

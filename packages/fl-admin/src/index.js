@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import moment from 'moment'
 import warning from 'warning'
 import {combineReducers} from 'redux'
 import {Pagination} from 'fl-react-utils'
@@ -35,6 +36,7 @@ const wrapDisplayFn = (modelAdmin, oldDisplay) => model => {
 }
 
 function createModelAdmin(options, modelDescriptor) {
+  console.log('createModelAdmin')
   const modelAdmin = {}
   if (options.isAModel(modelDescriptor)) modelAdmin.Model = modelDescriptor
   else if (_.isObject(modelDescriptor)) _.merge(modelAdmin, modelDescriptor)
@@ -87,7 +89,20 @@ function createModelAdmin(options, modelDescriptor) {
     else {
       adminField.InputComponent = SmartInput
     }
-    if (_.includes(modelAdmin.readOnlyFields, key)) adminField.input = 'static'
+    if (_.includes(modelAdmin.readOnlyFields, key)) {
+      adminField.input = 'static'
+      adminField.readOnly = true
+    }
+
+    if (!adminField.display) {
+      const type = adminField.type && adminField.type.toLowerCase()
+      if (type === 'datetime') {
+        adminField.display = model => model[key] ? moment(new Date(model[key])).format('L LT') : ''
+      }
+      else if (type === 'date') {
+        adminField.display = model => model[key] ? moment(new Date(model[key])).format('L') : ''
+      }
+    }
   })
 
   // Make sure we have config for every relation
@@ -102,6 +117,7 @@ function createModelAdmin(options, modelDescriptor) {
 
   _.forEach(modelAdmin.fields, adminField => {
     if (!adminField.InputComponent) adminField.InputComponent = SmartInput
+
   })
 
   // Generate actions and a reducer for this model type
