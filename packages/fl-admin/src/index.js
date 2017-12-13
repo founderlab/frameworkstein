@@ -36,7 +36,6 @@ const wrapDisplayFn = (modelAdmin, oldDisplay) => model => {
 }
 
 function createModelAdmin(options, modelDescriptor) {
-  console.log('createModelAdmin')
   const modelAdmin = {}
   if (options.isAModel(modelDescriptor)) modelAdmin.Model = modelDescriptor
   else if (_.isObject(modelDescriptor)) _.merge(modelAdmin, modelDescriptor)
