@@ -10,6 +10,14 @@ import AccessToken from './models/AccessToken'
 import RefreshToken from './models/RefreshToken'
 import {createToken, findOrCreateAccessToken} from './lib'
 
+const beforeRedirect = (req, res, next) => {
+  req.session.returnTo = req.query.returnTo || req.headers.referer || '/'
+  req.session.save(err => {
+    if (err) console.log('[fl-auth] beforeRedirect: Error saving session', err)
+    next()
+  })
+}
+
 const defaults = {
   middleware: {
     initialize: true,
@@ -45,14 +53,6 @@ const defaults = {
     console.log('[fl-auth] sendResetEmail not configured. No password reset email will be sent. Reset token:', user.get('email'), user.get('resetToken'))
     callback()
   },
-
-  setReturnTo: (req, res, next) => {
-    req.session.returnTo = req.query.returnTo || req.headers.referer || '/'
-    req.session.save(err => {
-      if (err) console.log('[fl-auth] Error saving session', err)
-      next()
-    })
-  },
 }
 
 const oAuthDefaults = {
@@ -62,6 +62,8 @@ const oAuthDefaults = {
       redirect: '/auth/facebook',
       callback: '/auth/facebook/callback',
       mobile: '/auth/facebook/mobile',
+      success: '/',
+      failure: '/',
     },
     scope: ['email'],
     profileFields: [
@@ -79,16 +81,20 @@ const oAuthDefaults = {
       'verified',
     ],
     onLogin: (user, profile, isNew, callback) => callback(),
+    beforeRedirect,
   },
-  linkedin: {
+  linkedIn: {
     url: process.env.URL,
     paths: {
       redirect: '/auth/linkedin',
       callback: '/auth/linkedin/callback',
+      success: '/',
+      failure: '/',
     },
     scope: ['r_emailaddress', 'r_basicprofile'],
     profileFields: ['first-name', 'last-name', 'email-address', 'formatted-name', 'location', 'industry', 'summary', 'specialties', 'positions', 'picture-url', 'public-profile-url'],
     onLogin: (user, profile, isNew, callback) => callback(),
+    beforeRedirect,
   },
 }
 
@@ -109,7 +115,7 @@ export default function configure(_options={}) {
   }
 
   if (options.facebook) options.facebook = _.merge(oAuthDefaults.facebook, options.facebook)
-  if (options.linkedin) options.linkedin = _.merge(oAuthDefaults.linkedin, options.linkedin)
+  if (options.linkedIn) options.linkedIn = _.merge(oAuthDefaults.linkedIn, options.linkedIn)
 
   configureMiddleware(options)
   configureSerializing(options)
