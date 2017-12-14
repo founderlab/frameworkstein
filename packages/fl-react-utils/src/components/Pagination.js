@@ -1,5 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {ButtonToolbar, ButtonGroup, Button, Glyphicon} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import classNames from 'classnames'
@@ -17,7 +18,7 @@ export default class Pagination extends Component {
   }
 
   static defaultProps = {
-    maxLinks: 4,
+    maxLinks: 5,
     next: (<Glyphicon glyph="chevron-right" />),
   }
 
@@ -37,33 +38,38 @@ export default class Pagination extends Component {
 
     if (start > 1) {
       links.push(
-        <LinkContainer key={1} to={this.link(1)}>
-          <Button bsStyle="default">1</Button>
+        <LinkContainer key="start" to={this.link(1)}>
+          <Button bsStyle="default">⇤</Button>
         </LinkContainer>
       )
-      start = start + 1
+      links.push(
+        <LinkContainer key="prev" to={this.link(currentPage-1)}>
+          <Button bsStyle="default">←</Button>
+        </LinkContainer>
+      )
     }
 
     for (let i=start; i<=end; i++) {
       links.push(
-        <LinkContainer key={i} to={this.link(i)}>
-          <Button bsStyle={currentPage === i ? 'primary' : 'default'}>{i}</Button>
-        </LinkContainer>
+        currentPage === i ? (
+          <div className="btn btn-primary disabled" style={{cursor: 'default'}}>{i}</div>
+        ) : (
+          <LinkContainer key={i} to={this.link(i)}>
+            <Button bsStyle="default">{i}</Button>
+          </LinkContainer>
+        )
       )
     }
 
     if (end < totalPages) {
       links.push(
         <LinkContainer key="next" to={this.link(currentPage+1)}>
-          <Button bsStyle="default">{next}</Button>
+          <Button bsStyle="default">→</Button>
         </LinkContainer>
       )
-    }
-
-    if (prev && currentPage > 1) {
-      links.unshift(
-        <LinkContainer key="prev" to={this.link(currentPage-1)}>
-          <Button bsStyle="default">{prev}</Button>
+      links.push(
+        <LinkContainer key="end" to={this.link(totalPages)}>
+          <Button bsStyle="default">⇥</Button>
         </LinkContainer>
       )
     }
