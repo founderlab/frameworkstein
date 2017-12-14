@@ -1,7 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {ButtonToolbar, ButtonGroup, Button, Glyphicon} from 'react-bootstrap'
+import {ButtonToolbar, ButtonGroup, Button} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import classNames from 'classnames'
 
@@ -15,17 +15,22 @@ export default class Pagination extends Component {
     maxLinks: PropTypes.number,
     prev: PropTypes.node,
     next: PropTypes.node,
+    first: PropTypes.node,
+    last: PropTypes.node,
   }
 
   static defaultProps = {
     maxLinks: 5,
-    next: (<Glyphicon glyph="chevron-right" />),
+    first: '⇤',
+    last: '⇥',
+    prev: '←',
+    next: '→',
   }
 
   link = page => ({pathname: this.props.location.pathname, query: _.extend({}, this.props.location.query, {page})})
 
   render() {
-    const {location, itemsPerPage, currentPage, totalItems, next, prev} = this.props
+    const {itemsPerPage, currentPage, totalItems, next, prev, first, last} = this.props
     if (!totalItems) return null
     const maxLinks = this.props.maxLinks - 1
     const links = []
@@ -36,15 +41,15 @@ export default class Pagination extends Component {
     if (start < 1) start = 1
     const end = Math.min(start+maxLinks, totalPages)
 
-    if (start > 1) {
+    if (currentPage > 1) {
       links.push(
-        <LinkContainer key="start" to={this.link(1)}>
-          <Button bsStyle="default">⇤</Button>
+        <LinkContainer key="first" to={this.link(1)}>
+          <Button bsStyle="default">{first}</Button>
         </LinkContainer>
       )
       links.push(
         <LinkContainer key="prev" to={this.link(currentPage-1)}>
-          <Button bsStyle="default">←</Button>
+          <Button bsStyle="default">{prev}</Button>
         </LinkContainer>
       )
     }
@@ -52,7 +57,7 @@ export default class Pagination extends Component {
     for (let i=start; i<=end; i++) {
       links.push(
         currentPage === i ? (
-          <div className="btn btn-primary disabled" style={{cursor: 'default'}}>{i}</div>
+          <div key={i} className="btn btn-primary disabled" style={{cursor: 'default'}}>{i}</div>
         ) : (
           <LinkContainer key={i} to={this.link(i)}>
             <Button bsStyle="default">{i}</Button>
@@ -61,15 +66,15 @@ export default class Pagination extends Component {
       )
     }
 
-    if (end < totalPages) {
+    if (currentPage < totalPages) {
       links.push(
         <LinkContainer key="next" to={this.link(currentPage+1)}>
-          <Button bsStyle="default">→</Button>
+          <Button bsStyle="default">{next}</Button>
         </LinkContainer>
       )
       links.push(
-        <LinkContainer key="end" to={this.link(totalPages)}>
-          <Button bsStyle="default">⇥</Button>
+        <LinkContainer key="last" to={this.link(totalPages)}>
+          <Button bsStyle="default">{last}</Button>
         </LinkContainer>
       )
     }
