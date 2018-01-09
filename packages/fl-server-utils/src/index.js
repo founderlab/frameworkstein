@@ -31,7 +31,7 @@ export function directoryFiles(directory) {
         processDirectory(pathedFile)
       }
       else {
-         // a file, add to results
+        // a file, add to results
         results.push(pathedFile)
       }
     })
@@ -44,8 +44,9 @@ export function directoryFiles(directory) {
 export function directoryFilesAsync(directory, callback) {
   const results = []
 
-  fs.access(directory, fs.constants.R_OK, (err) => {
-    if (err) return callback(err)
+  fs.exists(directory, (exists) => {
+    // if (err) return callback(err)
+    if (!exists) return callback(null, results)
 
     fs.readdir(directory, (err, files) => {
       if (err) return callback(err)
@@ -60,13 +61,17 @@ export function directoryFilesAsync(directory, callback) {
             if (err) return callback(err)
             // a directory, process
             if (stat.isDirectory()) {
-              processDirectory(pathedFile)
+              directoryFilesAsync(pathedFile, (err, nestedResults) => {
+                if (err) return callback(err)
+                results.push.apply(results, nestedResults)
+                callback()
+              })
             }
             else {
               // a file, add to results
               results.push(pathedFile)
+              callback()
             }
-            callback()
           })
         })
       })
