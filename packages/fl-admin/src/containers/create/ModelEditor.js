@@ -1,5 +1,4 @@
 import _ from 'lodash' // eslint-disable-line
-import moment from 'moment'
 import Queue from 'queue-async'
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
@@ -27,12 +26,14 @@ export default function createModelEditor(modelAdmin) {
       id: state.router.params.id,
       config: state.config,
     }),
-    {load, save, del, push}
+    {load, save, del, push},
   )
   class ModelEditor extends Component {
 
     static propTypes = {
       modelStore: PropTypes.object.isRequired,
+      config: PropTypes.object.isRequired,
+      location: PropTypes.object.isRequired,
       id: PropTypes.string,
       load: PropTypes.func,
       save: PropTypes.func,
@@ -46,7 +47,7 @@ export default function createModelEditor(modelAdmin) {
       // if the ?page=xxx query was changed by redux-router the state won't have updated yet
       const location = (action && action.payload && action.payload.location ? action.payload.location : router.location)
       const modelId = ((action && action.payload && action.payload.params) || router.params).id
-      const query = _.extend(modelAdmin.query || {}, {$user_id: auth.get('user').get('id')})
+      const query = {...(modelAdmin.query || {}), $user_id: auth.get('user').get('id')}
       const queue = new Queue()
 
       if (modelId) {

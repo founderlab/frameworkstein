@@ -20,4 +20,5 @@ export default function SmartInput(_props) {
 
 SmartInput.propTypes = {
   modelField: PropTypes.object.isRequired,
+  type: PropTypes.string,
 }
