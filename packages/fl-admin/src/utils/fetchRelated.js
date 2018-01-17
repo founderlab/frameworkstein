@@ -12,7 +12,7 @@ export function onlyExistingRelationsFilter(modelIds, modelStore, relationField)
 }
 
 function relatedQuery(modelIds, modelStore, relationField) {
-  const query = relationField.modelAdmin.query || {}
+  const query = {...(relationField.modelAdmin.query || {})}
 
   if (relationField.filter) {
     return relationField.filter(modelIds, modelStore, relationField)
