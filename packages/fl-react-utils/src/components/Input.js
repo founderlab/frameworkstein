@@ -10,14 +10,8 @@ import {FormGroup, Checkbox, ControlLabel, FormControl, HelpBlock} from 'react-b
 import ReactMarkdown from 'react-markdown'
 import S3Uploader from './S3Uploader'
 import {validationHelp, validationState} from '../validation'
+import parseSelectValues from '../parseSelectValues'
 
-function ensureArray(values) {
-  if (_.isArray(values)) return values
-  if (!values) return []
-  if (_.isString(values)) return values.split(',')
-  warning(false, `[fl-react-utils] Input: react-select gave a strange value: ${JSON.stringify(values)}`)
-  return []
-}
 
 export default class Input extends React.Component {
 
@@ -101,8 +95,8 @@ export default class Input extends React.Component {
           inputProps.timeFormat = 'hh:mm a'
           if (!meta.dirty && _.isString(inputProps.value)) inputProps.value = moment(inputProps.value)
         }
-        else {
-          if (!meta.dirty && _.isString(inputProps.value)) inputProps.value = moment(inputProps.value)
+        else if (!meta.dirty && _.isString(inputProps.value)) {
+          inputProps.value = moment(inputProps.value)
         }
         control = (<ReactDatetime closeOnSelect inputProps={{placeholder}} {..._.omit(inputProps, 'onFocus')} />)
         break
@@ -135,20 +129,15 @@ export default class Input extends React.Component {
         feedback = false
         const stringValue = _.isArray(value) ? value.join(',') : value
         const funcs = {}
-        if (onChange) funcs.onChange = value => onChange(inputProps.multi ? ensureArray(value) : value)
-        if (onBlur) funcs.onBlur = () => onBlur(inputProps.multi ? ensureArray(value) : value)
-        if (onBlur) {
-          funcs.onBlur = () => {
-            // Temp hacks until next version of react-select where we can enable onBlurResetsInput={false}
-            this._select.setValue(value, false)
-            onBlur(inputProps.multi ? ensureArray(value) : value)
-          }
-        }
+        if (onChange) funcs.onChange = value => onChange(parseSelectValues(value))
+        if (onBlur) funcs.onBlur = () => onBlur(value)
         control = (
           <Select
             ref={c => this._select = c}
             options={options}
             value={stringValue}
+            onBlurResetsInput={false}
+            onCloseResetsInput={false}
             {...funcs}
             {...props}
           />
