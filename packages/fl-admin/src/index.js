@@ -96,10 +96,10 @@ function createModelAdmin(options, modelDescriptor) {
     if (!adminField.display) {
       const type = adminField.type && adminField.type.toLowerCase()
       if (type === 'datetime') {
-        adminField.display = model => model[key] ? moment(new Date(model[key])).format('L LT') : ''
+        adminField.display = value => value ? moment(new Date(value)).format('L LT') : ''
       }
       else if (type === 'date') {
-        adminField.display = model => model[key] ? moment(new Date(model[key])).format('L') : ''
+        adminField.display = value => value ? moment(new Date(value)).format('L') : ''
       }
     }
   })
