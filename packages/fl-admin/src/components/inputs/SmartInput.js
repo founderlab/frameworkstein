@@ -15,7 +15,7 @@ export default function SmartInput(_props) {
     props.options = modelField.options
   }
 
-  return (<Input {...props} />)
+  return (<Input {...modelField} {...props} />)
 }
 
 SmartInput.propTypes = {
