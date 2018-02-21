@@ -8,7 +8,6 @@ export class ModelDetailForm extends React.Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     modelAdmin: PropTypes.object.isRequired,
-    config: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
 
     // from redux-form
@@ -31,7 +30,7 @@ export class ModelDetailForm extends React.Component {
                   return (
                     <div key={key} className="form-group">
                       <label className="control-label">{modelField.label || fieldName}</label>
-                      <div>{modelField.display ? modelField.display(model) : (model[fieldName] && model[fieldName].toString())}</div>
+                      <div>{modelField.display ? modelField.display(model[fieldName]) : (model[fieldName] && model[fieldName].toString())}</div>
                     </div>
                   )
                 }
