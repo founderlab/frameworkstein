@@ -1,7 +1,11 @@
 import _ from 'lodash'
 
+const assetJSON = {}
+
 function getAssetJSON(webpackAssetsPath) {
-  return process.env.NODE_ENV === 'development' ? JSON.parse(require('fs').readFileSync(webpackAssetsPath).toString()) : require(webpackAssetsPath)
+  if (assetJSON[webpackAssetsPath]) return assetJSON[webpackAssetsPath]
+  assetJSON[webpackAssetsPath] = process.env.NODE_ENV === 'development' ? JSON.parse(require('fs').readFileSync(webpackAssetsPath).toString()) : require(webpackAssetsPath)
+  return assetJSON[webpackAssetsPath]
 }
 
 export function jsAssets(entries, webpackAssetsPath) {
