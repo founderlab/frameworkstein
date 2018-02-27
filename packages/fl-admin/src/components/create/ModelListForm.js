@@ -46,7 +46,7 @@ export class ModelListForm extends React.Component {
           else if (shouldDisplayFieldInline(modelField)) {
             const value = model[modelField.virtual_id_accessor || modelField.key || key]
             let displayValue = value
-            if (modelField.display) displayValue = modelField.display(value)
+            if (modelField.display) displayValue = modelField.display(value, model)
             else if (modelField.type === 'Boolean') displayValue = value ? (<Glyphicon glyph="ok" />) : (<Glyphicon glyph="times" />)
             return (
               <td key={key} className="fla-list-display-td">
