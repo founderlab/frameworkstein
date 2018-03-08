@@ -1,4 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
+import moment from 'moment'
 import Queue from 'queue-async'
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
@@ -26,14 +27,12 @@ export default function createModelEditor(modelAdmin) {
       id: state.router.params.id,
       config: state.config,
     }),
-    {load, save, del, push},
+    {load, save, del, push}
   )
   class ModelEditor extends Component {
 
     static propTypes = {
       modelStore: PropTypes.object.isRequired,
-      config: PropTypes.object.isRequired,
-      location: PropTypes.object.isRequired,
       id: PropTypes.string,
       load: PropTypes.func,
       save: PropTypes.func,
@@ -47,7 +46,7 @@ export default function createModelEditor(modelAdmin) {
       // if the ?page=xxx query was changed by redux-router the state won't have updated yet
       const location = (action && action.payload && action.payload.location ? action.payload.location : router.location)
       const modelId = ((action && action.payload && action.payload.params) || router.params).id
-      const query = {...(modelAdmin.query || {}), $user_id: auth.get('user').get('id')}
+      const query = _.extend(modelAdmin.query || {}, {$user_id: auth.get('user').get('id')})
       const queue = new Queue()
 
       if (modelId) {
@@ -109,6 +108,20 @@ export default function createModelEditor(modelAdmin) {
       const visibleItems = []
 
       _.forEach(visibleIds, id => modelStore.get('models').get(id) && visibleItems.push(modelStore.get('models').get(id).toJSON()))
+
+      // Format dates for form initial values
+      _.forEach(visibleItems, model => {
+        _.forEach(modelAdmin.fields, (f, key) => {
+          const type = f.type && f.type.toLowerCase()
+          if (!type) return
+          if (type === 'datetime' && model[key]) {
+            model[key] = moment(new Date(model[key])).format('L LT')
+          }
+          else if (type === 'date' && model[key]) {
+            model[key] = moment(new Date(model[key])).format('L')
+          }
+        })
+      })
 
       const componentProps = {
         id,
