@@ -1,13 +1,14 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Row, Col, Button, Glyphicon} from 'react-bootstrap'
-import {reduxForm, Field} from 'redux-form'
+import {reduxForm, Field, FieldArray} from 'redux-form'
 
 export class ModelDetailForm extends React.Component {
 
   static propTypes = {
     model: PropTypes.object.isRequired,
     modelAdmin: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
 
     // from redux-form
@@ -24,19 +25,20 @@ export class ModelDetailForm extends React.Component {
             <form>
               {_.map(modelAdmin.fields, (modelField, key) => {
                 if (!modelField || modelField.hidden || !modelField.InputComponent) return null
+                const FieldComponent = modelField.type === 'json' ? FieldArray : Field
                 const fieldName = modelField.virtual_id_accessor || modelField.key || key
 
                 if (modelField.readOnly) {
                   return (
                     <div key={key} className="form-group">
                       <label className="control-label">{modelField.label || fieldName}</label>
-                      <div>{modelField.display ? modelField.display(model[fieldName], model) : (model[fieldName] && model[fieldName].toString())}</div>
+                      <div>{modelField.display ? modelField.display(model) : (model[fieldName] && model[fieldName].toString())}</div>
                     </div>
                   )
                 }
 
                 return (
-                  <Field
+                  <FieldComponent
                     key={key}
                     name={fieldName}
                     model={model}

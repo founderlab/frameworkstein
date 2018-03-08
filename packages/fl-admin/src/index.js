@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import moment from 'moment'
 import warning from 'warning'
 import {combineReducers} from 'redux'
 import {Pagination} from 'fl-react-utils'
@@ -77,46 +76,33 @@ function createModelAdmin(options, modelDescriptor) {
   const relationFields = schema.relations || {}
 
   // Make sure we have config for every field in the models schema
-  _.forEach(fields, (modelField, key) => {
-    const adminField = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
-    _.defaults(adminField, modelField)
-    adminField.key = adminField.key || key
-    adminField.label = adminField.label || label(key)
-    if (adminField.InputComponent) {
-      adminField._customInput = true
+  _.forEach(fields, (field, key) => {
+    const modelField = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
+    _.defaults(modelField, field)
+    modelField.key = modelField.key || key
+    modelField.label = modelField.label || label(key)
+    if (modelField.InputComponent) {
+      modelField._customInput = true
     }
     else {
-      adminField.InputComponent = SmartInput
+      modelField.InputComponent = SmartInput
     }
-    if (_.includes(modelAdmin.readOnlyFields, key)) {
-      adminField.input = 'static'
-      adminField.readOnly = true
-    }
-
-    if (!adminField.display) {
-      const type = adminField.type && adminField.type.toLowerCase()
-      if (type === 'datetime') {
-        adminField.display = value => value ? moment(new Date(value)).format('L LT') : ''
-      }
-      else if (type === 'date') {
-        adminField.display = value => value ? moment(new Date(value)).format('L') : ''
-      }
-    }
+    if (_.includes(modelAdmin.readOnlyFields, key)) modelField.input = 'static'
   })
 
   // Make sure we have config for every relation
   _.forEach(relationFields, (relation, key) => {
-    const adminField = modelAdmin.relationFields[relation.virtual_id_accessor] = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
-    _.defaults(adminField, _.pick(relation, 'type', 'virtual_id_accessor', 'components'))
-    adminField.Model = relation.reverse_model_type
-    adminField.key = adminField.key || key
-    adminField.label = adminField.label || label(key)
-    adminField.relation = relation
+    const modelField = modelAdmin.relationFields[relation.virtual_id_accessor] = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
+    _.defaults(modelField, _.pick(relation, 'type', 'virtual_id_accessor', 'components'))
+    modelField.Model = relation.reverse_model_type
+    modelField.key = modelField.key || key
+    modelField.label = modelField.label || label(key)
+    modelField.relation = relation
   })
 
-  _.forEach(modelAdmin.fields, adminField => {
-    if (!adminField.InputComponent) adminField.InputComponent = SmartInput
-
+  _.forEach(modelAdmin.fields, modelField => {
+    if (!modelField.InputComponent) modelField.InputComponent = SmartInput
+    modelField.type = modelField.type && modelField.type.toLowerCase()
   })
 
   // Generate actions and a reducer for this model type
@@ -137,11 +123,11 @@ export default function configure(_options) {
 
   // Second pass too hook up related modelAdmins
   _.forEach(modelAdmins, modelAdmin => {
-    _.forEach(modelAdmin.relationFields, adminField => {
-      adminField.modelAdmin = _.find(modelAdmins, ma => ma.Model === adminField.Model)
-      warning(adminField.modelAdmin, `[fl-admin] configure: Couldnt find modelAdmin for the relation ${adminField.key} of ${modelAdmin.name}`)
-      if (!adminField._customInput) {
-        adminField.InputComponent = createRelatedInput(adminField)
+    _.forEach(modelAdmin.relationFields, modelField => {
+      modelField.modelAdmin = _.find(modelAdmins, ma => ma.Model === modelField.Model)
+      warning(modelField.modelAdmin, `[fl-admin] configure: Couldnt find modelAdmin for the relation ${modelField.key} of ${modelAdmin.name}`)
+      if (!modelField._customInput) {
+        modelField.InputComponent = createRelatedInput(modelField)
       }
     })
   })
