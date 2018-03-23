@@ -102,7 +102,7 @@ function createModelAdmin(options, modelDescriptor) {
 
   _.forEach(modelAdmin.fields, modelField => {
     if (!modelField.InputComponent) modelField.InputComponent = SmartInput
-    modelField.type = modelField.type && modelField.type.toLowerCase()
+    // modelField.type = modelField.type && modelField.type.toLowerCase()
   })
 
   // Generate actions and a reducer for this model type
