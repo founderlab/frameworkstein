@@ -12,7 +12,7 @@ export default function SmartInput(_props) {
   if (inputType) props.type = inputType.toLowerCase()
 
   // JsonInput handles json arrays
-  if (props.type === 'json') return <JsonInput {..._props} />
+  if (props.type && props.type.toLowerCase() === 'json') return <JsonInput {..._props} />
 
   // Options for select
   if (modelField.options) {
