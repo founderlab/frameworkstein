@@ -43,11 +43,15 @@ export default class SplitDatetime extends React.Component {
 
   getDateFormat = () => this.props.dateFormat ? this.props.dateFormat : moment.localeData().longDateFormat(this.props.localeDateFormat)
 
-  handleDateChange = newDate => this.props.input.onChange(this.integrateTimeWithDate(newDate))
+  // Only update on blur
+  handleDateChange = () => null
 
   handleDateBlur = newDate => {
-    this.props.input.onBlur(this.integrateTimeWithDate(newDate))
+    const value = this.integrateTimeWithDate(newDate)
+    this.props.input.onChange(value)
+    this.props.input.onBlur(value)
   }
+
   handleTimeBlur = newDate => {
     this.props.input.onBlur(this.integrateDateWithTime(newDate))
   }
@@ -86,7 +90,7 @@ export default class SplitDatetime extends React.Component {
       className: 'date',
       closeOnSelect: true,
       onChange: this.handleDateChange,
-      onDateBlur: this.handleDateBlur,
+      onBlur: this.handleDateBlur,
       isValidDate: this.props.isValidDate,
       ..._.omit(inputProps, 'onBlur', 'onChange', 'onFocus'),
     }
