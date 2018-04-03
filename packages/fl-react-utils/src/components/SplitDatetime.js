@@ -14,7 +14,6 @@ export default class SplitDatetime extends React.Component {
     label: PropTypes.string,
     helpTop: PropTypes.bool,
     help: PropTypes.string,
-    defaultHelp: PropTypes.string,
     meta: PropTypes.object,
     input: PropTypes.object,
     inputProps: PropTypes.object,
@@ -70,17 +69,11 @@ export default class SplitDatetime extends React.Component {
   }
 
   render() {
-    const {label, meta, helpTop} = this.props
+    const {label, meta, help, helpTop} = this.props
 
     const inputProps = _.extend({}, this.props.input, this.props.inputProps)
-
-    let help = this.props.help
-    if (_.isUndefined(help)) {
-      help = validationError(meta) || this.props.defaultHelp
-    }
-
     const dateFormat = this.getDateFormat()
-
+    const error = validationError(meta)
     const id = Inflection.dasherize((label || '').toLowerCase())
 
     const dateInputProps = {
