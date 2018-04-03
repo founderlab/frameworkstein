@@ -4,8 +4,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDatetime from 'react-datetime'
 import Inflection from 'inflection'
-import {FormGroup, ControlLabel, HelpBlock} from 'react-bootstrap'
-import {validationHelp, validationState} from '../validation'
+import {FormGroup, Label, FormFeedback, FormText} from 'reactstrap'
+import {validationError, validationState} from '../validation'
+
 
 export default class SplitDatetime extends React.Component {
 
@@ -75,7 +76,7 @@ export default class SplitDatetime extends React.Component {
 
     let help = this.props.help
     if (_.isUndefined(help)) {
-      help = validationHelp(meta) || this.props.defaultHelp
+      help = validationError(meta) || this.props.defaultHelp
     }
 
     const dateFormat = this.getDateFormat()
@@ -112,12 +113,13 @@ export default class SplitDatetime extends React.Component {
     const timeControl = (<ReactDatetime {...timeInputProps} />)
 
     return (
-      <FormGroup controlId={id} validationState={validationState(meta)} bsClass="form-group split-datetime">
-        {label && (<ControlLabel>{label}</ControlLabel>)}
-        {help && helpTop && (<HelpBlock>{help}</HelpBlock>)}
+      <FormGroup className="form-group split-datetime">
+        {label && (<Label>{label}</Label>)}
+        {help && helpTop && (<FormText color="muted">{help}</FormText>)}
         {dateControl}
         {timeControl}
-        {help && !helpTop && (<HelpBlock>{help}</HelpBlock>)}
+        {error && (<FormFeedback>{error}</FormFeedback>)}
+        {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
       </FormGroup>
     )
   }

@@ -6,14 +6,14 @@ import warning from 'warning'
 import ReactDatetime from 'react-datetime'
 import Inflection from 'inflection'
 import Select from 'react-select'
-import {FormGroup, Checkbox, ControlLabel, FormControl, HelpBlock} from 'react-bootstrap'
+import {FormGroup, Checkbox, Label, Input, FormText, FormFeedback} from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
 import S3Uploader from './S3Uploader'
-import {validationHelp, validationState} from '../validation'
+import {validationError, validationState} from '../validation'
 import parseSelectValues from '../parseSelectValues'
 
 
-export default class Input extends React.Component {
+export default class FLInput extends React.Component {
 
   static propTypes = {
     label: PropTypes.node,
@@ -41,7 +41,6 @@ export default class Input extends React.Component {
       PropTypes.func,
       PropTypes.bool,
     ]),
-    feedback: PropTypes.bool,
     dateFormat: PropTypes.string,
     localeDateFormat: PropTypes.string,
   }
@@ -49,7 +48,6 @@ export default class Input extends React.Component {
   static defaultProps = {
     validationState,
     localeDateFormat: 'L',
-    feedback: false,
     type: 'text',
     markdownProps: {
       escapeHtml: true,
@@ -59,8 +57,11 @@ export default class Input extends React.Component {
   render() {
     const {label, input, meta, helpMd, defaultHelpMd, helpTop, type, bsProps, defaultHelp, validationState, options} = this.props
 
+    const validation = validationState ? validationState(meta) : null
     const inputProps = _.extend({
       autoComplete: 'on',
+      valid: validation === 'success',
+      invalid: validation === 'error',
     }, input, this.props.inputProps)
 
     let help = this.props.help
@@ -69,14 +70,14 @@ export default class Input extends React.Component {
         help = (<ReactMarkdown source={helpMd} {...this.props.markdownProps} />)
       }
       else {
-        help = validationHelp(meta) || defaultHelp || (defaultHelpMd && (<ReactMarkdown source={defaultHelpMd} {...this.props.markdownProps} />))
+        help = defaultHelp || (defaultHelpMd && (<ReactMarkdown source={defaultHelpMd} {...this.props.markdownProps} />))
       }
     }
-
+    const error = validationError(meta)
     const id = this.props.id || Inflection.dasherize((this.props.name || inputProps.name || '').toLowerCase())
-    let feedback = this.props.feedback
     let hideLabel = false
     let control
+
 
     switch (type) {
       case 'date':
@@ -107,7 +108,7 @@ export default class Input extends React.Component {
           return null
         }
         control = (
-          <FormControl componentClass="select" {...inputProps} value={inputProps.value}>
+          <Input componentClass="select" {...inputProps} value={inputProps.value}>
             {this.props.includeEmpty && (<option />)}
             {inputProps.placeholder && (<option>{inputProps.placeholder}</option>)}
             {_.map(options, opt => {
@@ -116,7 +117,7 @@ export default class Input extends React.Component {
                 <option key={option.value} value={option.value}>{option.label}</option>
               )
             })}
-          </FormControl>
+          </Input>
         )
         break
 
@@ -126,7 +127,6 @@ export default class Input extends React.Component {
           return null
         }
         const {onChange, onBlur, value, ...props} = inputProps
-        feedback = false
         const stringValue = _.isArray(value) ? value.join(',') : value
         const funcs = {}
         if (onChange) funcs.onChange = value => onChange(parseSelectValues(value))
@@ -153,7 +153,7 @@ export default class Input extends React.Component {
 
       case 'static':
         control = (
-          <FormControl.Static {...bsProps} {...inputProps}>{inputProps.value}</FormControl.Static>
+          <Input static {...bsProps} {...inputProps}>{inputProps.value}</Input>
         )
         break
 
@@ -174,12 +174,12 @@ export default class Input extends React.Component {
       case 'quill':
         warning(false, 'Rich text editor (quill) has been removed from fl-react-utils/Input. Textarea will be used instead.')
         control = (
-          <FormControl componentClass="textarea" {...bsProps} {...inputProps} />
+          <Input componentClass="textarea" {...bsProps} {...inputProps} />
         )
         break
       case 'textarea':
         control = (
-          <FormControl componentClass="textarea" {...bsProps} {...inputProps} />
+          <Input componentClass="textarea" {...bsProps} {...inputProps} />
         )
         break
 
@@ -188,17 +188,17 @@ export default class Input extends React.Component {
       // case 'password':
       default:
         control = (
-          <FormControl type={type} {...bsProps} {...inputProps} />
+          <Input type={type} {...bsProps} {...inputProps} />
         )
     }
 
     return (
-      <FormGroup controlId={id} validationState={validationState ? validationState(meta) : null}>
-        {label && !hideLabel && <ControlLabel>{label}</ControlLabel>}
-        {help && helpTop && (<HelpBlock>{help}</HelpBlock>)}
+      <FormGroup controlId={id}>
+        {label && !hideLabel && <Label>{label}</Label>}
+        {help && helpTop && (<FormText color="muted">{help}</FormText>)}
         {control}
-        {feedback && <FormControl.Feedback />}
-        {help && !helpTop && (<HelpBlock>{help}</HelpBlock>)}
+        {error && (<FormFeedback>{error}</FormFeedback>)}
+        {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
       </FormGroup>
     )
   }
