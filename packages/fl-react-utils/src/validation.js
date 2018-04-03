@@ -15,8 +15,15 @@ export function validationStyle(field) {
   if (field.dirty) return 'has-success'
 }
 
-// Validation help text for react-bootstrap Input components
-export function validationHelp(field) {
+// Validation highlighting for other input components
+export function validationProps(field) {
+  if (!field || !field.submitFailed) return {}
+  if (field.error) return {invalid: true}
+  if (field.dirty) return {valid: true}
+}
+
+// Validation error text if field submitted
+export function validationError(field) {
   if (!field || !field.submitFailed) return null
   return field.error || null
 }

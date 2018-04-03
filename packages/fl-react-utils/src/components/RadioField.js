@@ -3,8 +3,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Inflection from 'inflection'
 import {Field} from 'redux-form'
-import {FormGroup, ControlLabel, HelpBlock} from 'react-bootstrap'
-import {validationState} from '../validation'
+import {FormGroup, Label, FormText, FormFeedback} from 'reactstrap'
+import {validationError, validationState} from '../validation'
+
 
 export default class RadioField extends React.Component {
 
@@ -13,7 +14,7 @@ export default class RadioField extends React.Component {
     label: PropTypes.string,
     helpTop: PropTypes.bool,
     help: PropTypes.string,
-    validationState: PropTypes.string,
+    error: PropTypes.string,
     options: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.object,
@@ -21,13 +22,13 @@ export default class RadioField extends React.Component {
   }
 
   render() {
-    const {name, label, help, validationState, helpTop} = this.props
+    const {name, label, help, error, helpTop} = this.props
     const id = Inflection.dasherize((label || '').toLowerCase())
 
     return (
-      <FormGroup controlId={id} validationState={validationState}>
-        {label && <ControlLabel>{label}</ControlLabel>}
-        {help && helpTop && (<HelpBlock>{help}</HelpBlock>)}
+      <FormGroup controlId={id}>
+        {label && <Label>{label}</Label>}
+        {help && helpTop && (<FormText color="muted">{help}</FormText>)}
         <div>
           {this.props.options.map((opt, i) => (
             <label key={i} className="radio-inline">
@@ -40,11 +41,9 @@ export default class RadioField extends React.Component {
               {opt.label}
             </label>
           ))}
-        </div>
-        {help && !helpTop && (<HelpBlock>{help}</HelpBlock>)}
+        {error && (<FormFeedback>{error}</FormFeedback>)}
+        {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
       </FormGroup>
     )
   }
-
 }
-

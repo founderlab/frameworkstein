@@ -1,8 +1,8 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Glyphicon} from 'react-bootstrap'
 import Sidebar from 'react-sidebar'
+
 
 export default class FLSidebar extends Component {
 
@@ -66,7 +66,7 @@ export default class FLSidebar extends Component {
         {!disableSidebarToggle && (
           <div className="sidebar-toggle">
             <a onClick={this.handleSidebarToggle}>
-              <Glyphicon glyph="menu-hamburger" />
+              <i className="fa fa-bars" />
             </a>
           </div>
         )}
@@ -74,5 +74,4 @@ export default class FLSidebar extends Component {
       </Sidebar>
     )
   }
-
 }

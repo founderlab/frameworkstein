@@ -1,7 +1,8 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Button} from 'react-bootstrap'
+import {Button} from 'reactstrap'
+
 
 export default class LoaderButton extends React.Component {
 

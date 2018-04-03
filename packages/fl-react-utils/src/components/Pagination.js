@@ -1,9 +1,10 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {ButtonToolbar, ButtonGroup, Button} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
+import {ButtonToolbar, ButtonGroup, Button} from 'reactstrap'
+import {Link} from 'react-router'
 import classNames from 'classnames'
+
 
 export default class Pagination extends Component {
   static propTypes = {
@@ -43,14 +44,10 @@ export default class Pagination extends Component {
 
     if (currentPage > 1) {
       links.push(
-        <LinkContainer key="first" to={this.link(1)}>
-          <Button bsStyle="default">{first}</Button>
-        </LinkContainer>
+        <Button tag={Link} key="first" to={this.link(1)}>{first}</Button>
       )
       links.push(
-        <LinkContainer key="prev" to={this.link(currentPage-1)}>
-          <Button bsStyle="default">{prev}</Button>
-        </LinkContainer>
+        <Button tag={Link} key="prev" to={this.link(currentPage-1)}>{prev}</Button>
       )
     }
 
@@ -59,29 +56,23 @@ export default class Pagination extends Component {
         currentPage === i ? (
           <div key={i} className="btn btn-primary disabled" style={{cursor: 'default'}}>{i}</div>
         ) : (
-          <LinkContainer key={i} to={this.link(i)}>
-            <Button bsStyle="default">{i}</Button>
-          </LinkContainer>
+          <Button tag={Link} key={i} to={this.link(i)}>{i}</Button>
         )
       )
     }
 
     if (currentPage < totalPages) {
       links.push(
-        <LinkContainer key="next" to={this.link(currentPage+1)}>
-          <Button bsStyle="default">{next}</Button>
-        </LinkContainer>
+        <Button tag={Link} key="next" to={this.link(currentPage+1)}>{next}</Button>
       )
       links.push(
-        <LinkContainer key="last" to={this.link(totalPages)}>
-          <Button bsStyle="default">{last}</Button>
-        </LinkContainer>
+        <Button tag={Link} key="last" to={this.link(totalPages)}>{last}</Button>
       )
     }
 
     return (
       <ButtonToolbar className={classNames(this.props.className, 'pagination-buttons')}>
-        <ButtonGroup bsSize="small">
+        <ButtonGroup size="sm">
           {links}
         </ButtonGroup>
       </ButtonToolbar>
