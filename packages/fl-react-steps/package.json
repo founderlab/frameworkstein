@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
+    "prop-types": "*",
     "react": "^15.3.2"
   }
 }
