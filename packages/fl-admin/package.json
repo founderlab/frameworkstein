@@ -35,7 +35,7 @@
     "react-select": "^0.9.1",
     "react-sidebar": "^2.1.1",
     "reactstrap": "^5.0.0-beta.3",
-    "redux-form": ">=6.0.2",
+    "redux-form": "^7.3.0",
     "warning": "^2.1.0"
   }
 }
