@@ -1,6 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import {connect} from 'react-redux'
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import warning from 'warning'
 import Loader from '../../components/Loader'
 import BelongsTo from '../../components/inputs/BelongsTo'

@@ -1,5 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import PropTypes from 'prop-types'
 import {Sidebar} from 'fl-react-utils'
 import Navbar from '../components/Navbar'
 import AdminSidebar from '../components/Sidebar'
@@ -8,7 +9,7 @@ import headerTags from '../utils/headerTags'
 export default class Admin extends React.Component {
 
   static propTypes = {
-    children: React.PropTypes.node,
+    children: PropTypes.node,
   }
 
   render() {
