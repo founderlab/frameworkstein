@@ -1,7 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Input} from 'fl-react-utils'
-import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
+import {FormGroup, ControlLabel, FormControl} from 'reactstrap'
 
 export default function BelongsTo(_props) {
   const {relationField, modelStore, ...props} = _props

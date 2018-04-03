@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {LinkContainer} from 'react-router-bootstrap'
-import {Grid, Row, Col, Glyphicon, Button} from 'react-bootstrap'
+import {Container, Row, Col, Button} from 'reactstrap'
 import ModelListTable from '../components/ModelListTable'
 
 export default function ModelList(props) {
@@ -15,10 +15,10 @@ export default function ModelList(props) {
 
   return (
     <section className="fla-model-list">
-      <Grid fluid>
+      <Container fluid>
         <Row>
           <Col xs={12}>
-            <p className="fla-back"><Link to={modelAdmin.rootPath} className="fla-back"><Glyphicon glyph="chevron-left" />Admin home</Link></p>
+            <p className="fla-back"><Link to={modelAdmin.rootPath} className="fla-back"><i className="fa fa-chevron-left" />Admin home</Link></p>
           </Col>
         </Row>
         <Row>
@@ -30,7 +30,7 @@ export default function ModelList(props) {
           <Col xs={12} className="fla-controls">
             <LinkContainer to={modelAdmin.createLink()}>
               <Button bsStyle="primary">
-                <Glyphicon glyph="plus" /> Add a new {modelAdmin.name}
+                <i className="fa fa-plus" /> Add a new {modelAdmin.name}
               </Button>
             </LinkContainer>
             <div className="fla-pagination pull-right">
@@ -44,7 +44,7 @@ export default function ModelList(props) {
             <ModelListTable {...tableProps} />
           </Col>
         </Row>
-      </Grid>
+      </Container>
     </section>
   )
 }

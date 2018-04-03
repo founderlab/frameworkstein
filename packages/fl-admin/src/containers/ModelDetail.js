@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import warning from 'warning'
 import {Link} from 'react-router'
-import {Grid, Row, Col, Glyphicon} from 'react-bootstrap'
+import {Container, Row, Col} from 'reactstrap'
 import createModelDetailForm from '../components/create/ModelDetailForm'
 
 export default function ModelDetail(props) {
@@ -15,10 +15,10 @@ export default function ModelDetail(props) {
 
   return (
     <section className="fla-model-detail">
-      <Grid fluid>
+      <Container fluid>
         <Row>
           <Col xs={12}>
-            <p className="fla-back"><Link to={modelAdmin.link()}><Glyphicon glyph="chevron-left" />{modelAdmin.plural}</Link></p>
+            <p className="fla-back"><Link to={modelAdmin.link()}><i className="fa fa-chevron-left" />{modelAdmin.plural}</Link></p>
           </Col>
         </Row>
         <Row>
@@ -34,7 +34,7 @@ export default function ModelDetail(props) {
           onSubmit={handleSaveFn(model)}
           onDelete={handleDeleteFn(model)}
         />
-      </Grid>
+      </Container>
     </section>
   )
 }

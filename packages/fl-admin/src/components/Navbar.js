@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
-import {Navbar, Nav, NavItem} from 'react-bootstrap'
+import {Navbar, Nav, NavItem} from 'reactstrap'
 
 export default function AdminNavbar() {
 

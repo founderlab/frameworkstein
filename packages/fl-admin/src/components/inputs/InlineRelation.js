@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
-import {Glyphicon, Button} from 'react-bootstrap'
+import {Button} from 'reactstrap'
 import ModelListTable from '../ModelListTable'
 
 export default function InlineRelation(props) {
@@ -11,7 +11,7 @@ export default function InlineRelation(props) {
   return (
     <div>
       {label ? (<label className="control-label">{label}</label>) : null}
-      <Button bsStyle="primary" className="pull-right" onClick={onAdd}><Glyphicon glyph="plus" /></Button>
+      <Button bsStyle="primary" className="pull-right" onClick={onAdd}><i className="fa fa-plus" /></Button>
       <ModelListTable {...tableProps} />
     </div>
   )

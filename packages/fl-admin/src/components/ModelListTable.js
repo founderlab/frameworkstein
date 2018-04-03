@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
-import {Table} from 'react-bootstrap'
+import {Table} from 'reactstrap'
 import createModelListForm from './create/ModelListForm'
 import {shouldEditFieldInline, shouldDisplayFieldInline} from '../utils/inline'
 
