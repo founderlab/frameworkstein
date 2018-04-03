@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import {Link} from 'react-router'
 import {LinkContainer} from 'react-router-bootstrap'
-import {Nav, NavItem, Glyphicon} from 'react-bootstrap'
+import {Nav, NavItem} from 'reactstrap'
 import {modelAdmins} from '../index'
 
 // Links to all model index pages for the sidebar
@@ -15,7 +15,7 @@ export default function Sidebar() {
   return (
     <div>
       <Link to="/admin" className="fla-sidebar-header">
-        <Glyphicon glyph="ice-lolly-tasted" />
+        <i className="fa fa-hand-peace" />
       </Link>
       <Nav bsStyle="pills" stacked>
         {links}

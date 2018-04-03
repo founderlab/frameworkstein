@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
-import {Row, Col, Button, HelpBlock} from 'react-bootstrap'
+import {Row, Col, Button, HelpBlock} from 'reactstrap'
 import {Field} from 'redux-form'
 import {Input} from 'fl-react-utils'
 

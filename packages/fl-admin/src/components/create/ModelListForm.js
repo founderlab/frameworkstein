@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
-import {Button, Glyphicon} from 'react-bootstrap'
+import {Button} from 'reactstrap'
 import {Link} from 'react-router'
 import {reduxForm, Field} from 'redux-form'
 import {shouldEditFieldInline, shouldDisplayFieldInline} from '../../utils/inline'
@@ -25,7 +25,7 @@ export class ModelListForm extends React.Component {
         <td className="fla-name-td">
           <Link to={modelAdmin.link(model)}>
             {modelAdmin.display(model)}
-            <Glyphicon glyph="pencil" />
+            <i className="fa fa-pencil" />
           </Link>
         </td>
 
@@ -47,7 +47,7 @@ export class ModelListForm extends React.Component {
             const value = model[modelField.virtual_id_accessor || modelField.key || key]
             let displayValue = value
             if (modelField.display) displayValue = modelField.display(value)
-            else if (modelField.type === 'Boolean') displayValue = value ? (<Glyphicon glyph="ok" />) : (<Glyphicon glyph="times" />)
+            else if (modelField.type === 'Boolean') displayValue = value ? (<i className="fa fa-check" />) : (<i className="fa fa-times" />)
             return (
               <td key={key} className="fla-list-display-td">
                 {displayValue}
@@ -59,12 +59,12 @@ export class ModelListForm extends React.Component {
 
         {showSave ? (
           <td className="fla-save-td">
-            <Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button>
+            <Button bsStyle="primary" onClick={handleSubmit}><i className="fa fa-check" /></Button>
           </td>
         ) : null}
         {modelAdmin.listDelete && (
           <td className="fla-delete-td">
-            <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button>
+            <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><i className="fa fa-times" /></Button>
           </td>
         )}
       </tr>
