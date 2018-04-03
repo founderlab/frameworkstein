@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "fl-react-utils": "^4.0.4",
+    "prop-types": "*",
     "react": ">=16.0.0",
     "reactstrap": "^5.0.0-beta.3",
     "redux-form": "^7.3.0"
