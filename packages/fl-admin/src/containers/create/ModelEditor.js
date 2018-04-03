@@ -2,13 +2,15 @@ import _ from 'lodash' // eslint-disable-line
 import moment from 'moment'
 import Queue from 'queue-async'
 import {connect} from 'react-redux'
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {push} from 'redux-router'
 // import {createPaginationSelector} from 'fl-redux-utils'
 import Loader from '../../components/Loader'
 import ModelList from '../../containers/ModelList'
 import ModelDetail from '../../containers/ModelDetail'
 import fetchRelated from '../../utils/fetchRelated'
+
 
 export default function createModelEditor(modelAdmin) {
   const {load, loadPage, count, save, del} = modelAdmin.actions

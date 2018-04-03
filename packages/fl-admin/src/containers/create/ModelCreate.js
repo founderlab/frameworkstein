@@ -1,8 +1,10 @@
 import _ from 'lodash' // eslint-disable-line
 import {connect} from 'react-redux'
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {push} from 'redux-router'
 import ModelDetail from '../../containers/ModelDetail'
+
 
 export default function createModelCreate(modelAdmin) {
   const {save, del} = modelAdmin.actions
