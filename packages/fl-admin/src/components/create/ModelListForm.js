@@ -1,5 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {Button} from 'reactstrap'
 import {Link} from 'react-router'
 import {reduxForm, Field} from 'redux-form'

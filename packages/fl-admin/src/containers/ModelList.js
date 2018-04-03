@@ -1,5 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {Link} from 'react-router'
 import {LinkContainer} from 'react-router-bootstrap'
 import {Container, Row, Col, Button} from 'reactstrap'
