@@ -1,6 +1,9 @@
 
 ## [Unreleased]
 
+## [4.0.5]
+ - Update for React 16
+
 ## [0.14.2]
  - Fixed some bugs
  - Readonly works on model detail pages
