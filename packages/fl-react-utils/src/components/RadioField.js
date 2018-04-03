@@ -41,6 +41,7 @@ export default class RadioField extends React.Component {
               {opt.label}
             </label>
           ))}
+        </div>
         {error && (<FormFeedback>{error}</FormFeedback>)}
         {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
       </FormGroup>
