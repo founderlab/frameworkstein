@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {Button} from 'react-bootstrap'
+import {Button} from 'reactstrap'
 import {connect} from 'react-redux'
 import {reduxForm, Field, formValueSelector} from 'redux-form'
 import {Input} from 'fl-react-utils'

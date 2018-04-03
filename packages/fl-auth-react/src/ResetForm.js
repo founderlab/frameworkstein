@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {Button} from 'react-bootstrap'
+import {Button} from 'reactstrap'
 import {reduxForm, Field} from 'redux-form'
 import {Input} from 'fl-react-utils'
 import {validateEmailPass} from './validation'
