@@ -24,11 +24,9 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
-    "immutable": "^3.7.4",
     "lodash": "^4.0.0",
     "moment": "^2.11.1",
     "prop-types": "*",
-    "queue-async": "^1.0.7",
     "react": "^16.0.0",
     "reactstrap": "^5.0.0-beta.3",
     "react-datetime": "^2.6.2",
@@ -39,8 +37,6 @@
     "react-select": "^1.2.1",
     "react-sidebar": "^2.1.1",
     "redux-form": "^6.6.3",
-    "redux-router": "^2.1.2",
-    "reselect": "^2.0.2",
     "warning": "^2.1.0"
   }
 }
