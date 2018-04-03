@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import {PropTypes} from 'react'
+import PropTypes from 'prop-types'
 import {Route} from 'react-router'
 import {createRoutesFromReactChildren} from 'react-router/lib/RouteUtils'
 
