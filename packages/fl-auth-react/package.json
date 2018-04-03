@@ -1,6 +1,6 @@
 {
   "name": "fl-auth-react",
-  "version": "4.0.4",
+  "version": "4.0.8",
   "description": "React/redux-form login+register forms for FounderLab apps",
   "main": "lib/index.js",
   "author": {
