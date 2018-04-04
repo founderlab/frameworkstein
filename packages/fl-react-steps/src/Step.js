@@ -56,6 +56,7 @@ export default class Step extends Component {
     const classes = {
       fade: true,
       active: this.props.active || this.state.animateOut,
+      show: this.props.active && !this.state.animateIn,
       in: this.props.active && !this.state.animateIn,
       hidden: !this.props.active && !this.state.animateOut,
     }
