@@ -6,7 +6,7 @@ import warning from 'warning'
 import ReactDatetime from 'react-datetime'
 import Inflection from 'inflection'
 import Select from 'react-select'
-import {FormGroup, Checkbox, Label, Input, FormText, FormFeedback} from 'reactstrap'
+import {FormGroup, Label, Input, FormText, FormFeedback} from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
 import S3Uploader from './S3Uploader'
 import {validationError, validationState} from '../validation'
@@ -75,9 +75,8 @@ export default class FLInput extends React.Component {
     }
     const error = validationError(meta)
     const id = this.props.id || Inflection.dasherize((this.props.name || inputProps.name || '').toLowerCase())
-    let hideLabel = false
+    let check = false
     let control
-
 
     switch (type) {
       case 'date':
@@ -160,12 +159,14 @@ export default class FLInput extends React.Component {
       case 'checkbox':
       case 'boolean':
         inputProps.checked = !!inputProps.value
-        hideLabel = true
+        check = true
         const oc = e => inputProps.onChange(e.target.value !== 'true')
         const ob = () => inputProps.onBlur()
 
         control = (
-          <Checkbox inline {...bsProps} {...inputProps} onChange={oc} onBlur={ob}>{label}</Checkbox>
+          <Label check>
+            <Input type="checkbox" {...bsProps} {...inputProps} onChange={oc} onBlur={ob} /> {label}
+          </Label>
         )
         break
 
@@ -193,8 +194,8 @@ export default class FLInput extends React.Component {
     }
 
     return (
-      <FormGroup controlId={id}>
-        {label && !hideLabel && <Label>{label}</Label>}
+      <FormGroup controlId={id} check={check}>
+        {label && !check && <Label>{label}</Label>}
         {help && helpTop && (<FormText color="muted">{help}</FormText>)}
         {control}
         {error && (<FormFeedback>{error}</FormFeedback>)}
