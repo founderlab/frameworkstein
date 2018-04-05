@@ -23,10 +23,9 @@ export default class RadioField extends React.Component {
 
   render() {
     const {name, label, help, error, helpTop} = this.props
-    const id = Inflection.dasherize((label || '').toLowerCase())
 
     return (
-      <FormGroup controlId={id}>
+      <FormGroup>
         {label && <Label>{label}</Label>}
         {help && helpTop && (<FormText color="muted">{help}</FormText>)}
         <div>
