@@ -74,7 +74,6 @@ export default class FLInput extends React.Component {
       }
     }
     const error = validationError(meta)
-    const id = this.props.id || Inflection.dasherize((this.props.name || inputProps.name || '').toLowerCase())
     let check = false
     let control
 
@@ -194,7 +193,7 @@ export default class FLInput extends React.Component {
     }
 
     return (
-      <FormGroup controlId={id} check={check}>
+      <FormGroup check={check}>
         {label && !check && <Label>{label}</Label>}
         {help && helpTop && (<FormText color="muted">{help}</FormText>)}
         {control}
