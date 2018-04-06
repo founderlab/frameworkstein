@@ -195,7 +195,7 @@ export default class FLInput extends React.Component {
     return (
       <FormGroup check={check}>
         {label && !check && <Label>{label}</Label>}
-        {help && helpTop && (<FormText color="muted">{help}</FormText>)}
+        {help && helpTop && (<FormText color="muted" className="mt-0 mb-2">{help}</FormText>)}
         {control}
         {error && (<FormFeedback>{error}</FormFeedback>)}
         {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
