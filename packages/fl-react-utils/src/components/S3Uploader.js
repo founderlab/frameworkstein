@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
 import DropzoneS3Uploader from 'react-dropzone-s3-uploader'
-import {ProgressBar} from 'reactstrap'
+import {Progress} from 'reactstrap'
 
 
 export default class S3Uploader extends React.Component {
@@ -46,7 +46,7 @@ export default class S3Uploader extends React.Component {
       s3Url: config.s3Url || this.context.s3Url,
       filename: inputProps.value,
       maxSize: config.maxFileUploadSize,
-      progressComponent: ({progress}) => progress ? (<ProgressBar to={progress} />) : null,
+      progressComponent: ({progress}) => progress ? (<Progress value={progress} />) : null,
 
       upload: {
         accept: inputProps.accept || '',
