@@ -14,6 +14,7 @@ export default class SplitDatetime extends React.Component {
     label: PropTypes.string,
     helpTop: PropTypes.bool,
     help: PropTypes.string,
+    defaultHelp: PropTypes.string,
     meta: PropTypes.object,
     input: PropTypes.object,
     inputProps: PropTypes.object,
@@ -36,44 +37,63 @@ export default class SplitDatetime extends React.Component {
     timeFormat: 'hh:mm a',
   }
 
-  constructor() {
+  constructor(props) {
     super()
-    this.state = {}
+    this.state = {
+      date: moment(props.input.value),
+      time: moment(props.input.value),
+    }
   }
 
   getDateFormat = () => this.props.dateFormat ? this.props.dateFormat : moment.localeData().longDateFormat(this.props.localeDateFormat)
 
-  // Only update on blur
-  handleDateChange = () => null
-
-  handleDateBlur = newDate => {
-    const value = this.integrateTimeWithDate(newDate)
-    this.props.input.onChange(value)
-    this.props.input.onBlur(value)
-  }
-
-  handleTimeBlur = newDate => {
-    this.props.input.onBlur(this.integrateDateWithTime(newDate))
-  }
-
-  integrateTimeWithDate = date => {
-    const currentTime = moment(this._time.state.inputValue, this.props.timeFormat)
-    const newDate = moment(date).hours(currentTime.hours()).minutes(currentTime.minutes())
+  getDate = () => {
+    const currentDate = moment(this.state.date)
+    const newDate = currentDate.hours(this.state.time.hours()).minutes(this.state.time.minutes())
     return newDate
   }
 
-  integrateDateWithTime = time => {
-    const currentDate = moment(this._date.state.inputValue, this.getDateFormat())
-    const newDate = currentDate.hours(time.hours()).minutes(time.minutes())
-    return newDate
+  handleChange = () => {
+    const newDate = this.getDate()
+    this.props.input.onChange(newDate)
+  }
+
+  handleDateChange = newDate => {
+    if (moment.isMoment(newDate)) {
+      this.setState({date: newDate}, this.handleChange)
+      return
+    }
+    if (!_.isString(newDate)) return
+    if (newDate.length !== 8) return
+    const m = moment(newDate, 'DD/MM/YYYY')
+    if (!m.isValid()) return
+
+    this.setState({date: m}, this.handleChange)
+  }
+
+  handleTimeChange = newTime => {
+    if (moment.isMoment(newTime)) {
+      this.setState({time: newTime}, this.handleChange)
+      return
+    }
+    if (!_.isString(newTime)) return
+    if (newTime.length !== 8) return
+    const m = moment(newTime, 'hh:mm A')
+    if (!m.isValid()) return
+
+    this.setState({time: m}, this.handleChange)
   }
 
   render() {
-    const {label, meta, help, helpTop} = this.props
-
+    const {label, meta, helpTop} = this.props
     const inputProps = _.extend({}, this.props.input, this.props.inputProps)
+
+    let help = this.props.help
+    if (_.isUndefined(help)) {
+      help = validationHelp(meta) || this.props.defaultHelp
+    }
+
     const dateFormat = this.getDateFormat()
-    const error = validationError(meta)
     const id = Inflection.dasherize((label || '').toLowerCase())
 
     const dateInputProps = {
@@ -84,9 +104,9 @@ export default class SplitDatetime extends React.Component {
       className: 'date',
       closeOnSelect: true,
       onChange: this.handleDateChange,
-      onBlur: this.handleDateBlur,
       isValidDate: this.props.isValidDate,
-      ..._.omit(inputProps, 'onBlur', 'onChange', 'onFocus'),
+      ..._.omit(inputProps, 'onChange', 'onFocus'),
+      value: this.state.date,
     }
     const timeInputProps = {
       ref: c => this._time = c,
@@ -95,8 +115,9 @@ export default class SplitDatetime extends React.Component {
       timeFormat: this.props.timeFormat,
       className: 'time',
       closeOnSelect: true,
-      onBlur: this.handleTimeBlur,
-      ..._.omit(inputProps, 'onBlur', 'onFocus'),
+      onChange: this.handleTimeChange,
+      ..._.omit(inputProps, 'onChange', 'onFocus'),
+      value: this.state.time,
     }
     if (!this.props.meta.dirty && _.isString(inputProps.value)) {
       dateInputProps.value = moment(inputProps.value)

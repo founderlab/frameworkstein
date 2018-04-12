@@ -57,6 +57,9 @@ export default class Step extends Component {
       fade: true,
       active: this.props.active || this.state.animateOut,
       show: this.props.active && !this.state.animateIn,
+      'd-none': !this.props.active && !this.state.animateOut,
+
+      // deprecated
       in: this.props.active && !this.state.animateIn,
       hidden: !this.props.active && !this.state.animateOut,
     }
