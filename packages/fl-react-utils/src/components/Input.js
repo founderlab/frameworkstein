@@ -106,7 +106,7 @@ export default class FLInput extends React.Component {
           return null
         }
         control = (
-          <Input componentClass="select" {...inputProps} value={inputProps.value}>
+          <Input type="select" {...inputProps}>
             {this.props.includeEmpty && (<option />)}
             {inputProps.placeholder && (<option>{inputProps.placeholder}</option>)}
             {_.map(options, opt => {
@@ -174,12 +174,12 @@ export default class FLInput extends React.Component {
       case 'quill':
         warning(false, 'Rich text editor (quill) has been removed from fl-react-utils/Input. Textarea will be used instead.')
         control = (
-          <Input componentClass="textarea" {...bsProps} {...inputProps} />
+          <Input type="textarea" {...bsProps} {...inputProps} />
         )
         break
       case 'textarea':
         control = (
-          <Input componentClass="textarea" {...bsProps} {...inputProps} />
+          <Input type="textarea" {...bsProps} {...inputProps} />
         )
         break
 
@@ -195,7 +195,7 @@ export default class FLInput extends React.Component {
     return (
       <FormGroup check={check}>
         {label && !check && <Label>{label}</Label>}
-        {help && helpTop && (<FormText color="muted" className="mt-0 mb-2">{help}</FormText>)}
+        {help && helpTop && (<FormText color="muted">{help}</FormText>)}
         {control}
         {error && (<FormFeedback>{error}</FormFeedback>)}
         {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
