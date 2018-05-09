@@ -27,7 +27,7 @@
     "immutable": "^3.7.4",
     "lodash": "^4.0.0",
     "queue-async": "^1.0.7",
-    "react": "^15.3.2",
+    "react": "^16.0.0",
     "redux": "^3.0.0",
     "reselect": "^2.0.2",
     "warning": "^2.1.0"
