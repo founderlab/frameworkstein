@@ -1,6 +1,6 @@
 {
   "name": "fl-redux-utils",
-  "version": "1.0.0",
+  "version": "4.0.16",
   "description": "Boilerplate and helper functions for redux that can be shared amongst FounderLab apps",
   "main": "lib/index.js",
   "author": {
