@@ -1,17 +1,16 @@
 import _ from 'lodash'
-import Queue from 'queue-async'
 import path from 'path'
 import React from 'react'
 import {renderToString} from 'react-dom/server'
-import createHistory from 'history/lib/createMemoryHistory'
 import {Provider} from 'react-redux'
-import {ReduxRouter} from 'redux-router'
-import {reduxReactRouter, match} from 'redux-router/server'
 import Helmet from 'react-helmet'
-import {fetchComponentData} from 'fetch-component-data'
+import createHistory from 'history/createMemoryHistory'
+import { ConnectedRouter } from 'react-router-redux'
+import { matchRoutes, renderRoutes } from 'react-router-config'
+import { fetchComponentData } from 'fetch-component-data'
 import serialize from 'serialize-javascript'
+import { jsAssets, cssAssets } from './assets'
 
-import {jsAssets, cssAssets} from './assets'
 
 const sendError = (res, err) => {
   console.log(err)
@@ -33,114 +32,96 @@ export default function createServerRenderer(_options) {
   if (!createStore) throw new Error('[fl-react-server] createServerRenderer: Missing createStore from options')
   if (!getRoutes) throw new Error('[fl-react-server] createServerRenderer: Missing getRoutes from options')
 
-  return function app(req, res) {
-    const queue = new Queue(1)
-
+  return async function app(req, res) {
     const serverState = {
       auth: req.user ? {user: _.omit(req.user, 'password', '_rev')} : {},
     }
-    if (options.loadInitialState) {
-      queue.defer(callback => options.loadInitialState(req, (err, state) => {
-        if (err) return callback(err)
-        callback(null, _.merge(serverState, state))
-      }))
+    try {
+      if (options.loadInitialState) _.merge(serverState, await options.loadInitialState(req))
+      serverState.config = _.isFunction(config) ? await config(req) : config
     }
-    if (_.isFunction(config)) {
-      queue.defer(callback => config(req, (err, _config) => {
-        if (err) return callback(err)
-        callback(null, serverState.config = _config)
-      }))
+    catch (err) {
+      return sendError(res, err)
     }
-    else {
-      serverState.config = config
+
+    const history = createHistory()
+    const store = createStore({history, initialState: serverState})
+    const routes = getRoutes()
+    const branch = matchRoutes(routes, req.originalUrl)
+    const components = _.uniq(alwaysFetch.concat(_.map(branch, b => b.route.component)))
+
+    try {
+      const fetchResult = await fetchComponentData({store, components})
+      if (fetchResult.status) res.status(fetchResult.status)
     }
-    queue.await(err => {
-      if (err) return sendError(res, err)
+    catch (err) {
+      return sendError(res, err)
+    }
 
-      const store = createStore(reduxReactRouter, getRoutes, createHistory, serverState)
+    let initialState = store.getState()
 
-      store.dispatch(match(req.originalUrl, (err, redirectLocation, routerState) => {
-        if (err) return sendError(res, err)
-        if (redirectLocation) {
-          const redirectPath = _.isString(redirectLocation) ? redirectLocation : redirectLocation.pathname + (redirectLocation.search || '')
-          return res.redirect(redirectPath)
-        }
-        if (!routerState) return res.status(404).send('Not found')
+    // temp solution to rendering admin state
+    // todo: make this better. don't include admin reducers / route unless requested
+    if (options.omit) initialState = _.omit(initialState, options.omit)
 
-        const components = _.uniq(alwaysFetch.concat(routerState.components))
+    const component = (
+      <Provider store={store}>
+        <ConnectedRouter history={history} location={req.url}>
+          {renderRoutes(routes)}
+        </ConnectedRouter>
+      </Provider>
+    )
 
-        fetchComponentData({store, components}, (err, fetchResult) => {
-          if (err) return sendError(res, err)
-          if (fetchResult.status) res.status(fetchResult.status)
+    const js = jsAssets(options.entries, options.webpackAssetsPath)
+    const scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
 
-          let initialState = store.getState()
+    const css = cssAssets(options.entries, options.webpackAssetsPath)
+    const cssTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
 
-          // temp solution to rendering admin state
-          // todo: make this better. don't include admin reducers / route unless requested
-          if (options.omit) initialState = _.omit(initialState, options.omit)
+    const rendered = renderToString(component)
+    const head = Helmet.rewind()
 
-          // https://github.com/rackt/redux-router/issues/106
-          routerState.location.query = req.query
+    // Google analytics tag
+    const gaTag = gaId ? `
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-          const component = (
-            <Provider store={store} key="provider">
-              <ReduxRouter />
-            </Provider>
-          )
+        ga('create', '${gaId}', 'auto');
+        ga('send', 'pageview');
+      </script>` : ''
 
-          const js = jsAssets(options.entries, options.webpackAssetsPath)
-          const scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
+    const headerTags = evalSource(req, options.headerTags)
+    const preScriptTags = evalSource(req, options.preScriptTags)
+    const postScriptTags = evalSource(req, options.postScriptTags)
 
-          const css = cssAssets(options.entries, options.webpackAssetsPath)
-          const cssTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          ${head.title}
+          ${head.base}
+          ${head.meta}
+          ${head.link}
+          ${head.script}
 
-          const rendered = renderToString(component)
-          const head = Helmet.rewind()
-
-          // Google analytics tag
-          const gaTag = gaId ? `
-            <script>
-              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-              ga('create', '${gaId}', 'auto');
-              ga('send', 'pageview');
-            </script>` : ''
-
-          const headerTags = evalSource(req, options.headerTags)
-          const preScriptTags = evalSource(req, options.preScriptTags)
-          const postScriptTags = evalSource(req, options.postScriptTags)
-
-          const html = `
-            <!DOCTYPE html>
-            <html>
-              <head>
-                ${head.title}
-                ${head.base}
-                ${head.meta}
-                ${head.link}
-                ${head.script}
-
-                ${cssTags}
-                ${headerTags}
-                <script type="application/javascript">
-                  window.__INITIAL_STATE__ = ${serialize(initialState, {isJSON: true})}
-                </script>
-              </head>
-              <body id="app">
-                <div id="react-view">${rendered}</div>
-                ${preScriptTags}
-                ${scriptTags}
-                ${gaTag}
-                ${postScriptTags}
-              </body>
-            </html>
-          `
-          res.type('html').send(html)
-        })
-      }))
-    })
+          ${cssTags}
+          ${headerTags}
+          <script type="application/javascript">
+            window.__INITIAL_STATE__ = ${serialize(initialState, {isJSON: true})}
+          </script>
+        </head>
+        <body id="app">
+          <div id="react-view">${rendered}</div>
+          ${preScriptTags}
+          ${scriptTags}
+          ${gaTag}
+          ${postScriptTags}
+        </body>
+      </html>
+    `
+    res.type('html').send(html)
   }
 }
