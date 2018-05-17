@@ -23,6 +23,6 @@ export default function createFetchComponentDataMiddlware(getRoutes) {
       fetchComponentData({store, branch, action})
     }
 
-    next(action)
+    return next(action)
   }
 }

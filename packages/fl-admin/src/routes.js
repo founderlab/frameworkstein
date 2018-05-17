@@ -14,7 +14,6 @@ export default function getRoutes() {
   }]
 
   modelAdmins.forEach(modelAdmin => {
-    console.log('modelAdmin.path', modelAdmin.path)
     routes.push(modelAdmin.listRoute || {
       path: `/admin/${modelAdmin.path}`,
       exact: true,

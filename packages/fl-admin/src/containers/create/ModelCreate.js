@@ -25,11 +25,6 @@ export default function createModelCreate(modelAdmin) {
     }
 
     handleSaveFn = () => async data => {
-      // this.props.saveModel(data, (err) => {
-      //   if (err) return console.log(err)
-      //   const model = this.props.modelStore.get('lastSaved').toJSON()
-      //   this.props.history.push(modelAdmin.link(model.id))
-      // })
       const action = await this.props.saveModel(data)
       this.props.history.push(modelAdmin.link(action.model.id))
     }
