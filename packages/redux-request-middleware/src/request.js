@@ -95,9 +95,7 @@ export default function createRequestMiddleware(_options={}) {
       next({type: START, ...rest})
 
       return new Promise((resolve, reject) => {
-        console.log('returnin promise', request)
         const done = (err, res) => {
-          console.log('done', err, res)
           const error = options.getError(err, res)
           let finalAction = {}
           if (error) {
@@ -116,7 +114,6 @@ export default function createRequestMiddleware(_options={}) {
         if (options.retry) {
           return retry(options.retry, wrapEnd(end), options.check, done)
         }
-        console.log('ending')
         return end(done)
       })
     }

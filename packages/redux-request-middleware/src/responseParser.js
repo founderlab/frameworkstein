@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 export function isModel(action) { return action.res && _.isFunction(action.res.toJSON) }
 
-export function parseJSON(action) {
+export function parseJSON(action, {mutate}) {
   let modelList = action.res ? action.res.body || action.res : null
   if (!_.isArray(modelList)) modelList = [modelList]
   const model = modelList[0]
@@ -15,18 +15,20 @@ export function parseJSON(action) {
     models[model.id] = model
     ids.push(model.id)
   })
-  return {model, models, modelList, ids, status, ...action}
+  const data = {model, models, modelList, ids, status}
+  return mutate ? _.extend(action, data) : {...action, ...data}
 }
 
-export function parseModel(action) {
+export function parseModel(action, options) {
   action.res = action.res ? action.res.toJSON() : null
-  return parseJSON(action)
+  return parseJSON(action, options)
 }
 
 const defaults = {
   isModel,
   parseModel,
   parseJSON,
+  mutate: true,
 }
 
 export default function createResponseParserMiddleware(_options={}) {
@@ -34,7 +36,7 @@ export default function createResponseParserMiddleware(_options={}) {
 
   return function responseParserMiddleware() {
     return next => action => {
-      return next(options.isModel(action) ? options.parseModel(action) : options.parseJSON(action))
+      return next(options.isModel(action) ? options.parseModel(action, options) : options.parseJSON(action, options))
     }
   }
 }

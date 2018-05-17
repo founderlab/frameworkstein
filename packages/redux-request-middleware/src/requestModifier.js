@@ -25,8 +25,7 @@ export default function createRequestModifierMiddleware(_options={}) {
       const request = options.getRequest(action)
       const value = options.getValue(store)
       if (request && value) options.setValue(request, value)
-
-      next(action)
+      return next(action)
     }
   }
 }

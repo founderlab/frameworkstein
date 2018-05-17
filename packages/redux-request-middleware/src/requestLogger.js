@@ -20,7 +20,7 @@ export default function createRequestLoggerMiddleware(_options={}) {
       if (response) options.logResponse(response)
       const error = options.getError(action)
       if (error) options.logError(error)
-      next(action)
+      return next(action)
     }
   }
 }
