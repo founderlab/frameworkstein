@@ -5,6 +5,9 @@
 @import './loader.scss';
 @import './sidebar.scss';
 
+body {
+  background: $fla-bg;
+}
 
 .fla-main {
   background: $fla-bg;
