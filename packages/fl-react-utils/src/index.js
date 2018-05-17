@@ -1,4 +1,3 @@
-import patchRouteEntry from './patchRouteEntry'
 import parseSelectValues from './parseSelectValues'
 import Pagination from './components/Pagination'
 import S3Image from './components/S3Image'
@@ -12,7 +11,6 @@ import { validationState, validationStyle, validationError, validDate, allFields
 
 
 export {
-  patchRouteEntry,
   parseSelectValues,
   Pagination,
   S3Image,
