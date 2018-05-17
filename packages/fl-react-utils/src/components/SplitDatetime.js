@@ -3,9 +3,9 @@ import moment from 'moment'
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDatetime from 'react-datetime'
-import Inflection from 'inflection'
-import {FormGroup, Label, FormFeedback, FormText} from 'reactstrap'
-import {validationError, validationState} from '../validation'
+import ReactMarkdown from 'react-markdown'
+import { FormGroup, Label, FormFeedback, FormText } from 'reactstrap'
+import { validationError } from '../validation'
 
 
 export default class SplitDatetime extends React.Component {
@@ -13,6 +13,7 @@ export default class SplitDatetime extends React.Component {
   static propTypes = {
     label: PropTypes.string,
     helpTop: PropTypes.bool,
+    helpMd: PropTypes.string,
     help: PropTypes.string,
     defaultHelp: PropTypes.string,
     meta: PropTypes.object,
@@ -28,13 +29,16 @@ export default class SplitDatetime extends React.Component {
     dateFormat: PropTypes.string,
     localeDateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
+    markdownProps: PropTypes.object,
   }
 
   static defaultProps = {
-    feedback: false,
     isValidDate: current => current.isAfter(moment().subtract(1, 'day')),
     localeDateFormat: 'L',
     timeFormat: 'hh:mm a',
+    markdownProps: {
+      escapeHtml: true,
+    },
   }
 
   constructor(props) {
@@ -85,16 +89,15 @@ export default class SplitDatetime extends React.Component {
   }
 
   render() {
-    const {label, meta, helpTop} = this.props
+    const {label, meta, helpMd, helpTop} = this.props
     const inputProps = _.extend({}, this.props.input, this.props.inputProps)
 
     let help = this.props.help
-    if (_.isUndefined(help)) {
-      help = validationHelp(meta) || this.props.defaultHelp
+    if (_.isUndefined(help) && helpMd) {
+      help = (<ReactMarkdown source={helpMd} {...this.props.markdownProps} />)
     }
-
+    const error = validationError(meta)
     const dateFormat = this.getDateFormat()
-    const id = Inflection.dasherize((label || '').toLowerCase())
 
     const dateInputProps = {
       ref: c => this._date = c,

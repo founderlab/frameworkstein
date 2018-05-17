@@ -1,15 +1,42 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import PropTypes from 'prop-types'
-import {Sidebar} from 'fl-react-utils'
+import { connect } from 'react-redux'
+import { Sidebar } from 'fl-react-utils'
+import { renderRoutes } from 'react-router-config'
 import Navbar from '../components/Navbar'
 import AdminSidebar from '../components/Sidebar'
 import headerTags from '../utils/headerTags'
 
+
+@connect(state => ({
+  config: state.config,
+}))
 export default class Admin extends React.Component {
 
   static propTypes = {
-    children: PropTypes.node,
+    config: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+  }
+
+  state = {}
+
+  static childContextTypes = {
+    url: PropTypes.string,
+  }
+
+  getChildContext() {
+    return {
+      url: this.state.url,
+    }
+  }
+
+  componentWillMount() {
+    if (!this.state.url) {
+      this.setState({
+        url: this.props.config.get('url'),
+      })
+    }
   }
 
   render() {
@@ -22,12 +49,12 @@ export default class Admin extends React.Component {
       <Sidebar {...sidebarProps}>
         <Helmet
           title=""
-          titleTemplate={`%s - admin`}
+          titleTemplate="%s - admin"
           {...headerTags(this.props)}
         />
         <Navbar />
         <div className="fla-main">
-          {this.props.children}
+          {renderRoutes(this.props.route.routes)}
         </div>
       </Sidebar>
     )

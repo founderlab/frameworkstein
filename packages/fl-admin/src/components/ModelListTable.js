@@ -1,23 +1,26 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Table} from 'reactstrap'
+import { Table } from 'reactstrap'
 import createModelListForm from './create/ModelListForm'
-import {shouldEditFieldInline, shouldDisplayFieldInline} from '../utils/inline'
+import { shouldEditFieldInline, shouldDisplayFieldInline } from '../utils/inline'
+
 
 export default function ModelListTable(props) {
   const {models, modelAdmin, handleSaveFn, handleDeleteFn} = props
 
   const modelListRows = _.map(models, model => {
     const ModelListForm = createModelListForm(model)
-    return (<ModelListForm
-      key={model.id}
-      formKey={model.id}
-      model={model}
-      modelAdmin={modelAdmin}
-      onSubmit={handleSaveFn(model)}
-      onDelete={handleDeleteFn(model)}
-    />)
+    return (
+      <ModelListForm
+        key={model.id}
+        formKey={model.id}
+        model={model}
+        modelAdmin={modelAdmin}
+        onSubmit={handleSaveFn(model)}
+        onDelete={handleDeleteFn(model)}
+      />
+    )
   })
 
   let showSave = false
@@ -50,7 +53,6 @@ export default function ModelListTable(props) {
 ModelListTable.propTypes = {
   models: PropTypes.array.isRequired,
   modelAdmin: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
   handleSaveFn: PropTypes.func.isRequired,
   handleDeleteFn: PropTypes.func.isRequired,
 }

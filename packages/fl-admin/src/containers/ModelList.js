@@ -1,17 +1,17 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router'
-import {Container, Row, Col, Button} from 'reactstrap'
+import { Link } from 'react-router-dom'
+import { Container, Row, Col, Button } from 'reactstrap'
 import ModelListTable from '../components/ModelListTable'
 
 
 export default function ModelList(props) {
-  const {modelAdmin, config, currentPage, itemsPerPage, totalItems, visibleItems, handleSaveFn, handleDeleteFn} = props
+  const {modelAdmin, currentPage, totalItems, visibleItems, handleSaveFn, handleDeleteFn} = props
   const {Pagination} = modelAdmin.components
-  const tableProps = {modelAdmin, config, handleSaveFn, handleDeleteFn, models: visibleItems}
+  const tableProps = {modelAdmin, handleSaveFn, handleDeleteFn, models: visibleItems}
 
-  const startCount = itemsPerPage * (currentPage-1) + 1
+  const startCount = modelAdmin.perPage * (currentPage-1) + 1
   const endCount = startCount + visibleItems.length - 1
 
   return (
@@ -19,7 +19,7 @@ export default function ModelList(props) {
       <Container fluid>
         <Row>
           <Col xs={12}>
-            <p className="fla-back"><Link to={modelAdmin.rootPath} className="fla-back"><i className="fa fa-chevron-left" />Admin home</Link></p>
+            <p className="fla-back"><Link to={modelAdmin.rootPath} className="fla-back"><i className="fa fa-chevron-left" /> Admin home</Link></p>
           </Col>
         </Row>
         <Row>
@@ -27,15 +27,15 @@ export default function ModelList(props) {
             <h1>{modelAdmin.plural}</h1>
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} className="fla-controls">
-            <Button tag={Link} to={modelAdmin.createLink()} bsStyle="primary">
+        <Row className="fla-controls mb-3">
+          <Col xs="auto">
+            <Button tag={Link} to={modelAdmin.createLink()} color="primary">
               <i className="fa fa-plus" /> Add a new {modelAdmin.name}
             </Button>
-            <div className="fla-pagination pull-right">
-              <Pagination className="pull-right" {...props} />
-              {totalItems && <span className="fla-item-count pull-right">{startCount} - {endCount} of {totalItems}</span>}
-            </div>
+          </Col>
+          <Col xs="auto" className="fla-pagination ml-auto d-flex">
+            {totalItems && <span className="fla-item-count">{startCount} - {endCount} of {totalItems}</span>}
+            <Pagination itemsPerPage={modelAdmin.perPage} {...props} />
           </Col>
         </Row>
         <Row>
@@ -51,8 +51,8 @@ export default function ModelList(props) {
 ModelList.propTypes = {
   visibleItems: PropTypes.array.isRequired,
   modelAdmin: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
   handleSaveFn: PropTypes.func.isRequired,
   handleDeleteFn: PropTypes.func.isRequired,
-  itemsPerPage: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  totalItems: PropTypes.number.isRequired,
 }

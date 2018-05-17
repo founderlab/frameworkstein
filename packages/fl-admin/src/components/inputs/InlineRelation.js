@@ -1,8 +1,10 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Button} from 'reactstrap'
+import { Button } from 'reactstrap'
+import { FormGroup, Label } from 'reactstrap'
 import ModelListTable from '../ModelListTable'
+
 
 export default function InlineRelation(props) {
   const {config, relationField, models, label, onAdd, handleSaveFn, handleDeleteFn} = props
@@ -10,11 +12,11 @@ export default function InlineRelation(props) {
   const tableProps = {models, modelAdmin, config, handleSaveFn, handleDeleteFn}
 
   return (
-    <div>
-      {label ? (<label className="control-label">{label}</label>) : null}
-      <Button bsStyle="primary" className="pull-right" onClick={onAdd}><i className="fa fa-plus" /></Button>
+    <FormGroup>
+      {label ? (<Label>{label}</Label>) : null}
+      <Button color="primary" className="pull-right" onClick={onAdd}><i className="fa fa-plus" /></Button>
       <ModelListTable {...tableProps} />
-    </div>
+    </FormGroup>
   )
 }
 

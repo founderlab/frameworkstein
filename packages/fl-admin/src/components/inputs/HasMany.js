@@ -1,7 +1,9 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router'
+import { Link } from 'react-router-dom'
+import { FormGroup, Label } from 'reactstrap'
+
 
 export default function HasMany(_props) {
   // const {relationField, model, models, inputProps} = props
@@ -23,12 +25,12 @@ export default function HasMany(_props) {
   })
 
   return (
-    <div>
-      {label ? (<label className="control-label">{label}</label>) : null}
+    <FormGroup>
+      {label ? (<Label>{label}</Label>) : null}
       <div className="list-group">
         {links}
       </div>
-    </div>
+    </FormGroup>
   )
 }
 

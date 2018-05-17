@@ -1,9 +1,9 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Row, Col, Button, HelpBlock} from 'reactstrap'
-import {Field} from 'redux-form'
-import {Input} from 'fl-react-utils'
+import { Row, Col, Button, HelpBlock, FormGroup, Label } from 'reactstrap'
+import { Field } from 'redux-form'
+import { Input } from 'fl-react-utils'
 
 
 export default function JsonInput(props) {
@@ -15,8 +15,8 @@ export default function JsonInput(props) {
   }
 
   return (
-    <div className="form-group json-field">
-      <label className="control-label">{modelField.label || modelField.key}</label>
+    <FormGroup className="json-field">
+      <Label>{modelField.label || modelField.key}</Label>
       {modelField.help && <HelpBlock>{modelField.help}</HelpBlock>}
 
       <div className="json-fields">
@@ -62,7 +62,7 @@ export default function JsonInput(props) {
           </Row>
         )}
       </div>
-    </div>
+    </FormGroup>
   )
 }
 

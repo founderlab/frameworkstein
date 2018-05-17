@@ -1,3 +1,4 @@
+import 'babel-polyfill' // import first to avoid probs with `regeneratorRuntime` not being defined, see https://github.com/babel/babel-preset-env/issues/112
 import _ from 'lodash'
 import warning from 'warning'
 import {combineReducers} from 'redux'
@@ -8,7 +9,8 @@ import createRelatedInput from './containers/create/RelatedInput'
 import {table, plural, upper, label} from './utils/naming'
 import createActions from './createActions'
 import createReducer from './createReducer'
-import AdminRoute from './route'
+import routes from './routes'
+
 
 const ACTION_PREFIX = 'FL_ADMIN_'
 const modelAdmins = []
@@ -135,4 +137,4 @@ export default function configure(_options) {
   reducer = combineReducers(reducers)
 }
 
-export {actions, reducer, modelAdmins, AdminRoute}
+export {actions, reducer, modelAdmins, routes}

@@ -2,9 +2,10 @@ import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Button} from 'reactstrap'
-import {Link} from 'react-router'
-import {reduxForm, Field} from 'redux-form'
-import {shouldEditFieldInline, shouldDisplayFieldInline} from '../../utils/inline'
+import { Link } from 'react-router-dom'
+import { reduxForm, Field } from 'redux-form'
+import { shouldEditFieldInline, shouldDisplayFieldInline } from '../../utils/inline'
+
 
 export class ModelListForm extends React.Component {
 
@@ -12,8 +13,6 @@ export class ModelListForm extends React.Component {
     model: PropTypes.object.isRequired,
     modelAdmin: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
-
-    // from redux-form
     handleSubmit: PropTypes.func.isRequired,
   }
 
@@ -26,7 +25,6 @@ export class ModelListForm extends React.Component {
         <td className="fla-name-td">
           <Link to={modelAdmin.link(model)}>
             {modelAdmin.display(model)}
-            <i className="fa fa-pencil" />
           </Link>
         </td>
 
@@ -60,12 +58,12 @@ export class ModelListForm extends React.Component {
 
         {showSave ? (
           <td className="fla-save-td">
-            <Button bsStyle="primary" onClick={handleSubmit}><i className="fa fa-check" /></Button>
+            <Button color="primary" onClick={handleSubmit}><i className="fa fa-check" /></Button>
           </td>
         ) : null}
         {modelAdmin.listDelete && (
           <td className="fla-delete-td">
-            <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><i className="fa fa-times" /></Button>
+            <Button bsSize="xsmall" onClick={onDelete}><i className="fa fa-times" /></Button>
           </td>
         )}
       </tr>

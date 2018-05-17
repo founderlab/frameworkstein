@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
-import {connect} from 'react-redux'
-import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import warning from 'warning'
 import Loader from '../../components/Loader'
@@ -9,19 +9,22 @@ import ManyToMany from '../../components/inputs/ManyToMany'
 import HasMany from '../../components/inputs/HasMany'
 import InlineRelation from '../../components/inputs/InlineRelation'
 
+
 export default function createRelatedField(relationField) {
   const {modelAdmin} = relationField
   if (!modelAdmin) return null
-  const {load, save, del} = modelAdmin.actions
+  const {loadModels, saveModel, deleteModel} = modelAdmin.actions
 
-  return @connect(state => ({modelStore: state.admin[modelAdmin.path], config: state.config}), {load, save, del})
+  return @connect(state => ({modelStore: state.admin[modelAdmin.path]}), {loadModels, saveModel, deleteModel})
   class RelatedInput extends Component {
 
     static propTypes = {
       model: PropTypes.object,
       modelStore: PropTypes.object,
       formField: PropTypes.object,
-      load: PropTypes.func,
+      loadModels: PropTypes.func,
+      saveModel: PropTypes.func,
+      deleteModel: PropTypes.func,
     }
 
     hasData() {
@@ -31,10 +34,10 @@ export default function createRelatedField(relationField) {
     hasManyRelationAttrs = () => ({[relationField.relation.foreignKey]: this.props.model.id})
 
     handleAdd = () => {
-      this.props.save(this.hasManyRelationAttrs())
+      this.props.saveModel(this.hasManyRelationAttrs())
     }
-    handleSaveFn = model => data => this.props.save(_.extend(this.hasManyRelationAttrs(), model, data))
-    handleDeleteFn = model => () => this.props.del(model)
+    handleSaveFn = model => data => this.props.saveModel(_.extend(this.hasManyRelationAttrs(), model, data))
+    handleDeleteFn = model => () => this.props.deleteModel(model)
 
     render() {
       if (!this.hasData()) return (<Loader type="inline" />)
@@ -62,7 +65,6 @@ export default function createRelatedField(relationField) {
         if (relationField.inline) {
           return (
             <InlineRelation
-              config={this.props.config.toJSON()}
               onAdd={this.handleAdd}
               handleSaveFn={this.handleSaveFn}
               handleDeleteFn={this.handleDeleteFn}

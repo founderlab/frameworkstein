@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { matchRoutes } from 'react-router-config'
 import fetchComponentData from './fetchComponentData'
 
+
 const routeChangeTypes = [
   '@@reduxReactRouter/routerDidChange',
   '@@router/LOCATION_CHANGE',
@@ -18,9 +19,8 @@ export default function createFetchComponentDataMiddlware(getRoutes) {
     if (router.location && _.includes(routeChangeTypes, action.type)) {
       if (locsEqual(action.payload.location, router.location)) return
       const branch = matchRoutes(routes, action.payload.pathname)
-      const components = _.uniq(_.map(branch, b => b.route.component))
 
-      fetchComponentData({store, components, action})
+      fetchComponentData({store, branch, action})
     }
 
     next(action)

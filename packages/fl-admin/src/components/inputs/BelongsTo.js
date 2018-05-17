@@ -1,8 +1,9 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Input} from 'fl-react-utils'
-import {FormGroup, ControlLabel, FormControl} from 'reactstrap'
+import { Input } from 'fl-react-utils'
+import { FormGroup, Label, FormControl } from 'reactstrap'
+
 
 export default function BelongsTo(_props) {
   const {relationField, modelStore, ...props} = _props
@@ -15,7 +16,7 @@ export default function BelongsTo(_props) {
     const value = relationField.modelAdmin.display(model)
     return (
       <FormGroup>
-        <ControlLabel>{props.label}</ControlLabel>
+        <Label>{props.label}</Label>
         <FormControl.Static>{value}</FormControl.Static>
       </FormGroup>
     )
@@ -33,4 +34,6 @@ export default function BelongsTo(_props) {
 BelongsTo.propTypes = {
   relationField: PropTypes.object.isRequired,
   modelStore: PropTypes.object.isRequired,
+  input: PropTypes.object.isRequired,
+  label: PropTypes.string,
 }

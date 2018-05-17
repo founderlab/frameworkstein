@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+
 export default function Loader(props) {
   if (props.inline) return (<span>loading...</span>)
   return (

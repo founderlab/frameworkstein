@@ -1,7 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Input} from 'fl-react-utils'
+import { Input } from 'fl-react-utils'
 import JsonInput from './JsonInput'
 
 
@@ -21,6 +21,7 @@ export default function SmartInput(_props) {
     props.options = modelField.options
   }
 
+  if (props.type && _.includes(['boolean', 'checkbox'], props.type.toLowerCase())) props.className = 'mb-3'
   return (<Input {...props} />)
 }
 

@@ -1,10 +1,10 @@
 import _ from 'lodash' // eslint-disable-line
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Sidebar from 'react-sidebar'
 
 
-export default class FLSidebar extends Component {
+export default class FLSidebar extends React.Component {
 
   static propTypes = {
     changeKey: PropTypes.string,
@@ -12,6 +12,7 @@ export default class FLSidebar extends Component {
     disableToggle: PropTypes.bool,
     sidebar: PropTypes.element.isRequired,
     children: PropTypes.node.isRequired,
+    sidebarClassName: PropTypes.string,
   }
 
   static defaultProps = {
