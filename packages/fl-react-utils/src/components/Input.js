@@ -4,12 +4,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import warning from 'warning'
 import ReactDatetime from 'react-datetime'
-import Inflection from 'inflection'
 import Select from 'react-select'
-import {FormGroup, Label, Input, FormText, FormFeedback} from 'reactstrap'
+import { FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
 import S3Uploader from './S3Uploader'
-import {validationError, validationState} from '../validation'
+import { validationError, validationState } from '../validation'
 import parseSelectValues from '../parseSelectValues'
 
 
@@ -21,8 +20,6 @@ export default class FLInput extends React.Component {
     name: PropTypes.string,
     help: PropTypes.node,
     helpMd: PropTypes.string,
-    defaultHelp: PropTypes.node,
-    defaultHelpMd: PropTypes.string,
     helpTop: PropTypes.bool,
     type: PropTypes.string,
     bsProps: PropTypes.object,
@@ -42,6 +39,7 @@ export default class FLInput extends React.Component {
       PropTypes.bool,
     ]),
     dateFormat: PropTypes.string,
+    className: PropTypes.string,
     localeDateFormat: PropTypes.string,
   }
 
@@ -55,7 +53,7 @@ export default class FLInput extends React.Component {
   }
 
   render() {
-    const {label, input, meta, helpMd, defaultHelpMd, helpTop, type, bsProps, defaultHelp, validationState, options} = this.props
+    const {label, input, meta, helpMd, helpTop, type, className, bsProps, validationState, options} = this.props
 
     const validation = validationState ? validationState(meta) : null
     const inputProps = _.extend({
@@ -65,13 +63,8 @@ export default class FLInput extends React.Component {
     }, input, this.props.inputProps)
 
     let help = this.props.help
-    if (_.isUndefined(help)) {
-      if (helpMd) {
-        help = (<ReactMarkdown source={helpMd} {...this.props.markdownProps} />)
-      }
-      else {
-        help = defaultHelp || (defaultHelpMd && (<ReactMarkdown source={defaultHelpMd} {...this.props.markdownProps} />))
-      }
+    if (_.isUndefined(help) && helpMd) {
+      help = (<ReactMarkdown source={helpMd} {...this.props.markdownProps} />)
     }
     const error = validationError(meta)
     let check = false
@@ -151,7 +144,7 @@ export default class FLInput extends React.Component {
 
       case 'static':
         control = (
-          <Input static {...bsProps} {...inputProps}>{inputProps.value}</Input>
+          <Input plaintext {...bsProps} {...inputProps}>{inputProps.value}</Input>
         )
         break
 
@@ -193,7 +186,7 @@ export default class FLInput extends React.Component {
     }
 
     return (
-      <FormGroup check={check}>
+      <FormGroup check={check} className={className}>
         {label && !check && <Label>{label}</Label>}
         {help && helpTop && (<FormText color="muted">{help}</FormText>)}
         {control}

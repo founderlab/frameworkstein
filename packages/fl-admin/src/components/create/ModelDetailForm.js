@@ -1,18 +1,16 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Row, Col, Button} from 'reactstrap'
-import {reduxForm, Field, FieldArray} from 'redux-form'
+import { FormGroup, Label, Row, Col, Button } from 'reactstrap'
+import { reduxForm, Field, FieldArray } from 'redux-form'
+
 
 export class ModelDetailForm extends React.Component {
 
   static propTypes = {
     model: PropTypes.object.isRequired,
     modelAdmin: PropTypes.object.isRequired,
-    config: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
-
-    // from redux-form
     handleSubmit: PropTypes.func.isRequired,
   }
 
@@ -31,10 +29,10 @@ export class ModelDetailForm extends React.Component {
 
                 if (modelField.readOnly) {
                   return (
-                    <div key={key} className="form-group">
-                      <label className="control-label">{modelField.label || fieldName}</label>
+                    <FormGroup key={key}>
+                      <Label>{modelField.label || fieldName}</Label>
                       <div>{modelField.display ? modelField.display(model) : (model[fieldName] && model[fieldName].toString())}</div>
-                    </div>
+                    </FormGroup>
                   )
                 }
 
@@ -52,12 +50,11 @@ export class ModelDetailForm extends React.Component {
             </form>
           </Col>
         </Row>
-        <Row>
-          <Col xs={2}>
-            <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><i className="fa fa-times" /></Button>
-          </Col>
-          <Col xs={2} xsOffset={8}>
-            <Button className="pull-right" bsStyle="primary" onClick={handleSubmit}>Save</Button>
+
+        <Row className="mt-3">
+          <Col xs={12} className="text-right">
+            <Button onClick={onDelete} className="mr-3"><i className="fa fa-times" /> Delete</Button>
+            <Button color="primary" onClick={handleSubmit}><i className="fa fa-save" /> Save</Button>
           </Col>
         </Row>
       </div>

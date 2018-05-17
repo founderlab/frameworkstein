@@ -2,13 +2,14 @@ import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
 import warning from 'warning'
-import {Link} from 'react-router'
-import {Container, Row, Col} from 'reactstrap'
+import { Link } from 'react-router-dom'
+import { Container, Row, Col } from 'reactstrap'
 import createModelDetailForm from '../components/create/ModelDetailForm'
+
 
 export default function ModelDetail(props) {
 
-  const {modelAdmin, modelStore, id, config, handleSaveFn, handleDeleteFn} = props
+  const {modelAdmin, modelStore, id, handleSaveFn, handleDeleteFn} = props
   const modelIm = modelStore.get('models').get(id)
   const model = modelIm ? modelIm.toJSON() : {}
   warning(model, `[fl-admin] ModelDetail: Model ${modelAdmin.name} not loaded with id ${id}`)
@@ -19,7 +20,7 @@ export default function ModelDetail(props) {
       <Container fluid>
         <Row>
           <Col xs={12}>
-            <p className="fla-back"><Link to={modelAdmin.link()}><i className="fa fa-chevron-left" />{modelAdmin.plural}</Link></p>
+            <p className="fla-back"><Link to={modelAdmin.link()}><i className="fa fa-chevron-left" /> {modelAdmin.plural}</Link></p>
           </Col>
         </Row>
         <Row>
@@ -31,7 +32,6 @@ export default function ModelDetail(props) {
           formKey={model.id}
           model={model}
           modelAdmin={modelAdmin}
-          config={config}
           onSubmit={handleSaveFn(model)}
           onDelete={handleDeleteFn(model)}
         />
@@ -44,7 +44,6 @@ ModelDetail.propTypes = {
   id: PropTypes.string,
   modelStore: PropTypes.object,
   modelAdmin: PropTypes.object,
-  // config: PropTypes.object,
   handleSaveFn: PropTypes.func,
   handleDeleteFn: PropTypes.func,
 }

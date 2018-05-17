@@ -1,7 +1,8 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Input} from 'fl-react-utils'
+import { Input } from 'fl-react-utils'
+
 
 export default function ManyToMany(_props) {
   const {relationField, modelStore, ...props} = _props

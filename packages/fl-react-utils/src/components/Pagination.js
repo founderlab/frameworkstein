@@ -1,12 +1,12 @@
 import _ from 'lodash' // eslint-disable-line
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import {ButtonToolbar, ButtonGroup, Button} from 'reactstrap'
-import {Link} from 'react-router'
+import { ButtonToolbar, ButtonGroup, Button } from 'reactstrap'
+import { Link } from 'react-router'
 import classNames from 'classnames'
 
 
-export default class Pagination extends Component {
+export default class Pagination extends React.Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     itemsPerPage: PropTypes.number.isRequired,

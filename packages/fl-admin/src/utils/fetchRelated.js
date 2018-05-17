@@ -31,23 +31,22 @@ function relatedQuery(modelIds, modelStore, relationField) {
 
 // dispatch actions to load related models
 // assumes the action to fetch models is called 'load'
-export default function fetchRelated(options, callback) {
+export default async function fetchRelated(options, callback) {
   const {store, modelAdmin, loadAll, modelIds} = options
   const {auth, admin} = store.getState()
   const modelStore = admin[modelAdmin.path]
-  const queue = new Queue()
+  const promises = []
 
   _.forEach(modelAdmin.relationFields, relationField => {
+    console.log('relationField.modelAdmin , loadAll , relationField.listEdit', relationField.modelAdmin , loadAll , relationField.listEdit)
     if (relationField.modelAdmin && loadAll || relationField.listEdit) {
-      queue.defer(callback => {
-        const query = relatedQuery(modelIds, modelStore, relationField)
-        if (!query) return callback()
+      const query = relatedQuery(modelIds, modelStore, relationField)
+      if (!query) return callback()
 
-        query.$user_id = auth.get('user').get('id')
-        store.dispatch(relationField.modelAdmin.actions.load(query, callback))
-      })
+      query.$user_id = auth.get('user').get('id')
+      promises.push(store.dispatch(relationField.modelAdmin.actions.loadModels(query)))
     }
   })
 
-  queue.await(callback)
+  return Promise.all(promises)
 }

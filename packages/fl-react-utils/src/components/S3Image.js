@@ -1,9 +1,9 @@
 import _ from 'lodash' // eslint-disable-line
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 
-export default class S3Image extends Component {
+export default class S3Image extends React.Component {
 
   static propTypes = {
     className: PropTypes.string,

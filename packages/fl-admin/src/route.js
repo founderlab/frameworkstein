@@ -57,6 +57,7 @@ export default class AdminRoute extends Route {
       if (childRoutes.length) props.childRoutes = childRoutes
       delete props.children
     }
+
     return new AdminRoute(props)
   }
 }

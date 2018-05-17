@@ -48,10 +48,9 @@ export default function createServerRenderer(_options) {
     const store = createStore({history, initialState: serverState})
     const routes = getRoutes()
     const branch = matchRoutes(routes, req.originalUrl)
-    const components = _.uniq(alwaysFetch.concat(_.map(branch, b => b.route.component)))
 
     try {
-      const fetchResult = await fetchComponentData({store, components})
+      const fetchResult = await fetchComponentData({store, branch})
       if (fetchResult.status) res.status(fetchResult.status)
     }
     catch (err) {

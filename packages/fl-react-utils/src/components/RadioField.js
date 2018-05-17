@@ -2,9 +2,9 @@ import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
 import Inflection from 'inflection'
-import {Field} from 'redux-form'
-import {FormGroup, Label, FormText, FormFeedback} from 'reactstrap'
-import {validationError, validationState} from '../validation'
+import { Field} from 'redux-form'
+import { FormGroup, Label, FormText, FormFeedback } from 'reactstrap'
+import { validationError, validationState } from '../validation'
 
 
 export default class RadioField extends React.Component {

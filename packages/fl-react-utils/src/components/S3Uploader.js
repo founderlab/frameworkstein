@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
 import DropzoneS3Uploader from 'react-dropzone-s3-uploader'
-import {Progress} from 'reactstrap'
+import { Progress } from 'reactstrap'
 
 
 export default class S3Uploader extends React.Component {

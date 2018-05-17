@@ -1,11 +1,10 @@
 import _ from 'lodash' // eslint-disable-line
+import qs from 'qs'
 import moment from 'moment'
-import Queue from 'queue-async'
-import {connect} from 'react-redux'
-import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {push} from 'redux-router'
-// import {createPaginationSelector} from 'fl-redux-utils'
+import { createPaginationSelector } from 'fl-redux-utils'
 import Loader from '../../components/Loader'
 import ModelList from '../../containers/ModelList'
 import ModelDetail from '../../containers/ModelDetail'
@@ -13,68 +12,54 @@ import fetchRelated from '../../utils/fetchRelated'
 
 
 export default function createModelEditor(modelAdmin) {
-  const {load, loadPage, count, save, del} = modelAdmin.actions
+  const { loadModels, loadModelsPage, countModels, saveModel, deleteModel } = modelAdmin.actions
 
   return @connect(
-    // createPaginationSelector(
-    //   state => state.admin[modelAdmin.path],
-    //   state => ({
-    //     modelStore: state.admin[modelAdmin.path],
-    //     id: state.router.params.id,
-    //     config: state.config,
-    //   })
-    // ),
-    state => ({
-      modelStore: state.admin[modelAdmin.path],
-      id: state.router.params.id,
-      config: state.config,
-    }),
-    {load, save, del, push}
+    createPaginationSelector(
+      state => state.admin[modelAdmin.path],
+      state => ({
+        modelStore: state.admin[modelAdmin.path],
+      }),
+    ),
+    {loadModels, saveModel, deleteModel},
   )
   class ModelEditor extends Component {
 
     static propTypes = {
       modelStore: PropTypes.object.isRequired,
-      id: PropTypes.string,
-      load: PropTypes.func,
-      save: PropTypes.func,
-      del: PropTypes.func,
+      history: PropTypes.object.isRequired,
+      location: PropTypes.object.isRequired,
+      match: PropTypes.object.isRequired,
+      loadModels: PropTypes.func,
+      saveModel: PropTypes.func,
+      deleteModel: PropTypes.func,
+      visibleItems: PropTypes.array,
+      totalItems: PropTypes.number,
+      currentPage: PropTypes.number,
     }
 
-    static fetchData({store, action}, callback) {
-      const {auth, router} = store.getState()
-
-      // lookup the location from the incoming action here if one exists
-      // if the ?page=xxx query was changed by redux-router the state won't have updated yet
-      const location = (action && action.payload && action.payload.location ? action.payload.location : router.location)
-      const modelId = ((action && action.payload && action.payload.params) || router.params).id
+    static async fetchData({store, match}) {
+      const {auth} = store.getState()
+      const modelId = match.params.id
+      const urlQuery = qs.parse(match.url)
       const query = _.extend(modelAdmin.query || {}, {$user_id: auth.get('user').get('id')})
-      const queue = new Queue()
 
       if (modelId) {
-        queue.defer(callback => {
-          query.id = modelId
-          store.dispatch(load(query, callback))
-        })
+        query.id = modelId
+        await store.dispatch(loadModels(query))
       }
       else {
-        queue.defer(callback => store.dispatch(count(query, callback)))
-        queue.defer(callback => {
-          query.$limit = modelAdmin.perPage
+        query.$limit = modelAdmin.perPage
+        const page = +urlQuery.page || 1
+        if (page > 1) query.$offset = modelAdmin.perPage * (page-1)
 
-          const page = +location.query.page || 1
-
-          if (page > 1) query.$offset = modelAdmin.perPage * (page-1)
-          return store.dispatch(loadPage(page, query, callback))
-        })
+        await store.dispatch(countModels(query))
+        await store.dispatch(loadModelsPage(page, query))
       }
 
-      queue.await(err => {
-        if (err) return console.error(err)
-        const modelStore = store.getState().admin[modelAdmin.path]
-        const modelIds = modelId ? [modelId] : modelStore.get('pagination').get('visible').toJSON()
-        fetchRelated({store, modelAdmin, modelIds, loadAll: !!modelId}, callback)
-      })
+      const modelStore = store.getState().admin[modelAdmin.path]
+      const modelIds = modelId ? [modelId] : modelStore.get('pagination').get('visible').toJSON()
+      await fetchRelated({store, modelAdmin, modelIds, loadAll: !!modelId})
     }
 
     hasData() {
@@ -83,33 +68,21 @@ export default function createModelEditor(modelAdmin) {
 
     // handleAdd = () => this.props.save({})
     handleSaveFn = model => data => {
-      this.props.save(_.extend(model, data))
+      this.props.saveModel(_.extend(model, data))
     }
 
     // todo: make delete undoable
     handleDeleteFn = model => () => {
       if (window.confirm('Are you really, really sure you want to delete this model? You can\'t have it back.')) {
-        this.props.del(model, err => err && console.log(err))
-        if (this.props.id) push(modelAdmin.link())
+        this.props.deleteModel(model, err => err && console.log(err))
+        if (this.props.match.params.id) this.props.history.push(modelAdmin.link())
       }
     }
 
     render() {
       if (!this.hasData()) return (<Loader />)
-      const {id, modelStore, location} = this.props
-      const config = this.props.config.toJSON()
-
-      const currentPage = +(location.query.page || 1)
-      const itemsPerPage = +(location.query.perPage || modelAdmin.perPage)
-
-      // TODO: These should come from the pagination selector via createPaginationSelector,
-      // but it's causing an infinite loop for whatever reason
-      const pagination = modelStore.get('pagination')
-      const visibleIds = pagination.get('visible').toJSON()
-      const totalItems = +(pagination.get('total'))
-      const visibleItems = []
-
-      _.forEach(visibleIds, id => modelStore.get('models').get(id) && visibleItems.push(modelStore.get('models').get(id).toJSON()))
+      const { visibleItems, totalItems, currentPage, modelStore, match, location } = this.props
+      const id = match.params.id
 
       // Format dates for form initial values
       _.forEach(visibleItems, model => {
@@ -129,12 +102,10 @@ export default function createModelEditor(modelAdmin) {
         id,
         modelAdmin,
         modelStore,
-        config,
+        location,
         visibleItems,
         totalItems,
-        location,
         currentPage,
-        itemsPerPage,
         // onAdd: this.handleAdd,
         handleSaveFn: this.handleSaveFn,
         handleDeleteFn: this.handleDeleteFn,
