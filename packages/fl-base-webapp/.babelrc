@@ -1,0 +1,10 @@
+{
+  "presets": ["env", "react"],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-runtime",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    "add-module-exports"
+  ]
+}

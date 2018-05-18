@@ -1,0 +1,11 @@
+{
+  "admin": {
+    "js": "http://localhost:4001/public/admin.js"
+  },
+  "app": {
+    "js": "http://localhost:4001/public/app.js"
+  },
+  "shared": {
+    "js": "http://localhost:4001/public/shared.js"
+  }
+}

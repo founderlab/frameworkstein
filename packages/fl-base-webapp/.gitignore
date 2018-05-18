@@ -1,0 +1,13 @@
+.DS_Store
+.idea/
+.tmp/
+bower_components/
+node_modules/
+npm-debug.log
+.env-production
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+yarn.lock
+newrelic_agent.log

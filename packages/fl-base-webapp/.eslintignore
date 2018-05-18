@@ -1,0 +1,6 @@
+dist/
+public/
+test/
+node_modules/
+webpack/
+**/*.config.js
