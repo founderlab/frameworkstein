@@ -1,0 +1,55 @@
+{
+  "name": "fl-backbone-rest",
+  "version": "0.10.0",
+  "description": "A RESTful controller for BackboneORM",
+  "main": "./lib/index.js",
+  "license": "MIT",
+  "author": "Kevin Malakoff (https://github.com/kmalakoff)",
+  "contributors": [
+    "Gwilym Humphreys (https://github.com/gwilymhumphreys)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/fl-backbone-rest"
+  },
+  "homepage": "http://vidigami.github.io/backbone-orm/backbone-rest.html",
+  "keywords": [
+    "backbone",
+    "orm",
+    "backbone-orm",
+    "rest",
+    "server"
+  ],
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "gulp test",
+    "build": "coffee -o lib -c src",
+    "watch": "coffee -o lib -w src",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "async": "*",
+    "body-parser": "1.x",
+    "cache-manager": "^2.1.2",
+    "coffee-script": "*",
+    "event-stream": "*",
+    "express": "4.x",
+    "fl-cache-manager-redis": "^0.1.1",
+    "gulp": "*",
+    "gulp-coffee": "*",
+    "gulp-install": "*",
+    "gulp-spawn-mocha": "*",
+    "gulp-util": "*",
+    "mocha": "*",
+    "powerset": "0.0.x",
+    "restify": "2.x",
+    "supertest": "0.13.x"
+  },
+  "dependencies": {
+    "underscore": "1.x",
+    "backbone": "1.x",
+    "backbone-orm": "0.7.x"
+  }
+}

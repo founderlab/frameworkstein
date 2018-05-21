@@ -6,7 +6,6 @@ import moment from 'moment'
 import { render as hydrate } from 'react-dom'
 //
 
-// import createHistory from 'history/lib/createBrowserHistory'
 import createHistory from 'history/createBrowserHistory'
 import { ConnectedRouter } from 'react-router-redux'
 import { renderRoutes } from 'react-router-config'
