@@ -4,4 +4,5 @@ _build/
 .DS_Store
 *.map
 npm-debug.log
-/lib
+lib/
+!*/**/lib
