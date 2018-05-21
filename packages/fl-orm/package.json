@@ -1,6 +1,6 @@
 {
   "name": "fl-orm",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "",
   "main": "lib/index.js",
   "author": {
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",
-    "fl-orm-store-sql": "^5.0.0",
+    "fl-orm-store-sql": "^5.0.2",
     "jest": "^22.4.3"
   },
   "dependencies": {

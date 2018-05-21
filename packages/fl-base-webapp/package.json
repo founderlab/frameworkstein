@@ -1,6 +1,6 @@
 {
   "name": "frameworkstein",
-  "version": "0.5.2",
+  "version": "5.0.2",
   "description": "frameworkstein",
   "main": "index.js",
   "author": "Gwilym Humphreys (https://github.com/gwilymhumphreys)",
@@ -52,7 +52,7 @@
     "express": "^4.13.2",
     "express-session": "^1.11.3",
     "fetch-component-data": "^5.0.0",
-    "fl-admin": "^5.0.0",
+    "fl-admin": "^5.0.2",
     "fl-auth-react": "^5.0.0",
     "fl-auth-redux": "^1.0.0",
     "fl-auth-server": "^2.0.0",
