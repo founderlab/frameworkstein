@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import Cursor from '../Cursor'
+import { Cursor } from 'fl-orm'
 import Ast from './Ast'
 import buildQuery from './buildQuery'
 import parseJson from './lib/parseJson'
