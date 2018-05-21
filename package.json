@@ -16,6 +16,8 @@
     "expect": "^21.2.1",
     "lerna": "^2.5.0",
     "mocha": "^4.0.1",
-    "sinon": "^4.0.2"
+    "sinon": "^4.0.2",
+    "jest": "^22.4.3",
+    "regenerator-runtime": "^0.11.1"
   }
 }
