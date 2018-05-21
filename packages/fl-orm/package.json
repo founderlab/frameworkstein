@@ -1,0 +1,38 @@
+{
+  "name": "fl-orm",
+  "version": "5.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/fl-orm.git"
+  },
+  "scripts": {
+    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat __tests__/.env) jest --runInBand"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.0.0",
+    "fl-orm-store-sql": "^5.0.0",
+    "jest": "^22.4.3"
+  },
+  "dependencies": {
+    "escope": "^3.6.0",
+    "inflection": "^1.12.0",
+    "knex": "^0.14.6",
+    "lodash": "^4.17.5",
+    "pg": "^7.4.1",
+    "queue-async": "^1.2.1"
+  },
+  "jest": {
+    "verbose": true,
+    "bail": true
+  }
+}
