@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { createModel, Model } from 'fl-orm'
+import { createModel, Model } from 'stein-orm'
 
 
 const DATABASE_URL = process.env.DATABASE_URL

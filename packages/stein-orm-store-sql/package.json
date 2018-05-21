@@ -1,5 +1,5 @@
 {
-  "name": "fl-orm-store-sql",
+  "name": "stein-orm-store-sql",
   "version": "5.0.2",
   "description": "",
   "main": "lib/index.js",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/packagesfl-orm.git"
+    "url": "https://github.com/founderlab/frameworkstein/packagesstein-orm.git"
   },
   "scripts": {
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
@@ -20,11 +20,11 @@
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",
-    "fl-orm": "^5.0.2",
+    "stein-orm": "^5.0.2",
     "jest": "^22.4.4"
   },
   "peerDependencies": {
-    "fl-orm": "^5.0.2"
+    "stein-orm": "^5.0.2"
   },
   "dependencies": {
     "escope": "^3.6.0",
@@ -38,7 +38,7 @@
     "verbose": true,
     "bail": true,
     "testPathIgnorePatterns": [
-      "/node_modules/!(fl-orm)"
+      "node_modules/!(stein-orm)/*"
     ]
   }
 }
