@@ -30,26 +30,12 @@
     "prepublish": "npm run build"
   },
   "devDependencies": {
-    "async": "*",
-    "body-parser": "1.x",
-    "cache-manager": "^2.1.2",
-    "coffee-script": "*",
-    "event-stream": "*",
-    "express": "4.x",
-    "fl-cache-manager-redis": "^0.1.1",
-    "gulp": "*",
-    "gulp-coffee": "*",
-    "gulp-install": "*",
-    "gulp-spawn-mocha": "*",
-    "gulp-util": "*",
-    "mocha": "*",
-    "powerset": "0.0.x",
-    "restify": "2.x",
-    "supertest": "0.13.x"
+    "babel-cli": "^6.0.0",
+    "jest": "^22.4.4"
   },
   "dependencies": {
-    "underscore": "1.x",
-    "backbone": "1.x",
-    "backbone-orm": "0.7.x"
+    "stein-orm": "^5.0.3",
+    "lodash": "^4.17.5",
+    "queue-async": "^1.2.1"
   }
 }
