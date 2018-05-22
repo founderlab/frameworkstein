@@ -1,181 +1,229 @@
-util = require 'util'
-assert = require 'assert'
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+let exports;
+const util = require('util');
+const assert = require('assert');
 
-BackboneORM = require 'backbone-orm'
-{_, Backbone, Queue, Utils, JSONUtils, Fabricator} = BackboneORM
+const BackboneORM = require('backbone-orm');
+const {_, Backbone, Queue, Utils, JSONUtils, Fabricator} = BackboneORM;
 
-request = require 'supertest'
+const request = require('supertest');
 
-RestController = require '../../lib/index'
+const RestController = require('../../lib/index');
 
-sortO = (array, field) -> _.sortBy(array, (obj) -> JSON.stringify(obj[field]))
-sortA = (array) -> _.sortBy(array, (item) -> JSON.stringify(item))
+const sortO = (array, field) => _.sortBy(array, obj => JSON.stringify(obj[field]));
+const sortA = array => _.sortBy(array, item => JSON.stringify(item));
 
-_.each BackboneORM.TestUtils.optionSets(), exports = (options) ->
-  options = _.extend({}, options, __test__parameters) if __test__parameters?
-  options.app_framework = __test__app_framework if __test__app_framework?
-  return if options.embed and not options.sync.capabilities(options.database_url or '').embed
+_.each(BackboneORM.TestUtils.optionSets(), (exports = function(options) {
+  if (typeof __test__parameters !== 'undefined' && __test__parameters !== null) { options = _.extend({}, options, __test__parameters); }
+  if (typeof __test__app_framework !== 'undefined' && __test__app_framework !== null) { options.app_framework = __test__app_framework; }
+  if (options.embed && !options.sync.capabilities(options.database_url || '').embed) { return; }
 
-  DATABASE_URL = options.database_url or ''
-  BASE_SCHEMA = options.schema or {}
-  SYNC = options.sync
-  BASE_COUNT = 5
+  const DATABASE_URL = options.database_url || '';
+  const BASE_SCHEMA = options.schema || {};
+  const SYNC = options.sync;
+  const BASE_COUNT = 5;
 
-  APP_FACTORY = options.app_framework.factory
-  MODELS_JSON = null
-  ROUTE = '/test/flats'
+  const APP_FACTORY = options.app_framework.factory;
+  let MODELS_JSON = null;
+  const ROUTE = '/test/flats';
 
-  describe "RestController (page: true, #{options.$tags}, framework: #{options.app_framework.name}) @page", ->
-    Flat = null
-    before ->
-      BackboneORM.configure {model_cache: {enabled: !!options.cache, max: 100}}
+  return describe(`RestController (page: true, ${options.$tags}, framework: ${options.app_framework.name}) @page`, function() {
+    let Flat = null;
+    before(function() {
+      BackboneORM.configure({model_cache: {enabled: !!options.cache, max: 100}});
 
-      class Flat extends Backbone.Model
-        urlRoot: "#{DATABASE_URL}/flats"
-        schema: _.defaults({
-          boolean: 'Boolean'
-        }, BASE_SCHEMA)
-        sync: SYNC(Flat, options.cache)
+      return Flat = (function() {
+        Flat = class Flat extends Backbone.Model {
+          static initClass() {
+            this.prototype.urlRoot = `${DATABASE_URL}/flats`;
+            this.prototype.schema = _.defaults({
+              boolean: 'Boolean'
+            }, BASE_SCHEMA);
+            this.prototype.sync = SYNC(Flat, options.cache);
+          }
+        };
+        Flat.initClass();
+        return Flat;
+      })();
+    });
 
-    after (callback) -> Utils.resetSchemas [Flat], callback
+    after(callback => Utils.resetSchemas([Flat], callback));
 
-    beforeEach (callback) ->
-      Utils.resetSchemas [Flat], (err) ->
-        return callback(err) if err
+    beforeEach(callback =>
+      Utils.resetSchemas([Flat], function(err) {
+        if (err) { return callback(err); }
 
-        Fabricator.create Flat, BASE_COUNT, {
-          name: Fabricator.uniqueId('flat_')
-          created_at: Fabricator.date
+        return Fabricator.create(Flat, BASE_COUNT, {
+          name: Fabricator.uniqueId('flat_'),
+          created_at: Fabricator.date,
           updated_at: Fabricator.date
-        }, (err, models) ->
-          return callback(err) if err
+        }, function(err, models) {
+          if (err) { return callback(err); }
 
-          Flat.find {$ids: _.pluck(models, 'id')}, (err, models) -> # reload models in case they are stored with different date precision
-            return callback(err) if err
-            MODELS_JSON = JSONUtils.parse(sortO(_.map(models, (test) -> test.toJSON()), 'name')) # need to sort because not sure what order will come back from database
-            callback()
+          return Flat.find({$ids: _.pluck(models, 'id')}, function(err, models) { // reload models in case they are stored with different date precision
+            if (err) { return callback(err); }
+            MODELS_JSON = JSONUtils.parse(sortO(_.map(models, test => test.toJSON()), 'name')); // need to sort because not sure what order will come back from database
+            return callback();
+          });
+        });
+      })
+    );
 
-    it 'Cursor can chain limit with paging', (done) ->
-      LIMIT = 3
+    it('Cursor can chain limit with paging', function(done) {
+      const LIMIT = 3;
 
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null})
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null});
 
-      request(app)
+      return request(app)
         .get(ROUTE)
         .query(JSONUtils.querify({$page: true, $limit: LIMIT}))
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.ok(!!data = res.body, 'got data')
-          assert.ok(data.rows, 'received models')
-          assert.equal(data.total_rows, MODELS_JSON.length, 'has the correct total_rows')
-          assert.equal(LIMIT, data.rows.length, "Expected: #{LIMIT}, Actual: #{data.rows.length}")
-          done()
+        .end(function(err, res) {
+          let data;
+          assert.ok(!err, `No errors: ${err}`);
+          assert.ok(!!(data = res.body), 'got data');
+          assert.ok(data.rows, 'received models');
+          assert.equal(data.total_rows, MODELS_JSON.length, 'has the correct total_rows');
+          assert.equal(LIMIT, data.rows.length, `Expected: ${LIMIT}, Actual: ${data.rows.length}`);
+          return done();
+      });
+    });
 
-    it 'Cursor can chain limit with paging (no true or false)', (done) ->
-      LIMIT = 3
+    it('Cursor can chain limit with paging (no true or false)', function(done) {
+      const LIMIT = 3;
 
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null})
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null});
 
-      request(app)
-        .get("#{ROUTE}?$page&$limit=#{LIMIT}")
+      return request(app)
+        .get(`${ROUTE}?$page&$limit=${LIMIT}`)
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.ok(!!data = res.body, 'got data')
-          assert.ok(data.rows, 'received models')
-          assert.equal(data.total_rows, MODELS_JSON.length, 'has the correct total_rows')
-          assert.equal(LIMIT, data.rows.length, "Expected: #{LIMIT}, Actual: #{data.rows.length}")
-          done()
+        .end(function(err, res) {
+          let data;
+          assert.ok(!err, `No errors: ${err}`);
+          assert.ok(!!(data = res.body), 'got data');
+          assert.ok(data.rows, 'received models');
+          assert.equal(data.total_rows, MODELS_JSON.length, 'has the correct total_rows');
+          assert.equal(LIMIT, data.rows.length, `Expected: ${LIMIT}, Actual: ${data.rows.length}`);
+          return done();
+      });
+    });
 
-    it 'Cursor can chain limit without paging', (done) ->
-      LIMIT = 3
+    it('Cursor can chain limit without paging', function(done) {
+      const LIMIT = 3;
 
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null})
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null});
 
-      request(app)
+      return request(app)
         .get(ROUTE)
         .query(JSONUtils.querify({$page: false, $limit: LIMIT}))
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.ok(!!(data = res.body), 'got data')
-          assert.equal(LIMIT, data.length, "Expected: #{LIMIT}, Actual: #{data.length}")
-          done()
+        .end(function(err, res) {
+          let data;
+          assert.ok(!err, `No errors: ${err}`);
+          assert.ok(!!(data = res.body), 'got data');
+          assert.equal(LIMIT, data.length, `Expected: ${LIMIT}, Actual: ${data.length}`);
+          return done();
+      });
+    });
 
-    it 'Cursor can chain limit and offset with paging', (done) ->
-      LIMIT = 2; OFFSET = 1
+    it('Cursor can chain limit and offset with paging', function(done) {
+      const LIMIT = 2; const OFFSET = 1;
 
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null})
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null});
 
-      request(app)
+      return request(app)
         .get(ROUTE)
         .query(JSONUtils.querify({$page: true, $limit: LIMIT, $offset: OFFSET}))
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.ok(!!data = res.body, 'got data')
-          assert.equal(data.total_rows, MODELS_JSON.length, 'has the correct total_rows')
-          assert.equal(OFFSET, data.offset, 'has the correct offset')
-          assert.equal(LIMIT, data.rows.length, "Expected: #{LIMIT}, Actual: #{data.rows.length}")
-          done()
+        .end(function(err, res) {
+          let data;
+          assert.ok(!err, `No errors: ${err}`);
+          assert.ok(!!(data = res.body), 'got data');
+          assert.equal(data.total_rows, MODELS_JSON.length, 'has the correct total_rows');
+          assert.equal(OFFSET, data.offset, 'has the correct offset');
+          assert.equal(LIMIT, data.rows.length, `Expected: ${LIMIT}, Actual: ${data.rows.length}`);
+          return done();
+      });
+    });
 
-    it 'Cursor can select fields with paging', (done) ->
-      FIELD_NAMES = ['id', 'name']
+    it('Cursor can select fields with paging', function(done) {
+      const FIELD_NAMES = ['id', 'name'];
 
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null})
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null});
 
-      request(app)
+      return request(app)
         .get(ROUTE)
         .query(JSONUtils.querify({$page: true, $select: FIELD_NAMES}))
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.ok(!!data = res.body, 'got data')
-          for json in data.rows
-            assert.equal(_.size(json), FIELD_NAMES.length, 'gets only the requested values')
-          done()
+        .end(function(err, res) {
+          let data;
+          assert.ok(!err, `No errors: ${err}`);
+          assert.ok(!!(data = res.body), 'got data');
+          for (let json of Array.from(data.rows)) {
+            assert.equal(_.size(json), FIELD_NAMES.length, 'gets only the requested values');
+          }
+          return done();
+      });
+    });
 
-    it 'Cursor can select values with paging', (done) ->
-      FIELD_NAMES = ['id', 'name']
+    it('Cursor can select values with paging', function(done) {
+      const FIELD_NAMES = ['id', 'name'];
 
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null})
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null});
 
-      request(app)
+      return request(app)
         .get(ROUTE)
         .query(JSONUtils.querify({$page: true, $values: FIELD_NAMES}))
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.ok(!!data = res.body, 'got data')
-          assert.ok(_.isArray(data.rows), 'cursor values is an array')
-          for json in data.rows
-            assert.ok(_.isArray(json), 'cursor item values is an array')
-            assert.equal(json.length, FIELD_NAMES.length, 'gets only the requested values')
-          done()
+        .end(function(err, res) {
+          let data;
+          assert.ok(!err, `No errors: ${err}`);
+          assert.ok(!!(data = res.body), 'got data');
+          assert.ok(_.isArray(data.rows), 'cursor values is an array');
+          for (let json of Array.from(data.rows)) {
+            assert.ok(_.isArray(json), 'cursor item values is an array');
+            assert.equal(json.length, FIELD_NAMES.length, 'gets only the requested values');
+          }
+          return done();
+      });
+    });
 
-    it 'Ensure the correct value is returned', (done) ->
-      Flat.findOne (err, model) ->
-        assert.ok(!err, "No errors: #{err}")
-        assert.ok(!!model, 'model')
+    return it('Ensure the correct value is returned', done =>
+      Flat.findOne(function(err, model) {
+        assert.ok(!err, `No errors: ${err}`);
+        assert.ok(!!model, 'model');
 
-        app = APP_FACTORY()
-        controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null})
+        const app = APP_FACTORY();
+        const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null});
 
-        request(app)
+        return request(app)
           .get(ROUTE)
           .query(JSONUtils.querify({$page: true, name: model.get('name')}))
           .type('json')
-          .end (err, res) ->
-            assert.ok(!err, "No errors: #{err}")
-            assert.ok(!!data = res.body, 'got data')
-            assert.equal(data.total_rows, 1, 'has the correct total_rows')
-            assert.equal(data.rows.length, 1, 'has the correct row.length')
-            assert.deepEqual(expected = model.toJSON(), actual = JSONUtils.parse(data.rows[0]), "Expected: #{JSONUtils.stringify(expected)}. Actual: #{JSONUtils.stringify(actual)}")
-            done()
+          .end(function(err, res) {
+            let actual, data, expected;
+            assert.ok(!err, `No errors: ${err}`);
+            assert.ok(!!(data = res.body), 'got data');
+            assert.equal(data.total_rows, 1, 'has the correct total_rows');
+            assert.equal(data.rows.length, 1, 'has the correct row.length');
+            assert.deepEqual((expected = model.toJSON()), (actual = JSONUtils.parse(data.rows[0])), `Expected: ${JSONUtils.stringify(expected)}. Actual: ${JSONUtils.stringify(actual)}`);
+            return done();
+        });
+      })
+    );
+  });
+})
+);

@@ -1,199 +1,242 @@
-util = require 'util'
-assert = require 'assert'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS206: Consider reworking classes to avoid initClass
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+let exports;
+const util = require('util');
+const assert = require('assert');
 
-BackboneORM = require 'backbone-orm'
-{_, Backbone, Queue, Utils, JSONUtils, Fabricator} = BackboneORM
+const BackboneORM = require('backbone-orm');
+const {_, Backbone, Queue, Utils, JSONUtils, Fabricator} = BackboneORM;
 
-request = require 'supertest'
+const request = require('supertest');
 
-RestController = require '../../lib/rest_controller'
+const RestController = require('../../lib/rest_controller');
 
-sortO = (array, field) -> _.sortBy(array, (obj) -> JSON.stringify(obj[field]))
-sortA = (array) -> _.sortBy(array, (item) -> JSON.stringify(item))
+const sortO = (array, field) => _.sortBy(array, obj => JSON.stringify(obj[field]));
+const sortA = array => _.sortBy(array, item => JSON.stringify(item));
 
-_.each BackboneORM.TestUtils.optionSets(), exports = (options) ->
-  options = _.extend({}, options, __test__parameters) if __test__parameters?
-  options.app_framework = __test__app_framework if __test__app_framework?
-  return if options.embed and not options.sync.capabilities(options.database_url or '').embed
+_.each(BackboneORM.TestUtils.optionSets(), (exports = function(options) {
+  if (typeof __test__parameters !== 'undefined' && __test__parameters !== null) { options = _.extend({}, options, __test__parameters); }
+  if (typeof __test__app_framework !== 'undefined' && __test__app_framework !== null) { options.app_framework = __test__app_framework; }
+  if (options.embed && !options.sync.capabilities(options.database_url || '').embed) { return; }
 
-  DATABASE_URL = options.database_url or ''
-  BASE_SCHEMA = options.schema or {}
-  SYNC = options.sync
-  BASE_COUNT = 5
+  const DATABASE_URL = options.database_url || '';
+  const BASE_SCHEMA = options.schema || {};
+  const SYNC = options.sync;
+  const BASE_COUNT = 5;
 
-  APP_FACTORY = options.app_framework.factory
-  MODELS_JSON = null
-  ROUTE = '/test/flats'
+  const APP_FACTORY = options.app_framework.factory;
+  let MODELS_JSON = null;
+  const ROUTE = '/test/flats';
 
-  describe "RestController (blocked: true, #{options.$tags}, framework: #{options.app_framework.name})", ->
-    Flat = null
-    before ->
-      BackboneORM.configure {model_cache: {enabled: !!options.cache, max: 100}}
+  return describe(`RestController (blocked: true, ${options.$tags}, framework: ${options.app_framework.name})`, function() {
+    let Flat = null;
+    before(function() {
+      BackboneORM.configure({model_cache: {enabled: !!options.cache, max: 100}});
 
-      class Flat extends Backbone.Model
-        urlRoot: "#{DATABASE_URL}/flats"
-        schema: _.defaults({
-          boolean: 'Boolean'
-        }, BASE_SCHEMA)
-        sync: SYNC(Flat, options.cache)
+      return Flat = (function() {
+        Flat = class Flat extends Backbone.Model {
+          static initClass() {
+            this.prototype.urlRoot = `${DATABASE_URL}/flats`;
+            this.prototype.schema = _.defaults({
+              boolean: 'Boolean'
+            }, BASE_SCHEMA);
+            this.prototype.sync = SYNC(Flat, options.cache);
+          }
+        };
+        Flat.initClass();
+        return Flat;
+      })();
+    });
 
-    after (callback) -> Utils.resetSchemas [Flat], callback
+    after(callback => Utils.resetSchemas([Flat], callback));
 
-    beforeEach (callback) ->
-      Utils.resetSchemas [Flat], (err) ->
-        return callback(err) if err
+    beforeEach(callback =>
+      Utils.resetSchemas([Flat], function(err) {
+        if (err) { return callback(err); }
 
-        Fabricator.create Flat, BASE_COUNT, {
-          name: Fabricator.uniqueId('flat_')
-          created_at: Fabricator.date
+        return Fabricator.create(Flat, BASE_COUNT, {
+          name: Fabricator.uniqueId('flat_'),
+          created_at: Fabricator.date,
           updated_at: Fabricator.date
-        }, (err, models) ->
-          return callback(err) if err
+        }, function(err, models) {
+          if (err) { return callback(err); }
 
-          Flat.find {$ids: _.pluck(models, 'id')}, (err, models) -> # reload models in case they are stored with different date precision
-            return callback(err) if err
-            MODELS_JSON = JSONUtils.parse(sortO(_.map(models, (test) -> test.toJSON()), 'name')) # need to sort because not sure what order will come back from database
-            callback()
+          return Flat.find({$ids: _.pluck(models, 'id')}, function(err, models) { // reload models in case they are stored with different date precision
+            if (err) { return callback(err); }
+            MODELS_JSON = JSONUtils.parse(sortO(_.map(models, test => test.toJSON()), 'name')); // need to sort because not sure what order will come back from database
+            return callback();
+          });
+        });
+      })
+    );
 
-    it 'Blocking routes: index', (done) ->
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['index']})
+    it('Blocking routes: index', function(done) {
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['index']});
 
-      request(app)
+      return request(app)
         .get(ROUTE)
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.equal(405, res.status, "Expected: #{405}, Actual: #{res.status}")
-          done()
+        .end(function(err, res) {
+          assert.ok(!err, `No errors: ${err}`);
+          assert.equal(405, res.status, `Expected: ${405}, Actual: ${res.status}`);
+          return done();
+      });
+    });
 
-    it 'Blocking routes: show', (done) ->
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['show']})
+    it('Blocking routes: show', function(done) {
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['show']});
 
-      request(app)
-        .get("#{ROUTE}/1")
+      return request(app)
+        .get(`${ROUTE}/1`)
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.equal(405, res.status, "Expected: #{405}, Actual: #{res.status}")
-          done()
+        .end(function(err, res) {
+          assert.ok(!err, `No errors: ${err}`);
+          assert.equal(405, res.status, `Expected: ${405}, Actual: ${res.status}`);
+          return done();
+      });
+    });
 
-    it 'Blocking routes: create', (done) ->
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['create']})
+    it('Blocking routes: create', function(done) {
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['create']});
 
-      request(app)
+      return request(app)
         .post(ROUTE)
         .send({stuff: 100})
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.equal(405, res.status, "Expected: #{405}, Actual: #{res.status}")
-          done()
+        .end(function(err, res) {
+          assert.ok(!err, `No errors: ${err}`);
+          assert.equal(405, res.status, `Expected: ${405}, Actual: ${res.status}`);
+          return done();
+      });
+    });
 
-    it 'Blocking routes: update', (done) ->
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['update']})
+    it('Blocking routes: update', function(done) {
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['update']});
 
-      request(app)
-        .put("#{ROUTE}/1")
+      return request(app)
+        .put(`${ROUTE}/1`)
         .send({stuff: 100})
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.equal(405, res.status, "Expected: #{405}, Actual: #{res.status}")
-          done()
+        .end(function(err, res) {
+          assert.ok(!err, `No errors: ${err}`);
+          assert.equal(405, res.status, `Expected: ${405}, Actual: ${res.status}`);
+          return done();
+      });
+    });
 
-    it 'Blocking routes: destroy', (done) ->
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['destroy']})
+    it('Blocking routes: destroy', function(done) {
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['destroy']});
 
-      request(app)
-        .del("#{ROUTE}/1")
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.equal(405, res.status, "Expected: #{405}, Actual: #{res.status}")
-          done()
+      return request(app)
+        .del(`${ROUTE}/1`)
+        .end(function(err, res) {
+          assert.ok(!err, `No errors: ${err}`);
+          assert.equal(405, res.status, `Expected: ${405}, Actual: ${res.status}`);
+          return done();
+      });
+    });
 
-    it 'Blocking routes: destroyByQuery', (done) ->
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['destroyByQuery']})
+    it('Blocking routes: destroyByQuery', function(done) {
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['destroyByQuery']});
 
-      request(app)
+      return request(app)
         .del(ROUTE)
         .send({stuff: 100})
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.equal(405, res.status, "Expected: #{405}, Actual: #{res.status}")
-          done()
+        .end(function(err, res) {
+          assert.ok(!err, `No errors: ${err}`);
+          assert.equal(405, res.status, `Expected: ${405}, Actual: ${res.status}`);
+          return done();
+      });
+    });
 
-    it 'Blocking routes: head', (done) ->
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['head']})
+    it('Blocking routes: head', function(done) {
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['head']});
 
-      request(app)
-        .head("#{ROUTE}/1")
+      return request(app)
+        .head(`${ROUTE}/1`)
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.equal(405, res.status, "Expected: #{405}, Actual: #{res.status}")
-          done()
+        .end(function(err, res) {
+          assert.ok(!err, `No errors: ${err}`);
+          assert.equal(405, res.status, `Expected: ${405}, Actual: ${res.status}`);
+          return done();
+      });
+    });
 
-    it 'Blocking routes: headByQuery', (done) ->
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['headByQuery']})
+    it('Blocking routes: headByQuery', function(done) {
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['headByQuery']});
 
-      request(app)
+      return request(app)
         .head(ROUTE)
         .send({stuff: 100})
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.equal(405, res.status, "Expected: #{405}, Actual: #{res.status}")
-          done()
+        .end(function(err, res) {
+          assert.ok(!err, `No errors: ${err}`);
+          assert.equal(405, res.status, `Expected: ${405}, Actual: ${res.status}`);
+          return done();
+      });
+    });
 
-    it 'configure headers', (done) ->
-      app = APP_FACTORY()
-      headers = _.clone(RestController.headers)
-      RestController.configure({headers: _.extend({ETag: '1234'}, headers)})
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['headByQuery']})
+    it('configure headers', function(done) {
+      const app = APP_FACTORY();
+      const headers = _.clone(RestController.headers);
+      RestController.configure({headers: _.extend({ETag: '1234'}, headers)});
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['headByQuery']});
 
-      request(app)
+      return request(app)
         .head(ROUTE)
         .send({stuff: 100})
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.equal(405, res.status, "Expected: #{405}, Actual: #{res.status}")
+        .end(function(err, res) {
+          assert.ok(!err, `No errors: ${err}`);
+          assert.equal(405, res.status, `Expected: ${405}, Actual: ${res.status}`);
 
-          assert.equal res.headers.etag, '1234', 'ETag header was returned'
+          assert.equal(res.headers.etag, '1234', 'ETag header was returned');
 
-          assert.equal RestController.headers.ETag, '1234', 'ETag header was set'
-          RestController.configure({headers: headers})
-          assert.ok _.isUndefined(RestController.headers.ETag), 'ETag header was removed'
+          assert.equal(RestController.headers.ETag, '1234', 'ETag header was set');
+          RestController.configure({headers});
+          assert.ok(_.isUndefined(RestController.headers.ETag), 'ETag header was removed');
 
-          done()
+          return done();
+      });
+    });
 
-    it 'configure headers', (done) ->
-      app = APP_FACTORY()
-      controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['headByQuery']})
-      controller.configure({headers: _.extend({ETag: '1234'}, controller.headers)})
+    return it('configure headers', function(done) {
+      const app = APP_FACTORY();
+      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, blocked: ['headByQuery']});
+      controller.configure({headers: _.extend({ETag: '1234'}, controller.headers)});
 
-      request(app)
+      return request(app)
         .head(ROUTE)
         .send({stuff: 100})
         .type('json')
-        .end (err, res) ->
-          assert.ok(!err, "No errors: #{err}")
-          assert.equal(405, res.status, "Expected: #{405}, Actual: #{res.status}")
+        .end(function(err, res) {
+          assert.ok(!err, `No errors: ${err}`);
+          assert.equal(405, res.status, `Expected: ${405}, Actual: ${res.status}`);
 
-          assert.equal res.headers.etag, '1234', 'ETag header was returned'
-          assert.equal controller.headers.ETag, '1234', 'ETag header was set'
+          assert.equal(res.headers.etag, '1234', 'ETag header was returned');
+          assert.equal(controller.headers.ETag, '1234', 'ETag header was set');
 
-          assert.ok _.isUndefined(RestController.headers.ETag), 'ETag header was removed'
-          controller.configure({headers: RestController.headers})
-          assert.ok _.isUndefined(controller.headers.ETag), 'ETag header was removed'
+          assert.ok(_.isUndefined(RestController.headers.ETag), 'ETag header was removed');
+          controller.configure({headers: RestController.headers});
+          assert.ok(_.isUndefined(controller.headers.ETag), 'ETag header was removed');
 
-          done()
+          return done();
+      });
+    });
+  });
+})
+);
