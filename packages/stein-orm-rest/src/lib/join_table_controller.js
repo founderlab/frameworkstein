@@ -1,31 +1,44 @@
-{_, JSONUtils} = require 'backbone-orm'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+let JoinTableController;
+const {_, JSONUtils} = require('backbone-orm');
 
-RestController = require '../rest_controller'
+const RestController = require('../rest_controller');
 
-module.exports = class JoinTableController extends RestController
+module.exports = (JoinTableController = class JoinTableController extends RestController {
 
-  create: (req, res) ->
-    try
-      json = JSONUtils.parseDates(if @whitelist.create then _.pick(req.body, @whitelist.create) else req.body)
+  create(req, res) {
+    try {
+      let json = JSONUtils.parseDates(this.whitelist.create ? _.pick(req.body, this.whitelist.create) : req.body);
 
-      @model_type.exists json, (err, exists) =>
-        return @sendError(res, err) if err
-        @sendStatus(res, 409, 'Entry already exists') if exists
+      return this.model_type.exists(json, (err, exists) => {
+        if (err) { return this.sendError(res, err); }
+        if (exists) { this.sendStatus(res, 409, 'Entry already exists'); }
 
-        model = new @model_type(@model_type::parse(json))
+        const model = new this.model_type(this.model_type.prototype.parse(json));
 
-        event_data = {req: res, res: res, model: model}
-        @constructor.trigger('pre:create', event_data)
+        const event_data = {req: res, res, model};
+        this.constructor.trigger('pre:create', event_data);
 
-        model.save (err) =>
-          return @sendError(res, err) if err
+        return model.save(err => {
+          if (err) { return this.sendError(res, err); }
 
-          event_data.model = model
-          json = if @whitelist.create then _.pick(model.toJSON(), @whitelist.create) else model.toJSON()
-          @render req, json, (err, json) =>
-            return @sendError(res, err) if err
-            @constructor.trigger('post:create', _.extend(event_data, {json: json}))
-            res.json(json)
+          event_data.model = model;
+          json = this.whitelist.create ? _.pick(model.toJSON(), this.whitelist.create) : model.toJSON();
+          return this.render(req, json, (err, json) => {
+            if (err) { return this.sendError(res, err); }
+            this.constructor.trigger('post:create', _.extend(event_data, {json}));
+            return res.json(json);
+          });
+        });
+      });
 
-    catch err
-      @sendError(res, err)
+    } catch (error) {
+      const err = error;
+      return this.sendError(res, err);
+    }
+  }
+});
