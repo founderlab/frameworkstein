@@ -1,8 +1,10 @@
-node_modules/
-.idea/
-_build/
 .DS_Store
-*.map
+.idea/
+.tmp/
+___tmp/
+bower_components/
+node_modules/
+coverage/
 npm-debug.log
 lib/
 !*/**/lib
