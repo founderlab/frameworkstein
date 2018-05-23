@@ -1,13 +1,15 @@
+import _ from 'lodash' // eslint-disable-line
 import moment from 'moment'
-import Backbone from 'backbone'
-import {createToken} from '../lib'
+import { createModel, Model } from 'stein-orm-sql'
+import { createToken } from '../lib'
 
-const dbUrl = process.env.AUTH_DATABASE_URL || process.env.DATABASE_URL
+
+const dbUrl = process.env.DATABASE_URL
 if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 
-export default class AccessToken extends Backbone.Model {
-  url = `${dbUrl}/accessTokens`
-  schema = () => ({
+@createModel({
+  url: `${dbUrl}/accessTokens`,
+  schema: () => ({
     createdDate: ['DateTime', {indexed: true}],
     expiresDate: ['DateTime', {indexed: true}],
     token: ['String', {indexed: true}],
@@ -18,6 +20,8 @@ export default class AccessToken extends Backbone.Model {
 
     refreshToken: () => ['belongsTo', require('./RefreshToken')],
   })
+})
+export default class AccessToken extends Model {
 
   defaults() {
     return {
@@ -26,11 +30,4 @@ export default class AccessToken extends Backbone.Model {
     }
   }
 
-}
-
-if (dbUrl.split(':')[0] === 'mongodb') {
-  AccessToken.prototype.sync = require('backbone-mongo').sync(AccessToken)
-}
-else {
-  AccessToken.prototype.sync = require('fl-backbone-sql').sync(AccessToken)
 }

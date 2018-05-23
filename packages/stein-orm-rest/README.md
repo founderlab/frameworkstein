@@ -24,7 +24,7 @@ customAuthorization = (req, res, next) ->
 
 new RestController(app, {
   auth: [ensureLoggedIn('/login'), customAuthorization]
-  model_type: Task
+  modelType: Task
   route: '/tasks'
 })
 ```
@@ -45,7 +45,7 @@ var customAuthorization = function(req, res, next) {
 
 new RestController(app, {
   auth: [ensureLoggedIn('/login'), customAuthorization],
-  model_type: Task,
+  modelType: Task,
   route: '/tasks'
 });
 ```

@@ -89,7 +89,7 @@ _.each([BackboneORM.TestUtils.optionSets()[0]], (exports = function(options) {
       const auth = function(req, res, next) { count++; return next() }
 
       const app = APP_FACTORY()
-      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, auth})
+      const controller = new RestController(app, {modelType: Flat, route: ROUTE, default_template: null, auth})
 
       return request(app)
         .get(ROUTE)
@@ -107,7 +107,7 @@ _.each([BackboneORM.TestUtils.optionSets()[0]], (exports = function(options) {
       const auth405 = function(req, res, next) { count++; res.status(405); return res.json({}) }
 
       const app = APP_FACTORY()
-      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, auth: auth405})
+      const controller = new RestController(app, {modelType: Flat, route: ROUTE, default_template: null, auth: auth405})
 
       return request(app)
         .get(ROUTE)
@@ -126,7 +126,7 @@ _.each([BackboneORM.TestUtils.optionSets()[0]], (exports = function(options) {
       const auths = [auth, auth]
 
       const app = APP_FACTORY()
-      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, auth: auths})
+      const controller = new RestController(app, {modelType: Flat, route: ROUTE, default_template: null, auth: auths})
 
       return request(app)
         .get(ROUTE)
@@ -145,7 +145,7 @@ _.each([BackboneORM.TestUtils.optionSets()[0]], (exports = function(options) {
       const auths = {}
 
       const app = APP_FACTORY()
-      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, auth: auths})
+      const controller = new RestController(app, {modelType: Flat, route: ROUTE, default_template: null, auth: auths})
 
       return request(app)
         .get(ROUTE)
@@ -165,7 +165,7 @@ _.each([BackboneORM.TestUtils.optionSets()[0]], (exports = function(options) {
         {default: auth}
 
       const app = APP_FACTORY()
-      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, auth: auths})
+      const controller = new RestController(app, {modelType: Flat, route: ROUTE, default_template: null, auth: auths})
 
       return request(app)
         .get(ROUTE)
@@ -185,7 +185,7 @@ _.each([BackboneORM.TestUtils.optionSets()[0]], (exports = function(options) {
         {default: [auth, auth]}
 
       const app = APP_FACTORY()
-      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, auth: auths})
+      const controller = new RestController(app, {modelType: Flat, route: ROUTE, default_template: null, auth: auths})
 
       return request(app)
         .get(ROUTE)
@@ -205,7 +205,7 @@ _.each([BackboneORM.TestUtils.optionSets()[0]], (exports = function(options) {
         {index: auth}
 
       const app = APP_FACTORY()
-      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, auth: auths})
+      const controller = new RestController(app, {modelType: Flat, route: ROUTE, default_template: null, auth: auths})
 
       return request(app)
         .get(ROUTE)
@@ -225,7 +225,7 @@ _.each([BackboneORM.TestUtils.optionSets()[0]], (exports = function(options) {
         {index: [auth, auth]}
 
       const app = APP_FACTORY()
-      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, auth: auths})
+      const controller = new RestController(app, {modelType: Flat, route: ROUTE, default_template: null, auth: auths})
 
       return request(app)
         .get(ROUTE)
@@ -246,7 +246,7 @@ _.each([BackboneORM.TestUtils.optionSets()[0]], (exports = function(options) {
         {index: [auth, auth405]}
 
       const app = APP_FACTORY()
-      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, auth: auths})
+      const controller = new RestController(app, {modelType: Flat, route: ROUTE, default_template: null, auth: auths})
 
       return request(app)
         .get(ROUTE)
@@ -266,7 +266,7 @@ _.each([BackboneORM.TestUtils.optionSets()[0]], (exports = function(options) {
         {show: auth}
 
       const app = APP_FACTORY()
-      const controller = new RestController(app, {model_type: Flat, route: ROUTE, default_template: null, auth: auths})
+      const controller = new RestController(app, {modelType: Flat, route: ROUTE, default_template: null, auth: auths})
 
       return request(app)
         .get(ROUTE)

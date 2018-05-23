@@ -1,5 +1,5 @@
 {
-  "name": "stein-orm-store-sql",
+  "name": "stein-orm-sql",
   "version": "5.0.3",
   "description": "",
   "main": "lib/index.js",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/packagesstein-orm.git"
+    "url": "https://github.com/founderlab/frameworkstein/packages/stein-orm.git"
   },
   "scripts": {
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",

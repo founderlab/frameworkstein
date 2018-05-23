@@ -1,5 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
-import RestController from 'fl-backbone-rest'
+import RestController from 'stein-orm-rest'
 import { createAuthMiddleware } from 'fl-auth-server'
 
 
@@ -14,7 +14,7 @@ function canAccess(options, callback) {
 export default class StaticPagesController extends RestController {
   constructor(options) {
     super(options.app, _.defaults({
-      model_type: require('../../models/StaticPage'),
+      modelType: require('../../models/StaticPage'),
       route: '/api/static_pages',
       auth: [...options.auth, createAuthMiddleware({canAccess})],
       templates: {

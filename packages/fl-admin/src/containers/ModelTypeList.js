@@ -1,8 +1,8 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {Container, Row, Col} from 'reactstrap'
-import {modelAdmins} from '../index'
+import { Container, Row, Col } from 'reactstrap'
+import { modelAdmins } from '../index'
 
 
 // Landing page for the auto admin. Just links to all model index pages.

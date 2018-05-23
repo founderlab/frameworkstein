@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/packagesfl-auth-server.git"
+    "url": "https://github.com/founderlab/frameworkstein/packages/fl-auth-server.git"
   },
   "scripts": {
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
@@ -22,8 +22,6 @@
     "babel-cli": "^6.0.0"
   },
   "dependencies": {
-    "backbone": "^1.2.0",
-    "backbone-mongo": "^0.6.10",
     "bcrypt-nodejs": "0.0.3",
     "lodash": "^4.0.0",
     "moment": "^2.10.6",
@@ -31,6 +29,7 @@
     "passport-facebook": "^2.0.0",
     "passport-linkedin-oauth2": "^1.4.0",
     "passport-local": "^1.0.0",
-    "queue-async": "^1.0.7"
+    "queue-async": "^1.0.7",
+    "stein-orm-sql": "^5.0.3"
   }
 }

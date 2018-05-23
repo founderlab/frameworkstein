@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/packagesfl-admin.git"
+    "url": "https://github.com/founderlab/frameworkstein/packages/fl-admin.git"
   },
   "scripts": {
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
@@ -25,18 +25,24 @@
     "classnames": "^2.2.3",
     "fl-react-utils": "^5.0.3",
     "fl-redux-utils": "^5.0.3",
+    "immutable": "^3.8.2",
     "inflection": "^1.7.2",
     "lodash": "^4.13.1",
+    "moment": "^2.22.1",
     "prop-types": "^15.6.1",
     "qs": "^6.5.2",
     "react": ">=16.0.0",
     "react-datetime": "^2.0.1",
+    "react-dom": "^16.3.2",
     "react-dropzone-s3-uploader": ">=0.3.1",
     "react-helmet": "^5.2.0",
     "react-redux": ">=4.0.0",
+    "react-router-config": "^1.0.0-beta.4",
+    "react-router-dom": "^4.2.2",
     "react-select": "^1.2.1",
     "react-sidebar": "^2.1.1",
     "reactstrap": "^6.0.0",
+    "redux": "^4.0.0",
     "redux-form": "^7.3.0",
     "warning": "^2.1.0"
   }

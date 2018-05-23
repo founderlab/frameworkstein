@@ -56,8 +56,6 @@
     "fl-auth-react": "^5.0.3",
     "fl-auth-redux": "^5.0.3",
     "fl-auth-server": "^5.0.3",
-    "fl-backbone-rest": "^0.10.0",
-    "fl-backbone-sql": "^2.5.0",
     "fl-backbone.nativeajax": "^0.4.3",
     "fl-cache-manager-redis": "^5.0.3",
     "fl-initdb": "^5.0.3",
@@ -115,7 +113,8 @@
     "sessionstore": "^1.2.5",
     "slugify": "^1.1.0",
     "stein-orm": "^5.0.3",
-    "stein-orm-store-sql": "^5.0.3",
+    "stein-orm-rest": "^5.0.3",
+    "stein-orm-sql": "^5.0.3",
     "superagent": "0.18.0",
     "warning": "^2.1.0"
   },

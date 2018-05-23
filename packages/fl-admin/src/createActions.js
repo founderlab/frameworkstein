@@ -1,5 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
-import request from 'superagent'
+// import request from 'superagent'
 
 export default function createActions(modelAdmin) {
   const actionType = name => `${modelAdmin.actionType}_${name.toUpperCase()}`
@@ -34,11 +34,13 @@ export default function createActions(modelAdmin) {
     },
 
     saveModel: (data, callback) => {
-      const method = data.id ? 'put' : 'post'
-      const endpoint = data.id ? `${Model.prototype.urlRoot}/${data.id}` : Model.prototype.urlRoot
+      // const method = data.id ? 'put' : 'post'
+      // const endpoint = data.id ? `${Model.prototype.urlRoot}/${data.id}` : Model.prototype.urlRoot
+      const model = new Model(data)
       return {
         type: actionType('save'),
-        request: request[method](endpoint).send(data),
+        // request: request[method](endpoint).send(data),
+        request: callback => model.save(callback),
         callback,
       }
     },

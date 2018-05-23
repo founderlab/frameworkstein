@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/packagesredux-request-middleware"
+    "url": "https://github.com/founderlab/frameworkstein/packages/redux-request-middleware"
   },
   "scripts": {
     "prepublish": "npm run build",
@@ -24,12 +24,6 @@
     "retry-unless": "^1.0.0"
   },
   "devDependencies": {
-    "babel": "^5.8.38",
-    "babel-eslint": "^6.0.4",
-    "eslint": "^1.5.1",
-    "eslint-config-founderlab": "^0.1.0",
-    "expect": "^1.13.0",
-    "mocha": "^2.2.5",
-    "sinon": "^1.17.1"
+    "babel-cli": "^6.0.0"
   }
 }

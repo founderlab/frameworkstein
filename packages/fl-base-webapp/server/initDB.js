@@ -1,8 +1,8 @@
 import path from 'path'
 import initdb from 'fl-initdb'
-import { Migrations } from 'fl-migrations'
+// import { Migrations } from 'fl-migrations'
 
-const migrations = new Migrations({path: path.resolve(__dirname, '../scaffold/migrations')})
+// const migrations = new Migrations({path: path.resolve(__dirname, '../scaffold/migrations')})
 
 export default function initDB(callback) {
   if (process.env.SKIP_INIT_DB) return callback()
@@ -18,24 +18,25 @@ export default function initDB(callback) {
       console.error('Error initialising database:', err)
       return callback(err, models)
     }
+    callback()
 
-    if (process.env.DANGEROUSLY_WIPE_DB_CRAZY_MAN === 'yesplease') {
-      // undo all of the migrations
-      migrations.reset((err) => {
-        if (err) console.error('Error resetting migrations:', err)
-        // execute migrations
-        migrations.up((err) => {
-          if (err) console.error('Error executing migrations:', err)
-          return callback(err, models)
-        })
-      })
-    }
-    else {
-      // no reset needed, execute migrations
-      migrations.up((err) => {
-        if (err) console.error('Error executing migrations:', err)
-        return callback(err, models)
-      })
-    }
+    // if (process.env.DANGEROUSLY_WIPE_DB_CRAZY_MAN === 'yesplease') {
+    //   // undo all of the migrations
+    //   migrations.reset((err) => {
+    //     if (err) console.error('Error resetting migrations:', err)
+    //     // execute migrations
+    //     migrations.up((err) => {
+    //       if (err) console.error('Error executing migrations:', err)
+    //       return callback(err, models)
+    //     })
+    //   })
+    // }
+    // else {
+    //   // no reset needed, execute migrations
+    //   migrations.up((err) => {
+    //     if (err) console.error('Error executing migrations:', err)
+    //     return callback(err, models)
+    //   })
+    // }
   })
 }

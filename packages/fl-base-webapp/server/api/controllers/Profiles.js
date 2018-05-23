@@ -1,6 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
-import Queue from 'queue-async'
-import RestController from 'fl-backbone-rest'
+import RestController, { parseQuery } from 'stein-orm-rest'
 import { JSONUtils } from 'backbone-orm'
 import { createAuthMiddleware } from 'fl-auth-server'
 import Profile from '../../models/Profile'
@@ -11,7 +10,7 @@ export function canAccess(options, callback) {
   if (!user) return callback(null, false)
   if (user.admin) return callback(null, true)
 
-  const query = JSONUtils.parseQuery(req.query)
+  const query = parseQuery(req.query)
   if (query.$include) return callback(null, false, 'No $include')
   if (req.method === 'POST') return callback(null, false)
 
@@ -38,13 +37,10 @@ export function canAccess(options, callback) {
   callback(null, false)
 }
 
-const log = (...args) => process.env.DEBUG && console.log(...args)
-
-
 export default class ProfilesController extends RestController {
   constructor(options) {
     super(options.app, _.defaults({
-      model_type: Profile,
+      modelType: Profile,
       route: '/api/profiles',
       auth: [...options.auth, createAuthMiddleware({canAccess})],
       templates: {
