@@ -219,8 +219,6 @@ export default class FLModel {
     else if (_.isEmpty(query)) {
       throw new Error(this.errorMsg(`Received empty query, not destroying everything: ${JSON.stringify(query)}`))
     }
-console.log('destroying', query)
-query.$verbose = true
     return this.store.destroy(query, callback)
   }
   static destroy(...args) {
