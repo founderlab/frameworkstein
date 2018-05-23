@@ -93,6 +93,17 @@ describe('Class methods', () => {
     expect(count).toBe(BASE_COUNT)
   })
 
+  it('destroys by complex query', async () => {
+    let count = await Flat.count({})
+    expect(count).toBe(BASE_COUNT)
+
+    const bob = new Flat({name: 'Bob'})
+    await bob.save()
+
+    let res = await Flat.destroy({name: {$ne: 'Bob'}})
+    expect(res).toBe(BASE_COUNT)
+  })
+
   it('does not allow unsafe destroys', async () => {
     expect.assertions(2)
 

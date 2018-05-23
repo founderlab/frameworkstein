@@ -8,9 +8,7 @@ if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 
 @createModel({
   url: `${dbUrl}/app_settings`,
-  schema: () => _.extend({
-
-  }, require('../../shared/models/schemas/appSettings')),
+  schema: require('../../shared/models/schemas/appSettings'),
 })
 export default class AppSettings extends Model {
   defaults() { return {createdDate: moment.utc().toDate()} }

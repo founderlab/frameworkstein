@@ -2,6 +2,8 @@ import _ from 'lodash'
 import knex from 'knex'
 import { promisify } from 'util'
 import parseJson from './lib/parseJson'
+import Ast from './Ast'
+import buildQuery from './buildQuery'
 import SqlCursor from './Cursor'
 import DatabaseTools from './DatabaseTools'
 import DatabaseUrl from './lib/DatabaseUrl'
@@ -101,9 +103,17 @@ export default class SqlStore {
    * Delete by query
    */
   _destroy = (query, callback) => {
-    this.connection()(this.table).where(query).del().asCallback(callback)
+    const parsedQuery = SqlCursor.parseQuery(query, this.modelType)
+    const ast = new Ast({
+      find: parsedQuery.find,
+      cursor: parsedQuery.cursor,
+      modelType: this.modelType,
+    })
+    query = this.connection()(this.table)
+    query = buildQuery(query, ast)
+    query.del().asCallback(callback)
   }
-  destroy = (model, callback) => callback ? this._destroy(model, callback) : promisify(this._destroy)(model)
+  destroy = (query, callback) => callback ? this._destroy(query, callback) : promisify(this._destroy)(query)
 
   parseJSON = (_json) => {
     const json = _.clone(_json)

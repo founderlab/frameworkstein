@@ -10,9 +10,7 @@ if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 
 @createModel({
   url: `${dbUrl}/static_pages`,
-  schema: () => _.extend({
-
-  }, require('../../shared/models/schemas/staticPage'))
+  schema: require('../../shared/models/schemas/staticPage'),
 })
 export default class StaticPage extends Model {
   defaults() { return {createdDate: moment.utc().toDate()} }

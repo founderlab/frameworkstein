@@ -5,7 +5,6 @@ export default class PasswordStrategy extends LocalStrategy {
 
   verify(req, email, password, callback) {
     const User = this.User
-
     User.findOne(this.userQuery(email), (err, user) => {
       if (err) return callback(err)
       if (!user) {

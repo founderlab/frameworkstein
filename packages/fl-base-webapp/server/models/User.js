@@ -26,8 +26,8 @@ function locationObj(location) {
 @createModel({
   url: `${dbUrl}/users`,
   schema: () => _.extend({
-
-  }, require('../../shared/models/schemas/user'))
+    profile: () => ['hasOne', require('./Profile')],
+  }, require('../../shared/models/schemas/user')),
 })
 export default class User extends Model {
 
@@ -90,6 +90,8 @@ export default class User extends Model {
       callback(err, user)
     })
   }
+
+  static createHash(password) { return bcrypt.hashSync(password) }
 
   passwordIsValid(password) {
     if (!this.get('password')) return false

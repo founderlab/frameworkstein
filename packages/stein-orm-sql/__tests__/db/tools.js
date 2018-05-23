@@ -1,5 +1,5 @@
-import _ from 'lodash'
 import { createModel, Model } from 'stein-orm'
+import SqlStore from '../../src'
 
 
 const DATABASE_URL = process.env.DATABASE_URL
@@ -10,6 +10,7 @@ const options = {
   schema: {
     boolean: 'Boolean',
   },
+  Store: SqlStore,
 }
 
 

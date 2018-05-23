@@ -20,17 +20,13 @@ const RELATION_VARIANTS = {
   HasMany: 'hasMany',
 }
 
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
-}
-
 // @private
 export default class Schema {
   // @nodoc
   constructor(modelType, schema, typeOverrides={}) {
     this.modelType = modelType
     this.typeOverrides = typeOverrides
-    this.raw = _.clone(schema || {})
+    this.raw = _.cloneDeep(_.isFunction(schema) ? schema() : schema || {})
     if (!this.raw.id) this.raw.id = ['increments', {indexed: true, primary: true}]
     this.fields = {}
     this.relations = {}
