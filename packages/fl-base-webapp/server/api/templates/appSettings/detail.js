@@ -1,3 +1,4 @@
+import _ from 'lodash'
 
 const template = (_models, options, callback) => {
   let single = false

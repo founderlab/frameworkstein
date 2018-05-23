@@ -1,7 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import moment from 'moment'
-import Backbone from 'backbone'
-import { smartSync } from 'fl-server-utils'
+import { createModel, Model } from 'stein-orm-sql'
 import crypto from 'crypto'
 import bcrypt from 'bcrypt-nodejs'
 import { wrapById } from '../cache/users'
@@ -24,17 +23,15 @@ function locationObj(location) {
   }
 }
 
-export default class User extends Backbone.Model {
-  url = `${dbUrl}/users`
+@createModel({
+  url: `${dbUrl}/users`,
+  schema: () => _.extend({
 
-  schema = () => _.extend({
-    profile: () => ['hasOne', Profile = require('./Profile')],
   }, require('../../shared/models/schemas/user'))
-
-  static createHash(password) { return bcrypt.hashSync(password) }
+})
+export default class User extends Model {
 
   defaults() { return {createdDate: moment.utc().toDate()} }
-
 
   // Handle a bunch of user onboarding tasks
   // TODO: Does not handle a mentor that has registered for one community wanting to be a mentor on another
@@ -99,5 +96,3 @@ export default class User extends Backbone.Model {
     return bcrypt.compareSync(password, this.get('password'))
   }
 }
-
-User.prototype.sync = smartSync(dbUrl, User)

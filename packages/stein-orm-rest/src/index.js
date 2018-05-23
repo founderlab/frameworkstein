@@ -1,23 +1,6 @@
-/* eslint-disable
-    import/no-unresolved,
-    one-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
-  backbone-rest.js 0.5.3
-  Copyright (c) 2013 Vidigami - https://github.com/vidigami/backbone-rest
-  License: MIT (http://www.opensource.org/licenses/mit-license.php)
-*/
+import RestController from './RestController'
+import { parseField, parseDates, parseQuery } from './lib/parsers'
 
-let BackboneORM,
-  BackboneREST
-const {_} = (BackboneORM = require('backbone-orm'))
 
-module.exports = (BackboneREST = require('./core')) // avoid circular dependencies
-const publish =
-  {configure: require('./lib/configure')}
-_.extend(BackboneREST, publish)
-
-// re-expose modules
-BackboneREST.modules = {'backbone-orm': BackboneORM}
+export default RestController
+export { parseField, parseDates, parseQuery }

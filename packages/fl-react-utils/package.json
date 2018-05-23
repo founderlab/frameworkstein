@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/packagesfl-react-utils.git"
+    "url": "https://github.com/founderlab/frameworkstein/packages/fl-react-utils.git"
   },
   "scripts": {
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
+    "inflection": "^1.12.0",
     "lodash": "^4.0.0",
     "moment": "^2.11.1",
     "prop-types": "*",
@@ -32,10 +33,12 @@
     "react-dom": "^16.0.0",
     "react-dropzone-s3-uploader": "^1.0.0",
     "react-markdown": "^3.3.0",
+    "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-select": "^1.2.1",
     "react-sidebar": "^2.3.2",
     "reactstrap": "^6.0.0",
+    "redux": "^4.0.0",
     "redux-form": "^7.3.0",
     "warning": "^2.1.0"
   }

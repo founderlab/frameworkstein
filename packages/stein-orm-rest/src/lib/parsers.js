@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import Queue from 'queue-async'
 
 
 export function deepClone(obj, depth) {
@@ -20,7 +19,7 @@ export function deepClone(obj, depth) {
   }
 
   // keep cloning deeper
-  if (!_.isUndefined(depth) && (depth > 0)) { for (const key in clone) { clone[key] = this.deepClone(clone[key], depth - 1) } }
+  if (!_.isUndefined(depth) && (depth > 0)) { for (const key in clone) { clone[key] = deepClone(clone[key], depth - 1) } }
 
   return clone
 }

@@ -1,4 +1,9 @@
 {
-  "stage": 0,
-  "loose": "all",
+  "presets": ["env", "react"],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    "add-module-exports"
+  ],
 }

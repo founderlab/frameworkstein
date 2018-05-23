@@ -1,20 +1,17 @@
 import _ from 'lodash' // eslint-disable-line
 import moment from 'moment'
-import Backbone from 'backbone'
-import { smartSync } from 'fl-server-utils'
+import { createModel, Model } from 'stein-orm-sql'
 
 
 const dbUrl = process.env.DATABASE_URL
 if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 
-export default class AppSettings extends Backbone.Model {
-  url = `${dbUrl}/app_settings`
+@createModel({
+  url: `${dbUrl}/app_settings`,
+  schema: () => _.extend({
 
-  schema = () => _.extend({
-
-  }, require('../../shared/models/schemas/appSettings'))
-
+  }, require('../../shared/models/schemas/appSettings')),
+})
+export default class AppSettings extends Model {
   defaults() { return {createdDate: moment.utc().toDate()} }
 }
-
-AppSettings.prototype.sync = smartSync(dbUrl, AppSettings)

@@ -1,9 +1,12 @@
 import _ from 'lodash'
+import pg from 'pg'
 import Queue from 'queue-async'
 import {directoryFunctionModules} from 'fl-server-utils'
 
+
 export default (options, callback) => {
   const {User, databaseUrl, modelsDir, scaffold} = options
+
   if (!User) return console.error('[fl-initdb] Missing User from options')
   if (!databaseUrl) return console.error('[fl-initdb] Missing databaseUrl from options')
   if (!modelsDir) return console.error('[fl-initdb] Missing modelsDir from options')
@@ -16,12 +19,12 @@ export default (options, callback) => {
   if (databaseUrl.split(':')[0] === 'postgres') {
 
     queue.defer(callback => {
-      const pg = require('pg')
       const split = databaseUrl.split('/')
       const databaseName = split[split.length-1]
       const connectionString = databaseUrl.replace(databaseName, 'postgres')
+      const pool = new pg.Pool({connectionString})
 
-      pg.connect(connectionString, (err, client, done) => {
+      pool.connect((err, client, done) => {
         if (err) return console.error('error connecting to postgres db', err)
 
         client.query(`SELECT datname FROM pg_catalog.pg_database WHERE lower(datname) = lower('${databaseName}')`, (err, result) => {
@@ -32,6 +35,7 @@ export default (options, callback) => {
           client.query(query, err => {
             done()
             if (err) console.error('error creating database with query:', query, 'error:', err)
+            pool.end()
             callback(err)
           })
         })
@@ -47,13 +51,13 @@ export default (options, callback) => {
       console.log('[fl-initdb] Resetting database. All data is going boom, I hope you meant to do this!')
       _.forEach(modelTypes, Model => queue.defer(callback => {
         console.log('[fl-initdb] Resetting', Model.name)
-        Model.db().resetSchema(callback)
+        Model.store.db().resetSchema(callback)
       }))
     }
     else {
       _.forEach(modelTypes, Model => queue.defer(callback => {
         options.verbose && console.log('[fl-initdb] Ensuring schema for', Model.name)
-        Model.db().ensureSchema(callback)
+        Model.store.db().ensureSchema(callback)
       }))
     }
 
@@ -75,5 +79,7 @@ export default (options, callback) => {
     })
   })
 
-  queue.await(err => callback(err, models))
+  queue.await(err => {
+    callback(err, models)
+  })
 }

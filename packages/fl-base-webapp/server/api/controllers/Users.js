@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import RestController from 'fl-backbone-rest'
+import RestController from 'stein-orm-rest'
 import { createAuthMiddleware } from 'fl-auth-server'
 import User from '../../models/User'
 
@@ -15,7 +15,7 @@ function canAccess(options, callback) {
 export default class UsersController extends RestController {
   constructor(options) {
     super(options.app, _.defaults({
-      model_type: User,
+      modelType: User,
       route: '/api/users',
       auth: [...options.auth, createAuthMiddleware({canAccess})],
       whitelist: {

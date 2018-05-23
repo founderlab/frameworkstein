@@ -16,7 +16,9 @@ export function stripRev(obj) {
 export default function render(req, json, callback) {
   let templateName = req.query.$render || req.query.$template || this.default_template
   if (!templateName) return callback(null, json)
-  try {templateName = JSON.parse(templateName)}
+  try {
+    templateName = JSON.parse(templateName)
+  }
   catch (e) {} // eslint-disable-line
 
   const template = this.templates[templateName]
@@ -31,6 +33,6 @@ export default function render(req, json, callback) {
     })
   }
 
-  const models = _.isArray(json) ? _.map(json, (modelJson) => new this.model_type(this.model_type.prototype.parse(modelJson))) : new this.model_type(this.model_type.prototype.parse(json))
+  const models = _.isArray(json) ? _.map(json, (modelJson) => new this.modelType(this.modelType.prototype.parse(modelJson))) : new this.modelType(this.modelType.prototype.parse(json))
   JSONUtils.renderTemplate(models, template, options, callback)
 }

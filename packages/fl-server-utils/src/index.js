@@ -4,10 +4,10 @@ import fs from 'fs'
 import path from 'path'
 import cors from './cors'
 import createBasicAjax from './createBasicAjax'
-import render, {stripRev} from './render'
-import smartSync from './smartSync'
+// import render, {stripRev} from './render'
+// import smartSync from './smartSync'
 
-export {cors, createBasicAjax, render, stripRev, smartSync}
+export { cors, createBasicAjax }
 
 const EXCLUDED_FILES = ['.DS_Store']
 

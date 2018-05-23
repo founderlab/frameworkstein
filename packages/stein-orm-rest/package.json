@@ -1,41 +1,37 @@
 {
-  "name": "fl-backbone-rest",
-  "version": "0.10.0",
-  "description": "A RESTful controller for BackboneORM",
-  "main": "./lib/index.js",
+  "name": "stein-orm-rest",
+  "version": "5.0.3",
+  "description": "",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
   "license": "MIT",
-  "author": "Kevin Malakoff (https://github.com/kmalakoff)",
-  "contributors": [
-    "Gwilym Humphreys (https://github.com/gwilymhumphreys)"
-  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/fl-backbone-rest"
-  },
-  "homepage": "http://vidigami.github.io/backbone-orm/backbone-rest.html",
-  "keywords": [
-    "backbone",
-    "orm",
-    "backbone-orm",
-    "rest",
-    "server"
-  ],
-  "engines": {
-    "node": "*"
+    "url": "https://github.com/founderlab/frameworkstein/packages/stein-orm.git"
   },
   "scripts": {
-    "test": "gulp test",
-    "build": "coffee -o lib -c src",
-    "watch": "coffee -o lib -w src",
-    "prepublish": "npm run build"
+    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat __tests__/.env) jest --runInBand"
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",
-    "jest": "^22.4.4"
+    "jest": "^22.4.3",
+    "stein-orm": "^5.0.3"
+  },
+  "peerDependencies": {
+    "stein-orm": "^5.0.3"
   },
   "dependencies": {
-    "stein-orm": "^5.0.3",
     "lodash": "^4.17.5",
     "queue-async": "^1.2.1"
+  },
+  "jest": {
+    "verbose": true,
+    "bail": true
   }
 }

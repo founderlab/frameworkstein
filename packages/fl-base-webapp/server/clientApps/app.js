@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import path from 'path'
 import { createServerRenderer } from 'fl-react-server'
 import config from '../config'
 import loadInitialState from './loadInitialState'
@@ -17,6 +18,7 @@ export default createServerRenderer({
   entries: ['shared', 'app'],
   alwaysFetch: require('../../shared/modules/app/containers/App'),
   verbose: true,
+  webpackAssetsPath: path.resolve(__dirname, '../../webpack-assets.json'),
 
   config: () => _.pick(config, config.clientConfigKeys),
 

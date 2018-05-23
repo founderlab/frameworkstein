@@ -44,7 +44,7 @@ export default class FLModel {
    * If a value for `id` is present it is assigned to `model.id`
    */
   set = (data={}) => {
-    _.merge(this.data, data)
+    _.merge(this.data, _.cloneDeep(data))
     if (this.data.id) {
       this.id = this.data.id
     }
@@ -71,7 +71,7 @@ export default class FLModel {
     if (!callback && _.isFunction(data)) callback = data
     else if (_.isFunction(_callback)) callback = _callback
     if (callback) {
-      return this._save(data).then(data => callback(null, this)).catch(callback)
+      return this._save(data).then(() => callback(null, this)).catch(callback)
     }
     return this._save(data)
   }
@@ -210,88 +210,5 @@ export default class FLModel {
   static destroy(...args) {
     return this.promiseOrCallbackFn(this._destroy)(...args)
   }
-
-
-  /*
-   * Class methods
-   */
-  // // @nodoc
-  // read(model, options) => {
-  //   let modelJson
-  //   if (model.models) => {
-  //     return options.success((() => {
-  //       const result = []
-  //       for (modelJson of Array.from(this.store)) => {
-  //         result.push(JSONUtils.deepClone(modelJson))
-  //       }
-  //       return result
-  //     })())
-  //   }
-  //   if (!(modelJson = this.get(model.id))) => { return options.error(new Error(`Model not found with id: ${model.id}`)) }
-  //   return options.success(JSONUtils.deepClone(modelJson))
-
-  // }
-
-  // // @nodoc
-  // create(model, options) => {
-  //   let modelJson
-  //   if (this.manual_id) => { return options.error(new Error(`Create should not be called for a manual id. Set an id before calling save. Model name: ${this.modelType.modelName}. Model: ${JSON.stringify(model.toJSON())}`)) }
-
-  //   model.set(this.id_attribute, this.id_type === 'String' ? `${++this.id}` : ++this.id)
-  //   this.store.splice(this.insertIndexOf(model.id), 0, (modelJson = model.toJSON()))
-  //   return options.success(JSONUtils.deepClone(modelJson))
-  // }
-
-  // // @nodoc
-  // update(model, options) => {
-  //   let index
-  //   const create = ((index = this.insertIndexOf(model.id)) >= this.store.length) || (this.store[index].id !== model.id)
-  //   if (!this.manual_id && create) => { return options.error(new Error(`Update cannot create a new model without manual option. Set an id before calling save. Model name: ${this.modelType.modelName}. Model: ${JSON.stringify(model.toJSON())}`)) }
-
-  //   const modelJson = model.toJSON()
-  //   if (create) => { this.store.splice(index, 0, modelJson) }
-  //   else { this.store[index] = modelJson }
-  //   return options.success(JSONUtils.deepClone(modelJson))
-  // }
-
-  // // @nodoc
-  // delete(model, options) => { return this.deleteCB(model, err => err ? options.error(err) : options.success()) }
-
-  // // @nodoc
-  // deleteCB(model, callback) => {
-  //   let index
-  //   if ((index = this.indexOf(model.id)) < 0) => { return callback(new Error(`Model not found. Type: ${this.modelType.modelName}. Id: ${model.id}`)) }
-  //   const modelJson = this.store.splice(index, 1)
-  //   return Utils.patchRemove(this.modelType, model, callback)
-  // }
-
-  // //##################################
-  // // Backbone ORM - Class Extensions
-  // //##################################
-
-  // // @nodoc
-  // resetSchema(options, callback) => { return this.destroy() }
-
-  // // @nodoc
-  // cursor(query) => { if (query == null) => { query = {} } return new MemoryCursor(query, _.pick(this, ['modelType', 'store'])) }
-
-  // // @nodoc
-  // destroy(query) => {
-  //   if (arguments.length === 1) => { [query, callback] = Array.from([{}, query]) }
-
-  //   if (JSONUtils.isEmptyObject(query)) => {
-  //     return Utils.popEach(this.store, ((modelJson, callback) => Utils.patchRemove(this.modelType, modelJson, callback)), callback)
-  //   }
-  //   let isDone = false
-  //   const cursor = this.modelType.cursor(query).limit(DESTROY_BATCH_LIMIT)
-  //   var next = () => {
-  //     return cursor.toJSON((err, models_json) => {
-  //       if (err) => { return callback(err) }
-  //       if (models_json.length === 0) => { return callback() }
-  //       isDone = models_json.length < DESTROY_BATCH_LIMIT
-  //       return Utils.each(models_json, this.deleteCB, (err) => { if (err || isDone) => { return callback(err) }  return next()  })
-  //     })
-  //   }
-  //   return next()
 
 }
