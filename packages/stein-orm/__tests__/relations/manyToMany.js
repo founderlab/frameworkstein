@@ -127,4 +127,14 @@ describe('ManyToMany', () => {
     expect(pagingInfo.totalRows).toBe(2)
   })
 
+  it('Handles a destroy query via a relations property', async () => {
+    const owner = await Owner.findOne()
+    expect(owner).toBeTruthy()
+
+    const res = await Reverse.destroy({'owners.name': owner.data.name})
+    expect(res).toBe(2)
+
+    const count = await Reverse.count({'owners.id': owner.id})
+    expect(count).toBe(0)
+  })
 })

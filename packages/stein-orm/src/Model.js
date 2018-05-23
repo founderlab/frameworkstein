@@ -40,6 +40,12 @@ export default class FLModel {
    ------------------ */
 
   /*
+   * Get the value of a data field
+   * Kept ofr backwards compatibility with backbone models
+   */
+  get = key => this.data[key]
+
+  /*
    * Set this models data
    * If a value for `id` is present it is assigned to `model.id`
    */
@@ -189,12 +195,21 @@ export default class FLModel {
     return this.promiseOrCallbackFn(this._findOne)(...args)
   }
 
-  // static async findOrCreate(data, callback) {
-  //   const query = _.extend({$one: true}, data)
-  //   const model = await this.store.cursor(query).toModels()
-  //   if (model) return model
-  //   return (new this(data)).save()
-  // }
+  static _findOrCreate(data, callback) {
+    const query = _.extend({$one: true}, data)
+
+    this.findOne(query, (err, model) => {
+      if (err) return callback(err)
+      if (model) return callback(null, model)
+
+      const m = new this(data)
+      m.save(callback)
+    })
+  }
+  static findOrCreate(...args) {
+    return this.promiseOrCallbackFn(this._findOrCreate)(...args)
+  }
+
 
   static _destroy(query, callback) {
     if (!query || _.isFunction(query)) throw new Error(this.errorMsg('Missing query from destroy'))
@@ -204,7 +219,8 @@ export default class FLModel {
     else if (_.isEmpty(query)) {
       throw new Error(this.errorMsg(`Received empty query, not destroying everything: ${JSON.stringify(query)}`))
     }
-
+console.log('destroying', query)
+query.$verbose = true
     return this.store.destroy(query, callback)
   }
   static destroy(...args) {

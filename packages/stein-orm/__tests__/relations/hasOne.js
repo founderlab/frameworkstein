@@ -250,4 +250,14 @@ describe('HasOne', () => {
     expect(ownerAs.id).toBe(owner.id)
   })
 
+  it('Handles a destroy query via a relations property', async () => {
+    const owner = await Owner.findOne()
+    expect(owner).toBeTruthy()
+
+    const res = await Reverse.destroy({'owner.name': owner.data.name})
+    expect(res).toBe(1)
+
+    const count = await Reverse.count({owner_id: owner.id})
+    expect(count).toBe(0)
+  })
 })
