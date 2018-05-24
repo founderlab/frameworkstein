@@ -26,7 +26,7 @@
     "fl-auth-server": "^5.0.3",
     "fl-server-utils": "^5.0.3",
     "lodash": "^4.0.0",
-    "moment": "^2.10.6",
+    "moment": "^2.11.1",
     "queue-async": "^1.0.7",
     "stripe": "^4.10.0"
   }

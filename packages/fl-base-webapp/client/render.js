@@ -14,6 +14,13 @@ import LogRocket from 'logrocket'
 import createStore from '../shared/createStore'
 
 
+// tmp
+import { matchRoutes } from 'react-router-config'
+
+
+
+
+
 // Set moment locale to aus
 moment.locale('en-AU')
 
@@ -49,6 +56,16 @@ export default function(getRoutes) {
   const ele = document.getElementById('react-view')
   ele.innerHTML = ''
   // /TODO
+
+
+
+  console.dir(history, {colors: true})
+  const routes = getRoutes()
+  const branch = matchRoutes(routes, history.location.url)
+  console.dir(initialState, {colors: true})
+  console.dir(branch, {colors: true})
+
+
 
   hydrate((
     <Provider store={store} key="provider">
