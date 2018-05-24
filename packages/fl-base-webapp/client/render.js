@@ -61,7 +61,7 @@ export default function(getRoutes) {
 
   console.dir(history, {colors: true})
   const routes = getRoutes()
-  const branch = matchRoutes(routes, history.location.url)
+  const branch = matchRoutes(routes, history.location.pathname)
   console.dir(initialState, {colors: true})
   console.dir(branch, {colors: true})
 
