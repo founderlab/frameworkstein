@@ -12,7 +12,7 @@ if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
   schema: () => ({
     createdDate: ['DateTime', {indexed: true}],
     expiresDate: ['DateTime', {indexed: true}],
-    token: ['String', {indexed: true}],
+    token: ['Text', {indexed: true}],
 
     // Leave the user relation out to allow for drop in replacement of user models,
     // then add this field to the schema to ensure column creation in sql.
@@ -23,11 +23,9 @@ if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 })
 export default class AccessToken extends Model {
 
-  defaults() {
-    return {
-      createdDate: moment.utc().toDate(),
-      token: createToken(),
-    }
-  }
+  static defaults = () => ({
+    createdDate: moment.utc().toDate(),
+    token: createToken(),
+  })
 
 }

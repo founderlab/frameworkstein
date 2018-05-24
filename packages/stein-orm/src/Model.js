@@ -5,7 +5,8 @@ import { promisify } from 'util'
 export default class FLModel {
 
   constructor(data={}) {
-    this.data = {}
+    const defaultsSrc = this.constructor.defaults || this.defaults || {}
+    this.data = _.cloneDeep(_.isFunction(defaultsSrc) ? defaultsSrc() : defaultsSrc)
     this.set(data)
   }
 
