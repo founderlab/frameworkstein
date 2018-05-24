@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import path from 'path'
 import React from 'react'
-import {renderToString} from 'react-dom/server'
-import {Provider} from 'react-redux'
+import { renderToString } from 'react-dom/server'
+import { Provider } from 'react-redux'
 import Helmet from 'react-helmet'
 import createHistory from 'history/createMemoryHistory'
 import { ConnectedRouter } from 'react-router-redux'
@@ -50,6 +50,8 @@ export default function createServerRenderer(_options) {
     const branch = matchRoutes(routes, req.originalUrl)
 
     try {
+      console.dir(serverState, {colors: true})
+      console.dir(branch, {colors: true})
       const fetchResult = await fetchComponentData({store, branch})
       if (fetchResult.status) res.status(fetchResult.status)
     }
