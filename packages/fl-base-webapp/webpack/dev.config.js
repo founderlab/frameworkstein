@@ -105,11 +105,7 @@ module.exports = {
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     new webpack.DefinePlugin({
-      'process.env': {
-        DEBUG: process.env.DEBUG,
-        CLIENT: true,
-        SERVER: false,
-      },
+      'process.env.NODE_ENV': JSON.stringify('development'),
     }),
   ],
   stats: 'none',

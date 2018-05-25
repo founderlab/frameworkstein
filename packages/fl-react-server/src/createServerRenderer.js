@@ -44,14 +44,28 @@ export default function createServerRenderer(_options) {
       return sendError(res, err)
     }
 
-    const history = createHistory()
+    const history = createHistory(req.originalUrl)
     const store = createStore({history, initialState: serverState})
     const routes = getRoutes()
     const branch = matchRoutes(routes, req.originalUrl)
 
+    // Check authentication on routes, redirect to login if required
+    let authenticated
+    let needsAuth
+    let redirectUrl
+    branch.forEach(branch => {
+      const { route } = branch
+      if (!route.authenticate) return
+      needsAuth = true
+      authenticated = route.authenticate(store.getState())
+      redirectUrl = route.redirectUrl ? route.redirectUrl(req.originalUrl) : '/'
+    })
+    if (needsAuth && !authenticated) {
+      return res.redirect(redirectUrl)
+    }
+
+    // Wait on fetching component's data before rendering
     try {
-      console.dir(serverState, {colors: true})
-      console.dir(branch, {colors: true})
       const fetchResult = await fetchComponentData({store, branch})
       if (fetchResult.status) res.status(fetchResult.status)
     }
@@ -59,6 +73,7 @@ export default function createServerRenderer(_options) {
       return sendError(res, err)
     }
 
+    // Initial state now includes data fetched by components
     let initialState = store.getState()
 
     // temp solution to rendering admin state
