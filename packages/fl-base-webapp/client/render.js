@@ -13,21 +13,12 @@ import { Provider } from 'react-redux'
 import LogRocket from 'logrocket'
 import createStore from '../shared/createStore'
 
-
-// tmp
-import { matchRoutes } from 'react-router-config'
-
-
-
-
-
 // Set moment locale to aus
 moment.locale('en-AU')
 
 // no jQuery, backbone needs an ajax function
 const Backbone = require('backbone')
 Backbone.ajax = require('fl-backbone.nativeajax')
-
 
 export default function(getRoutes) {
   const initialState = window.__INITIAL_STATE__
@@ -48,24 +39,11 @@ export default function(getRoutes) {
     }
   }
 
-  // const store = createStore(reduxReactRouter, patchRouteEntry(getRoutes), createHistory, initialState)
   const history = createHistory()
   const store = createStore({initialState, history})
 
-  //TODO: Remove or make development only
   const ele = document.getElementById('react-view')
-  ele.innerHTML = ''
-  // /TODO
-
-
-
-  console.dir(history, {colors: true})
-  const routes = getRoutes()
-  const branch = matchRoutes(routes, history.location.pathname)
-  console.dir(initialState, {colors: true})
-  console.dir(branch, {colors: true})
-
-
+  if (process.env.NODE_ENV !== 'production') ele.innerHTML = ''
 
   hydrate((
     <Provider store={store} key="provider">

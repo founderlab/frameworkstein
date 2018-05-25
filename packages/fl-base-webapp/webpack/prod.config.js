@@ -93,12 +93,7 @@ module.exports = {
 
     // set global vars
     new webpack.DefinePlugin({
-      'process.env': {
-        DEBUG: false,
-        CLIENT: true,
-        SERVER: false,
-        NODE_ENV: JSON.stringify('production'), // This has a big effect on the react lib size
-      },
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
 
     // ignore jquery (used by backbone)

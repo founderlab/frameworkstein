@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { login } from 'fl-auth-redux'
 import qs from 'qs'
+import querystring from 'querystring'
 import Login from '../components/Login'
 
 
@@ -48,6 +49,11 @@ export default class LoginContainer extends Component {
     const title = `Sign in`
     const description = `Sign in`
 
+    console.log('this.props.location.search', this.props.location)
+    console.log('this.props.location.search', this.props.location.search)
+console.log('this.query().returnTo', this.query(), this.query().returnTo)
+
+console.log('querystring', querystring.parse(this.props.location.search))
     return (
       <div>
         <Helmet>
