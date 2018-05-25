@@ -59,7 +59,7 @@ export default class RegisterContainer extends React.Component {
     return ''
   }
 
-  query = () => qs.parse(this.props.location.search)
+  query = () => qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
 
   render() {
     const {auth} = this.props

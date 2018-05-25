@@ -1,5 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
@@ -11,8 +11,8 @@ import Login from '../components/Login'
 
 
 const selector = formValueSelector('login')
-@connect(state => _.extend(_.pick(state, 'auth'), {email: selector(state, 'email')}), {login})
-export default class LoginContainer extends Component {
+@connect(state => _.extend(_.pick(state, 'auth'), { email: selector(state, 'email') }), { login })
+export default class LoginContainer extends React.Component {
 
   static propTypes = {
     auth: PropTypes.object.isRequired,
@@ -27,12 +27,12 @@ export default class LoginContainer extends Component {
 
   state = {}
 
-  query = () => qs.parse(this.props.location.search)
+  query = () => qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
 
   handleSubmit = data => {
     this.props.login(`${this.context.url}/login`, data.email && data.email.trim(), data.password, err => {
       if (!err) {
-        this.setState({loaded: true}, () => window.location.href = this.query().returnTo || '/')
+        this.setState({ loaded: true }, () => window.location.href = this.query().returnTo || '/')
       }
     })
   }
@@ -49,11 +49,6 @@ export default class LoginContainer extends Component {
     const title = `Sign in`
     const description = `Sign in`
 
-    console.log('this.props.location.search', this.props.location)
-    console.log('this.props.location.search', this.props.location.search)
-console.log('this.query().returnTo', this.query(), this.query().returnTo)
-
-console.log('querystring', querystring.parse(this.props.location.search))
     return (
       <div>
         <Helmet>
