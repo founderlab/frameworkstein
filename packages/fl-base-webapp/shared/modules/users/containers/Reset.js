@@ -25,7 +25,7 @@ export default class ResetContainer extends Component {
     })
   }
 
-  query = () => qs.parse(this.props.location.search)
+  query = () => qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
 
   render() {
     const query = this.query()
