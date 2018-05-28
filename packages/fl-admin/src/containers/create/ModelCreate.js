@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ModelDetail from '../../containers/ModelDetail'
+import ModelDetail from '../../components/ModelDetail'
 
 
 export default function createModelCreate(modelAdmin) {
@@ -14,7 +14,7 @@ export default function createModelCreate(modelAdmin) {
     }),
     {saveModel, deleteModel},
   )
-  class ModelEditor extends Component {
+  class ModelCreate extends Component {
 
     static propTypes = {
       modelStore: PropTypes.object.isRequired,

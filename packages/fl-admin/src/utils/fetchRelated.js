@@ -32,8 +32,8 @@ function relatedQuery(modelIds, modelStore, relationField) {
 // dispatch actions to load related models
 // assumes the action to fetch models is called 'load'
 export default function fetchRelated(options, callback) {
-  const {store, modelAdmin, loadAll, modelIds} = options
-  const {auth, admin} = store.getState()
+  const { store, modelAdmin, loadAll, modelIds } = options
+  const { auth, admin } = store.getState()
   const modelStore = admin[modelAdmin.path]
   const promises = []
 
