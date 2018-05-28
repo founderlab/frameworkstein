@@ -9,7 +9,7 @@ import createRelatedInput from './containers/create/RelatedInput'
 import {table, plural, upper, label} from './utils/naming'
 import createActions from './createActions'
 import createReducer from './createReducer'
-import routes from './routes'
+import getRoutes from './routes'
 
 
 const ACTION_PREFIX = 'FL_ADMIN_'
@@ -137,4 +137,4 @@ export default function configure(_options) {
   reducer = combineReducers(reducers)
 }
 
-export {actions, reducer, modelAdmins, routes}
+export {actions, reducer, modelAdmins, getRoutes}

@@ -1,8 +1,8 @@
-import React from 'react'
+// import React from 'react'
 // import { Route, IndexRoute } from 'react-router'
 // import { AdminRoute } from 'fl-admin'
-import { routes as adminRoutes } from 'fl-admin'
-import { Route, Switch } from 'react-router-dom'
+// import { Route, Switch } from 'react-router-dom'
+import { getRoutes as adminRoutes } from 'fl-admin'
 
 
 export default function getRoutes(store) {
@@ -56,6 +56,7 @@ export default function getRoutes(store) {
     ...adminRoutes(store),
     {
       component: require('./modules/app/containers/App'),
+      path: '/',
       routes: [{
         path: '/',
         exact: true,

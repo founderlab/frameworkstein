@@ -44,9 +44,10 @@ export default function createServerRenderer(_options) {
       return sendError(res, err)
     }
 
-    const history = createHistory(req.originalUrl)
+    const history = createHistory({initialEntries: [req.path]})
     const store = createStore({history, initialState: serverState})
     const routes = getRoutes()
+
     const branch = matchRoutes(routes, req.originalUrl)
 
     // Check authentication on routes, redirect to login if required

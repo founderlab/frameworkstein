@@ -1,8 +1,9 @@
 import { withAuth } from 'fl-react-utils'
-import {modelAdmins} from './index'
+import { modelAdmins } from './index'
 import Admin from './containers/Admin'
 import ModelTypeList from './containers/ModelTypeList'
-import createModelEditor from './containers/create/ModelEditor'
+import createModelDetailEditor from './containers/create/ModelDetailEditor'
+import createModelListEditor from './containers/create/ModelListEditor'
 import createModelCreate from './containers/create/ModelCreate'
 
 
@@ -38,7 +39,7 @@ export default function getRoutes() {
     routes.push(modelAdmin.listRoute || {
       path: `/admin/${modelAdmin.path}`,
       exact: true,
-      component: withAuth(modelAdmin.ListComponent || createModelEditor(modelAdmin)),
+      component: withAuth(modelAdmin.ListComponent || createModelListEditor(modelAdmin)),
     })
     routes.push(modelAdmin.createRoute || {
       path: `/admin/${modelAdmin.path}/create`,
@@ -48,7 +49,7 @@ export default function getRoutes() {
     routes.push(modelAdmin.detailRoute || {
       path: `/admin/${modelAdmin.path}/:id`,
       exact: true,
-      component: withAuth(modelAdmin.DetailComponent || createModelEditor(modelAdmin)),
+      component: withAuth(modelAdmin.DetailComponent || createModelDetailEditor(modelAdmin)),
     })
   })
 
