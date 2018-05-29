@@ -7,8 +7,8 @@ import { shouldEditFieldInline, shouldDisplayFieldInline } from '../utils/inline
 
 
 export default function ModelListTable(props) {
-  const {models, modelAdmin, handleSaveFn, handleDeleteFn} = props
-
+  const { models, modelAdmin, handleSaveFn, handleDeleteFn } = props
+console.log('models', models)
   const modelListRows = _.map(models, model => {
     const ModelListForm = createModelListForm(model)
     return (

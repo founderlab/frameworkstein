@@ -7,6 +7,7 @@ admin({
     {
       Model: require('./models/User'),
       display: model => model.email,
+      searchFields: ['email'],
       fields: {
         admin: {
           listDisplay: true,
