@@ -30,14 +30,19 @@ export default function createReducer(modelAdmin) {
       case modelAdmin.actionType + '_DEL_ERROR':
         return state.merge({loading: false, errors: {del: action.error || action.res.body.error}})
 
+      case modelAdmin.actionType + '_COUNT_SUCCESS':
+        return state.mergeDeep({
+          pagination: pagination(state.get('pagination'), action),
+        })
+
       case modelAdmin.actionType + '_LOAD_SUCCESS':
         return state.merge({
           loading: false,
           errors: {},
+          pagination: pagination(state.get('pagination'), action),
         }).mergeDeep({
           models: action.models,
           modelIds: action.modelIds,
-          pagination: pagination(state.get('pagination'), action),
         })
 
       case modelAdmin.actionType + '_SAVE_SUCCESS':
@@ -58,11 +63,6 @@ export default function createReducer(modelAdmin) {
           models,
           loading: false,
           errors: {},
-          pagination: pagination(state.get('pagination'), action),
-        })
-
-      case modelAdmin.actionType + '_COUNT_SUCCESS':
-        return state.mergeDeep({
           pagination: pagination(state.get('pagination'), action),
         })
 
