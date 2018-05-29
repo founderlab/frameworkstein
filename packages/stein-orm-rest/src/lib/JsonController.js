@@ -17,9 +17,7 @@ export default class JSONController {
 
   sendError = (res, err) => {
     const { req } = res
-    console.log('sendError')
-    console.log(err)
-    this.events.emit('error', {req, res, err})
+    this.events.emit('err', {req, res, err})
     this.logger.error(`Error 500 from ${req.method} ${req.url}: ${(err != null ? err.stack : undefined) || err}`)
     res.status(500).json({error: err.toString()})
   }

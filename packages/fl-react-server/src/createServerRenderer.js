@@ -44,11 +44,11 @@ export default function createServerRenderer(_options) {
       return sendError(res, err)
     }
 
-    const history = createHistory({initialEntries: [req.path]})
+    const history = createHistory({initialEntries: [req.originalUrl]})
     const store = createStore({history, initialState: serverState})
     const routes = getRoutes()
 
-    const branch = matchRoutes(routes, req.originalUrl)
+    const branch = matchRoutes(routes, req.path)
 
     // Check authentication on routes, redirect to login if required
     let authenticated
@@ -67,7 +67,7 @@ export default function createServerRenderer(_options) {
 
     // Wait on fetching component's data before rendering
     try {
-      const fetchResult = await fetchComponentData({store, branch})
+      const fetchResult = await fetchComponentData({store, branch, location: history.location})
       if (fetchResult.status) res.status(fetchResult.status)
     }
     catch (err) {
@@ -83,7 +83,7 @@ export default function createServerRenderer(_options) {
 
     const component = (
       <Provider store={store}>
-        <ConnectedRouter history={history} location={req.url}>
+        <ConnectedRouter history={history}>
           {renderRoutes(routes)}
         </ConnectedRouter>
       </Provider>

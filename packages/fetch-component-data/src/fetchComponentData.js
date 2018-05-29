@@ -13,7 +13,7 @@ const defaults = {
  *  @param parallelism the number of fetches to execute in parallel
  */
 export default function fetchComponentData(options, callback) {
-  const {store, branch, action, parallelism} = _.defaults(options, defaults)
+  const { store, branch, action, location, parallelism } = _.defaults(options, defaults)
   const result = {}
   const queue = new Queue(parallelism)
 
@@ -34,7 +34,7 @@ export default function fetchComponentData(options, callback) {
           if (res) _.extend(result, res)
           callback(err)
         }
-        const promise = Component.fetchData({store, action, match}, done)
+        const promise = Component.fetchData({store, action, match, location}, done)
         if (promise) {
           promise.then(res => done(null, res)).catch(err => done(err))
         }

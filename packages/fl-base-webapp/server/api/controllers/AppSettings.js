@@ -18,9 +18,9 @@ export default class AppSettingsController extends RestController {
       route: '/api/app_settings',
       auth: [...options.auth, createAuthMiddleware({canAccess})],
       templates: {
-        detail: require('../templates/appSettings/detail'),
+        base: require('../templates/appSettings/base'),
       },
-      defaultTemplate: 'detail',
+      defaultTemplate: 'base',
     }, options))
   }
 }

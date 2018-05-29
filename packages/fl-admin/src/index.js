@@ -76,6 +76,7 @@ function createModelAdmin(options, modelDescriptor) {
   const schema = Model.schema && Model.schema('schema')
   const fields = schema.fields || {}
   const relationFields = schema.relations || {}
+  const defaultSearchFields = []
 
   // Make sure we have config for every field in the models schema
   _.forEach(fields, (field, key) => {
@@ -90,7 +91,10 @@ function createModelAdmin(options, modelDescriptor) {
       modelField.InputComponent = SmartInput
     }
     if (_.includes(modelAdmin.readOnlyFields, key)) modelField.input = 'static'
+    if (field.type && field.type.toLowerCase() === 'text') defaultSearchFields.push(key)
   })
+
+  if (!modelAdmin.searchFields) modelAdmin.searchFields = defaultSearchFields
 
   // Make sure we have config for every relation
   _.forEach(relationFields, (relation, key) => {

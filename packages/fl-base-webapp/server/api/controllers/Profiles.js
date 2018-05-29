@@ -1,6 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
 import RestController, { parseQuery } from 'stein-orm-rest'
-import { JSONUtils } from 'backbone-orm'
 import { createAuthMiddleware } from 'fl-auth-server'
 import Profile from '../../models/Profile'
 
@@ -46,12 +45,10 @@ export default class ProfilesController extends RestController {
       templates: {
         base: require('../templates/profiles/base'),
       },
-      defaultTemplate: 'detail',
+      defaultTemplate: 'base',
     }, options))
   }
 
-  //todo: when the detail template renders after a save the user_id field isn't present
-  // see ../templates/profiles/detail
   update(req, res) {
     req.body.updatedDate = new Date()
     req.body.displayName = `${req.body.firstName} ${req.body.lastName}`
