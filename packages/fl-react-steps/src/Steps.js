@@ -51,7 +51,7 @@ export default class Steps extends Component {
   }
 
   render() {
-    const {children} = this.props
+    const { children } = this.props
     const childrenArray = React.Children.toArray(children)
     return (
       <div>

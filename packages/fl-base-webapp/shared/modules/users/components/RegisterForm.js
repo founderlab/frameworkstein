@@ -52,7 +52,7 @@ export default class RegisterForm extends Component {
   closePrivacyModal = () => this.setState({showPrivacyModal: false})
 
   render() {
-    const {loading, errorMsg, handleSubmit, email, query, title, returnTo} = this.props
+    const { loading, errorMsg, handleSubmit, email, query, title, returnTo } = this.props
     const showEmail = !!(this.state.showEmail || loading)
     if (email) query.email = email
 

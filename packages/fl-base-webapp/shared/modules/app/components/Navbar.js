@@ -31,7 +31,7 @@ export default class AppNavbar extends Component {
   toggleNavbar = () => this.setState({isOpen: !this.state.isOpen})
 
   render() {
-    const {profile} = this.props
+    const { profile } = this.props
 
     if (profile) {
       return (

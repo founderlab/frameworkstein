@@ -3,7 +3,7 @@ import retry from 'retry-unless'
 
 
 export function extractRequest(action) {
-  const {request, callback, parseResponse, ...rest} = action
+  const { request, callback, parseResponse, ...rest } = action
   return {request, callback, parseResponse, action: rest}
 }
 
@@ -83,11 +83,11 @@ export default function createRequestMiddleware(_options={}) {
   return function requestMiddleware() {
     return next => _action => {
 
-      const {request, callback, parseResponse, action} = options.extractRequest(_action)
+      const { request, callback, parseResponse, action } = options.extractRequest(_action)
       const end = options.getEndFn(request)
       if (!end) return next(action)
 
-      const {type, ...rest} = action
+      const { type, ...rest } = action
       const START = type + options.suffixes.START
       const ERROR = type + options.suffixes.ERROR
       const SUCCESS = type + options.suffixes.SUCCESS

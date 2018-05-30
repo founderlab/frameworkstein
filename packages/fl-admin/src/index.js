@@ -1,12 +1,12 @@
 import 'babel-polyfill' // import first to avoid probs with `regeneratorRuntime` not being defined, see https://github.com/babel/babel-preset-env/issues/112
 import _ from 'lodash'
 import warning from 'warning'
-import {combineReducers} from 'redux'
-import {Pagination} from 'fl-react-utils'
+import { combineReducers } from 'redux'
+import { Pagination } from 'fl-react-utils'
 
 import SmartInput from './components/inputs/SmartInput'
 import createRelatedInput from './containers/create/RelatedInput'
-import {table, plural, upper, label} from './utils/naming'
+import { table, plural, upper, label } from './utils/naming'
 import createActions from './createActions'
 import createReducer from './createReducer'
 import getRoutes from './routes'
@@ -42,7 +42,7 @@ function createModelAdmin(options, modelDescriptor) {
   else if (_.isObject(modelDescriptor)) _.merge(modelAdmin, modelDescriptor)
   else throw new Error('[fl-admin] configure: Unrecognized model descriptor - provide a string or model or modelAdmin')
 
-  const {Model} = modelAdmin
+  const { Model } = modelAdmin
 
   const defaults = {
     name: Model.modelName || Model.model_name || Model.name,

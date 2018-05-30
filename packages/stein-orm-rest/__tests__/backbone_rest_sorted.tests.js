@@ -19,7 +19,7 @@ const util = require('util')
 const assert = require('assert')
 
 const BackboneORM = require('backbone-orm')
-const {_, Backbone, Queue, Utils, JSONUtils, Fabricator} = BackboneORM
+const { _, Backbone, Queue, Utils, JSONUtils, Fabricator } = BackboneORM
 
 const request = require('supertest')
 

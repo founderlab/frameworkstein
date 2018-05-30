@@ -31,7 +31,7 @@ export default class Pagination extends React.Component {
   link = page => ({pathname: this.props.location.pathname, query: _.extend({}, this.props.location.query, {page})})
 
   render() {
-    const {itemsPerPage, currentPage, totalItems, next, prev, first, last} = this.props
+    const { itemsPerPage, currentPage, totalItems, next, prev, first, last } = this.props
     if (!totalItems) return null
     const maxLinks = this.props.maxLinks - 1
     const links = []

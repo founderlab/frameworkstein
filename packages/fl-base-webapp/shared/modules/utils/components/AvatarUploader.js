@@ -50,7 +50,7 @@ export default class AvatarUploader extends React.Component {
   }
 
   render() {
-    const {name, label, help, validationState} = this.props
+    const { name, label, help, validationState } = this.props
     const filename = this.props.input.value
 
     const uploaderProps = {

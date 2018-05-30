@@ -6,12 +6,12 @@ import { FormGroup, Label } from 'reactstrap'
 
 
 export default function HasMany(_props) {
-  // const {relationField, model, models, inputProps} = props
-  const {relationField, model, models, label, ...props} = _props
+  // const { relationField, model, models, inputProps } = props
+  const { relationField, model, models, label, ...props } = _props
 
   // shortcut to avoid messing with saving relations: link to the related model for hasMany
   // the alternative is to set `inputProps.multiple = true` and figure it out
-  const {modelAdmin} = relationField
+  const { modelAdmin } = relationField
   const links = []
 
   _.forEach(models, relatedModel => {

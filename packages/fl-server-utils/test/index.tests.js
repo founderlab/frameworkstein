@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import expect from 'expect'
-import {removeDirectoryAndExtension, directoryFiles, directoryFunctionModules} from '../src'
+import { removeDirectoryAndExtension, directoryFiles, directoryFunctionModules } from '../src'
 
 describe('index functions', () => {
 

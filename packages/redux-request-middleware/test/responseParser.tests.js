@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import expect from 'expect'
-import {spy} from 'sinon'
-import {createResponseParserMiddleware} from '../src'
+import { spy } from 'sinon'
+import { createResponseParserMiddleware } from '../src'
 
 function createJSONSpy(input) {
   return spy(action => {

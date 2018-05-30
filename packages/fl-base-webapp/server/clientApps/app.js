@@ -7,7 +7,7 @@ import createStore from '../../shared/createStore'
 import getRoutes from '../../shared/routes'
 import tags from './tags'
 
-const {preScriptTags, ...otherTags} = tags
+const { preScriptTags, ...otherTags } = tags
 
 export default createServerRenderer({
   createStore,

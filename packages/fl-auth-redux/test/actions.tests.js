@@ -1,6 +1,6 @@
 import expect from 'expect'
 import types from '../src/action_types'
-import {login, actions} from '../src'
+import { login, actions } from '../src'
 
 const URL = 'http://example.com/stuff'
 const EMAIL = 'a@example.com'

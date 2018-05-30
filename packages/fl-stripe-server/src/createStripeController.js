@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import createStripe from 'stripe'
-import {createAuthMiddleware} from 'fl-auth-server'
+import { createAuthMiddleware } from 'fl-auth-server'
 import createStripeCustomer from './models/createStripeCustomer'
 import {
   createCard,
@@ -29,7 +29,7 @@ function sendError(res, err, msg) {
 
 export default function createStripeController(_options) {
   const options = _.defaults(_options, defaults)
-  const {app, User} = options
+  const { app, User } = options
   if (!app) return console.error('createStripeController requires an `app` option, got', _options)
   if (!User) return console.error('createStripeController requires a `User` option, got', _options)
 
@@ -38,7 +38,7 @@ export default function createStripeController(_options) {
 
   // Authorisation check. Make sure we can only work with cards (StripeCustomer models) belonging to the logged in user
   function canAccess(options, callback) {
-    const {user} = options
+    const { user } = options
     if (!user) return callback(null, false)
     if (user.admin) return callback(null, true)
     // No additional options; use the logged in user id as the context for all interactions wth Stripe
@@ -122,8 +122,8 @@ export default function createStripeController(_options) {
   }
 
   function handleSubscribeToPlan(req, res) {
-    const {planId} = req.params
-    const {coupon} = req.body
+    const { planId } = req.params
+    const { coupon } = req.body
     const userId = req.user.id
 
     subscribeToPlan({stripe, userId, planId, coupon, StripeCustomer, onSubscribe: options.onSubscribe}, (err, subscription) => {

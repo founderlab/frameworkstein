@@ -15,7 +15,7 @@ export default class S3Image extends React.Component {
   }
 
   render() {
-    const {className, filename} = this.props
+    const { className, filename } = this.props
     const url = `${this.context.s3Url}/${filename}`
 
     return (

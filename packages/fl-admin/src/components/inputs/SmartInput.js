@@ -6,7 +6,7 @@ import JsonInput from './JsonInput'
 
 
 export default function SmartInput(_props) {
-  const {modelField, ...props} = _props
+  const { modelField, ...props } = _props
 
   // Type of text input specified
   const inputType = modelField.input || modelField.type || props.type

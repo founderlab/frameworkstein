@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {createBasicAjax} from '../src'
+import { createBasicAjax } from '../src'
 
 describe('createBasicAjax', () => {
 

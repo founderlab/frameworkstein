@@ -31,7 +31,7 @@ export default class RegisterContainer extends React.Component {
   }
 
   handleSubmit = data => {
-    const {email, password, ...profileData} = data
+    const { email, password, ...profileData } = data
     const userData = {password, email: email && email.trim()}
 
     this.props.register(`${this.context.url}/register`, userData, err => {
@@ -53,7 +53,7 @@ export default class RegisterContainer extends React.Component {
   loading = () => this.props.auth.get('loading')
 
   errorMsg = () => {
-    const {auth} = this.props
+    const { auth } = this.props
     const userError = auth.get('errors') && auth.get('errors').get('register')
     if (userError) return userError.toString()
     return ''
@@ -62,7 +62,7 @@ export default class RegisterContainer extends React.Component {
   query = () => qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
 
   render() {
-    const {auth} = this.props
+    const { auth } = this.props
     const email = auth.get('user') && auth.get('user').get('email')
 
     return (

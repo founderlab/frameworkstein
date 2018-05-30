@@ -31,7 +31,7 @@ export default class App extends Component {
   }
 
   static async fetchData({store}) {
-    const {app} = store.getState()
+    const { app } = store.getState()
     if (!app.get('loaded')) return store.dispatch(loadAppSettings())
   }
 
@@ -56,7 +56,7 @@ export default class App extends Component {
   }
 
   render() {
-    const {profiles, location, route} = this.props
+    const { profiles, location, route } = this.props
     const profileIm = profiles.get('active')
     const profile = profileIm && profileIm.toJSON()
 

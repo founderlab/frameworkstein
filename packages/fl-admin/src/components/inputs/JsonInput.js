@@ -7,7 +7,7 @@ import { Input } from 'fl-react-utils'
 
 
 export default function JsonInput(props) {
-  const {modelField, fields} = props
+  const { modelField, fields } = props
   const schema = modelField.schema
   if (!schema) {
     console.log(`Json fields require a jsonSchema property describing the form fields to render. Missing from ${modelField.key}`)

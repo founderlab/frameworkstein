@@ -1,5 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
-import {createSelector} from 'reselect'
+import { createSelector } from 'reselect'
 
 function paginationState(state, paginateOn) {
   if (_.isFunction(paginateOn)) return paginateOn(state)

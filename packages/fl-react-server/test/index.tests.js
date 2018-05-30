@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {createServerRenderer} from '../src'
+import { createServerRenderer } from '../src'
 
 describe('createServerRenderer', () => {
 

@@ -5,7 +5,7 @@ import { Input } from 'fl-react-utils'
 
 
 export default function ManyToMany(_props) {
-  const {relationField, modelStore, ...props} = _props
+  const { relationField, modelStore, ...props } = _props
   const models = modelStore.get('models').toJSON ? modelStore.get('models').toJSON() : {}
 
   // const selectOptions = _.map(models, model => (<option key={model.id} value={model.id}>{relationField.modelAdmin.display(model)}</option>))

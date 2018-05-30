@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button} from 'reactstrap'
-import {Input} from 'fl-react-utils'
-import {reduxForm, Field} from 'redux-form'
-import {validateEmailPass} from './validation'
+import { Button } from 'reactstrap'
+import { Input } from 'fl-react-utils'
+import { reduxForm, Field } from 'redux-form'
+import { validateEmailPass } from './validation'
 
 @reduxForm({
   form: 'register',
@@ -19,7 +19,7 @@ export default class RegisterForm extends Component {
   }
 
   render() {
-    const {loading, errorMsg, facebook, handleSubmit} = this.props
+    const { loading, errorMsg, facebook, handleSubmit } = this.props
 
     return (
       <form onSubmit={handleSubmit}>

@@ -34,7 +34,7 @@ export default class StepHeader extends Component {
   handleStepFn = step => () => this.stepEnabled(step) && this.props.onChangeStep(step)
 
   render() {
-    const {step, headings} = this.props
+    const { step, headings } = this.props
     const stepClass = this.props.stepClassName || this.props.stepClass
 
     return (

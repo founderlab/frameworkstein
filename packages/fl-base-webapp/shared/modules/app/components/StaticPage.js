@@ -7,7 +7,7 @@ import { Container, Row, Col } from 'reactstrap'
 
 export default class StaticPage extends Component {
   render() {
-    const {page} = this.props
+    const { page } = this.props
     return (
       <div style={{paddingTop: 60}}>
         <Container>

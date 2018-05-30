@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import RedisPool from 'sol-redis-pool'
-import {EventEmitter} from 'events'
+import { EventEmitter } from 'events'
 import redisUrl from 'redis-url'
 
 /**
@@ -139,7 +139,7 @@ class RedisStore {
    * @param {Object} [opts] - The options (optional)
    */
   handleResponse = (conn, _options, _callback) => {
-    const {callback, options} = typeof _options === 'function' ? {callback: _options, options: {}} : {callback: _callback, options: _options || {}}
+    const { callback, options } = typeof _options === 'function' ? {callback: _options, options: {}} : {callback: _callback, options: _options || {}}
     return (err, _result) => {
       this.pool.release(conn)
       if (err) return callback(err)
@@ -214,7 +214,7 @@ class RedisStore {
    * @param {Function} [callback] - A callback that returns a potential error, otherwise null
    */
   set = (key, value, _options, _callback) => {
-    const {callback, options} = typeof _options === 'function' ? {callback: _options, options: {}} : {callback: _callback, options: _options || {}}
+    const { callback, options } = typeof _options === 'function' ? {callback: _options, options: {}} : {callback: _callback, options: _options || {}}
 
     if (!this.isCacheableValue(value)) {
       return callback(new Error('value cannot be ' + value))
@@ -259,7 +259,7 @@ class RedisStore {
    * @param {Function} [callback] - A callback that returns a potential error, otherwise null
    */
   del = (key, _options, _callback) => {
-    const {callback, options} = typeof _options === 'function' ? {callback: _options, options: {}} : {callback: _callback, options: _options || {}}
+    const { callback, options } = typeof _options === 'function' ? {callback: _options, options: {}} : {callback: _callback, options: _options || {}}
 
     if (this.hashFromKey && !options.skipHashFromKey) {
       const hash = this.hashFromKey(key)
@@ -339,7 +339,7 @@ class RedisStore {
    * @param {Function} callback - A callback that returns a potential error and the response
    */
   keys = (_pattern, _callback) => {
-    const {callback, pattern} = typeof _pattern === 'function' ? {callback: _pattern, pattern: '*'} : {callback: _callback, pattern: _pattern}
+    const { callback, pattern } = typeof _pattern === 'function' ? {callback: _pattern, pattern: '*'} : {callback: _callback, pattern: _pattern}
 
     this.connect((err, conn) => {
       if (err) {

@@ -19,7 +19,7 @@ export default class SelectForm extends React.Component {
   }
 
   render() {
-    const {loadOptions, value, placeholder} = this.props
+    const { loadOptions, value, placeholder } = this.props
 
     return (
       <Select cacheAsyncResults={false} loadOptions={loadOptions} onChange={this.handleChange} value={value} placeholder={placeholder} />

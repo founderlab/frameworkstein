@@ -4,7 +4,7 @@ Usage:
 -------------
 
 ```javascript
-import {Step, Steps, StepHeader} from 'fl-react-steps'
+import { Step, Steps, StepHeader } from 'fl-react-steps'
 
 // Check client/style.scss for variables you can override
 import 'fl-react-steps/client/style.scss'
@@ -21,7 +21,7 @@ export default class SteppedForm extends React.Component {
   }
 
   render() {
-    const {step} = this.state
+    const { step } = this.state
 
     return (
       <div>

@@ -42,7 +42,7 @@ export default class MarkdownInput extends React.Component {
   }
 
   render() {
-    const {label, input, meta, inputProps, help, helpTop} = this.props
+    const { label, input, meta, inputProps, help, helpTop } = this.props
     const error = validationError(meta)
 
     const RichTextEditor = getRte()

@@ -63,7 +63,7 @@ export default class RESTController extends JsonController {
     const done = (err, result) => {
       if (this.verbose) { console.timeEnd(`index_${this.route}`) }
       if (err) return this.sendError(res, err)
-      const {json, status} = result
+      const { json, status } = result
       if (status) { return this.sendStatus(res, status) }
       return res.json(json)
     }
@@ -83,7 +83,7 @@ export default class RESTController extends JsonController {
     const done = (err, result) => {
       if (this.verbose) { console.timeEnd(`show_${this.route}`) }
       if (err) return this.sendError(res, err)
-      const {json, status} = result
+      const { json, status } = result
       if (status) { return this.sendStatus(res, status) }
       return res.json(json)
     }

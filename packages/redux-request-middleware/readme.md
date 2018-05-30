@@ -120,7 +120,7 @@ This example creates middleware that adds a $user_id param with the current user
 ```javascript
 const requestModifierMiddleware = createRequestModifierMiddleware({
   getValue: store => {
-    const {auth} = store.getState()
+    const { auth } = store.getState()
     const value = {}
     if (auth.get('user')) value.$user_id = auth.get('user').get('id')
     return value

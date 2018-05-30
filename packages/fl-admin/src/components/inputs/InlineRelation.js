@@ -7,8 +7,8 @@ import ModelListTable from '../ModelListTable'
 
 
 export default function InlineRelation(props) {
-  const {config, relationField, models, label, onAdd, handleSaveFn, handleDeleteFn} = props
-  const {modelAdmin} = relationField
+  const { config, relationField, models, label, onAdd, handleSaveFn, handleDeleteFn } = props
+  const { modelAdmin } = relationField
   const tableProps = {models, modelAdmin, config, handleSaveFn, handleDeleteFn}
 
   return (

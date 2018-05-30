@@ -14,7 +14,7 @@ Usage:
 
 ```javascript
 import _ from 'lodash'
-import {createServerRenderer} from 'fl-react-server'
+import { createServerRenderer } from 'fl-react-server'
 import config from '../config'
 import createStore from '../../shared/createStore'
 import getRoutes from '../../shared/routes'

@@ -3,7 +3,7 @@ import _ from 'lodash' // eslint-disable-line
 
 export default function createActions(modelAdmin) {
   const actionType = name => `${modelAdmin.actionType}_${name.toUpperCase()}`
-  const {Model} = modelAdmin
+  const { Model } = modelAdmin
 
   return {
     loadModels: (query, callback) => {

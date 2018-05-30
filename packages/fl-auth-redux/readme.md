@@ -40,7 +40,7 @@ Appends an access token to each request as a query string or header.
 Usage: 
 ------
     // add to your reducers    
-    import {reducer as auth} from 'fl-auth-redux'
+    import { reducer as auth } from 'fl-auth-redux'
 
     reducers = {
       auth,
@@ -51,7 +51,7 @@ Usage:
 
 
     // use the login, register actions from your components
-    import {actions} from 'fl-auth-redux'
+    import { actions } from 'fl-auth-redux'
     
     actions.login(url, email, password)
     actions.register(url, userData, password)

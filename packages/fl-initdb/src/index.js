@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import pg from 'pg'
 import Queue from 'queue-async'
-import {directoryFunctionModules} from 'fl-server-utils'
+import { directoryFunctionModules } from 'fl-server-utils'
 
 
 export default (options, callback) => {
-  const {User, databaseUrl, modelsDir, scaffold} = options
+  const { User, databaseUrl, modelsDir, scaffold } = options
 
   if (!User) return console.error('[fl-initdb] Missing User from options')
   if (!databaseUrl) return console.error('[fl-initdb] Missing databaseUrl from options')

@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
-import {fromJS} from 'immutable'
-import {createPaginationReducer} from 'fl-redux-utils'
+import { fromJS } from 'immutable'
+import { createPaginationReducer } from 'fl-redux-utils'
 
 export default function createReducer(modelAdmin) {
 

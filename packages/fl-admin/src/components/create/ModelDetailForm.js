@@ -15,7 +15,7 @@ export class ModelDetailForm extends React.Component {
   }
 
   render() {
-    const {modelAdmin, model, handleSubmit, onDelete} = this.props
+    const { modelAdmin, model, handleSubmit, onDelete } = this.props
 
     return (
       <div>

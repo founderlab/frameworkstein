@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import warning from 'warning'
-import {Set, List, fromJS} from 'immutable'
+import { Set, List, fromJS } from 'immutable'
 
 export default function createGroupByReducer(actionTypes, groupingKey, options={}) {
   const defaultState = fromJS({})

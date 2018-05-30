@@ -16,7 +16,7 @@ export default class LoaderButton extends React.Component {
   }
 
   render() {
-    const {loading, children, renderLoader, ...btnProps} = this.props
+    const { loading, children, renderLoader, ...btnProps } = this.props
     if (loading) btnProps.disabled = true
     return (
       <Button {...btnProps}>

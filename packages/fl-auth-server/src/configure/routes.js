@@ -1,6 +1,6 @@
 import moment from 'moment'
 import passport from 'passport'
-import {logout, sendError, createToken} from '../lib'
+import { logout, sendError, createToken } from '../lib'
 
 export default function configureRoutes(options={}) {
   const app = options.app
@@ -17,7 +17,7 @@ export default function configureRoutes(options={}) {
       req.login(user, {}, err => {
         if (err) return sendError(res, err)
 
-        const {accessToken} = info
+        const { accessToken } = info
         return res.json({
           accessToken,
           user,
@@ -36,7 +36,7 @@ export default function configureRoutes(options={}) {
       req.login(user, {}, err => {
         if (err) return sendError(res, err)
 
-        const {accessToken} = info
+        const { accessToken } = info
         return res.json({
           accessToken,
           user,
@@ -55,7 +55,7 @@ export default function configureRoutes(options={}) {
       req.login(user, {}, err => {
         if (err) return sendError(res, err)
 
-        const {accessToken} = info
+        const { accessToken } = info
         return res.json({
           accessToken,
           user,
@@ -86,7 +86,7 @@ export default function configureRoutes(options={}) {
 
   // confirm a user's email address
   app.post(options.paths.confirm, (req, res) => {
-    const {email, token} = req.body
+    const { email, token } = req.body
     if (!email) return res.status(400).send({error: 'No email provided'})
     if (!token) return res.status(400).send({error: 'No email confirmation token provided'})
 
@@ -138,7 +138,7 @@ export default function configureRoutes(options={}) {
         req.login(user, {}, err => {
           if (err) return sendError(res, err)
 
-          const {accessToken} = info
+          const { accessToken } = info
           return res.json({
             accessToken,
             user,

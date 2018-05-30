@@ -22,7 +22,7 @@ export default class RadioField extends React.Component {
   }
 
   render() {
-    const {name, label, help, error, helpTop} = this.props
+    const { name, label, help, error, helpTop } = this.props
 
     return (
       <FormGroup>

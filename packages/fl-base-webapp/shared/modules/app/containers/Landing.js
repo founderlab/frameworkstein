@@ -14,7 +14,7 @@ export default class LandingContainer extends React.Component {
   }
 
   render() {
-    // const {auth, profiles} = this.props
+    // const { auth, profiles } = this.props
 
     return (
       <Landing />
