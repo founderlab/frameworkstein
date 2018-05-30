@@ -124,11 +124,6 @@ export default function createModelListEditor(modelAdmin) {
         })
       })
 
-console.log('currentPage', currentPage)
-console.log('totalItems', totalItems)
-console.log('visibleItems', visibleItems)
-console.log('modelStore', modelStore.toJSON())
-
       const componentProps = {
         id,
         modelAdmin,

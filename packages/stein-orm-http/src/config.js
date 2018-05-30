@@ -7,7 +7,6 @@ const config = {
 
 function configure(_config) {
   _.extend(config, _config)
-  console.log('configured',config )
 }
 
 export { config, configure }

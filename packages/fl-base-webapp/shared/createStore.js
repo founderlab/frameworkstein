@@ -36,7 +36,7 @@ function immute(fromObj, parentKey, depth=0) {
 // Add the csrf token to superagent request headers
 const requestModifierMiddleware = createRequestModifierMiddleware({
   setValue: (request, value) => {
-    const {headers, ...query} = value
+    const { headers, ...query } = value
     if (_.isObject(request._cursor)) _.merge(request._cursor, query)
     if (_.isFunction(request.query)) request.query(query)
     if (_.isFunction(request.set) && headers) request.set(headers)
@@ -44,10 +44,13 @@ const requestModifierMiddleware = createRequestModifierMiddleware({
   },
 
   getValue: store => {
-    const {auth} = store.getState()
-    const value = {}
+    const { auth } = store.getState()
+    const value = {
+      headers: {},
+    }
     if (auth.get('user')) value.$user_id = auth.get('user').get('id')
-    if (auth.get('csrf')) value.headers = {'x-csrf-token': auth.get('csrf')}
+    if (auth.get('csrf')) value.headers['x-csrf-token'] = auth.get('csrf')
+    if (auth.get('accessToken')) value.headers.authorization = `Bearer ${auth.get('accessToken')}`
     return value
   },
 })
