@@ -19,17 +19,16 @@ export default class BearerStrategy extends Strategy {
     _.merge(this, options)
     if (!this.User) throw new Error('[fl-auth] PasswordStrategy: Missing User from options')
     if (verify) this.verify = verify
-
-      console.log('BearerStrategy options', options)
   }
 
   verify(req, token, callback) {
-    console.log('verifying', token)
-    const User = this.User
-
     AccessToken.cursor({token, $one: true}).toJSON((err, accessToken) => {
-      console.log('accessToken', accessToken)
       if (err || !accessToken) return callback(err, false)
+
+      req._passport.instance.deserializeUser(accessToken.user_id, (err, user) => {
+        if (err) return callback(err)
+        callback(null, user)
+      })
 
       // todo: when to refresh tokens?
       // const expiresDate = accessToken.expiresDate
@@ -47,10 +46,10 @@ export default class BearerStrategy extends Strategy {
 
       // } else next()
 
-      User.findOne(accessToken.user_id, (err, user) => {
-        if (err) return callback(err)
-        callback(null, user)
-      })
+      // User.findOne(accessToken.user_id, (err, user) => {
+      //   if (err) return callback(err)
+      //   callback(null, user)
+      // })
     })
   }
 

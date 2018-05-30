@@ -39,78 +39,88 @@ export default class HttpStore {
   /*
    * POST this model
    */
-  _create = (model, callback) => {
+  _create = async (model, callback) => {
     const json = model.toJSON()
     const saveJson = this.parseJSON(json)
 
-    fetch(this.url, this.fetchOptions({
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(saveJson),
-    }))
-      .then(res => {
-        const json = res.json()
-        if (!res.status === 200) return callback(new Error(`Error creating model (${res.status}): ${json.error}`))
-        return callback(null, json)
-      })
-      .catch(callback)
+    try {
+      const res = await fetch(this.url, this.fetchOptions({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(saveJson),
+      }))
+      const json = await res.json()
+      if (!res.status === 200) return callback(new Error(`Error creating model (${res.status}): ${json.error}`))
+      return callback(null, json)
+    }
+    catch (err) {
+      callback(err)
+    }
   }
   create = (model, callback) => callback ? this._create(model, callback) : promisify(this._create)(model)
 
   /*
    * PUT this model
    */
-  _update = (model, callback) => {
+  _update = async (model, callback) => {
     const json = model.toJSON()
     const saveJson = this.parseJSON(json)
 
-    fetch(this.modelUrl(), this.fetchOptions({
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(saveJson),
-    }))
-      .then(res => {
-        const json = res.json()
-        if (!res.status === 200) return callback(new Error(`Error updating model (${res.status}): ${json.error}`))
-        return callback(null, json)
-      })
-      .catch(callback)
+    try {
+      const res = await fetch(this.modelUrl(), this.fetchOptions({
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(saveJson),
+      }))
+      const json = await res.json()
+      if (!res.status === 200) return callback(new Error(`Error updating model (${res.status}): ${json.error}`))
+      return callback(null, json)
+    }
+    catch (err) {
+      callback(err)
+    }
   }
   update = (model, callback) => callback ? this._update(model, callback) : promisify(this._update)(model)
 
   /*
    * DELETE a single model
    */
-  _delete = (model, callback) => {
-    fetch(this.modelUrl(), this.fetchOptions({
-      method: 'DELETE',
-    }))
-      .then(res => {
-        const json = res.json()
-        if (!res.status === 200) return callback(new Error(`Error deleting model (${res.status}): ${json.error}`))
-        return callback(null, json)
-      })
-      .catch(callback)
+  _delete = async (model, callback) => {
+
+    try {
+      const res = await fetch(this.modelUrl(), this.fetchOptions({
+        method: 'DELETE',
+      }))
+      const json = await res.json()
+      if (!res.status === 200) return callback(new Error(`Error deleting model (${res.status}): ${json.error}`))
+      return callback(null, json)
+    }
+    catch (err) {
+      callback(err)
+    }
   }
   delete = (model, callback) => callback ? this._delete(model, callback) : promisify(this._delete)(model)
 
   /*
    * DELETE by query
    */
-  _destroy = (query, callback) => {
-    fetch(`${this.modelType.url}?${qs.stringify(query)}`, this.fetchOptions({
-      method: 'DELETE',
-    }))
-      .then(res => {
-        const json = res.json()
-        if (!res.status === 200) return callback(new Error(`Error deleting model (${res.status}): ${json.error}`))
-        return callback(null, json)
-      })
-      .catch(callback)
+  _destroy = async (query, callback) => {
+
+    try {
+      const res = await fetch(`${this.modelType.url}?${qs.stringify(query)}`, this.fetchOptions({
+        method: 'DELETE',
+      }))
+      const json = await res.json()
+      if (!res.status === 200) return callback(new Error(`Error deleting model (${res.status}): ${json.error}`))
+      return callback(null, json)
+    }
+    catch (err) {
+      callback(err)
+    }
   }
   destroy = (query, callback) => callback ? this._destroy(query, callback) : promisify(this._destroy)(query)
 
