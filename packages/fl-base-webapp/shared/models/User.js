@@ -1,17 +1,13 @@
 import _ from 'lodash' // eslint-disable-line
-import moment from 'moment'
-import Backbone from 'backbone'
-import { beforeSend } from '../lib/headers'
+import { createModel, Model } from 'stein-orm-http'
 
-export default class User extends Backbone.Model {
-  schema = () => _.extend({
 
+@createModel({
+  url: '/api/users',
+  schema: () => _.extend({
     profile: () => ['hasOne', require('./Profile')],
+  }, require('../../shared/models/schemas/user')),
+})
+export default class User extends Model {
 
-  }, require('./schemas/user'))
-
-  defaults() { return {createdDate: moment.utc().toDate()} }
 }
-
-User.prototype.urlRoot = '/api/users'
-User.prototype.sync = require('backbone-http').sync(User, {beforeSend})

@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import naming from './lib/naming'
-import One from './relations/one'
-import Many from './relations/many'
-import DatabaseUrl from './flsql/lib/DatabaseUrl'
+import One from './relations/One'
+import Many from './relations/Many'
+import DatabaseUrl from './lib/DatabaseUrl'
 import createModel from './createModel'
 
 

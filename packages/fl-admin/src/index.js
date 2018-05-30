@@ -73,7 +73,7 @@ function createModelAdmin(options, modelDescriptor) {
     modelAdmin.createLink = () => modelAdmin.link('create')
   }
 
-  const schema = Model.schema && Model.schema('schema')
+  const schema = Model.schema
   const fields = schema.fields || {}
   const relationFields = schema.relations || {}
   const defaultSearchFields = []

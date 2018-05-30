@@ -11,18 +11,6 @@ const LAST_ACTIVE_UPDATE_INTERVAL = 5 * 60 * 60 * 1000
 const dbUrl = process.env.DATABASE_URL
 if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 
-function locationObj(location) {
-  if (!location) return {}
-  const split = (location.name || '').split(',')
-  const city = (split[0] || '').trim()
-  const country = (split[1] || '').trim()
-  return {
-    countryCode: location.country && location.country.code,
-    city,
-    country,
-  }
-}
-
 @createModel({
   url: `${dbUrl}/users`,
   schema: () => _.extend({
@@ -31,7 +19,9 @@ function locationObj(location) {
 })
 export default class User extends Model {
 
-  defaults() { return {createdDate: moment.utc().toDate()} }
+  defaults = () => ({
+    createdDate: moment.utc().toDate(),
+  })
 
   // Handle a bunch of user onboarding tasks
   // TODO: Does not handle a mentor that has registered for one community wanting to be a mentor on another

@@ -19,6 +19,8 @@ export default class BearerStrategy extends Strategy {
     _.merge(this, options)
     if (!this.User) throw new Error('[fl-auth] PasswordStrategy: Missing User from options')
     if (verify) this.verify = verify
+
+      console.log('BearerStrategy options', options)
   }
 
   verify(req, token, callback) {
@@ -26,6 +28,7 @@ export default class BearerStrategy extends Strategy {
     const User = this.User
 
     AccessToken.cursor({token, $one: true}).toJSON((err, accessToken) => {
+      console.log('accessToken', accessToken)
       if (err || !accessToken) return callback(err, false)
 
       // todo: when to refresh tokens?

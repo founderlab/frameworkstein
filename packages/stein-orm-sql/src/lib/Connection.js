@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import Knex from 'knex'
-import DatabaseUrl from './DatabaseUrl'
+import { DatabaseUrl } from 'stein-orm'
 
 
 const pool = {}
