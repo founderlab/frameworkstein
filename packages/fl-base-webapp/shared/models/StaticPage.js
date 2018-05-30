@@ -1,15 +1,12 @@
 import _ from 'lodash' // eslint-disable-line
-import moment from 'moment'
-import Backbone from 'backbone'
-import { beforeSend } from '../lib/headers'
+import { createModel, Model } from 'stein-orm-http'
 
-export default class StaticPage extends Backbone.Model {
-  schema = () => _.extend({
 
-  }, require('./schemas/staticPage'))
+@createModel({
+  url: '/api/static_pages',
+  schema: () => _.extend({
+  }, require('../../shared/models/schemas/profile')),
+})
+export default class StaticPage extends Model {
 
-  defaults() { return {createdDate: moment.utc().toDate()} }
 }
-
-StaticPage.prototype.urlRoot = '/api/static_pages'
-StaticPage.prototype.sync = require('backbone-http').sync(StaticPage, {beforeSend})

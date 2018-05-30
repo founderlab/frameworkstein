@@ -2,9 +2,9 @@ import _ from 'lodash' // eslint-disable-line
 import { createStore as _createStore, compose, applyMiddleware } from 'redux'
 import { requestMiddleware, responseParserMiddleware, createRequestModifierMiddleware } from 'redux-request-middleware'
 import { fetchComponentDataMiddleware } from 'fetch-component-data'
+import { configure as configureStein } from 'stein-orm-http'
 import { fromJS } from 'immutable'
 import { routerMiddleware } from 'react-router-redux'
-import { setHeaders } from './lib/headers'
 import getRoutes from './routes'
 
 
@@ -96,6 +96,16 @@ export default function createStore({initialState, history}) {
   const _initialState = immute(initialState)
   const store = finalCreateStore(reducer, _initialState)
 
-  setHeaders({'x-csrf-token': initialState.auth.csrf})
+  const steinOptions = {
+    baseUrl: initialState.config.url,
+    fetch: {
+      headers: {
+        'x-csrf-token': initialState.auth.csrf,
+      },
+    },
+  }
+  if (initialState.auth.accessToken) steinOptions.fetch.headers.authorization = `Bearer ${initialState.auth.accessToken}`
+  configureStein(steinOptions)
+
   return store
 }

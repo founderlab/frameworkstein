@@ -11,6 +11,9 @@ export default function loadInitialState(req) {
     state.auth = {
       user: {id: user.id},
     }
+    if (req.session.accessToken) {
+      state.auth.accessToken = req.session.accessToken.token
+    }
   }
 
   if (req.csrfToken) {

@@ -1,12 +1,12 @@
 import _ from 'lodash'
 import knex from 'knex'
 import { promisify } from 'util'
+import { DatabaseUrl } from 'stein-orm'
 import parseJson from './lib/parseJson'
 import Ast from './Ast'
 import buildQuery from './buildQuery'
 import SqlCursor from './Cursor'
 import DatabaseTools from './DatabaseTools'
-import DatabaseUrl from './lib/DatabaseUrl'
 
 
 const connectionPool = {}

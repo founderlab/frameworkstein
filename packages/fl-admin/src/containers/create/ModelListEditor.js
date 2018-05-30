@@ -57,8 +57,6 @@ export default function createModelListEditor(modelAdmin) {
         const $search = urlQuery.search.trim()
         query.$or = _.map(modelAdmin.searchFields, f => ({[f]: {$search}}))
       }
-console.log('store.getState().router', store.getState().router)
-console.log('ftching', urlQuery.search, query)
       await store.dispatch(countModels(_.clone(query)))
 
       query.$limit = modelAdmin.perPage

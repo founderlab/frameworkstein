@@ -1,10 +1,12 @@
 import _ from 'lodash'
 import fetch from 'cross-fetch'
+import qs from 'qs'
 import { promisify } from 'es6-promisify'
 import HttpCursor from './Cursor'
+import { config } from './config'
 
 
-export default class SqlStore {
+export default class HttpStore {
 
   constructor(modelType, options={}) {
     this.modelType = modelType
@@ -12,10 +14,20 @@ export default class SqlStore {
     if (!this.url) throw new Error(`Missing url for model ${this.modelType.name}`)
   }
 
-  modelUrl = () => {
-    if (this.id) return `${this.url}/${this.id}`
-    return this.url
+  urlRoot = () => {
+    let prefix = config.baseUrl || ''
+    if (prefix.endsWith('/')) prefix = prefix.slice(0, prefix.length-1)
+    return `${prefix}${this.url}`
   }
+
+  modelUrl = () => {
+    if (!this.id) return this.urlRoot()
+    let prefix = this.urlRoot()
+    if (prefix.endsWith('/')) prefix = prefix.slice(0, prefix.length-1)
+    return `${prefix}/${this.id}`
+  }
+
+  fetchOptions = (options={}) => _.merge(_.cloneDeep(config.fetch), options)
 
   /*
    * Return a http cursor for query building
@@ -31,13 +43,13 @@ export default class SqlStore {
     const json = model.toJSON()
     const saveJson = this.parseJSON(json)
 
-    fetch(this.url, {
+    fetch(this.url, this.fetchOptions({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(saveJson),
-    })
+    }))
       .then(res => {
         const json = res.json()
         if (!res.status === 200) return callback(new Error(`Error creating model (${res.status}): ${json.error}`))
@@ -54,13 +66,13 @@ export default class SqlStore {
     const json = model.toJSON()
     const saveJson = this.parseJSON(json)
 
-    fetch(this.modelUrl(), {
+    fetch(this.modelUrl(), this.fetchOptions({
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(saveJson),
-    })
+    }))
       .then(res => {
         const json = res.json()
         if (!res.status === 200) return callback(new Error(`Error updating model (${res.status}): ${json.error}`))
@@ -74,9 +86,9 @@ export default class SqlStore {
    * DELETE a single model
    */
   _delete = (model, callback) => {
-    fetch(this.modelUrl(), {
+    fetch(this.modelUrl(), this.fetchOptions({
       method: 'DELETE',
-    })
+    }))
       .then(res => {
         const json = res.json()
         if (!res.status === 200) return callback(new Error(`Error deleting model (${res.status}): ${json.error}`))
@@ -90,9 +102,9 @@ export default class SqlStore {
    * DELETE by query
    */
   _destroy = (query, callback) => {
-    fetch(`${this.modelType.url}?${qs.stringify(query)}`, {
+    fetch(`${this.modelType.url}?${qs.stringify(query)}`, this.fetchOptions({
       method: 'DELETE',
-    })
+    }))
       .then(res => {
         const json = res.json()
         if (!res.status === 200) return callback(new Error(`Error deleting model (${res.status}): ${json.error}`))

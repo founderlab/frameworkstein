@@ -3,9 +3,10 @@ import qs from 'qs'
 import fetch from 'cross-fetch'
 import { Cursor } from 'stein-orm'
 import querify from './querify'
+import { config } from './config'
 
 
-export default class SqlCursor extends Cursor {
+export default class HttpCursor extends Cursor {
   constructor(...args) {
     super(...args)
     this.verbose = false
@@ -14,9 +15,10 @@ export default class SqlCursor extends Cursor {
   queryToJSON = async callback => {
     if (this.hasCursorQuery('$zero')) return callback(null, this.hasCursorQuery('$one') ? null : [])
     const query = querify(_.extend({}, this._find, this._cursor))
+    // console.log('queryToJSON', config, query, this.modelType.store.fetchOptions())
 
     try {
-      const res = fetch(`${this.modelType.url}?${qs.stringify(query)}`)
+      const res = fetch(`${this.modelType.store.urlRoot()}?${qs.stringify(query)}`, this.modelType.store.fetchOptions())
       if (res.status === '404' && query.$one) return callback(null, null)
       const json = res.json()
       return callback(null, this.hasCursorQuery('$count') || this.hasCursorQuery('$exists') ? json.result : json)

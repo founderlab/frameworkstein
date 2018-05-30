@@ -13,6 +13,9 @@ if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
   }, require('../../shared/models/schemas/profile')),
 })
 export default class Profile extends Model {
-  defaults() { return {deleted: false, visible: true, createdDate: moment.utc().toDate()} }
+  defaults = () => ({
+    deleted: false,
+    visible: true,
+    createdDate: moment.utc().toDate(),
+  })
 }
-
