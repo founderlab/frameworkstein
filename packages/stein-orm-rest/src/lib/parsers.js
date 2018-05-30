@@ -107,14 +107,3 @@ export function parseQuery(query) {
   }
   return json
 }
-
-// Serialze json to a strict-JSON query format
-//
-// @example
-//   query = querify(json)
-//
-export function querify(json) {
-  const query = {}
-  for (const key in json) { const value = json[key]; query[key] = JSON.stringify(value) }
-  return query
-}
