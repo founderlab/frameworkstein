@@ -1,5 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
-import {fromJS} from 'immutable'
+import { fromJS } from 'immutable'
 
 export default function createPaginationReducer(actionType, options={}) {
 

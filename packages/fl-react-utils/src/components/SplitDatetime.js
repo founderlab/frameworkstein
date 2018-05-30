@@ -89,7 +89,7 @@ export default class SplitDatetime extends React.Component {
   }
 
   render() {
-    const {label, meta, helpMd, helpTop} = this.props
+    const { label, meta, helpMd, helpTop } = this.props
     const inputProps = _.extend({}, this.props.input, this.props.inputProps)
 
     let help = this.props.help

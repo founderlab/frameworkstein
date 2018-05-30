@@ -2,7 +2,7 @@ import _ from 'lodash'
 import expect from 'expect'
 import Immutable, {fromJS} from 'immutable'
 import types from '../src/action_types'
-import {reducer} from '../src'
+import { reducer } from '../src'
 
 const suffixes = {
   START: '_START',

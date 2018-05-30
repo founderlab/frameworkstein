@@ -34,8 +34,8 @@ export default class EmailConfirmContainer extends Component {
 
   confirm(_props) {
     const props = _props || this.props
-    const {auth} = props
-    const {url} = this.context
+    const { auth } = props
+    const { url } = this.context
     const query = this.query()
     if (!(auth.get('errors') && auth.get('errors').get('confirmEmail')) && !auth.get('loading') && !auth.get('emailConfirmed')) {
       this.props.confirmEmail(`${url}/confirm-email`, query.email, query.token, err => {
@@ -48,7 +48,7 @@ export default class EmailConfirmContainer extends Component {
   query = () => qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
 
   render() {
-    const {auth} = this.props
+    const { auth } = this.props
     const loading = auth.get('loading')
     const err = auth.get('errors') && auth.get('errors').get('confirmEmail')
     const emailConfirmed = auth.get('emailConfirmed')

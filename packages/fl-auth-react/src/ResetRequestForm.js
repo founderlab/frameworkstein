@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button} from 'reactstrap'
-import {connect} from 'react-redux'
-import {reduxForm, Field, formValueSelector} from 'redux-form'
-import {Input} from 'fl-react-utils'
+import { Button } from 'reactstrap'
+import { connect } from 'react-redux'
+import { reduxForm, Field, formValueSelector } from 'redux-form'
+import { Input } from 'fl-react-utils'
 
 // Connect this form to redux to get the current value of email
 const selector = formValueSelector('reset')
@@ -21,7 +21,7 @@ export default class ResetRequestForm extends Component {
   }
 
   render() {
-    const {email, handleSubmit, loading, resetEmailSent} = this.props
+    const { email, handleSubmit, loading, resetEmailSent } = this.props
 
     return (
       <form onSubmit={handleSubmit}>

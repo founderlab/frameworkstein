@@ -9,7 +9,7 @@ import createModelDetailForm from '../components/create/ModelDetailForm'
 
 export default function ModelDetail(props) {
 
-  const {modelAdmin, modelStore, id, handleSaveFn, handleDeleteFn} = props
+  const { modelAdmin, modelStore, id, handleSaveFn, handleDeleteFn } = props
   const modelIm = modelStore.get('models').get(id)
   const model = modelIm ? modelIm.toJSON() : {}
   warning(model, `[fl-admin] ModelDetail: Model ${modelAdmin.name} not loaded with id ${id}`)

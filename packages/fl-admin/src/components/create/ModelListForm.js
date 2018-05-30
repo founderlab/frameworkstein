@@ -1,7 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Button} from 'reactstrap'
+import { Button } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { reduxForm, Field } from 'redux-form'
 import { shouldEditFieldInline, shouldDisplayFieldInline } from '../../utils/inline'
@@ -17,7 +17,7 @@ export class ModelListForm extends React.Component {
   }
 
   render() {
-    const {modelAdmin, model, handleSubmit, onDelete} = this.props
+    const { modelAdmin, model, handleSubmit, onDelete } = this.props
     const showSave = _.some(modelAdmin.fields, f => shouldEditFieldInline(f))
 
     return (

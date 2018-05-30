@@ -28,7 +28,7 @@ export default class LoginForm extends Component {
   }
 
   errorMsg = () => {
-    const {errorMsg, query} = this.props
+    const { errorMsg, query } = this.props
     if (!errorMsg) return null
 
     const tryAgain = (<span>Try again or <Link to={{pathname: '/reset-request', query}}>reset your password</Link>.</span>)
@@ -46,7 +46,7 @@ export default class LoginForm extends Component {
   }
 
   render() {
-    const {handleSubmit, loading, query, returnTo, email} = this.props
+    const { handleSubmit, loading, query, returnTo, email } = this.props
     if (email) query.email = email
 
     return (

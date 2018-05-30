@@ -1,6 +1,6 @@
 import expect from 'expect'
-import {patchRouteEntry} from '../src'
-import {makeHooksSafe} from '../src/patchRouteEntry'
+import { patchRouteEntry } from '../src'
+import { makeHooksSafe } from '../src/patchRouteEntry'
 
 describe('fl-react-utils', () => {
 

@@ -54,7 +54,7 @@ export default class Avatar extends React.Component {
   }
 
   render() {
-    const {className, size} = this.props
+    const { className, size } = this.props
     const source = this.source()
     if (!source) return null
 

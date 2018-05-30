@@ -4,7 +4,7 @@ import { createAuthMiddleware } from 'fl-auth-server'
 
 
 function canAccess(options, callback) {
-  const {user, req} = options
+  const { user, req } = options
   if (req.method === 'GET') return callback(null, true)
   if (!user) return callback(null, false)
   if (user.admin) return callback(null, true)

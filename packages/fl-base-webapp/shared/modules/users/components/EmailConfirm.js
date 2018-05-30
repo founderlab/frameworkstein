@@ -13,7 +13,7 @@ export default class EmailConfirm extends Component {
   }
 
   render() {
-    const {emailConfirmed, loading, errorMsg} = this.props
+    const { emailConfirmed, loading, errorMsg } = this.props
 
     return (
       <div className="form-page email-confirm">

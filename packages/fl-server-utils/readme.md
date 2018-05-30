@@ -4,7 +4,7 @@ backbone-rest render override example:
 -----------------------------
 ```javascript
 ...
-import {render} from 'fl-server-utils'
+import { render } from 'fl-server-utils'
 
 const detail = (applications, options, callback) => {
   // applications are a list of plain objects (not backbone models)
@@ -35,7 +35,7 @@ Middleware to add cors headers to all requests
 
 ```javascript
 // Remember to keep cors before auth middleware
-import {cors} from 'fl-server-utils'
+import { cors } from 'fl-server-utils'
 app.use(cors(config.origins || '*'))
 ```
 
@@ -46,7 +46,7 @@ Use this to switch between e.g. mongodb and postgres without any code changes
 
 ```javascript
 import Backbone from 'backbone'
-import {smartSync} from 'fl-server-utils'
+import { smartSync } from 'fl-server-utils'
 
 const dbUrl = process.env.DATABASE_URL
 

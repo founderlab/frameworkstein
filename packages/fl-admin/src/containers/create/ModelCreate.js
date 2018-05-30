@@ -6,7 +6,7 @@ import ModelDetail from '../../components/ModelDetail'
 
 
 export default function createModelCreate(modelAdmin) {
-  const {saveModel, deleteModel} = modelAdmin.actions
+  const { saveModel, deleteModel } = modelAdmin.actions
 
   return @connect(
     state => ({
@@ -38,7 +38,7 @@ export default function createModelCreate(modelAdmin) {
     }
 
     render() {
-      const {modelStore} = this.props
+      const { modelStore } = this.props
 
       const componentProps = {
         modelAdmin,

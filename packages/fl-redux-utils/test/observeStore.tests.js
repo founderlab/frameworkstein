@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {observeStore} from '../src'
+import { observeStore } from '../src'
 
 describe('observeStore', () => {
 

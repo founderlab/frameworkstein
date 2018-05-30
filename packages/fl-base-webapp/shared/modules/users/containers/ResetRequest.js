@@ -26,7 +26,7 @@ export default class ResetRequestContainer extends Component {
   query = () => qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
 
   render() {
-    const {auth} = this.props
+    const { auth } = this.props
     const err = auth.get('errors') && auth.get('errors').get('reset_request')
     const loading = auth.get('loading')
     const resetEmailSent = auth.get('resetEmailSent')

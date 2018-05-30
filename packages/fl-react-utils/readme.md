@@ -6,11 +6,11 @@ Wrapper for react-sidebar with some useful defaults.
 
 ```javascript
 ...
-import {Sidebar} from 'fl-react-utils'
+import { Sidebar } from 'fl-react-utils'
 
 class SomeComponent extends React.Component {
   render() {
-    const {model} = this.props
+    const { model } = this.props
 
     return (
       <Sidebar

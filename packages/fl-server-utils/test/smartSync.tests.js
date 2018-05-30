@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {selectModule} from '../src/smartSync'
+import { selectModule } from '../src/smartSync'
 
 const MONGO_DATABASE_URL = 'mongodb://localhost:27017/fl-test'
 

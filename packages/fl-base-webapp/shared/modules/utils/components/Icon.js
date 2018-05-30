@@ -26,7 +26,7 @@ export default class Icon extends Component {
   }
 
   render() {
-    const {icon, iconPath, extension, ...rest} = this.props
+    const { icon, iconPath, extension, ...rest } = this.props
     const root = this.props.root || this.context.s3Url || '/public'
     const iconUrl = iconPath(root, icon, extension)
 

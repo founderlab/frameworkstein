@@ -1,6 +1,6 @@
 import expect from 'expect'
 import _ from 'lodash'
-import {createGroupByReducer} from '../src'
+import { createGroupByReducer } from '../src'
 
 describe('createGroupByReducer', () => {
 

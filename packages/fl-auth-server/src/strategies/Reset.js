@@ -6,7 +6,7 @@ export default class ResetStrategy extends LocalStrategy {
   verify(req, email, password, callback) {
     const User = this.User
 
-    const {resetToken} = req.body
+    const { resetToken } = req.body
     if (!resetToken) return callback(null, null, 'No token provided')
 
     User.findOne({email, resetToken}, (err, user) => {

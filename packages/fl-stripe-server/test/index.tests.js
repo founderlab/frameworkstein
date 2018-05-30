@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import assert from 'assert'
-import {spy} from 'sinon'
-import {createStripeController, createStripeCustomer} from '../src'
+import { spy } from 'sinon'
+import { createStripeController, createStripeCustomer } from '../src'
 import User from './User'
 
 const stripe = require('stripe')(process.env.STRIPE_API_KEY)
@@ -55,7 +55,7 @@ describe('StripeController', () => {
   })
 
   it('Can create a customer without a token', done => {
-    const {createCard} = createStripeController(createOptions())
+    const { createCard } = createStripeController(createOptions())
 
     createCard(createReq(), createRes(json => {
       assert.ok(json)
@@ -70,7 +70,7 @@ describe('StripeController', () => {
   })
 
   it('Can add a card using a token', done => {
-    const {createCard} = createStripeController(createOptions())
+    const { createCard } = createStripeController(createOptions())
 
     stripe.tokens.create({
       card: {
@@ -89,7 +89,7 @@ describe('StripeController', () => {
   })
 
   it('Can add another card using a token', done => {
-    const {createCard} = createStripeController(createOptions())
+    const { createCard } = createStripeController(createOptions())
 
     stripe.tokens.create({
       card: {
@@ -108,7 +108,7 @@ describe('StripeController', () => {
   })
 
   it('Can list a users cards', done => {
-    const {listCards} = createStripeController(createOptions())
+    const { listCards } = createStripeController(createOptions())
 
     listCards(createReq(), createRes(json => {
       assert.ok(json)
@@ -119,7 +119,7 @@ describe('StripeController', () => {
   })
 
   it('Can change the default card', done => {
-    const {listCards, setDefaultCard} = createStripeController(createOptions())
+    const { listCards, setDefaultCard } = createStripeController(createOptions())
 
     listCards(createReq(), createRes(json => {
       assert.ok(json)
@@ -147,7 +147,7 @@ describe('StripeController', () => {
   })
 
   it('Can delete a card', done => {
-    const {listCards, deleteCard} = createStripeController(createOptions())
+    const { listCards, deleteCard } = createStripeController(createOptions())
 
     listCards(createReq(), createRes(json => {
       assert.ok(json)
@@ -172,7 +172,7 @@ describe('StripeController', () => {
   })
 
   it('Can charge a customer', done => {
-    const {chargeCustomer} = createStripeController(createOptions())
+    const { chargeCustomer } = createStripeController(createOptions())
 
     chargeCustomer(createReq({}, {amount: 3000, user_id: user.id}), createRes(json => {
       assert.ok(json)

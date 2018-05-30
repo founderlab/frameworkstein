@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import {Strategy} from 'passport'
-import {findOrCreateAccessToken} from '../lib'
+import { Strategy } from 'passport'
+import { findOrCreateAccessToken } from '../lib'
 
 export default class LocalStrategy extends Strategy {
   constructor(options={}, verify) {

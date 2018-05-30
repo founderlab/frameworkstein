@@ -8,7 +8,7 @@ import createAuthMiddleware from './middleware/authorised'
 import createInternalMiddleware from './middleware/internal'
 import AccessToken from './models/AccessToken'
 import RefreshToken from './models/RefreshToken'
-import {createToken, findOrCreateAccessToken} from './lib'
+import { createToken, findOrCreateAccessToken } from './lib'
 
 const beforeRedirect = (req, res, next) => {
   req.session.returnTo = req.query.returnTo || req.headers.referer || '/'

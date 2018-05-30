@@ -29,7 +29,7 @@ export default class S3Uploader extends React.Component {
   }
 
   render() {
-    const {config, size, inputProps} = this.props
+    const { config, size, inputProps } = this.props
 
     const style = this.props.style || {
       height: size === 'large' ? 200 : 100,

@@ -31,7 +31,7 @@ export default function getRoutes(store) {
    */
   function requireUserFn(checkFn, redirectUrlFn=loginUrl) {
     const checkUser = (state) => {
-      const {auth} = state
+      const { auth } = state
       const user = auth.get('user')
       return user && (!checkFn || checkFn(user))
     }

@@ -38,7 +38,7 @@ export default class LoginContainer extends React.Component {
   }
 
   render() {
-    const {auth, email} = this.props
+    const { auth, email } = this.props
     // Stay loading while the redirect is happening
     const loading = auth.get('loading') || this.state.loaded
     const errorMsg = auth.get('errors') ? auth.get('errors').get('login') : null

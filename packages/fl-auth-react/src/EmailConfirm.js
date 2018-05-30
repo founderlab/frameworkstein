@@ -19,14 +19,14 @@ export default class EmailConfirm extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const {emailConfirmed, loading, errorMsg, confirmEmail, children, email, token} = props
+    const { emailConfirmed, loading, errorMsg, confirmEmail, children, email, token } = props
     if (!errorMsg && !loading && emailConfirmed) {
       confirmEmail(email, token)
     }
   }
 
   render() {
-    const {emailConfirmed, loading, errorMsg, confirmEmail, children, email, token} = this.props
+    const { emailConfirmed, loading, errorMsg, confirmEmail, children, email, token } = this.props
 
     return (
       <div>

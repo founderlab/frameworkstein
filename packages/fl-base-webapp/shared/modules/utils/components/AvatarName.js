@@ -33,7 +33,7 @@ export default class AvatarName extends React.Component {
   }
 
   render() {
-    const {className, caret} = this.props
+    const { className, caret } = this.props
     const source = this.source()
     if (!source) return null
 

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import {JSONUtils} from 'backbone-orm'
+import { JSONUtils } from 'backbone-orm'
 
 export function stripRev(obj) {
   if (_.isArray(obj)) return _.map(obj, o => stripRev(o))

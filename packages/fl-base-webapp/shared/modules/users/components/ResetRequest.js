@@ -14,7 +14,7 @@ export default class ResetRequest extends Component {
   }
 
   render() {
-    const {loading, email, errorMsg} = this.props
+    const { loading, email, errorMsg } = this.props
     const notFound = errorMsg === 'User not found'
     const err = errorMsg && !notFound
 

@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Queue from 'queue-async'
-import {Strategy} from 'passport'
-import {findOrCreateAccessToken} from '../lib'
+import { Strategy } from 'passport'
+import { findOrCreateAccessToken } from '../lib'
 
 // Strategy to find or create a user based on a facebookId and token obtained from the facebook mobile sdk
 // `profile` may be null (if the user has already linked their account we won't need it)
@@ -33,7 +33,7 @@ export default class FacebookMobileStrategy extends Strategy {
 
   authenticate(req) {
     const User = this.User
-    const {accessToken, profile} = req.body
+    const { accessToken, profile } = req.body
 
     User.findOne({facebookId: accessToken.userID}, (err, existingUser) => {
       if (err) return this.error(err)

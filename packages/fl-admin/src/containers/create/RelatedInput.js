@@ -11,9 +11,9 @@ import InlineRelation from '../../components/inputs/InlineRelation'
 
 
 export default function createRelatedField(relationField) {
-  const {modelAdmin} = relationField
+  const { modelAdmin } = relationField
   if (!modelAdmin) return null
-  const {loadModels, saveModel, deleteModel} = modelAdmin.actions
+  const { loadModels, saveModel, deleteModel } = modelAdmin.actions
 
   return @connect(state => ({modelStore: state.admin[modelAdmin.path]}), {loadModels, saveModel, deleteModel})
   class RelatedInput extends Component {
@@ -41,7 +41,7 @@ export default function createRelatedField(relationField) {
 
     render() {
       if (!this.hasData()) return (<Loader type="inline" />)
-      const {model, modelStore} = this.props
+      const { model, modelStore } = this.props
       const props = {relationField, ...this.props}
 
       if (relationField.type === 'belongsTo') {

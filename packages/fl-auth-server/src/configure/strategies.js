@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import passport from 'passport'
-import {Strategy as FacebookStrategy} from 'passport-facebook'
-import {Strategy as LinkedInStrategy} from 'passport-linkedin-oauth2'
-import {BearerStrategy, PasswordStrategy, RegisterStrategy, ResetStrategy, FacebookMobileStrategy} from '../strategies'
+import { Strategy as FacebookStrategy } from 'passport-facebook'
+import { Strategy as LinkedInStrategy } from 'passport-linkedin-oauth2'
+import { BearerStrategy, PasswordStrategy, RegisterStrategy, ResetStrategy, FacebookMobileStrategy } from '../strategies'
 
 export function configureFacebook(options, strategyOptions) {
   if (!options.facebook.clientId) return console.log('[fl-auth-server] Missing facebook option clientId, got', options.facebook)

@@ -53,7 +53,7 @@ export default class FLInput extends React.Component {
   }
 
   render() {
-    const {label, input, meta, helpMd, helpTop, type, className, bsProps, validationState, options} = this.props
+    const { label, input, meta, helpMd, helpTop, type, className, bsProps, validationState, options } = this.props
 
     const validation = validationState ? validationState(meta) : null
     const inputProps = _.extend({
@@ -117,7 +117,7 @@ export default class FLInput extends React.Component {
           warning(false, 'react-select components require an options prop')
           return null
         }
-        const {onChange, onBlur, value, ...props} = inputProps
+        const { onChange, onBlur, value, ...props } = inputProps
         const stringValue = _.isArray(value) ? value.join(',') : value
         const funcs = {}
         if (onChange) funcs.onChange = value => onChange(parseSelectValues(value))

@@ -36,7 +36,7 @@ export default class MyPage extends React.Component {
   static fetchData({store, action}/*, callback*/) {
 
     // As is the current action if we're transitioning between routes. 'action.payload' contains the props for the route we're transitioning to. Here for example we're getting router.params.id from it
-    const {router} = store.getState()
+    const { router } = store.getState()
     const id = ((action && action.payload && action.payload.params) || router.params).id
     
     // Assuming we're using redux-request-middleware to return a promise when dispatching this action

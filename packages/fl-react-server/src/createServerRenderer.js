@@ -26,7 +26,7 @@ const defaults = {
 
 export default function createServerRenderer(_options) {
   const options = _.extend({}, defaults, _options)
-  const {createStore, getRoutes, gaId, config={}} = options
+  const { createStore, getRoutes, gaId, config={} } = options
   let alwaysFetch = options.alwaysFetch || []
   if (!_.isArray(alwaysFetch)) alwaysFetch = [alwaysFetch]
   if (!createStore) throw new Error('[fl-react-server] createServerRenderer: Missing createStore from options')

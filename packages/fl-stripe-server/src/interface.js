@@ -7,7 +7,7 @@ const handleError = (err, callback) => {
 }
 
 function createCard(options, callback) {
-  const {stripe, source, userId, description, StripeCustomer} = options
+  const { stripe, source, userId, description, StripeCustomer } = options
 
   // Check for an existing (local) stripe customer record
   StripeCustomer.cursor({user_id: userId, $one: true}).toJSON((err, customer) => {
@@ -48,7 +48,7 @@ function createCard(options, callback) {
 }
 
 function listCards(options, callback) {
-  const {stripe, userId, StripeCustomer} = options
+  const { stripe, userId, StripeCustomer } = options
 
   StripeCustomer.cursor({user_id: userId, $one: true}).toJSON((err, customer) => {
     if (err) return handleError(err, `Error retrieving customer for user ${user.id}`, callback)
@@ -72,7 +72,7 @@ function listCards(options, callback) {
 }
 
 function setDefaultCard(options, callback) {
-  const {stripe, userId, cardId, StripeCustomer} = options
+  const { stripe, userId, cardId, StripeCustomer } = options
   if (!cardId) return callback(new Error('setDefaultCard requires a cardId'))
 
   StripeCustomer.cursor({user_id: userId, $one: true}).toJSON((err, customer) => {
@@ -87,7 +87,7 @@ function setDefaultCard(options, callback) {
 }
 
 function deleteCard(options, callback) {
-  const {stripe, userId, cardId, StripeCustomer} = options
+  const { stripe, userId, cardId, StripeCustomer } = options
   if (!cardId) return callback(new Error('deleteCard requires a cardId'))
 
   StripeCustomer.cursor({user_id: userId, $one: true}).toJSON((err, customer) => {
@@ -102,7 +102,7 @@ function deleteCard(options, callback) {
 }
 
 function chargeCustomer(options, callback) {
-  const {stripe, userId, amount, currency, StripeCustomer} = options
+  const { stripe, userId, amount, currency, StripeCustomer } = options
   if (!amount) return callback(new Error('chargeCustomer requires an amount'))
   if (!currency) return callback(new Error('chargeCustomer requires a currency'))
 
@@ -129,7 +129,7 @@ function listPlans(options, callback) {
 }
 
 function showSubscription(options, callback) {
-  const {stripe, userId, StripeCustomer} = options
+  const { stripe, userId, StripeCustomer } = options
 
   StripeCustomer.cursor({user_id: userId, $one: true}).toJSON((err, customer) => {
     if (err) return handleError(err, callback)
@@ -140,7 +140,7 @@ function showSubscription(options, callback) {
 }
 
 function getCoupon(options, callback) {
-  const {coupon} = options
+  const { coupon } = options
 
   options.stripe.coupons.retrieve(coupon, (err, json) => {
     if (err) return handleError(err, callback)
@@ -150,7 +150,7 @@ function getCoupon(options, callback) {
 
 // Set a users plan, changing the current one if it exists
 function subscribeToPlan(options, callback) {
-  const {stripe, userId, planId, coupon, StripeCustomer} = options
+  const { stripe, userId, planId, coupon, StripeCustomer } = options
 
   StripeCustomer.cursor({user_id: userId, $one: true}).toJSON((err, customer) => {
     if (err) return handleError(err, callback)

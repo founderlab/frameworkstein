@@ -1,6 +1,6 @@
 import assert from 'assert'
-import {spy} from 'sinon'
-import {createRequestMiddleware} from '../src'
+import { spy } from 'sinon'
+import { createRequestMiddleware } from '../src'
 
 const suffixes = {
   START: '_START',
@@ -59,7 +59,7 @@ describe('requestMiddleware', () => {
     const action = {type: TYPE, req: 'lol', request: () => {}}
     const middleware = createRequestMiddleware({
       extractRequest: action => {
-        const {req, callback, ...rest} = action
+        const { req, callback, ...rest } = action
         return {request: req, callback, action: rest}
       },
       retry: false,
@@ -156,7 +156,7 @@ describe('requestMiddleware', () => {
     const action = {type: TYPE, aRequest: req}
 
     const extractRequest = (action) => {
-      const {aRequest, ...rest} = action
+      const { aRequest, ...rest } = action
       return {request: aRequest, action: rest}
     }
     const getEndFn = request => request.next.bind(request)

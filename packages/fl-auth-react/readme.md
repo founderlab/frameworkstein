@@ -10,8 +10,8 @@ Usage:
 
     // Ensure that the auth reducer from fl-auth-redux is in place
 
-    import {login, register} from 'fl-auth-redux'
-    import {LoginForm, RegisterForm} from 'fl-auth-react'
+    import { login, register } from 'fl-auth-redux'
+    import { LoginForm, RegisterForm } from 'fl-auth-react'
 
     ...
     @connect(state => {auth: state.auth}, {login, register})
@@ -32,7 +32,7 @@ Usage:
       }
 
       render() {
-        const {auth, onSubmit} = this.props
+        const { auth, onSubmit } = this.props
 
         return (
           <div>

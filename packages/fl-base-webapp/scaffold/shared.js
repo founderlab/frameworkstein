@@ -39,7 +39,7 @@ export default async function scaffold(_toScaffold, callback) {
         models[key] = existingUser
       }
       else {
-        const {profile, ...__user} = _user
+        const { profile, ...__user } = _user
         const user = new User(__user)
         models.users[key] = user
         await user.save({password: User.createHash(user.get('password'))})

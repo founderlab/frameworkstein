@@ -1,6 +1,6 @@
 
 export default function createInternalMiddleware(options) {
-  const {User, secret, deserializeUser} = options
+  const { User, secret, deserializeUser } = options
 
   if (!(User || deserializeUser)) {
     console.error('[fl-auth] createInternalMiddleware requires a User or deserializeUser option')

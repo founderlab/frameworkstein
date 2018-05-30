@@ -6,7 +6,7 @@ import { FormGroup, Label, FormControl } from 'reactstrap'
 
 
 export default function BelongsTo(_props) {
-  const {relationField, modelStore, ...props} = _props
+  const { relationField, modelStore, ...props } = _props
   const models = modelStore.get('models').toJSON ? modelStore.get('models').toJSON() : {}
 
   const options = _.map(models, model => ({label: relationField.modelAdmin.display(model), value: model.id}))

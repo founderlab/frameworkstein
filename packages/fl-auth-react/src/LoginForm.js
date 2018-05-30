@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button} from 'reactstrap'
-import {reduxForm, Field} from 'redux-form'
-import {Input} from 'fl-react-utils'
-import {validateEmailPass} from './validation'
+import { Button } from 'reactstrap'
+import { reduxForm, Field } from 'redux-form'
+import { Input } from 'fl-react-utils'
+import { validateEmailPass } from './validation'
 
 @reduxForm({
   form: 'register',
@@ -19,7 +19,7 @@ export default class LoginForm extends Component {
   }
 
   render() {
-    const {loading, errorMsg, facebook, handleSubmit} = this.props
+    const { loading, errorMsg, facebook, handleSubmit } = this.props
     const formClass = (this.props.mode === 'horizontal' ? 'form-inline': '')
 
     return (

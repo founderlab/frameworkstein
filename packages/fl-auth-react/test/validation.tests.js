@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {validationState, validateEmailPass} from '../src/validation'
+import { validationState, validateEmailPass } from '../src/validation'
 
 
 describe('validationState', () => {

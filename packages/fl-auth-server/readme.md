@@ -2,7 +2,7 @@
 
 Usage (server) - values shown are defaults:
 
-    import {configure as configureAuth, loggedIn} from 'fl-auth-server'
+    import { configure as configureAuth, loggedIn } from 'fl-auth-server'
 
     app = express()                       // Provide your express app
     configureAuth({

@@ -1,6 +1,6 @@
 import expect from 'expect'
-import {spy} from 'sinon'
-import {cors} from '../src'
+import { spy } from 'sinon'
+import { cors } from '../src'
 
 describe('cors', () => {
 

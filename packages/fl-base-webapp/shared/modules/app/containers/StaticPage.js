@@ -17,14 +17,14 @@ export default class StaticPageContainer extends Component {
   }
 
   static fetchData({store, action}, callback) {
-    const {app, router} = store.getState()
+    const { app, router } = store.getState()
     const slug = ((action && action.payload && action.payload.params) || router.params).slug
     if (app.get('pagesBySlug').get(slug)) return callback()
     store.dispatch(loadStaticPage(slug, callback))
   }
 
   page() {
-    const {app, slug} = this.props
+    const { app, slug } = this.props
     return app.get('pagesBySlug').get(slug)
   }
 
