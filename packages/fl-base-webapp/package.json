@@ -38,9 +38,6 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
     "babel-runtime": "^6.26.0",
-    "backbone": "^1.2.0",
-    "backbone-http": "^0.7.2",
-    "backbone-orm": "^0.7.13",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.13.2",
     "bootstrap": "^4.1.1",
@@ -115,6 +112,7 @@
     "stein-orm": "^5.0.3",
     "stein-orm-rest": "^5.0.3",
     "stein-orm-sql": "^5.0.3",
+    "stein-orm-http": "^5.0.3",
     "superagent": "0.18.0",
     "warning": "^2.1.0"
   },
