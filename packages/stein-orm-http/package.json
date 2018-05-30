@@ -1,5 +1,5 @@
 {
-  "name": "stein-orm-rest",
+  "name": "stein-orm-http",
   "version": "5.0.3",
   "description": "",
   "main": "lib/index.js",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/packages/stein-orm-rest.git"
+    "url": "https://github.com/founderlab/frameworkstein/packages/stein-orm-http.git"
   },
   "scripts": {
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
@@ -28,7 +28,10 @@
   },
   "dependencies": {
     "lodash": "^4.17.5",
-    "queue-async": "^1.2.1"
+    "queue-async": "^1.2.1",
+    "cross-fetch": "^2.2.0",
+    "es6-promisify": "^6.0.0",
+    "qs": "^6.5.2"
   },
   "jest": {
     "verbose": true,

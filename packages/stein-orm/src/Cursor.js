@@ -156,8 +156,6 @@ export default class Cursor {
 
   // @nodoc
   selectResults(json) {
-    // let item,
-    //   key
     let result = json
     if (this._cursor.$one) result = result.slice(0, 1)
     if (this._cursor.$values) {

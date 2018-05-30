@@ -1,4 +1,0 @@
---compilers coffee:coffee-script/register
---require backbone-orm/test/parameters
---timeout 10000
---grep @quick
