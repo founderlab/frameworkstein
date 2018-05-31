@@ -6,7 +6,7 @@ import { createModel, Model } from 'stein-orm-http'
   url: '/api/profiles',
   schema: () => _.extend({
     user: () => ['belongsTo', require('./User')],
-  }, require('../../shared/models/schemas/profile')),
+  }, require('./schemas/profile')),
 })
 export default class Profile extends Model {
 

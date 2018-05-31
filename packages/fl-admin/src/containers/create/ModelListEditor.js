@@ -57,6 +57,9 @@ export default function createModelListEditor(modelAdmin) {
         const $search = urlQuery.search.trim()
         query.$or = _.map(modelAdmin.searchFields, f => ({[f]: {$search}}))
       }
+      console.log('urlQuery', urlQuery)
+      console.log('query', query)
+      console.log('modelAdmin.searchFields', modelAdmin.searchFields, modelAdmin)
       await store.dispatch(countModels(_.clone(query)))
 
       query.$limit = modelAdmin.perPage

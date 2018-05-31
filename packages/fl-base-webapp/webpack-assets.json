@@ -1,13 +1,11 @@
 {
   "admin": {
-    "js": "/public/dist/admin-34a570722fc74739b0ea.js",
-    "css": "/public/dist/admin-34a570722fc74739b0ea.css"
+    "js": "http://localhost:4001/public/admin.js"
   },
   "app": {
-    "js": "/public/dist/app-2559881ecc1ef33bcfae.js"
+    "js": "http://localhost:4001/public/app.js"
   },
   "shared": {
-    "js": "/public/dist/shared-a1976cbccd378a298a33.js",
-    "css": "/public/dist/shared-a1976cbccd378a298a33.css"
+    "js": "http://localhost:4001/public/shared.js"
   }
 }
