@@ -30,7 +30,7 @@ export class ModelListForm extends React.Component {
 
         {_.map(modelAdmin.fields, (modelField, key) => {
           if (shouldEditFieldInline(modelField)) {
-            const fieldName = modelField.virtual_id_accessor || modelField.key || key
+            const fieldName = modelField.virtualIdAccessor || modelField.key || key
             return (
               <td key={key} className="fla-list-edit-td">
                 <Field
@@ -43,7 +43,7 @@ export class ModelListForm extends React.Component {
             )
           }
           else if (shouldDisplayFieldInline(modelField)) {
-            const value = model[modelField.virtual_id_accessor || modelField.key || key]
+            const value = model[modelField.virtualIdAccessor || modelField.key || key]
             let displayValue = value
             if (modelField.display) displayValue = modelField.display(value)
             else if (modelField.type === 'Boolean') displayValue = value ? (<i className="fa fa-check" />) : (<i className="fa fa-times" />)

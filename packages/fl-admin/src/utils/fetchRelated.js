@@ -4,7 +4,7 @@ import _ from 'lodash'
 export function onlyExistingRelationsFilter(modelIds, modelStore, relationField) {
   const relatedIds = []
   _.forEach(modelStore.get('models').toJSON(), (model, id) => {
-    const relatedId = model[relationField.virtual_id_accessor]
+    const relatedId = model[relationField.virtualIdAccessor]
     if (_.includes(modelIds, id) && relatedId) relatedIds.push(relatedId)
   })
   if (!relatedIds.length) return null
@@ -26,7 +26,7 @@ function relatedQuery(modelIds, modelStore, relationField) {
     return query
     // return {[relationField.relation.foreign_key]: {$in: modelIds}}
   }
-  return _.extend(query, {[relationField.relation.reverse_relation.virtual_id_accessor]: {$in: modelIds}})
+  return _.extend(query, {[relationField.relation.reverse_relation.virtualIdAccessor]: {$in: modelIds}})
 }
 
 // dispatch actions to load related models

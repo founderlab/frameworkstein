@@ -56,7 +56,7 @@ function createModelAdmin(options, modelDescriptor) {
     actionType: `${ACTION_PREFIX}${upper(Model)}`,
     fields: {},
     readOnlyFields: ['createdDate'],
-    relationFields: {}, //references the same fields as `fields` (relations only) but is indexed by virtual_id_accessor
+    relationFields: {}, //references the same fields as `fields` (relations only) but is indexed by virtualIdAccessor
     components: {},
   }
 
@@ -98,8 +98,8 @@ function createModelAdmin(options, modelDescriptor) {
 
   // Make sure we have config for every relation
   _.forEach(relationFields, (relation, key) => {
-    const modelField = modelAdmin.relationFields[relation.virtual_id_accessor] = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
-    _.defaults(modelField, _.pick(relation, 'type', 'virtual_id_accessor', 'components'))
+    const modelField = modelAdmin.relationFields[relation.virtualIdAccessor] = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
+    _.defaults(modelField, _.pick(relation, 'type', 'virtualIdAccessor', 'components'))
     modelField.Model = relation.reverse_model_type
     modelField.key = modelField.key || key
     modelField.label = modelField.label || label(key)
