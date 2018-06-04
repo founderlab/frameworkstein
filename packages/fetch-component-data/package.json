@@ -1,6 +1,6 @@
 {
   "name": "fetch-component-data",
-  "version": "5.0.3",
+  "version": "6.0.0",
   "description": "Small util functions for Frameworkstein",
   "main": "lib/index.js",
   "author": {
