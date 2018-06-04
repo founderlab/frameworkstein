@@ -1,6 +1,6 @@
 {
   "name": "fl-react-server",
-  "version": "5.0.3",
+  "version": "6.0.0",
   "description": "Server side renderer function for React, used in Frameworkstein apps",
   "main": "lib/index.js",
   "author": {
@@ -23,7 +23,7 @@
     "babel-cli": "^6.0.0"
   },
   "dependencies": {
-    "fetch-component-data": "^5.0.3",
+    "fetch-component-data": "^6.0.0",
     "history": "^4.7.2",
     "lodash": "^4.0.0",
     "queue-async": "^1.0.7",

@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-http",
-  "version": "5.0.3",
+  "version": "6.0.0",
   "description": "",
   "main": "lib/index.js",
   "author": {
@@ -21,17 +21,17 @@
   "devDependencies": {
     "babel-cli": "^6.0.0",
     "jest": "^22.4.3",
-    "stein-orm": "^5.0.3"
+    "stein-orm": "^6.0.0"
   },
   "peerDependencies": {
     "stein-orm": "^5.0.3"
   },
   "dependencies": {
-    "lodash": "^4.17.5",
-    "queue-async": "^1.2.1",
     "cross-fetch": "^2.2.0",
     "es6-promisify": "^6.0.0",
-    "qs": "^6.5.2"
+    "lodash": "^4.17.5",
+    "qs": "^6.5.2",
+    "queue-async": "^1.2.1"
   },
   "jest": {
     "verbose": true,
