@@ -20,15 +20,15 @@
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",
-    "jest": "^22.4.3",
+    "jest": "^22.0.0",
     "stein-orm": "^6.0.0"
   },
   "peerDependencies": {
     "stein-orm": "^5.0.3"
   },
   "dependencies": {
-    "lodash": "^4.17.5",
-    "queue-async": "^1.2.1"
+    "lodash": "^4.0.0",
+    "queue-async": "^1.0.0"
   },
   "jest": {
     "verbose": true,

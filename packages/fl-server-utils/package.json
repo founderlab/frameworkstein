@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "lodash": "^4.0.0",
-    "queue-async": "^1.0.7",
-    "superagent": "^0.18.0"
+    "queue-async": "^1.0.0",
+    "superagent": "0.18.0"
   }
 }

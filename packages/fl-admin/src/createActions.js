@@ -1,5 +1,4 @@
-import _ from 'lodash' // eslint-disable-line
-// import request from 'superagent'
+
 
 export default function createActions(modelAdmin) {
   const actionType = name => `${modelAdmin.actionType}_${name.toUpperCase()}`

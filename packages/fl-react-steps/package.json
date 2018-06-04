@@ -22,7 +22,7 @@
     "babel-cli": "^6.0.0"
   },
   "dependencies": {
-    "classnames": "^2.2.3",
+    "classnames": "^2.0.0",
     "prop-types": "*",
     "react": ">=16.0.0"
   }

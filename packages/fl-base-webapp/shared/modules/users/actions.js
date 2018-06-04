@@ -1,5 +1,4 @@
 import _ from 'lodash' // eslint-disable-line
-import request from 'superagent'
 import Profile from '../../models/Profile'
 
 
