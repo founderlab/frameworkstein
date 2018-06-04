@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/packages/redux-request-middleware"
+    "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/redux-request-middleware"
   },
   "scripts": {
     "prepublish": "npm run build",

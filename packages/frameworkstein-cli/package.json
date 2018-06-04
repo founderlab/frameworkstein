@@ -14,7 +14,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/packages/frameworkstein-cli"
+    "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/frameworkstein-cli"
   },
   "scripts": {
     "start": "./src/index.js",
