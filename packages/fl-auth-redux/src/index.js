@@ -4,18 +4,26 @@ import accessTokenMiddleware, { createAccessTokenMiddleware } from './middleware
 import { register, login, reset, resetRequest, logout, updateUser } from './actions'
 
 export {
-  actions,
   reducer,
   types,
   accessTokenMiddleware,
   createAccessTokenMiddleware,
-  register, login, reset, resetRequest, logout, updateUser,
+  register,
+  login,
+  reset,
+  resetRequest,
+  logout,
+  updateUser,
 }
 export default {
-  actions,
   reducer,
   types,
   accessTokenMiddleware,
   createAccessTokenMiddleware,
-  register, login, reset, resetRequest, logout, updateUser,
+  register,
+  login,
+  reset,
+  resetRequest,
+  logout,
+  updateUser,
 }
