@@ -13,7 +13,4 @@ export default {
   visible: 'Boolean',
   updatedDate: 'DateTime',
   createdDate: 'DateTime',
-
-  // mentor fields
-  mentorRoles: 'JSON',
 }

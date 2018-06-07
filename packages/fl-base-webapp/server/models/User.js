@@ -14,7 +14,7 @@ if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 @createModel({
   url: `${dbUrl}/users`,
   schema: () => _.extend({
-    profile: () => ['hasOne', require('./Profile')],
+    profile: () => ['hasOne', Profile = require('./Profile')],
   }, require('../../shared/models/schemas/user')),
 })
 export default class User extends Model {
@@ -23,8 +23,7 @@ export default class User extends Model {
     createdDate: moment.utc().toDate(),
   })
 
-  // Handle a bunch of user onboarding tasks
-  // TODO: Does not handle a mentor that has registered for one community wanting to be a mentor on another
+  // Handle any user onboarding tasks
   onCreate(_options, _callback) {
     let callback
     let options
