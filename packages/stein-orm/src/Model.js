@@ -139,6 +139,10 @@ export default class FLModel {
    * Class api *
    ----------- */
 
+  static parse(data) {
+    return data
+  }
+
   static cursor(query={}) {
     return this.store.cursor(query)
   }

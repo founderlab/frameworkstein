@@ -102,7 +102,7 @@ export default class RESTController extends JsonController {
 
   create = (req, res) => {
     let json = parseDates(this.whitelist.create ? _.pick(req.body, this.whitelist.create) : req.body)
-    const model = new this.modelType(this.modelType.prototype.parse(json))
+    const model = new this.modelType(this.modelType.parse(json))
 
     return model.save(err => {
       if (err) return this.sendError(res, err)
