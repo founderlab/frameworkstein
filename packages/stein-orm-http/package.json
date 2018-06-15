@@ -24,7 +24,7 @@
     "stein-orm": "^6.0.3"
   },
   "peerDependencies": {
-    "stein-orm": "^5.0.3"
+    "stein-orm": "^6.0.3"
   },
   "dependencies": {
     "cross-fetch": "^2.0.0",
