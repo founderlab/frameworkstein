@@ -11,34 +11,29 @@ export default class FLModel {
   }
 
 
-  /* ---------
-   * Helpers *
-   --------- */
-  // might not be needed, accessible from class
+  /* ------------------
+   * Instance getters *
+   ------------------ */
   get name() { return this.constructor && this.constructor.name }
   get schema() { return this.constructor && this.constructor.schema }
-  relation = (...args) => this.schema.relation(...args)
-  joinTable = (...args) => this.schema.joinTable(...args)
-
   get store() {
     if (!this.constructor.store) throw new Error(`Store has not been defined for model ${this.name}`)
     return this.constructor.store
   }
-
-  /*
-   * Instance helper, returns store url
-   */
   get url() { return this.store && this.store.url }
 
-  /*
-   * Legacy, may be removed later
-   */
-  parse = data => data
+  relation = (...args) => this.schema.relation(...args)
+  joinTable = (...args) => this.schema.joinTable(...args)
 
 
   /* ------------------
    * Instance methods *
    ------------------ */
+
+  /*
+   * Legacy, may be removed later
+   */
+  parse = data => data
 
   /*
    * Get the value of a data field
@@ -139,6 +134,10 @@ export default class FLModel {
    * Class api *
    ----------- */
 
+  static initialize() {
+    return this.schema.initialize()
+  }
+
   static parse(data) {
     return data
   }
@@ -215,7 +214,6 @@ export default class FLModel {
     return this.promiseOrCallbackFn(this._findOrCreate)(...args)
   }
 
-
   static _destroy(query, callback) {
     if (!query || _.isFunction(query)) throw new Error(this.errorMsg('Missing query from destroy'))
     if (!_.isObject(query)) {
@@ -229,5 +227,9 @@ export default class FLModel {
   static destroy(...args) {
     return this.promiseOrCallbackFn(this._destroy)(...args)
   }
+
+  static get url() { return this.store.url }
+  static get table() { return this.store.table }
+  static get tableName() { return this.store.table }
 
 }

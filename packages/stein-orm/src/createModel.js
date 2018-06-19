@@ -1,11 +1,13 @@
+import _ from 'lodash'
 import Schema from './Schema'
 
 
-export default function createModel(options={}) {
+export default function createModel(_options={}) {
   return function decorator(modelType) {
     if (!modelType) throw new Error(`[createModel]: Model class not supplied`)
-    modelType.modelName = options.name || modelType.name
 
+    const options = _.extend({}, _options, modelType)
+    modelType.modelName = options.name || modelType.name
     modelType.schema = new Schema(modelType, options.schema)
     process.nextTick(() => modelType.schema.initialize())
 
@@ -20,8 +22,6 @@ export default function createModel(options={}) {
         throw new Error(msg)
       }
     }
-    modelType.url = modelType.store.url
-    modelType.table = modelType.tableName = modelType.store.table
 
     return modelType
   }
