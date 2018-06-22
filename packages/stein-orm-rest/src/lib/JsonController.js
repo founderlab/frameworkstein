@@ -11,6 +11,11 @@ export default class JSONController {
     if (!this.events) this.events = new EventEmitter()
   }
 
+  emit = (...args) => {
+    this.constructor.events && this.constructor.events.emit(...args)
+    this.events.emit(...args)
+  }
+
   sendStatus = (res, status, message) => {
     res.status(status).json(message ? {message} : {})
   }
@@ -88,3 +93,5 @@ export default class JSONController {
     return exec()
   }
 }
+
+_.extend(JSONController, new EventEmitter())

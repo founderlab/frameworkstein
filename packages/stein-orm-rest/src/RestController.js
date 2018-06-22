@@ -7,6 +7,7 @@ import Queue from 'queue-async'
 import { parseField, parseDates, parseQuery } from './lib/parsers'
 import JsonController from './lib/JsonController'
 import JoinTableControllerSingleton from './lib/JoinTableControllerSingleton'
+import defaultTemplate from './lib/defaultTemplate'
 
 
 export default class RESTController extends JsonController {
@@ -35,11 +36,9 @@ export default class RESTController extends JsonController {
     this.db = (_.result(new this.modelType(), 'url') || '').split(':')[0]
 
     if (_.isUndefined(this.templates.show)) {
-      const schema = this.modelType.schema
-      const schemaKeys = _.keys(schema.type_overrides).concat(_.keys(schema.fields))
-      this.templates.show = {$select: schemaKeys}
+      this.templates.show = defaultTemplate
     }
-    if (_.isUndefined(this.templates.show)) { this.defaultTemplate = 'show' }
+    if (!this.defaultTemplate) this.defaultTemplate = 'show'
 
     if (this.cache) {
       this.cache = _.pick(this.cache, 'cache', 'hash', 'createHash', 'cascade')
@@ -113,7 +112,7 @@ export default class RESTController extends JsonController {
       return this.render(req, json, (err, json) => {
         if (err) return this.sendError(res, err)
 
-        this.events.emit('create', {req, res, model, json})
+        this.emit('create', {req, res, model, json})
         return res.json(json)
       })
     })
@@ -134,7 +133,7 @@ export default class RESTController extends JsonController {
 
         return this.render(req, json, (err, json) => {
           if (err) return this.sendError(res, err)
-          this.events.emit('update', {req, res, model, json})
+          this.emit('update', {req, res, model, json})
           return res.json(json)
         })
       })
@@ -151,7 +150,7 @@ export default class RESTController extends JsonController {
       return this.modelType.destroy(id, err => {
         if (err) return this.sendError(res, err)
         this.clearCache()
-        this.events.emit('destroy', {req, res, id})
+        this.emit('destroy', {req, res, id})
         return res.json({})
       })
     })
@@ -161,7 +160,7 @@ export default class RESTController extends JsonController {
     return this.modelType.destroy(parseQuery(req.query), err => {
       if (err) return this.sendError(res, err)
       this.clearCache()
-      this.events.emit('destroyByQuery', {req, res})
+      this.emit('destroyByQuery', {req, res})
       return res.json({})
     })
   }
@@ -229,7 +228,7 @@ export default class RESTController extends JsonController {
 
       if (cursor.hasCursorQuery('$page')) {
         return this.render(req, json.rows, (err, renderedJson) => {
-          if (err) return this.sendError(res, err)
+          if (err) return callback(err)
           json.rows = renderedJson
           return callback(null, {json})
         })
@@ -237,35 +236,47 @@ export default class RESTController extends JsonController {
       else if (cursor.hasCursorQuery('$values')) {
         return callback(null, {json})
       }
-      return this.render(req, json, (err, renderedJson) => callback(err, {json: renderedJson}))
 
+      return this.render(req, json, (err, renderedJson) => callback(err, {json: renderedJson}))
     })
   }
 
   render = (req, json, callback) => {
-    let template
+    let templateName = req.query.$render || req.query.$template || this.defaultTemplate
+    const key = `render_${templateName}_${this.route}`
+    let single = false
+
     const done = (err, renderedJson) => {
       if (this.verbose) { console.timeEnd(key) }
-      if (err) { return callback(err) }
-      return callback(null, this.clean(renderedJson))
+      if (err) return callback(err)
+      const cleanedJson = this.clean(renderedJson)
+      return callback(null, single ? cleanedJson[0] : cleanedJson)
     }
 
-    let templateName = req.query.$render || req.query.$template || this.defaultTemplate
-    var key = `render_${templateName}_${this.route}`
     if (this.verbose) { console.time(key) }
     if (!templateName) { return done(null, json) }
-    try { templateName = JSON.parse(templateName) }
-    catch (error) {} // remove double quotes
-    if (!(template = this.templates[templateName])) { return callback(new Error(`Unrecognized template: ${templateName}`)) }
+
+    if (!_.isArray(json)) {
+      single = true
+      json = [json]
+    }
+
+    try {
+      // remove double quotes
+      templateName = JSON.parse(templateName)
+    }
+    catch (error) { }
+
+    const template = this.templates[templateName]
+    if (!template) return callback(new Error(`Unrecognized template: ${this.name} ${templateName}`))
 
     const options = (this.renderOptions ? this.renderOptions(req, templateName) : {})
 
-    if (template.$raw) {
-      return template(json, options, done)
+    if (_.isFunction(template)) return template(json, options, done)
+    else if (template.$select) {
+      return done(null, _.map(json, j => _.pick(j, template.$select)))
     }
-
-    const models = _.isArray(json) ? _.map(json, modelJson => new this.modelType(this.modelType.prototype.parse(modelJson))) : new this.modelType(this.modelType.prototype.parse(json))
-    return renderTemplate(models, template, options, done)
+    return callback(new Error(`Unrecognised template type: ${this.name} ${templateName} ${JSON.stringify(template)}`))
   }
 
   parseSearchQuery = (query) => {

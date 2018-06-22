@@ -1,5 +1,6 @@
 import _ from 'lodash' //eslint-disable-line
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import TransitionEvents from './TransitionEvents'
@@ -7,10 +8,10 @@ import TransitionEvents from './TransitionEvents'
 export default class Step extends Component {
 
   static propTypes = {
-    className: React.PropTypes.string,
-    children: React.PropTypes.node,
-    active: React.PropTypes.bool,
-    onAnimateOutEnd: React.PropTypes.func,
+    className: PropTypes.string,
+    children: PropTypes.node,
+    active: PropTypes.bool,
+    onAnimateOutEnd: PropTypes.func,
   }
 
   constructor() {

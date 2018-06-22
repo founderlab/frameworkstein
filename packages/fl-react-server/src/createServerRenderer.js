@@ -42,7 +42,7 @@ export default function createServerRenderer(_options) {
 
       const history = createHistory({initialEntries: [req.originalUrl]})
       const store = createStore({history, initialState: serverState})
-      const routes = getRoutes()
+      const routes = getRoutes(store)
 
       const branch = matchRoutes(routes, req.path)
 
