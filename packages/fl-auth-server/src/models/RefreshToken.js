@@ -16,7 +16,7 @@ if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 
     user_id: ['Integer', {indexed: true}],
 
-    // accessTokens: () => ['hasMany', require('./AccessToken')],
+    accessTokens: () => ['hasMany', require('./AccessToken')],
   })
 })
 export default class RefreshToken extends Model {

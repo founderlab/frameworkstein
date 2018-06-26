@@ -40,8 +40,7 @@ export default class HttpStore {
    * POST this model
    */
   _create = async (model, callback) => {
-    const json = model.toJSON()
-    const saveJson = this.parseJSON(json)
+    const saveJson = model.toJSON()
 
     try {
       const res = await fetch(this.url, this.fetchOptions({
@@ -65,8 +64,7 @@ export default class HttpStore {
    * PUT this model
    */
   _update = async (model, callback) => {
-    const json = model.toJSON()
-    const saveJson = this.parseJSON(json)
+    const saveJson = model.toJSON()
 
     try {
       const res = await fetch(this.modelUrl(), this.fetchOptions({
