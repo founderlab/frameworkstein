@@ -24,6 +24,26 @@ const defaults = {
   webpackAssetsPath: path.resolve(__dirname, '../../../webpack-assets.json'),
 }
 
+async function checkRedirect({ req, store, branch }) {
+  let redirectUrl
+
+  branch.forEach(branch => {
+    const { route } = branch
+    if (route.authenticate && !route.authenticate(store.getState())) {
+      redirectUrl = route.redirectUrl ? route.redirectUrl(req.originalUrl) : '/'
+    }
+    if ((_.isFunction(route.shouldRedirect) && route.shouldRedirect(store.getState())) || route.shouldRedirect) {
+      redirectUrl = route.redirectUrl ? route.redirectUrl(req.originalUrl) : '/'
+    }
+    if (_.isFunction(route.onEnter)) {
+      const onEnterResult = route.onEnter(store.getState()) || {}
+      if (onEnterResult.redirectUrl) redirectUrl = onEnterResult.redirectUrl
+    }
+  })
+
+  return redirectUrl
+}
+
 export default function createServerRenderer(_options) {
   const options = _.extend({}, defaults, _options)
   const { createStore, getRoutes, gaId, config={} } = options
@@ -47,20 +67,7 @@ export default function createServerRenderer(_options) {
       const branch = matchRoutes(routes, req.path)
 
       // Check authentication on routes, redirect to login if required
-      let redirectUrl
-      branch.forEach(async branch => {
-        const { route } = branch
-        if (route.authenticate && !route.authenticate(store.getState())) {
-          redirectUrl = route.redirectUrl ? route.redirectUrl(req.originalUrl) : '/'
-        }
-        if ((_.isFunction(route.shouldRedirect) && route.shouldRedirect(store.getState())) || route.shouldRedirect) {
-          redirectUrl = route.redirectUrl ? route.redirectUrl(req.originalUrl) : '/'
-        }
-        if (_.isFunction(route.onEnter)) {
-          const onEnterResult = await route.onEnter(store.getState()) || {}
-          if (onEnterResult.redirectUrl) redirectUrl = onEnterResult.redirectUrl
-        }
-      })
+      const redirectUrl = await checkRedirect({req, store, branch})
       if (redirectUrl) return res.redirect(redirectUrl)
 
       // Wait on fetching component's data before rendering

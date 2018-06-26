@@ -1,8 +1,9 @@
 import _ from 'lodash' // eslint-disable-line
+import qs from 'qs'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ButtonToolbar, ButtonGroup, Button } from 'reactstrap'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 
 
@@ -28,7 +29,8 @@ export default class Pagination extends React.Component {
     next: '→',
   }
 
-  link = page => ({pathname: this.props.location.pathname, query: _.extend({}, this.props.location.query, {page})})
+  query = () => qs.parse(this.props.location.search)
+  link = page => `${this.props.location.pathname}?${qs.stringify(_.extend({}, this.query(), {page}))}`
 
   render() {
     const { itemsPerPage, currentPage, totalItems, next, prev, first, last } = this.props
