@@ -17,10 +17,14 @@ export function getEndFn(request) {
   }
 
   // Promise
-  if (_.isFunction(request.then)) return callback => request.then(res => callback(null, res)).catch(callback)
+  if (_.isFunction(request.then)) {
+    return callback => request.then(res => callback(null, res)).catch(callback)
+  }
 
   // Callback function
-  if (_.isFunction(request)) return request
+  if (_.isFunction(request)) {
+    return request
+  }
 
   return null
 }
@@ -95,6 +99,9 @@ export default function createRequestMiddleware(_options={}) {
       next({type: START, ...rest})
 
       return new Promise((resolve, reject) => {
+
+        const wrappedEnd = wrapEnd(end, type)
+
         const done = (err, res) => {
           const error = options.getError(err, res)
           let finalAction = {}
@@ -106,15 +113,15 @@ export default function createRequestMiddleware(_options={}) {
             if (parseResponse) finalAction = parseResponse(finalAction)
           }
           next(finalAction)
-          if (callback) callback(error, finalAction)
+          if (callback) return callback(error, finalAction)
           if (error) reject(error)
           else resolve(finalAction)
         }
 
         if (options.retry) {
-          return retry(options.retry, wrapEnd(end), options.check, done)
+          return retry(options.retry, wrappedEnd, options.check, done)
         }
-        return end(done)
+        return wrappedEnd(done)
       })
     }
   }

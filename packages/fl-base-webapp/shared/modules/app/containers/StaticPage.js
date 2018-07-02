@@ -8,12 +8,12 @@ import NotFound from '../../utils/components/NotFound'
 import StaticPage from '../components/StaticPage'
 
 
-@connect(state => ({app: state.app, slug: state.router.params.slug}))
+@connect(state => ({app: state.app}))
 export default class StaticPageContainer extends Component {
 
   static propTypes = {
     app: PropTypes.object.isRequired,
-    slug: PropTypes.string.isRequired,
+    match: PropTypes.object.isRequired,
   }
 
   static fetchData({store, action}, callback) {
@@ -24,8 +24,8 @@ export default class StaticPageContainer extends Component {
   }
 
   page() {
-    const { app, slug } = this.props
-    return app.get('pagesBySlug').get(slug)
+    const { app, match } = this.props
+    return app.get('pagesBySlug').get(match.params.slug)
   }
 
   render() {
