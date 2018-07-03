@@ -29,14 +29,14 @@ async function checkRedirect({ req, store, branch }) {
 
   branch.forEach(branch => {
     const { route } = branch
-    if (route.authenticate && !route.authenticate(store.getState())) {
+    if (route.authenticate && !route.authenticate(store.getState(), branch)) {
       redirectUrl = route.redirectUrl ? route.redirectUrl(req.originalUrl) : '/'
     }
-    if ((_.isFunction(route.shouldRedirect) && route.shouldRedirect(store.getState())) || route.shouldRedirect) {
+    if ((_.isFunction(route.shouldRedirect) && route.shouldRedirect(store.getState(), branch)) || route.shouldRedirect) {
       redirectUrl = route.redirectUrl ? route.redirectUrl(req.originalUrl) : '/'
     }
     if (_.isFunction(route.onEnter)) {
-      const onEnterResult = route.onEnter(store.getState()) || {}
+      const onEnterResult = route.onEnter(store.getState(), branch) || {}
       if (onEnterResult.redirectUrl) redirectUrl = onEnterResult.redirectUrl
     }
   })
