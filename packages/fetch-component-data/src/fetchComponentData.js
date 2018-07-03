@@ -19,15 +19,16 @@ export default function fetchComponentData(options, callback) {
     const queue = new Queue(parallelism)
 
     branch.forEach(branch => {
+
+      let Component = branch.route.component
+      if (!Component) return callback()
+
+      while (Component.WrappedComponent) {
+        Component = Component.WrappedComponent
+      }
+      if (!Component.fetchData) return
+
       queue.defer(callback => {
-        let Component = branch.route.component
-        if (!Component) return
-
-        while (Component.WrappedComponent) {
-          Component = Component.WrappedComponent
-        }
-        if (!Component.fetchData) return
-
         const match = branch.match
 
         const done = (err, res={}) => {
