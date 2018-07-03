@@ -4,9 +4,17 @@ export function isModel(action) { return action.res && _.isFunction(action.res.t
 
 export function parseJSON(action, {mutate}) {
   let modelList = action.res ? action.res.body || action.res : null
-  if (!_.isArray(modelList)) modelList = [modelList]
+  let single = false
+  if (!_.isArray(modelList)) {
+    single = true
+    modelList = [modelList]
+  }
   const model = modelList[0]
-  const status = (action.res && action.res.status) || (model ? 200 : 404)
+  let status = (action.res && action.res.status)
+  if (!status) {
+    if (single) status = model ? 200 : 404
+    else status = 200
+  }
   const models = {}
   const ids = []
   _.forEach(modelList, model => {
