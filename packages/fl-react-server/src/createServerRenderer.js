@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import path from 'path'
+import qs from 'qs'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'
@@ -72,6 +73,7 @@ export default function createServerRenderer(_options) {
 
       // Wait on fetching component's data before rendering
       try {
+        history.location.query = qs.parse(history.location.search, {ignoreQueryPrefix: true})
         const fetchResult = await fetchComponentData({store, branch, location: history.location})
         if (fetchResult.status) res.status(fetchResult.status)
       }

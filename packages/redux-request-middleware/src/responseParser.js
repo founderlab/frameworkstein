@@ -7,13 +7,15 @@ export function parseJSON(action, {mutate}) {
   let single = false
   if (!_.isArray(modelList)) {
     single = true
-    modelList = [modelList]
+    modelList = modelList ? [modelList] : []
   }
   const model = modelList[0]
-  let status = (action.res && action.res.status)
-  if (!status) {
-    if (single) status = model ? 200 : 404
-    else status = 200
+  let status = 200
+  if (action.res && (_.isFunction(action.res.json) || action.res.body) && action.res.status && +action.res.status) {
+    status = action.res.status
+  }
+  else if (single && !model) {
+    status = 404
   }
   const models = {}
   const ids = []
