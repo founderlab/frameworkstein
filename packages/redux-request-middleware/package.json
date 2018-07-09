@@ -1,6 +1,6 @@
 {
   "name": "redux-request-middleware",
-  "version": "6.1.6",
+  "version": "6.1.7",
   "description": "Redux middleware to dispatch Superagent or BackboneORM requests",
   "main": "lib/index.js",
   "author": {
