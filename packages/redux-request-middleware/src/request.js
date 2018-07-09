@@ -113,7 +113,7 @@ export default function createRequestMiddleware(_options={}) {
             if (parseResponse) finalAction = parseResponse(finalAction)
           }
           next(finalAction)
-          if (callback) return callback(error, finalAction)
+          if (callback && _.isFunction(callback)) return callback(error, finalAction)
           if (error) reject(error)
           else resolve(finalAction)
         }

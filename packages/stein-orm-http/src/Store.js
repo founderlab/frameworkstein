@@ -20,11 +20,11 @@ export default class HttpStore {
     return `${prefix}${this.url}`
   }
 
-  modelUrl = () => {
-    if (!this.id) return this.urlRoot()
+  modelUrl = model => {
+    if (!model.id) return this.urlRoot()
     let prefix = this.urlRoot()
     if (prefix.endsWith('/')) prefix = prefix.slice(0, prefix.length-1)
-    return `${prefix}/${this.id}`
+    return `${prefix}/${model.id}`
   }
 
   fetchOptions = (options={}) => _.merge(_.cloneDeep(config.fetch), options)
@@ -67,7 +67,7 @@ export default class HttpStore {
     const saveJson = model.toJSON()
 
     try {
-      const res = await fetch(this.modelUrl(), this.fetchOptions({
+      const res = await fetch(this.modelUrl(model), this.fetchOptions({
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export default class HttpStore {
   _delete = async (model, callback) => {
 
     try {
-      const res = await fetch(this.modelUrl(), this.fetchOptions({
+      const res = await fetch(this.modelUrl(model), this.fetchOptions({
         method: 'DELETE',
       }))
       const json = await res.json()

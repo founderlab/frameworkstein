@@ -55,7 +55,7 @@ export default class RESTController extends JsonController {
 
   requestId = (req) => parseField(req.params.id, this.modelType, 'id')
 
-  index = (req, res) => {
+  index(req, res) {
     const cache = this.cache ? this.cache.cache : null
     if (req.method === 'HEAD') { return this.headByQuery.apply(this, arguments) } // Express4
 
@@ -76,7 +76,7 @@ export default class RESTController extends JsonController {
     return this.fetchIndexJSON(req, done)
   }
 
-  show = (req, res) => {
+  show(req, res) {
     const cache = this.cache ? this.cache.cache : null
 
     const done = (err, result) => {
@@ -99,7 +99,7 @@ export default class RESTController extends JsonController {
     return this.fetchShowJSON(req, done)
   }
 
-  create = (req, res) => {
+  create(req, res) {
     let json = parseDates(this.whitelist.create ? _.pick(req.body, this.whitelist.create) : req.body)
     const model = new this.modelType(this.modelType.parse(json))
 
@@ -118,7 +118,7 @@ export default class RESTController extends JsonController {
     })
   }
 
-  update = (req, res) => {
+  update(req, res) {
     let json = parseDates(this.whitelist.update ? _.pick(req.body, this.whitelist.update) : req.body)
 
     return this.modelType.find(this.requestId(req), (err, model) => {
@@ -140,7 +140,7 @@ export default class RESTController extends JsonController {
     })
   }
 
-  destroy = (req, res) => {
+  destroy(req, res) {
     const id = this.requestId(req)
 
     return this.modelType.exists(id, (err, exists) => {
@@ -156,7 +156,7 @@ export default class RESTController extends JsonController {
     })
   }
 
-  destroyByQuery = (req, res) => {
+  destroyByQuery(req, res) {
     return this.modelType.destroy(parseQuery(req.query), err => {
       if (err) return this.sendError(res, err)
       this.clearCache()
@@ -165,21 +165,21 @@ export default class RESTController extends JsonController {
     })
   }
 
-  head = (req, res) => {
+  head(req, res) {
     return this.modelType.exists(this.requestId(req), (err, exists) => {
       if (err) return this.sendError(res, err)
       return this.sendStatus(res, exists ? 200 : 404)
     })
   }
 
-  headByQuery = (req, res) => {
+  headByQuery(req, res) {
     return this.modelType.exists(parseQuery(req.query), (err, exists) => {
       if (err) return this.sendError(res, err)
       return this.sendStatus(res, exists ? 200 : 404)
     })
   }
 
-  clearCache = (callback) => {
+  clearCache(callback) {
     let cache
     if (!callback) { callback = () => {} }
     if (!(cache = this.cache != null ? this.cache.cache : undefined)) { return callback() }
@@ -201,10 +201,10 @@ export default class RESTController extends JsonController {
     })
   }
 
-  fetchIndexJSON = (req, callback) => this.fetchJSON(req, this.whitelist.index, callback)
-  fetchShowJSON = (req, callback) => this.fetchJSON(req, this.whitelist.show, callback)
+  fetchIndexJSON(req, callback) { this.fetchJSON(req, this.whitelist.index, callback) }
+  fetchShowJSON(req, callback) { this.fetchJSON(req, this.whitelist.show, callback) }
 
-  fetchJSON = (req, whitelist, callback) => {
+  fetchJSON(req, whitelist, callback) {
     const key = `fetchJSON_${this.route}`
     if (this.verbose) { console.time(key) }
 
@@ -241,7 +241,7 @@ export default class RESTController extends JsonController {
     })
   }
 
-  render = (req, json, callback) => {
+  render(req, json, callback) {
     let templateName = req.query.$render || req.query.$template || this.defaultTemplate
     const key = `render_${templateName}_${this.route}`
     let single = false
@@ -279,7 +279,7 @@ export default class RESTController extends JsonController {
     return callback(new Error(`Unrecognised template type: ${this.name} ${templateName} ${JSON.stringify(template)}`))
   }
 
-  parseSearchQuery = (query) => {
+  parseSearchQuery(query) {
     const newQuery = {}
     if (!_.isObject(query) || !!(query instanceof Date)) { return query }
 
@@ -308,7 +308,7 @@ export default class RESTController extends JsonController {
     return newQuery
   }
 
-  clean = (obj) => {
+  clean(obj) {
     if (_.isArray(obj)) { return (Array.from(obj).map((o) => this.clean(o))) }
     if (!_.isObject(obj) || !!(obj instanceof Date)) { return obj }
 
