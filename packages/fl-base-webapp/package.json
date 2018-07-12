@@ -59,7 +59,6 @@
     "fl-backbone.nativeajax": "^0.4.0",
     "fl-cache-manager-redis": "^6.0.1",
     "fl-initdb": "^6.1.0",
-    "fl-migrations": "0.0.2",
     "fl-react-server": "^6.1.6",
     "fl-react-steps": "^6.1.0",
     "fl-react-utils": "^6.1.2",
@@ -114,6 +113,7 @@
     "slugify": "^1.0.0",
     "stein-orm": "^6.1.0",
     "stein-orm-http": "^6.1.7",
+    "stein-orm-migrations": "6.1.7",
     "stein-orm-rest": "^6.1.7",
     "stein-orm-sql": "^6.1.0",
     "warning": "^2.0.0"

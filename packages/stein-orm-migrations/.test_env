@@ -1,0 +1,4 @@
+NODE_ENV=test
+
+DATABASE_NAME=fl_migrations_test
+DATABASE_URL=postgres://localhost:5432/$DATABASE_NAME
