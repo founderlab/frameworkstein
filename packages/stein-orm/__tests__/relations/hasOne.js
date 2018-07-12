@@ -260,4 +260,23 @@ describe('HasOne', () => {
     const count = await Reverse.count({owner_id: owner.id})
     expect(count).toBe(0)
   })
+
+  it('Handles setting a belongsTo relation by value', async () => {
+    const owner = await Owner.findOne()
+    const flat = await Flat.findOne({id: {$ne: owner.data.flat_id}})
+    expect(owner.data.flat_id).not.toBe(flat.id)
+
+    owner.set({flat})
+    expect(owner.data.flat_id).toBe(flat.id)
+  })
+
+  it('Handles saving a belongsTo relation by value', async () => {
+    const owner = await Owner.findOne()
+    const flat = await Flat.findOne({id: {$ne: owner.data.flat_id}})
+    expect(owner.data.flat_id).not.toBe(flat.id)
+
+    await owner.save({flat})
+    expect(owner.data.flat_id).toBe(flat.id)
+  })
+
 })
