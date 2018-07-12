@@ -75,7 +75,6 @@ export default class DatabaseTools {
 
   _createOrUpdateTable = (options, callback) => {
     this.hasTable((err, tableExists) => {
-      let columnInfo, type
       if (err) return callback(err)
       if (options.verbose) { console.log(`Ensuring table: ${this.tableName} (exists: ${!!tableExists}) with fields: '${_.keys(this.schema.fields).join(', ')}' and relations: '${_.keys(this.schema.relations).join(', ')}'`) }
 
@@ -84,21 +83,18 @@ export default class DatabaseTools {
       // look up the add or update columns
       // NOTE: Knex requires the add an update operations to be performed within the table function.
       // This means that hasColumn being asynchronous requires the check to be done before calling the table function
-      for (const key of Array.from(this.schema.columns())) {
-        const field = this.schema.fields[key]
+      _.forEach(this.schema.columns(), columnName => {
+        const field = this.schema.fields[columnName]
         if (field) {
-          const override = KNEX_TYPES[(type = field.type.toLowerCase())]
-          if (override) { type = override }
-          columns.push({key, type, options: field})
+          let type = field.type.toLowerCase()
+          if (KNEX_TYPES[type]) type = KNEX_TYPES[type]
+          columns.push({key: columnName, type, options: field})
         }
-      }
+      })
 
-      for (const key in this.schema.relations) {
-        const relation = this.schema.relations[key]
-        if (relation.type === 'belongsTo') {
-          ((key, relation) => columns.push({key: relation.foreignKey, type: 'integer', options: {indexed: true, nullable: true}}))(key, relation)
-        }
-      }
+      _(this.schema.relations).filter(r => r.type === 'belongsTo').forEach(relation => {
+        columns.push({key: relation.foreignKey, type: 'integer', options: {indexed: true, nullable: true}})
+      })
 
       const group = (columns, callback) => {
         if (!tableExists) { return callback(null, {add: columns, update: []}) }
@@ -106,28 +102,23 @@ export default class DatabaseTools {
         const result = {add: [], update: []}
 
         const queue = new Queue()
-        for (columnInfo of Array.from(columns)) {
-          (columnInfo => queue.defer(callback => {
-            return this.hasColumn(columnInfo.key, (err, exists) => {
-              if (err) return callback(err)
-              (exists ? result.update : result.add).push(columnInfo); return callback()
-            })
-          }))(columnInfo)
-        }
+        _.forEach(columns, columnInfo => queue.defer(callback => {
+          this.hasColumn(columnInfo.key, (err, exists) => {
+            if (err) return callback(err)
+            exists ? result.update.push(columnInfo) : result.add.push(columnInfo)
+            return callback()
+          })
+        }))
+
         return queue.await(err => callback(err, result))
       }
 
       return group(columns, (err, result) => {
         if (err) return callback(err)
+
         return this.connection.schema[tableExists ? 'table' : 'createTable'](this.tableName, table => {
-          for (columnInfo of Array.from(result.add)) { this.addColumn(table, columnInfo) }
-          return (() => {
-            const result1 = []
-            for (columnInfo of Array.from(result.update)) {
-              result1.push(this.updateColumn(table, columnInfo))
-            }
-            return result1
-          })()
+          _.forEach(result.add, columnInfo => this.addColumn(table, columnInfo))
+          _.forEach(result.update, columnInfo => this.updateColumn(table, columnInfo))
         }).asCallback(callback)
       })
     })
@@ -139,7 +130,7 @@ export default class DatabaseTools {
   }
 
   addColumn(table, columnInfo) {
-    const column_args = [columnInfo.key]
+    const columnArgs = [columnInfo.key]
 
     // Assign column specific arguments
     const constructorOptions = _.pick(columnInfo.options, KNEX_COLUMN_OPTIONS)
@@ -148,12 +139,12 @@ export default class DatabaseTools {
     if (!_.isEmpty(constructorOptions)) {
       // Special case as they take two args
       if (['float', 'decimal'].includes(columnMethod)) {
-        column_args[1] = constructorOptions.precision
-        column_args[2] = constructorOptions.scale
+        columnArgs[1] = constructorOptions.precision
+        columnArgs[2] = constructorOptions.scale
       // Assume we've been given one valid argument
       }
       else {
-        column_args[1] = _.values(constructorOptions)[0]
+        columnArgs[1] = _.values(constructorOptions)[0]
       }
     }
 
@@ -162,12 +153,11 @@ export default class DatabaseTools {
       columnMethod = 'jsonb'
     }
 
-    const column = table[columnMethod].apply(table, column_args)
+    const column = table[columnMethod].apply(table, columnArgs)
     if (columnInfo.options.nullable) { column.nullable() }
     if (columnInfo.options.primary) { column.primary() }
     if (columnInfo.options.indexed) { column.index() }
     if (columnInfo.options.unique) { column.unique() }
-
     return table
   }
 
