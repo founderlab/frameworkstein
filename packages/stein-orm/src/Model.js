@@ -45,8 +45,29 @@ export default class FLModel {
    * Set this models data
    * If a value for `id` is present it is assigned to `model.id`
    */
-  set = (data={}) => {
-    _.merge(this.data, _.cloneDeep(data))
+  set = (field, _data) => {
+    let data = {}
+    if (_.isObject(field)) {
+      data = field
+    }
+    else if (_.isString(field)) {
+      data = {[field]: _data}
+    }
+    else {
+      throw new Error('Unrecognised arguments to set:', field, _data, 'first argument should be a string or object')
+    }
+
+    // Check if we need to update a foreign key for a belongsTo relation
+    // For example `model.set({relation: {id: 1}})` should be equivalent to `model.set({relation_id: 1})`
+    const relationIds = {}
+    _.forEach(data, (value, key) => {
+      if (value && value.id) {
+        const relation = this.schema.relation(key)
+        if (relation && relation.type === 'belongsTo') relationIds[relation.foreignKey] = value.id
+      }
+    })
+    _.merge(this.data, relationIds, _.cloneDeep(data))
+
     if (this.data.id) {
       this.id = this.data.id
     }
@@ -70,7 +91,10 @@ export default class FLModel {
   }
   save = (data, _callback) => {
     let callback
-    if (!callback && _.isFunction(data)) callback = data
+    if (!callback && _.isFunction(data)) {
+      callback = data
+      data = {}
+    }
     else if (_.isFunction(_callback)) callback = _callback
     if (callback) {
       return this._save(data).then(() => callback(null, this)).catch(callback)
@@ -97,8 +121,8 @@ export default class FLModel {
     for (const key of keys) {
       const value = this.data[key]
       const relation = this.schema.relation(key)
-      if (relation) {
-        if (relation.type === 'belongsTo') json[relation.foreignKey] = (value && value.id) || value
+      if (relation && relation.type === 'belongsTo') {
+        json[relation.foreignKey] = (value && value.id) || value
       }
       else if (_.isArray(value)) {
         json[key] = _.map(value, v => v instanceof FLModel ? v.toJSON(options) : v)
