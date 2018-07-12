@@ -13,7 +13,7 @@ export default class Migrations {
   migrationPromise = (directory, filename, results) =>
     new Promise((resolve, reject) => {
       // ensure that the table has been created
-      MigrationModel.db().ensureSchema(err => {
+      MigrationModel.store.db().ensureSchema(err => {
         if (err) return reject(err)
 
         // check to see if this migration has already been run
@@ -57,6 +57,6 @@ export default class Migrations {
   }
 
   reset = (callback) => {
-    MigrationModel.db().resetSchema(callback)
+    MigrationModel.store.db().resetSchema(callback)
   }
 }

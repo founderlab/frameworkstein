@@ -2,16 +2,12 @@
   "name": "stein-orm-migrations",
   "version": "6.1.7",
   "description": "Automatic migrations for stein-orm",
-  "main": "distribution/index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "create-db": "psql -tc \"SELECT 1 FROM pg_database WHERE datname = '$DATABASE_NAME'\" | grep -q 1 || psql -c \"CREATE DATABASE $DATABASE_NAME\"",
-    "test": "jest --forceExit --coverage",
-    "coverage": "nyc report --temp-directory=coverage --reporter=text-lcov | coveralls",
-    "test-debug": "eval $(cat .test_env) jest",
-    "clean": "rimraf distribution",
-    "lint": "eslint .",
-    "build": "babel src --out-dir distribution",
-    "prepublishOnly": "npm run clean && npm run build"
+    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
+    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "test": "eval $(cat __tests__/.env) jest --runInBand"
   },
   "repository": {
     "type": "git",
@@ -31,16 +27,19 @@
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",
-    "coveralls": "^2.0.0",
     "jest": "^22.0.0",
-    "nyc": "^11.0.0",
-    "rimraf": "^2.0.0",
-    "stein-orm": "^6.1.0",
-    "superagent": "0.18.0"
+    "stein-orm": "^6.1.0"
   },
   "dependencies": {
     "fl-server-utils": "^6.1.0",
     "stein-orm": "^6.1.0",
     "stein-orm-sql": "^6.1.0"
+  },
+  "jest": {
+    "verbose": true,
+    "bail": true,
+    "testPathIgnorePatterns": [
+      "node_modules/!(stein-orm)/*"
+    ]
   }
 }

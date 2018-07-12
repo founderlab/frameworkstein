@@ -8,14 +8,14 @@ import TestModel from './models/TestModel'
 import MigrationModel from '../src/models/Migration'
 
 const resetSchema = (Model) => new Promise((resolve, reject) => {
-  Model.db().resetSchema((err, data) => {
+  Model.store.db().resetSchema((err, data) => {
     if (err) return reject(err)
     return resolve(data)
   })
 })
 
 const ensureSchema = (Model) => new Promise((resolve, reject) => {
-  Model.db().ensureSchema((err, data) => {
+  Model.store.db().ensureSchema((err, data) => {
     if (err) return reject(err)
     return resolve(data)
   })
@@ -68,19 +68,19 @@ describe('Migrations Tests', async () => {
     // ensure the database is how we expect
     const storedModelsBefore = await modelFind(TestModel, {})
     expect(storedModelsBefore.length).toBe(1)
-    expect(storedModelsBefore[0].attributes.myIntegerField).toBe(777)
-    expect(storedModelsBefore[0].attributes.myTextField).toBe('blah')
+    expect(storedModelsBefore[0].data.myIntegerField).toBe(777)
+    expect(storedModelsBefore[0].data.myTextField).toBe('blah')
 
     // execute the migrations and retest
     const migration = new Migration({path: path.resolve(__dirname, 'migrations/A_migration')})
     await (up(migration))
     const storedModelsAfter = await modelFind(TestModel, {$sort: 'createdDate'})
     expect(storedModelsAfter.length).toBe(3)
-    expect(storedModelsAfter[0].attributes.myIntegerField).toBe(777)
-    expect(storedModelsAfter[1].attributes.myIntegerField).toBe(111)
-    expect(storedModelsAfter[1].attributes.myTextField).toBe('blah1')
-    expect(storedModelsAfter[2].attributes.myIntegerField).toBe(222)
-    expect(storedModelsAfter[2].attributes.myTextField).toBe('blah2')
+    expect(storedModelsAfter[0].data.myIntegerField).toBe(777)
+    expect(storedModelsAfter[1].data.myIntegerField).toBe(111)
+    expect(storedModelsAfter[1].data.myTextField).toBe('blah1')
+    expect(storedModelsAfter[2].data.myIntegerField).toBe(222)
+    expect(storedModelsAfter[2].data.myTextField).toBe('blah2')
   })
 
   test('should execute the one migration in the directory', async () => {
@@ -90,19 +90,19 @@ describe('Migrations Tests', async () => {
     // ensure the database is how we expect
     const storedModelsBefore = await modelFind(TestModel, {})
     expect(storedModelsBefore.length).toBe(1)
-    expect(storedModelsBefore[0].attributes.myIntegerField).toBe(777)
-    expect(storedModelsBefore[0].attributes.myTextField).toBe('blah')
+    expect(storedModelsBefore[0].data.myIntegerField).toBe(777)
+    expect(storedModelsBefore[0].data.myTextField).toBe('blah')
 
     // execute the migrations and retest
     const migrations = new Migrations({path: path.resolve(__dirname, 'migrations')})
     await (up(migrations))
     const storedModelsAfter = await modelFind(TestModel, {$sort: 'createdDate'})
     expect(storedModelsAfter.length).toBe(3)
-    expect(storedModelsAfter[0].attributes.myIntegerField).toBe(777)
-    expect(storedModelsAfter[1].attributes.myIntegerField).toBe(111)
-    expect(storedModelsAfter[1].attributes.myTextField).toBe('blah1')
-    expect(storedModelsAfter[2].attributes.myIntegerField).toBe(222)
-    expect(storedModelsAfter[2].attributes.myTextField).toBe('blah2')
+    expect(storedModelsAfter[0].data.myIntegerField).toBe(777)
+    expect(storedModelsAfter[1].data.myIntegerField).toBe(111)
+    expect(storedModelsAfter[1].data.myTextField).toBe('blah1')
+    expect(storedModelsAfter[2].data.myIntegerField).toBe(222)
+    expect(storedModelsAfter[2].data.myTextField).toBe('blah2')
   })
 
   test('should execute the all migrations in the directory', async () => {
@@ -112,23 +112,23 @@ describe('Migrations Tests', async () => {
     // ensure the database is how we expect
     const storedModelsBefore = await modelFind(TestModel, {})
     expect(storedModelsBefore.length).toBe(1)
-    expect(storedModelsBefore[0].attributes.myIntegerField).toBe(777)
-    expect(storedModelsBefore[0].attributes.myTextField).toBe('blah')
+    expect(storedModelsBefore[0].data.myIntegerField).toBe(777)
+    expect(storedModelsBefore[0].data.myTextField).toBe('blah')
 
     // execute the migrations and retest
     const migrations = new Migrations({path: path.resolve(__dirname, 'migrationsMultiple')})
     await up(migrations)
     const storedModelsAfter = await modelFind(TestModel, {$sort: 'createdDate'})
     expect(storedModelsAfter.length).toBe(5)
-    expect(storedModelsAfter[0].attributes.myIntegerField).toBe(777)
-    expect(storedModelsAfter[1].attributes.myIntegerField).toBe(111)
-    expect(storedModelsAfter[1].attributes.myTextField).toBe('blah1')
-    expect(storedModelsAfter[2].attributes.myIntegerField).toBe(222)
-    expect(storedModelsAfter[2].attributes.myTextField).toBe('blah2')
-    expect(storedModelsAfter[3].attributes.myIntegerField).toBe(333)
-    expect(storedModelsAfter[3].attributes.myTextField).toBe('blah3')
-    expect(storedModelsAfter[4].attributes.myIntegerField).toBe(444)
-    expect(storedModelsAfter[4].attributes.myTextField).toBe('blah4')
+    expect(storedModelsAfter[0].data.myIntegerField).toBe(777)
+    expect(storedModelsAfter[1].data.myIntegerField).toBe(111)
+    expect(storedModelsAfter[1].data.myTextField).toBe('blah1')
+    expect(storedModelsAfter[2].data.myIntegerField).toBe(222)
+    expect(storedModelsAfter[2].data.myTextField).toBe('blah2')
+    expect(storedModelsAfter[3].data.myIntegerField).toBe(333)
+    expect(storedModelsAfter[3].data.myTextField).toBe('blah3')
+    expect(storedModelsAfter[4].data.myIntegerField).toBe(444)
+    expect(storedModelsAfter[4].data.myTextField).toBe('blah4')
   })
 
   test('should reset all migrations', async () => {
@@ -137,14 +137,14 @@ describe('Migrations Tests', async () => {
     await up(migrations)
     const storedModelsBefore = await modelFind(TestModel, {$sort: 'createdDate'})
     expect(storedModelsBefore.length).toBe(4)
-    expect(storedModelsBefore[0].attributes.myIntegerField).toBe(111)
-    expect(storedModelsBefore[0].attributes.myTextField).toBe('blah1')
-    expect(storedModelsBefore[1].attributes.myIntegerField).toBe(222)
-    expect(storedModelsBefore[1].attributes.myTextField).toBe('blah2')
-    expect(storedModelsBefore[2].attributes.myIntegerField).toBe(333)
-    expect(storedModelsBefore[2].attributes.myTextField).toBe('blah3')
-    expect(storedModelsBefore[3].attributes.myIntegerField).toBe(444)
-    expect(storedModelsBefore[3].attributes.myTextField).toBe('blah4')
+    expect(storedModelsBefore[0].data.myIntegerField).toBe(111)
+    expect(storedModelsBefore[0].data.myTextField).toBe('blah1')
+    expect(storedModelsBefore[1].data.myIntegerField).toBe(222)
+    expect(storedModelsBefore[1].data.myTextField).toBe('blah2')
+    expect(storedModelsBefore[2].data.myIntegerField).toBe(333)
+    expect(storedModelsBefore[2].data.myTextField).toBe('blah3')
+    expect(storedModelsBefore[3].data.myIntegerField).toBe(444)
+    expect(storedModelsBefore[3].data.myTextField).toBe('blah4')
 
     // reset the schemad
     await reset(migrations)
@@ -153,14 +153,14 @@ describe('Migrations Tests', async () => {
     await up(migrations)
     const storedModelsAfter = await modelFind(TestModel, {$sort: 'createdDate'})
     expect(storedModelsAfter.length).toBe(4)
-    expect(storedModelsAfter[0].attributes.myIntegerField).toBe(111)
-    expect(storedModelsAfter[0].attributes.myTextField).toBe('blah1')
-    expect(storedModelsAfter[1].attributes.myIntegerField).toBe(222)
-    expect(storedModelsAfter[1].attributes.myTextField).toBe('blah2')
-    expect(storedModelsAfter[2].attributes.myIntegerField).toBe(333)
-    expect(storedModelsAfter[2].attributes.myTextField).toBe('blah3')
-    expect(storedModelsAfter[3].attributes.myIntegerField).toBe(444)
-    expect(storedModelsAfter[3].attributes.myTextField).toBe('blah4')
+    expect(storedModelsAfter[0].data.myIntegerField).toBe(111)
+    expect(storedModelsAfter[0].data.myTextField).toBe('blah1')
+    expect(storedModelsAfter[1].data.myIntegerField).toBe(222)
+    expect(storedModelsAfter[1].data.myTextField).toBe('blah2')
+    expect(storedModelsAfter[2].data.myIntegerField).toBe(333)
+    expect(storedModelsAfter[2].data.myTextField).toBe('blah3')
+    expect(storedModelsAfter[3].data.myIntegerField).toBe(444)
+    expect(storedModelsAfter[3].data.myTextField).toBe('blah4')
 
   })
 
@@ -171,33 +171,33 @@ describe('Migrations Tests', async () => {
     // ensure the database is how we expect
     const storedModelsBefore = await modelFind(TestModel, {})
     expect(storedModelsBefore.length).toBe(1)
-    expect(storedModelsBefore[0].attributes.myIntegerField).toBe(777)
-    expect(storedModelsBefore[0].attributes.myTextField).toBe('blah')
+    expect(storedModelsBefore[0].data.myIntegerField).toBe(777)
+    expect(storedModelsBefore[0].data.myTextField).toBe('blah')
 
     // execute the migrations and retest
     const migrations = new Migrations({path: path.resolve(__dirname, 'migrations')})
     await up(migrations)
     const storedModelsAfter1 = await modelFind(TestModel, {$sort: 'createdDate'})
     expect(storedModelsAfter1.length).toBe(3)
-    expect(storedModelsAfter1[0].attributes.myIntegerField).toBe(777)
-    expect(storedModelsAfter1[1].attributes.myIntegerField).toBe(111)
-    expect(storedModelsAfter1[1].attributes.myTextField).toBe('blah1')
-    expect(storedModelsAfter1[2].attributes.myIntegerField).toBe(222)
-    expect(storedModelsAfter1[2].attributes.myTextField).toBe('blah2')
+    expect(storedModelsAfter1[0].data.myIntegerField).toBe(777)
+    expect(storedModelsAfter1[1].data.myIntegerField).toBe(111)
+    expect(storedModelsAfter1[1].data.myTextField).toBe('blah1')
+    expect(storedModelsAfter1[2].data.myIntegerField).toBe(222)
+    expect(storedModelsAfter1[2].data.myTextField).toBe('blah2')
 
     const migrationsMutliple = new Migrations({path: path.resolve(__dirname, 'migrationsMultiple')})
     await up(migrationsMutliple)
     const storedModelsAfter2 = await modelFind(TestModel, {$sort: 'createdDate'})
     expect(storedModelsAfter2.length).toBe(5)
-    expect(storedModelsAfter2[0].attributes.myIntegerField).toBe(777)
-    expect(storedModelsAfter2[1].attributes.myIntegerField).toBe(111)
-    expect(storedModelsAfter2[1].attributes.myTextField).toBe('blah1')
-    expect(storedModelsAfter2[2].attributes.myIntegerField).toBe(222)
-    expect(storedModelsAfter2[2].attributes.myTextField).toBe('blah2')
-    expect(storedModelsAfter2[3].attributes.myIntegerField).toBe(333)
-    expect(storedModelsAfter2[3].attributes.myTextField).toBe('blah3')
-    expect(storedModelsAfter2[4].attributes.myIntegerField).toBe(444)
-    expect(storedModelsAfter2[4].attributes.myTextField).toBe('blah4')
+    expect(storedModelsAfter2[0].data.myIntegerField).toBe(777)
+    expect(storedModelsAfter2[1].data.myIntegerField).toBe(111)
+    expect(storedModelsAfter2[1].data.myTextField).toBe('blah1')
+    expect(storedModelsAfter2[2].data.myIntegerField).toBe(222)
+    expect(storedModelsAfter2[2].data.myTextField).toBe('blah2')
+    expect(storedModelsAfter2[3].data.myIntegerField).toBe(333)
+    expect(storedModelsAfter2[3].data.myTextField).toBe('blah3')
+    expect(storedModelsAfter2[4].data.myIntegerField).toBe(444)
+    expect(storedModelsAfter2[4].data.myTextField).toBe('blah4')
   })
 
   test('should be able to handle empty migrations folder', async () => {
