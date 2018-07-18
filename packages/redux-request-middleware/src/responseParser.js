@@ -2,29 +2,35 @@ import _ from 'lodash'
 
 export function isModel(action) { return action.res && _.isFunction(action.res.toJSON) }
 
-export function parseJSON(action, {mutate}) {
-  let modelList = action.res ? action.res.body || action.res : null
+export function parseJSON(action, {mutate, force}) {
+  if (!force && !action.res) return action
+
+  let modelList = action.modelList || action.res ? action.res.body || action.res : null
   let single = false
   if (!_.isArray(modelList)) {
     single = true
-    modelList = modelList ? [modelList] : []
+    modelList = [modelList]
   }
-  const model = modelList[0]
-  let status = 200
-  if (action.res && (_.isFunction(action.res.json) || action.res.body) && action.res.status && +action.res.status) {
-    status = action.res.status
-  }
-  else if (single && !model) {
-    status = 404
-  }
-  const models = {}
+
+  const model = action.model || modelList[0]
+  const models = action.models || {}
   const ids = []
-  _.forEach(modelList, model => {
-    if (_.isNil(model && model.id)) return
-    model.id = model.id.toString()
-    models[model.id] = model
-    ids.push(model.id)
-  })
+
+  if (!action.models) {
+    _.forEach(modelList, model => {
+      if (_.isNil(model && model.id)) return
+      model.id = model.id.toString()
+      models[model.id] = model
+      ids.push(model.id)
+    })
+  }
+
+  let status = (action.res && action.res.status)
+  if (!status) {
+    if (single) status = model ? 200 : 404
+    else status = 200
+  }
+
   const data = {model, models, modelList, ids, status}
   return mutate ? _.extend(action, data) : {...action, ...data}
 }

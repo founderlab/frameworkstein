@@ -123,6 +123,6 @@ export default class SqlStore {
         json[key] = JSON.stringify(json[key])
       }
     })
-    return json
+    return _.pick(json, this.modelType.schema.columns())
   }
 }
