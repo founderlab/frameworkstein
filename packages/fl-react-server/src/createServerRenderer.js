@@ -62,7 +62,7 @@ export default function createServerRenderer(_options) {
       serverState.config = _.isFunction(config) ? await config(req) : config
 
       const history = createHistory({initialEntries: [req.originalUrl]})
-      const store = createStore({history, initialState: serverState})
+      const store = createStore({history, getRoutes, initialState: serverState})
       const routes = getRoutes(store)
 
       const branch = matchRoutes(routes, req.path)
