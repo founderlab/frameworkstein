@@ -73,6 +73,7 @@ function createModelAdmin(options, modelDescriptor) {
     modelAdmin.createLink = () => modelAdmin.link('create')
   }
 
+  Model.schema.initialize()
   const schema = Model.schema
   const fields = schema.fields || {}
   const relationFields = schema.relations || {}
@@ -80,6 +81,7 @@ function createModelAdmin(options, modelDescriptor) {
 
   // Make sure we have config for every field in the models schema
   _.forEach(fields, (field, key) => {
+    if (key === 'id') return
     const modelField = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
     _.defaults(modelField, field)
     modelField.key = modelField.key || key
