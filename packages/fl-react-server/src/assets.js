@@ -9,12 +9,30 @@ function getAssetJSON(webpackAssetsPath) {
 }
 
 export function jsAssets(entries, webpackAssetsPath) {
+  const fileNames = []
   const assets = getAssetJSON(webpackAssetsPath)
-  return _(entries).map(e => assets[e].js).compact().value()
+  _.forEach(entries, e => {
+    try {
+      fileNames.push(assets[e].js)
+    }
+    catch (err) {
+      console.error('Could not find asset JSON for js entry', e)
+    }
+  })
+  return fileNames
 }
 
 export function cssAssets(entries, webpackAssetsPath) {
   if (process.env.NODE_ENV === 'development') return []
+  const fileNames = []
   const assets = getAssetJSON(webpackAssetsPath)
-  return _(entries).map(e => assets[e].css).compact().value()
+  _.forEach(entries, e => {
+    try {
+      fileNames.push(assets[e].css)
+    }
+    catch (err) {
+      console.error('Could not find asset JSON for css entry', e)
+    }
+  })
+  return fileNames
 }
