@@ -1,9 +1,11 @@
+/* eslint-disable react/no-find-dom-node */
 import _ from 'lodash' //eslint-disable-line
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import TransitionEvents from './TransitionEvents'
+
 
 export default class Step extends Component {
 
@@ -12,6 +14,7 @@ export default class Step extends Component {
     children: PropTypes.node,
     active: PropTypes.bool,
     onAnimateOutEnd: PropTypes.func,
+    unmount: PropTypes.bool,
   }
 
   constructor() {
@@ -54,11 +57,14 @@ export default class Step extends Component {
   }
 
   render() {
+    const actuallyHidden = !this.props.active && !this.state.animateOut
+    const shouldUnmount = this.props.unmount && actuallyHidden
+
     const classes = {
       fade: true,
       active: this.props.active || this.state.animateOut,
       show: this.props.active && !this.state.animateIn,
-      'd-none': !this.props.active && !this.state.animateOut,
+      'd-none': actuallyHidden,
 
       // deprecated
       in: this.props.active && !this.state.animateIn,
@@ -71,7 +77,7 @@ export default class Step extends Component {
         aria-hidden={!this.props.active}
         className={classNames(this.props.className, classes)}
       >
-        {this.props.children}
+        {!shouldUnmount && this.props.children}
       </div>
     )
   }

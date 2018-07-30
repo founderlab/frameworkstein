@@ -2,6 +2,7 @@ import _ from 'lodash' //eslint-disable-line
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
+
 export default class Steps extends Component {
 
   static propTypes = {
@@ -9,10 +10,7 @@ export default class Steps extends Component {
     step: PropTypes.number.isRequired,
   }
 
-  constructor() {
-    super()
-    this.state = {prevStep: null}
-  }
+  state = {prevStep: null}
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.step !== null && nextProps.step !== this.props.step) {
@@ -23,7 +21,6 @@ export default class Steps extends Component {
         if (React.isValidElement(child)) {
           if (child.props.step === prevStep) {
             this.setState({prevStep})
-            return
           }
         }
       })
@@ -46,13 +43,15 @@ export default class Steps extends Component {
         step: index,
         active: !prevStep && index === this.props.step,
         onAnimateOutEnd: isAlreadyActive ? this.handlePaneAnimateOutEnd : null,
-      }
+        ..._.omit(this.props, 'children'),
+      },
     )
   }
 
   render() {
     const { children } = this.props
     const childrenArray = React.Children.toArray(children)
+
     return (
       <div>
         {_.map(_.compact(childrenArray), this.renderStep)}

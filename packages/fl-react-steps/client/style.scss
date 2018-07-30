@@ -15,37 +15,39 @@ $step-font-size: 18px !default;
 $step-height: 180px !default;
 $step-height-xs: 130px !default;
 
+
 .step-header {
   display: flex;
+  z-index: 1;
 
   .step {
     flex: 1;
+    z-index: 1;
     font-size: $step-font-size;
     font-weight: 300;
+    outline: none;
 
     position: relative;
     height: $step-height;
 
     &.disabled {
-      color: $text-disabled-color;
+      color: $header-text-disabled-color;
     }
 
     &:hover:not(.disabled) {
       cursor: pointer;
-      color: $dot-color;
       .dot {
-        width: 30px;
-        height: 30px;
-        margin-left: -15px;
-        margin-top: -15px;
+        width: $dot-active-size;
+        height: $dot-active-size;
+        margin-left: -$dot-active-size/2;
+        margin-top: -$dot-active-size/2;
       }
     }
 
     &.active, &.active:hover {
       cursor: default;
       .text {
-        height: $step-height;
-        color: $text-active-color;
+        color: $header-text-active-color;
       }
       .bar-left {
         background: $complete-color;
@@ -55,9 +57,10 @@ $step-height-xs: 130px !default;
 
         width: $dot-active-size;
         height: $dot-active-size;
+        border: solid 4px $complete-color;
 
         left: 50%;
-        top: 50%;
+        top: $step-offset-top;;
         margin-left: -$dot-active-size/2;
         margin-top: -$dot-active-size/2;
       }
@@ -65,9 +68,10 @@ $step-height-xs: 130px !default;
     &.complete {
       .dot, .bar {
         background: $complete-color;
+        border: none;
       }
       .text {
-        color: $text-color;
+        color: $header-text-color;
       }
     }
     &.complete:hover .text {
@@ -75,17 +79,16 @@ $step-height-xs: 130px !default;
     }
 
     .text {
-      transition: all 0.5s;
-      color: $text-color;
+      transition: all 0.3s;
+      color: $header-text-color;
       display: table;
-      height: 66px;
       width: 100%;
-      max-width: $dot-active-size * 0.80;
+      // max-width: $dot-active-size * 0.80;
       margin: 0 auto;
       z-index: 4;
       text-align: center;
       position: relative;
-      height: $step-height/2;
+      height: $step-text-height;
 
       .text-inner {
         display: table-cell;
@@ -93,7 +96,7 @@ $step-height-xs: 130px !default;
       }
     }
     .dot {
-      transition: all 0.5s;
+      transition: all 0.3s;
       z-index: 2;
       background: $dot-color;
 
@@ -104,20 +107,27 @@ $step-height-xs: 130px !default;
       height: $dot-size;
 
       left: 50%;
-      top: 50%;
+      top: $step-offset-top;;
       margin-left: -$dot-size/2;
       margin-top: -$dot-size/2;
+
+      display: flex;
+      align-items: center;
+      text-align: center;
+      .number {
+        width: 100%;
+      }
     }
     .bar {
       transition: all 0.5s;
       z-index: 1;
-      background: $dot-color;
+      background: $bar-color;
 
       position: absolute;
       width: 50%;
       height: 6px;
 
-      top: 50%;
+      top: $step-offset-top;;
       margin-top: -3px;
 
       &.bar-left {
@@ -127,24 +137,16 @@ $step-height-xs: 130px !default;
         right: 0;
       }
     }
-
-    .number {
-      z-index: 3;
-      display: none;
-    }
   }
 }
 
-@media(max-width:768px) {
-
+// @media(max-width: $screen-md-min) {
+@include media-breakpoint-down(md) {
   .step-header .step {
-    font-size: 14px;
+    // font-size: 14px;
     height: $step-height-xs;
 
     &.active, &.active:hover {
-      .text {
-        height: $step-height-xs;
-      }
       .dot {
         width: $dot-active-size-xs;
         height: $dot-active-size-xs;
@@ -153,9 +155,6 @@ $step-height-xs: 130px !default;
       }
     }
 
-    .text {
-      height: $step-height-xs/2;
-    }
     .dot {
       width: $dot-size-xs;
       height: $dot-size-xs;
@@ -166,5 +165,11 @@ $step-height-xs: 130px !default;
       height: 4px;
       margin-top: -2px;
     }
+  }
+}
+
+@media (max-width: 300px) {
+  .step-header {
+    display: none !important;
   }
 }

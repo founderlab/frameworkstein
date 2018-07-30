@@ -3,12 +3,14 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+
 export default class StepHeader extends Component {
 
   static propTypes = {
+    step: PropTypes.number,
     onChangeStep: PropTypes.func.isRequired,
-    headings: PropTypes.array.isRequired,
-    step: PropTypes.number.isRequired,
+    steps: PropTypes.array,
+    headings: PropTypes.array,
     className: PropTypes.string,
     stepClass: PropTypes.string,
     stepClassName: PropTypes.string,
@@ -34,12 +36,13 @@ export default class StepHeader extends Component {
   handleStepFn = step => () => this.stepEnabled(step) && this.props.onChangeStep(step)
 
   render() {
-    const { step, headings } = this.props
+    const { step, steps, headings } = this.props
     const stepClass = this.props.stepClassName || this.props.stepClass
+    const titles = headings || _.map(steps, step => step.heading || '')
 
     return (
       <div className={classNames(this.props.className, 'step-header')}>
-        {headings.map((title, i) => {
+        {titles.map((title, i) => {
           const index = i + 1
 
           const classes = {
@@ -50,16 +53,20 @@ export default class StepHeader extends Component {
           }
 
           return (
-            <div key={index} className={classNames(classes, stepClass)} onClick={this.handleStepFn(index)}>
-              <div className="number">{index}</div>
-              <div className="text">
-                <div className="text-inner">
-                  {title}
+            <div role="button" tabIndex={0} key={index} className={classNames(classes, stepClass)} onClick={this.handleStepFn(index)}>
+
+              {title && (
+                <div className="text">
+                  <div className="text-inner">
+                    {title}
+                  </div>
                 </div>
+              )}
+              <div className="dot">
+                <div className="number">{index}</div>
               </div>
-              <div className="dot"></div>
-              {index > 1 && (<div className="bar bar-left"></div>)}
-              {index < headings.length && (<div className="bar bar-right"></div>)}
+              {index > 1 && (<div className="bar bar-left" />)}
+              {index < titles.length && (<div className="bar bar-right" />)}
             </div>
           )
         })}
