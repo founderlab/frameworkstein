@@ -27,11 +27,13 @@ export default class Admin extends React.Component {
 
   static childContextTypes = {
     url: PropTypes.string,
+    s3Url: PropTypes.string,
   }
 
   getChildContext() {
     return {
       url: this.state.url,
+      s3Url: this.state.s3Url,
     }
   }
 
@@ -39,6 +41,7 @@ export default class Admin extends React.Component {
     if (!this.state.url) {
       this.setState({
         url: this.props.config.get('url'),
+        s3Url: this.props.config.get('s3Url'),
       })
     }
   }

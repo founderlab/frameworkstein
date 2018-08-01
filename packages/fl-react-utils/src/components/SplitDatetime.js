@@ -12,6 +12,8 @@ export default class SplitDatetime extends React.Component {
 
   static propTypes = {
     label: PropTypes.string,
+    dateLabel: PropTypes.string,
+    timeLabel: PropTypes.string,
     helpTop: PropTypes.bool,
     helpMd: PropTypes.string,
     help: PropTypes.string,
@@ -30,6 +32,7 @@ export default class SplitDatetime extends React.Component {
     localeDateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
     markdownProps: PropTypes.object,
+    defaultTime: PropTypes.object,
   }
 
   static defaultProps = {
@@ -39,6 +42,9 @@ export default class SplitDatetime extends React.Component {
     markdownProps: {
       escapeHtml: true,
     },
+    defaultTime: {
+      hours: 18,
+    },
   }
 
   constructor(props) {
@@ -47,6 +53,13 @@ export default class SplitDatetime extends React.Component {
       date: moment(props.input.value),
       time: moment(props.input.value),
     }
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      date: moment(props.input.value),
+      time: moment(props.input.value),
+    })
   }
 
   getDateFormat = () => this.props.dateFormat ? this.props.dateFormat : moment.localeData().longDateFormat(this.props.localeDateFormat)
@@ -64,6 +77,7 @@ export default class SplitDatetime extends React.Component {
 
   handleDateChange = newDate => {
     if (moment.isMoment(newDate)) {
+      if (this.props.defaultTime) newDate.set(this.props.defaultTime)
       this.setState({date: newDate}, this.handleChange)
       return
     }
@@ -71,6 +85,7 @@ export default class SplitDatetime extends React.Component {
     if (newDate.length !== 8) return
     const m = moment(newDate, 'DD/MM/YYYY')
     if (!m.isValid()) return
+    if (this.props.defaultTime) m.set(this.props.defaultTime)
 
     this.setState({date: m}, this.handleChange)
   }
@@ -89,7 +104,7 @@ export default class SplitDatetime extends React.Component {
   }
 
   render() {
-    const { label, meta, helpMd, helpTop } = this.props
+    const { label, dateLabel, timeLabel, meta, helpMd, helpTop } = this.props
     const inputProps = _.extend({}, this.props.input, this.props.inputProps)
 
     let help = this.props.help
@@ -110,7 +125,9 @@ export default class SplitDatetime extends React.Component {
       isValidDate: this.props.isValidDate,
       ..._.omit(inputProps, 'onChange', 'onFocus'),
       value: this.state.date,
+      inputProps: {className: error ? 'is-invalid form-control' : 'form-control'},
     }
+
     const timeInputProps = {
       ref: c => this._time = c,
       placeholder: '9:00 am',
@@ -122,10 +139,12 @@ export default class SplitDatetime extends React.Component {
       ..._.omit(inputProps, 'onChange', 'onFocus'),
       value: this.state.time,
     }
+
     if (!this.props.meta.dirty && _.isString(inputProps.value)) {
       dateInputProps.value = moment(inputProps.value)
       timeInputProps.value = moment(inputProps.value)
     }
+
     const dateControl = (<ReactDatetime {...dateInputProps} />)
     const timeControl = (<ReactDatetime {...timeInputProps} />)
 
@@ -133,9 +152,15 @@ export default class SplitDatetime extends React.Component {
       <FormGroup className="form-group split-datetime">
         {label && (<Label>{label}</Label>)}
         {help && helpTop && (<FormText color="muted">{help}</FormText>)}
-        {dateControl}
-        {timeControl}
+        <div>
+          {dateLabel && (<Label>{dateLabel}</Label>)}
+          {dateControl}
+        </div>
         {error && (<FormFeedback>{error}</FormFeedback>)}
+        <div className="mt-3">
+          {timeLabel && (<Label>{timeLabel}</Label>)}
+          {timeControl}
+        </div>
         {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
       </FormGroup>
     )
