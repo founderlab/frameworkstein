@@ -31,7 +31,15 @@ export default function fetchComponentData(options, callback) {
       queue.defer(callback => {
         const match = branch.match
 
+        // It's possible for compoennts to both call a callback fn and return a promise, in this case
+        // we need to make sure we don't call our queue callback again
+        let called = false
         const done = (err, res={}) => {
+          if (called) {
+            console.log(`[fetchData] ${Component.name} has returned a promise in addition to calling the provided callback, this may mean some data was not loaded correctly (use one or the other)`)
+            return
+          }
+          called = true
           if (res) _.extend(result, res)
           callback(err)
         }
