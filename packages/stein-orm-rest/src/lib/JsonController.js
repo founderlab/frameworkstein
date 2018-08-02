@@ -93,5 +93,3 @@ export default class JSONController {
     return exec()
   }
 }
-
-_.extend(JSONController, new EventEmitter())

@@ -112,7 +112,7 @@ export default class RESTController extends JsonController {
       return this.render(req, json, (err, json) => {
         if (err) return this.sendError(res, err)
 
-        this.emit('create', {req, res, model, json})
+        this.events.emit('create', {req, res, model, json})
         return res.json(json)
       })
     })
@@ -133,7 +133,7 @@ export default class RESTController extends JsonController {
 
         return this.render(req, json, (err, json) => {
           if (err) return this.sendError(res, err)
-          this.emit('update', {req, res, model, json})
+          this.events.emit('update', {req, res, model, json})
           return res.json(json)
         })
       })
@@ -150,7 +150,7 @@ export default class RESTController extends JsonController {
       return this.modelType.destroy(id, err => {
         if (err) return this.sendError(res, err)
         this.clearCache()
-        this.emit('destroy', {req, res, id})
+        this.events.emit('destroy', {req, res, id})
         return res.json({})
       })
     })
@@ -160,7 +160,7 @@ export default class RESTController extends JsonController {
     return this.modelType.destroy(parseQuery(req.query), err => {
       if (err) return this.sendError(res, err)
       this.clearCache()
-      this.emit('destroyByQuery', {req, res})
+      this.events.emit('destroyByQuery', {req, res})
       return res.json({})
     })
   }
@@ -320,5 +320,9 @@ export default class RESTController extends JsonController {
       }
     }
     return finalObj
+  }
+
+  __testEmit() {
+    this.events.emit('__testevent', {stuff: 'yep'})
   }
 }
