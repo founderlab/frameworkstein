@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -6,7 +7,6 @@ import PropTypes from 'prop-types'
 export default class S3Image extends React.Component {
 
   static propTypes = {
-    className: PropTypes.string,
     filename: PropTypes.string.isRequired,
   }
 
@@ -15,11 +15,11 @@ export default class S3Image extends React.Component {
   }
 
   render() {
-    const { className, filename } = this.props
+    const { filename, ...rest } = this.props
     const url = `${this.context.s3Url}/${filename}`
 
     return (
-      <img src={url} className={className} />
+      <img src={url} {...rest} />
     )
   }
 }

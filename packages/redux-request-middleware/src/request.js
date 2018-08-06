@@ -112,10 +112,21 @@ export default function createRequestMiddleware(_options={}) {
             finalAction = {res, type: SUCCESS, ...rest}
             if (parseResponse) finalAction = parseResponse(finalAction)
           }
-          next(finalAction)
-          if (callback && _.isFunction(callback)) return callback(error, finalAction)
-          if (error) reject(error)
-          else resolve(finalAction)
+
+          try {
+            next(finalAction)
+
+            if (callback && _.isFunction(callback))  {
+              return callback(error, finalAction)
+            }
+
+            if (error) reject(error)
+            else resolve(finalAction)
+          }
+          catch (err) {
+            console.log('[redux-request-middleware] Error from a callback or reducer processing the requested action', action)
+            console.log(err)
+          }
         }
 
         if (options.retry) {
