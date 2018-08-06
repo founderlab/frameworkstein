@@ -1,6 +1,6 @@
 {
   "name": "fl-admin",
-  "version": "6.1.15",
+  "version": "6.2.2",
   "description": "Admin panel for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "classnames": "^2.0.0",
-    "fl-react-utils": "^6.1.15",
+    "fl-react-utils": "^6.2.2",
     "fl-redux-utils": "^6.0.1",
     "immutable": "^3.0.0",
     "inflection": "^1.0.0",
