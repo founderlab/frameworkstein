@@ -78,6 +78,15 @@ export default class FLModel {
    * Update a model
    */
   async _save(data={}) {
+
+    // Auto update dates if present in schema
+    if (!this.id && !data.createdDate && this.schema.fields.createdDate) {
+      data.createdDate = new Date()
+    }
+    if (!data.updatedDate && this.schema.fields.updatedDate) {
+      data.updatedDate = new Date()
+    }
+
     this.set(data)
     let result
     if (this.id) {
@@ -86,6 +95,7 @@ export default class FLModel {
     else {
       result = await this.store.create(this)
     }
+
     this.set(result)
     return this
   }
@@ -113,7 +123,6 @@ export default class FLModel {
   /*
    * Return this models data
    */
-  // toJSON = () => this.data
   toJSON = (options={}) => {
     const json = {}
     const keys = options.keys || this.whitelist || _.keys(this.data)
