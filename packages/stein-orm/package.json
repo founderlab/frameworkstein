@@ -1,6 +1,6 @@
 {
   "name": "stein-orm",
-  "version": "6.1.10",
+  "version": "6.2.3",
   "description": "",
   "main": "lib/index.js",
   "author": {
@@ -21,7 +21,7 @@
   "devDependencies": {
     "babel-cli": "^6.0.0",
     "jest": "^22.0.0",
-    "stein-orm-sql": "^6.1.10"
+    "stein-orm-sql": "^6.2.3"
   },
   "dependencies": {
     "inflection": "^1.0.0",
