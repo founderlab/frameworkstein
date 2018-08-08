@@ -7,43 +7,37 @@ export default class Steps extends Component {
 
   static propTypes = {
     children: PropTypes.node.isRequired,
-    step: PropTypes.number.isRequired,
+    step: PropTypes.number.isRequired,        // Current step
   }
 
-  state = {prevStep: null}
+  state = {
+    transitioningFromStep: null,
+  }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps = nextProps => {
     if (nextProps.step !== null && nextProps.step !== this.props.step) {
-      // check if the 'prevStep' child still exists
-      const prevStep = this.props.step
-
-      React.Children.forEach(nextProps.children, (child) => {
-        if (React.isValidElement(child)) {
-          if (child.props.step === prevStep) {
-            this.setState({prevStep})
-          }
-        }
-      })
+      const transitioningFromStep = this.props.step
+      this.setState({transitioningFromStep})
     }
   }
 
-  handlePaneAnimateOutEnd() {
-    this.setState({prevStep: null})
+  handlePaneAnimateOutEnd = step => {
+    this.setState({transitioningFromStep: null})
   }
 
   renderStep = (child, i) => {
-    const index = i + 1 // start from 1
-    const prevStep = this.state.prevStep
-    const isAlreadyActive = prevStep && child.props.step === prevStep
+    const childStep = i + 1 // start from 1
+    const transitioningFromStep = this.state.transitioningFromStep
+    const isAlreadyActive = transitioningFromStep && childStep === transitioningFromStep
 
     return React.cloneElement(
       child,
       {
-        key: child.key ? child.key : index,
-        step: index,
-        active: !prevStep && index === this.props.step,
+        key: child.key ? child.key : childStep,
+        step: childStep,
+        active: !transitioningFromStep && childStep === this.props.step,
         onAnimateOutEnd: isAlreadyActive ? this.handlePaneAnimateOutEnd : null,
-        ..._.omit(this.props, 'children'),
+        ..._.omit(this.props, 'children', 'step'),
       },
     )
   }

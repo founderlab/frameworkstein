@@ -17,12 +17,9 @@ export default class Step extends Component {
     unmount: PropTypes.bool,
   }
 
-  constructor() {
-    super()
-    this.state = {
-      animateIn: false,
-      animateOut: false,
-    }
+  state = {
+    animateIn: false,
+    animateOut: false,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,13 +50,12 @@ export default class Step extends Component {
 
   stopAnimateOut = () => {
     this.setState({animateOut: false})
-    if (this.props.onAnimateOutEnd) this.props.onAnimateOutEnd()
+    if (this.props.onAnimateOutEnd) this.props.onAnimateOutEnd(this.step)
   }
 
   render() {
     const actuallyHidden = !this.props.active && !this.state.animateOut
     const shouldUnmount = this.props.unmount && actuallyHidden
-
     const classes = {
       fade: true,
       active: this.props.active || this.state.animateOut,
