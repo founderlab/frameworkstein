@@ -1,11 +1,11 @@
 
 export default options =>
 `import _ from 'lodash' // eslint-disable-line
-import RestController from 'fl-backbone-rest'
-import {JSONUtils} from 'backbone-orm'
+import RestController, { parseQuery } from 'stein-orm-rest'
 import {createAuthMiddleware} from 'fl-auth-server'
 import schema from '../../../shared/models/schemas/${options.variableName}'
 import ${options.className} from '../../models/${options.className}'
+
 
 const whitelist = [
   'id',
@@ -17,7 +17,7 @@ export function canAccess(options, callback) {
   if (user && user.admin) return callback(null, true)
 
   // Don't allow inclusion of related models by default
-  const query = JSONUtils.parseQuery(req.query)
+  const query = parseQuery(req.query)
   if (query.$include) return callback(null, false, 'No $include')
 
   if (req.method === 'GET') return callback(null, true)
@@ -30,7 +30,7 @@ export function canAccess(options, callback) {
 export default class ${options.classPlural}Controller extends RestController {
   constructor(options) {
     super(options.app, _.defaults({
-      model_type: ${options.className},
+      modelType: ${options.className},
       route: '/api/${options.tableName}',
       auth: [...options.auth, createAuthMiddleware({canAccess})],
       templates: {
