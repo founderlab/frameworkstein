@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import warning from 'warning'
 import ReactDatetime from 'react-datetime'
 import Select from 'react-select'
-import { FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap'
+import { FormGroup, Label, Input, FormText, FormFeedback, Row, Col } from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
 import S3Uploader from './S3Uploader'
 import { validationError, validationState } from '../validation'
@@ -32,6 +32,7 @@ export default class FLInput extends React.Component {
       PropTypes.object,
     ]),
     value: PropTypes.any,
+    inline: PropTypes.bool,
     includeEmpty: PropTypes.bool,
     onBlur: PropTypes.func,
     validationState: PropTypes.oneOfType([
@@ -149,16 +150,31 @@ export default class FLInput extends React.Component {
         break
 
       case 'checkbox':
-      case 'boolean':
         inputProps.checked = !!inputProps.value
         check = true
         const oc = e => inputProps.onChange(e.target.value !== 'true')
-        const ob = () => inputProps.onBlur()
 
         control = (
           <Label check>
-            <Input type="checkbox" {...bsProps} {...inputProps} onChange={oc} onBlur={ob} /> {label}
+            <Input type="checkbox" {...bsProps} {...inputProps} onChange={oc} /> {label}
           </Label>
+        )
+        break
+
+      case 'boolean':
+        if (_.isBoolean(inputProps.value)) inputProps.value = inputProps.value ? 'true' : 'false'
+        const oc2 = e => inputProps.onChange(e.target.value === 'true')
+
+        const _options = (options && options.length) ? options : [{label: inputProps.trueLabel || 'Yes', value: 'true'}, {label: inputProps.falseLabel || 'No', value: 'false'}]
+
+        control = (
+          <div>
+            {_.map(_options, opt => (
+              <Label key={opt.value} className="radio-inline">
+                <input type="radio" name={inputProps.name} value={opt.value} checked={inputProps.value == opt.value} onChange={oc2} /> {opt.label}
+              </Label>
+            ))}
+          </div>
         )
         break
 
@@ -185,13 +201,39 @@ export default class FLInput extends React.Component {
         )
     }
 
+    let content = null
+    if (this.props.inline) {
+      content = (
+        <Row>
+          <Col>
+            {label && !check && <Label>{label}</Label>}
+            {help && helpTop && (<FormText color="muted">{help}</FormText>)}
+            {error && (<FormFeedback>{error}</FormFeedback>)}
+            {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
+          </Col>
+          <Col>
+            {control}
+          </Col>
+        </Row>
+      )
+    }
+    else {
+      content = (
+        <Row>
+          <Col>
+            {label && !check && <Label>{label}</Label>}
+            {help && helpTop && (<FormText color="muted">{help}</FormText>)}
+            {control}
+            {error && (<FormFeedback>{error}</FormFeedback>)}
+            {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
+          </Col>
+        </Row>
+      )
+    }
+
     return (
       <FormGroup check={check} className={className}>
-        {label && !check && <Label>{label}</Label>}
-        {help && helpTop && (<FormText color="muted">{help}</FormText>)}
-        {control}
-        {error && (<FormFeedback>{error}</FormFeedback>)}
-        {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
+        {content}
       </FormGroup>
     )
   }

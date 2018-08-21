@@ -45,8 +45,8 @@ export function getError(err, res) {
   }
   if (_.isUndefined(res)) return '[redux-request-middleware] No response received'
   if (!res) return null
-  if (res.error) return res.error
   if (res.body && res.body.error) return res.body.error
+  if (res.error) return res.error
   if (res.ok === false) return res.body || res.status || '[redux-request-middleware] Unknown error: res.ok was false'
   return null
 }
