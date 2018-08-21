@@ -66,7 +66,7 @@ export default class FLModel {
         if (relation && relation.type === 'belongsTo') relationIds[relation.foreignKey] = value.id
       }
     })
-    _.merge(this.data, relationIds, _.cloneDeep(data))
+    _.extend(this.data, relationIds, _.cloneDeep(data))
 
     if (this.data.id) {
       this.id = this.data.id
