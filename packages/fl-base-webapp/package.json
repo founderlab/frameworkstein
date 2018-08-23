@@ -1,6 +1,6 @@
 {
   "name": "frameworkstein-base-webapp",
-  "version": "6.3.1",
+  "version": "6.3.2",
   "description": "frameworkstein",
   "main": "index.js",
   "author": "Gwilym Humphreys (https://github.com/gwilymhumphreys)",
@@ -60,7 +60,7 @@
     "fl-cache-manager-redis": "^6.0.1",
     "fl-initdb": "^6.1.0",
     "fl-react-server": "^6.2.1",
-    "fl-react-steps": "^6.2.4",
+    "fl-react-steps": "^6.3.2",
     "fl-react-utils": "^6.3.0",
     "fl-redux-utils": "^6.0.1",
     "fl-server-utils": "^6.1.0",
