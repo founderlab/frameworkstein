@@ -16,12 +16,13 @@ export default class Steps extends Component {
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.step !== null && nextProps.step !== this.props.step) {
+      if (this.state.transitioningFromStep) return
       const transitioningFromStep = this.props.step
       this.setState({transitioningFromStep})
     }
   }
 
-  handlePaneAnimateOutEnd = step => {
+  handlePaneAnimateOutEnd = (/*step*/) => {
     this.setState({transitioningFromStep: null})
   }
 
