@@ -45,6 +45,7 @@ export default class SplitDatetime extends React.Component {
     defaultTime: {
       hours: 18,
     },
+    readOnly: true,
   }
 
   constructor(props) {
@@ -104,7 +105,7 @@ export default class SplitDatetime extends React.Component {
   }
 
   render() {
-    const { label, dateLabel, timeLabel, meta, helpMd, helpTop } = this.props
+    const { label, dateLabel, timeLabel, meta, helpMd, helpTop, readOnly } = this.props
     const inputProps = _.extend({}, this.props.input, this.props.inputProps)
 
     let help = this.props.help
@@ -123,9 +124,12 @@ export default class SplitDatetime extends React.Component {
       closeOnSelect: true,
       onChange: this.handleDateChange,
       isValidDate: this.props.isValidDate,
+      inputProps: {
+        readOnly,
+        className: error ? 'is-invalid form-control' : 'form-control',
+      },
       ..._.omit(inputProps, 'onChange', 'onFocus'),
       value: this.state.date,
-      inputProps: {className: error ? 'is-invalid form-control' : 'form-control'},
     }
 
     const timeInputProps = {
@@ -136,6 +140,9 @@ export default class SplitDatetime extends React.Component {
       className: 'time',
       closeOnSelect: true,
       onChange: this.handleTimeChange,
+      inputProps: {
+        readOnly,
+      },
       ..._.omit(inputProps, 'onChange', 'onFocus'),
       value: this.state.time,
     }
