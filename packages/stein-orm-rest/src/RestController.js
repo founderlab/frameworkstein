@@ -4,7 +4,7 @@
 import _ from 'lodash'
 import path from 'path'
 import Queue from 'queue-async'
-import { parseField, parseDates, parseQuery } from './lib/parsers'
+import { parse, parseField, parseDates, parseQuery } from './lib/parsers'
 import JsonController from './lib/JsonController'
 import JoinTableControllerSingleton from './lib/JoinTableControllerSingleton'
 import defaultTemplate from './lib/defaultTemplate'
@@ -101,7 +101,7 @@ export default class RESTController extends JsonController {
 
   create(req, res) {
     let json = parseDates(this.whitelist.create ? _.pick(req.body, this.whitelist.create) : req.body)
-    const model = new this.modelType(this.modelType.parse(json))
+    const model = new this.modelType(this.parse(json))
 
     return model.save(err => {
       if (err) return this.sendError(res, err)
@@ -125,7 +125,7 @@ export default class RESTController extends JsonController {
       if (err) return this.sendError(res, err)
       if (!model) { return this.sendStatus(res, 404) }
 
-      return model.save(model.parse(json), err => {
+      return model.save(this.parse(json), err => {
         if (err) return this.sendError(res, err)
         this.clearCache()
 
@@ -278,6 +278,8 @@ export default class RESTController extends JsonController {
     }
     return callback(new Error(`Unrecognised template type: ${this.name} ${templateName} ${JSON.stringify(template)}`))
   }
+
+  parse(model) { return parse(model) }
 
   parseSearchQuery(query) {
     const newQuery = {}
