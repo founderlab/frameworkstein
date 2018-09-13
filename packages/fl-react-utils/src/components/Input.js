@@ -51,6 +51,7 @@ export default class FLInput extends React.Component {
     markdownProps: {
       escapeHtml: true,
     },
+    helpTop: true,
   }
 
   render() {

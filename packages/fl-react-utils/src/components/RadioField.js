@@ -1,8 +1,8 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Field} from 'redux-form'
-import { FormGroup, Label, FormText, FormFeedback } from 'reactstrap'
+import { Field } from 'redux-form'
+import { Row, Col, FormGroup, Label, FormText, FormFeedback } from 'reactstrap'
 import { validationError } from '../validation'
 
 
@@ -17,30 +17,45 @@ export default class RadioField extends React.Component {
     formMeta: PropTypes.object,
     formSyncErrors: PropTypes.object,
     submitFailed: PropTypes.bool,
-    options: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.object,
-    ]),
+    inline: PropTypes.bool,
+    options: PropTypes.array,
   }
 
   static defaultProps = {
+    options: [],
     formMeta: {},
     formSyncErrors: {},
     submitFailed: false,
+    inline: true,
   }
 
-  render() {
-    const { name, label, help, formMeta, formSyncErrors, submitFailed, helpTop } = this.props
-    const meta = {...formMeta[name] || {}, error: formSyncErrors[name], submitFailed}
-    const error = this.props.error || validationError(meta)
+  renderItemsInline() {
+    const { name, options } = this.props
+    return (
+      <div>
+        {options.map(opt => (
+          <label key={opt.value} className="radio-inline">
+            <Field
+              name={name}
+              value={opt.value}
+              component="input"
+              type="radio"
+            />
+            {opt.label}
+          </label>
+        ))}
+      </div>
+    )
+  }
+
+  renderItemColumns() {
+    const { name, options } = this.props
 
     return (
-      <FormGroup>
-        {label && <Label>{label}</Label>}
-        {help && helpTop && (<FormText color="muted">{help}</FormText>)}
-        <div>
-          {this.props.options.map(opt => (
-            <label key={opt.value} className="radio-inline">
+      <Row className="mt-3">
+        {options.map(opt => (
+          <Col xs={6} key={opt.value} className="form-check form-check-inline mr-0">
+            <label className="radio-inline px-2 py-2" style={{width: '100%'}}>
               <Field
                 name={name}
                 value={opt.value}
@@ -49,8 +64,22 @@ export default class RadioField extends React.Component {
               />
               {opt.label}
             </label>
-          ))}
-        </div>
+          </Col>
+        ))}
+      </Row>
+    )
+  }
+
+  render() {
+    const { name, label, inline, help, formMeta, formSyncErrors, submitFailed, helpTop } = this.props
+    const meta = {...formMeta[name] || {}, error: formSyncErrors[name], submitFailed}
+    const error = this.props.error || validationError(meta)
+
+    return (
+      <FormGroup>
+        {label && <Label>{label}</Label>}
+        {help && helpTop && (<FormText color="muted">{help}</FormText>)}
+        {inline ? this.renderItemsInline() : this.renderItemColumns()}
         {error && (<FormFeedback>{error}</FormFeedback>)}
         {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
       </FormGroup>
