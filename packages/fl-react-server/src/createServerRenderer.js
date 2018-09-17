@@ -75,6 +75,8 @@ export default function createServerRenderer(_options) {
       try {
         history.location.query = qs.parse(history.location.search, {ignoreQueryPrefix: true})
         const fetchResult = await fetchComponentData({store, branch, location: history.location})
+        if (fetchResult.logout) req.logout()
+        if (fetchResult.redirect) return res.redirect(fetchResult.redirect)
         if (fetchResult.status) res.status(fetchResult.status)
       }
       catch (err) {
