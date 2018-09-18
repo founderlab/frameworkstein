@@ -21,17 +21,18 @@
   "devDependencies": {
     "babel-cli": "^6.0.0",
     "jest": "^22.0.0",
-    "stein-orm": "^6.3.1"
+    "stein-orm": "^6.3.1",
+    "util.promisify": "^1.0.0"
   },
   "peerDependencies": {
     "stein-orm": "^6.0.3"
   },
   "dependencies": {
     "cross-fetch": "^2.0.0",
-    "es6-promisify": "^6.0.0",
     "lodash": "^4.0.0",
     "qs": "^6.0.0",
-    "queue-async": "^1.0.0"
+    "queue-async": "^1.0.0",
+    "util.promisify": "^1.0.0"
   },
   "jest": {
     "verbose": true,

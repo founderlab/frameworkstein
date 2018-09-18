@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import fetch from 'cross-fetch'
 import qs from 'qs'
-import { promisify } from 'es6-promisify'
+import { promisify } from 'util'
 import HttpCursor from './Cursor'
 import { config } from './config'
 
