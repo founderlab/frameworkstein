@@ -36,11 +36,17 @@ export default class Schema {
 
   // @nodoc
   initialize() {
-    if (this.isInitialized) return
-    this.isInitialized = true
+    if (this.isInitialised) return
+    this.isInitialised = true
     // initalize in two steps to break circular dependencies
-    for (var key in this.raw) { const info = this.raw[key]; this._parseField(key, info) }
-    for (key in this.relations) { const relation = this.relations[key]; relation.initialize() }
+    for (const key in this.raw) {
+      const info = this.raw[key]
+      this._parseField(key, info)
+    }
+    for (const key in this.relations) {
+      const relation = this.relations[key]
+      relation.initialize()
+    }
   }
 
   type(key, newType) {

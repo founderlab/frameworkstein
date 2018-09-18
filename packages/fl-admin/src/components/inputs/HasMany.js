@@ -15,12 +15,12 @@ export default function HasMany(_props) {
   const links = []
 
   _.forEach(models, relatedModel => {
-    if (relatedModel[relationField.relation.foreign_key] !== model.id) return
+    if (relatedModel[relationField.relation.foreignKey] !== model.id) return
     links.push(
       <Link to={modelAdmin.link(relatedModel)} className="list-group-item" key={relatedModel.id} target="_blank">
         {modelAdmin.display(relatedModel)}
         <br />
-      </Link>
+      </Link>,
     )
   })
 

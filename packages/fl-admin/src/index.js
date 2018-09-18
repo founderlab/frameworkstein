@@ -59,6 +59,7 @@ function createModelAdmin(options, modelDescriptor) {
     relationFields: {}, //references the same fields as `fields` (relations only) but is indexed by virtualIdAccessor
     components: {},
   }
+  console.log('init admin start', defaults.name)
 
   _.defaults(modelAdmin, defaults)
 
@@ -102,7 +103,7 @@ function createModelAdmin(options, modelDescriptor) {
   _.forEach(relationFields, (relation, key) => {
     const modelField = modelAdmin.relationFields[relation.virtualIdAccessor] = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
     _.defaults(modelField, _.pick(relation, 'type', 'virtualIdAccessor', 'components'))
-    modelField.Model = relation.reverse_model_type
+    modelField.Model = relation.reverseModelType
     modelField.key = modelField.key || key
     modelField.label = modelField.label || label(key)
     modelField.relation = relation

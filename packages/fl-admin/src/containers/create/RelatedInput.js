@@ -40,16 +40,20 @@ export default function createRelatedField(relationField) {
     handleDeleteFn = model => () => this.props.deleteModel(model)
 
     render() {
-      if (!this.hasData()) return (<Loader type="inline" />)
+      if (!this.hasData()) return <Loader type="inline" />
       const { model, modelStore } = this.props
       const props = {relationField, ...this.props}
 
-      if (relationField.type === 'belongsTo') {
-        if (relationField.inline) console.log('[fl-admin] inline editing belongsTo relations is not yet supported')
-        return (<BelongsTo {...props} />)
+      if (!relationField.relation.reverseRelation) {
+        console.log('Missing reverse relation', relationField.key, 'for model', relationField.relation.modelType.name, relationField)
+        return null
       }
 
-      if (relationField.type === 'hasMany' && relationField.relation.reverse_relation.type === 'hasMany') {
+      if (relationField.type === 'belongsTo') {
+        if (relationField.inline) console.log('[fl-admin] inline editing belongsTo relations is not yet supported')
+        return <BelongsTo {...props} />
+      }
+      if (relationField.type === 'hasMany' && relationField.relation.reverseRelation.type === 'hasMany') {
         return (
           <ManyToMany
             relationField={relationField}
@@ -59,7 +63,7 @@ export default function createRelatedField(relationField) {
       }
 
       if (relationField.type === 'hasMany' || relationField.type === 'hasOne') {
-        props.models = _(modelStore.get('models').toJSON()).values().filter(relatedModel => relatedModel[relationField.relation.foreign_key] === model.id).value()
+        props.models = _(modelStore.get('models').toJSON()).values().filter(relatedModel => relatedModel[relationField.relation.foreignKey] === model.id).value()
 
         //TODO: This should be made to work for belongsTo / manyToMany
         if (relationField.inline) {
@@ -73,7 +77,7 @@ export default function createRelatedField(relationField) {
           )
         }
 
-        return (<HasMany {...props} />)
+        return <HasMany {...props} />
       }
 
       warning(false, `[fl-admin] Relation does not have a known type: ${relationField.type}. Note that manyToMany is not yet supported`)

@@ -18,11 +18,19 @@ export default class One extends Relation {
   }
 
   initialize() {
+    if (this._isInitialised) return
+    this._isInitialised = true
+
     this.reverseRelation = this._findOrGenerateReverseRelation(this)
+
+    if (!this.reverseRelation) return
+
     if (this.reverseModelType != null) {
       const newType = this.modelType && this.modelType.schema ? this.modelType.schema.type('id') : this.modelType
       this.reverseModelType.schema.type(this.foreignKey, newType)
     }
+
+    if (!this.reverseRelation._isInitialised) this.reverseRelation.initialize(this)
   }
 
 }

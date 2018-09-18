@@ -38,14 +38,20 @@ export default function createModelDetailEditor(modelAdmin) {
     }
 
     static async fetchData({store, match}) {
-      const { auth } = store.getState()
-      const modelId = match.params.id
-      const query = _.extend(modelAdmin.query || {}, { $user_id: auth.get('user').get('id') })
+      try {
+        console.log('detail fetchData')
+        const { auth } = store.getState()
+        const modelId = match.params.id
+        const query = _.extend(modelAdmin.query || {}, {$user_id: auth.get('user').get('id')})
 
-      if (modelId) {
-        query.id = modelId
-        await store.dispatch(loadModels(query))
-        await fetchRelated({ store, modelAdmin, modelIds: [modelId], loadAll: false })
+        if (modelId) {
+          query.id = modelId
+          console.log(await store.dispatch(loadModels(query)))
+          console.log(await fetchRelated({store, modelAdmin, modelIds: [modelId], loadAll: true}))
+        }
+      }
+      catch (err) {
+        console.log(err)
       }
     }
 
