@@ -12,8 +12,7 @@ export function onlyExistingRelationsFilter(modelIds, modelStore, relationField)
 }
 
 function relatedQuery(modelIds, modelStore, relationField) {
-  const query = relationField.modelAdmin.query || {}
-console.log('relatedQuery', query, relationField)
+  const query = _.clone(relationField.modelAdmin.query || {})
   if (!relationField.relation.reverseRelation) {
     return null
   }
