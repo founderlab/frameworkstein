@@ -39,10 +39,9 @@ export default function createModelDetailEditor(modelAdmin) {
 
     static async fetchData({store, match}) {
       try {
-        console.log('detail fetchData')
         const { auth } = store.getState()
         const modelId = match.params.id
-        const query = _.extend(modelAdmin.query || {}, {$user_id: auth.get('user').get('id')})
+        const query = _.extend({}, modelAdmin.query || {}, {$user_id: auth.get('user').get('id')})
 
         if (modelId) {
           query.id = modelId

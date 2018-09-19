@@ -51,15 +51,12 @@ export default function createModelListEditor(modelAdmin) {
     static async fetchData({ store, location }) {
       const { auth } = store.getState()
       const urlQuery = qs.parse(location.search, {ignoreQueryPrefix: true})
-      const query = _.extend(modelAdmin.query || {}, parseFilterQuery(urlQuery.filters), {$user_id: auth.get('user').get('id')})
+      const query = _.extend({}, modelAdmin.query || {}, parseFilterQuery(urlQuery.filters), {$user_id: auth.get('user').get('id')})
 
       if (urlQuery.search && modelAdmin.searchFields && modelAdmin.searchFields.length) {
         const $search = urlQuery.search.trim()
         query.$or = _.map(modelAdmin.searchFields, f => ({[f]: {$search}}))
       }
-      console.log('urlQuery', urlQuery)
-      console.log('query', query)
-      console.log('modelAdmin.searchFields', modelAdmin.searchFields, modelAdmin)
       await store.dispatch(countModels(_.clone(query)))
 
       query.$limit = modelAdmin.perPage
