@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import _ from 'lodash' // eslint-disable-line
 import moment from 'moment'
 import React from 'react'
@@ -27,6 +28,7 @@ export default class FLInput extends React.Component {
     input: PropTypes.object,
     inputProps: PropTypes.object,
     markdownProps: PropTypes.object,
+    autoScrollWidth: PropTypes.number,
     options: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.object,
@@ -52,6 +54,7 @@ export default class FLInput extends React.Component {
       escapeHtml: true,
     },
     helpTop: true,
+    autoScrollWidth: 576,
   }
 
   render() {
@@ -119,13 +122,23 @@ export default class FLInput extends React.Component {
           warning(false, 'react-select components require an options prop')
           return null
         }
-        const { onChange, onBlur, value, ...props } = inputProps
+        const { onChange, onBlur, onFocus, value, ...props } = inputProps
         const stringValue = _.isArray(value) ? value.join(',') : value
         const funcs = {}
+
         if (onChange) funcs.onChange = value => onChange(parseSelectValues(value))
         if (onBlur) funcs.onBlur = () => onBlur(value)
+        if (onFocus) {
+          funcs.onFocus = e => {
+            if (window.innerWidth < this.props.autoScrollWidth && this._scrollEle) this._scrollEle.scrollIntoView()
+            onFocus(e)
+          }
+        }
+        if (_.isUndefined(props.autoBlur)) props.autoBlur = true
+
         control = (
           <Select
+            autoBlur
             ref={c => this._select = c}
             options={options}
             value={stringValue}
@@ -234,6 +247,7 @@ export default class FLInput extends React.Component {
 
     return (
       <FormGroup check={check} className={className}>
+        <div ref={c => this._scrollEle = c} />
         {content}
       </FormGroup>
     )
