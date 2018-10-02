@@ -16,7 +16,8 @@
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
     "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
     "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
-    "test": "eval $(cat __tests__/.env) jest --runInBand"
+    "test": "eval $(cat __tests__/.env) jest --runInBand",
+    "docs": "../../node_modules/.bin/esdoc -c ../../.esdoc.json"
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",

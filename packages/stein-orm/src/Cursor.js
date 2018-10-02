@@ -1,20 +1,92 @@
+/* eslint-disable new-cap */
 import _ from 'lodash'
 import { promisify } from 'util'
 
+/**
+ * This class is created via `Model.cursor()`, which will return an instance of `Cursor` that can be used to build a database query.
+ * `Cursor` shouldn't be instantiated outside of the `Model.cursor()` class method.
 
-const CURSOR_KEYS = ['$count', '$exists', '$zero', '$one', '$offset', '$limit', '$page', '$sort', '$unique', '$whitelist', '$select', '$include', '$values', '$ids', '$or']
 
+ * #### Cursor options
+ * Cursor accepts the following query options. These options can be specified with chained methods or properties within a query object prefixed with $.
+
+ * `one [bool]` return a single object rather than an array
+
+ * `values [array]` return, for each model found, an array of values rather than an object. For example, Model.cursor().values(['id', name']) will return a 2d array like [[1, 'Bob'], [2, 'Emily']]
+
+ * `select [array]` select only the given fields from the db
+
+ * `count [bool]` return a count of the number of models matching the given query
+
+ * `exists [bool]` return a boolean indicating whether any number of models exist matching the given query
+
+ * `unique [string]` like `select disctinct`, return no more than one result per distinct value of the given field
+
+ * `limit [number]` limit results to the given number of rows
+
+ * `offset [number]` offset results by the given number of rows
+
+ * `page: [bool]` if true, return paging information with results. Querries will return an object of the form {rows, totalRows, offset}
+
+
+ * #### Field modifiers
+ * Each field in a query can either be a plan value, which will be matched against directly, or an object with the following special matches:
+
+ * `$in [array]` field matches any of the given values `{name: {$in: ['bob', emily']}}` => `name in ('bob', 'emily')`
+
+ * `$nin [array]` field matches none of the given values `{name: {$nin: ['bob', emily']}}` => `name not in ('bob', 'emily')`
+
+ * `$exists [bool]` equivalent to a null check `{name: {$exists: true}}` => `name is not null`
+
+
+ * #### Query conditions
+ * Advanced conditional operations
+
+ * `$or [array]` matches any of the given queries `{$or: [{name: 'bob'}, {city: 'sydney'}]}` => `name = 'bob' or city = 'sydney'`
+
+ * `$and [array]` matches all of the given queries. Doesn't do anything on its own, but is useful when nesting conditionals `{$and: [{name: 'bob'}, {city: 'sydney'}]}` => `name = 'bob' and city = 'sydney'`
+
+
+ * #### Relation queries
+ * Related models can be queried using `{'relation.field': value}`. All options available to local fields work with relations. Relations must be configured in each models' schema.
+
+ * For example, if we had a user model related to a profile model containing a `name` field we could domsomething like `{'profile.name': {$in: ['bob', emily']}}`, which would generate sql similar to `select * from users, profiles where profiles.name in ('bob', 'emily') and profiles.user_id = users.id`
+
+
+ * #### JSONb queries
+ * JSON fields can be queried in a similar way to related fields: `{'jsonfield.field': value}`
+
+ * For example, given some models with json data like `{id: 1, nestedUsers: [{name: 'bob'}, {name: 'emily'}]}` we could query on the nestedUsers name field with `{'nestedUsers.name': 'bob'}` or `{'nestedUsers.name': {$in: ['emily', 'frank']}`
+
+ * @example
+ * const cursor = MyModel.cursor({name: 'bob', $one: true}) // cursor represents a query for models named bob
+ * cursor.select('id', 'name')                              // only select the 'id', and 'name' fields. This is equivalent to including {$select: ['id', 'name']} in the query object
+ * const results = await cursor.toJSON()                    // toJSON or toModels will execute the query represented by this cursor and return the results
+ */
 export default class Cursor {
 
-  // @nodoc
+  /**
+   * Called with `Model.cursor()`
+   * @param {object} query an initial query
+   * @param {object} options additional options (currently unused)
+   */
   constructor(query, options) {
     this.relatedModelTypesInQuery = this.relatedModelTypesInQuery.bind(this)
-    for (var key in options) { const value = options[key]; this[key] = value }
+
+    for (const key in options) {
+      if (options.hasOwnProperty(key)) this[key] = options[key]
+    }
+
     const parsedQuery = Cursor.parseQuery(query, this.modelType)
-    this._find = parsedQuery.find; this._cursor = parsedQuery.cursor
+    this._find = parsedQuery.find
+    this._cursor = parsedQuery.cursor
 
     // ensure arrays
-    for (key of ['$whitelist', '$select', '$values', '$unique']) { if (this._cursor[key] && !_.isArray(this._cursor[key])) { this._cursor[key] = [this._cursor[key]] } }
+    for (const key of ['$whitelist', '$select', '$values', '$unique']) {
+      if (this._cursor[key] && !_.isArray(this._cursor[key])) {
+        this._cursor[key] = [this._cursor[key]]
+      }
+    }
   }
 
   offset(offset) { this._cursor.$offset = offset; return this }
@@ -22,31 +94,31 @@ export default class Cursor {
   sort(sort) { this._cursor.$sort = sort; return this }
 
   whiteList(args) {
-    const keys = _.flatten(arguments)
+    const keys = _.flatten(args)
     this._cursor.$whitelist = this._cursor.$whitelist ? _.intersection(this._cursor.$whitelist, keys) : keys
     return this
   }
 
   select(args) {
-    const keys = _.flatten(arguments)
+    const keys = _.flatten(args)
     this._cursor.$select = this._cursor.$select ? _.intersection(this._cursor.$select, keys) : keys
     return this
   }
 
   include(args) {
-    const keys = _.flatten(arguments)
+    const keys = _.flatten(args)
     this._cursor.$include = this._cursor.$include ? _.intersection(this._cursor.$include, keys) : keys
     return this
   }
 
   values(args) {
-    const keys = _.flatten(arguments)
+    const keys = _.flatten(args)
     this._cursor.$values = this._cursor.$values ? _.intersection(this._cursor.$values, keys) : keys
     return this
   }
 
   unique(args) {
-    const keys = _.flatten(arguments)
+    const keys = _.flatten(args)
     this._cursor.$unique = this._cursor.$unique ? _.intersection(this._cursor.$unique, keys) : keys
     return this
   }
@@ -98,7 +170,7 @@ export default class Cursor {
   toJSON = (callback) => callback ? this._toJSON(callback) : promisify(this._toJSON)()
 
   // Subclasses must implement
-  queryToJSON(callback) { throw new Error('queryToJSON must be implemented by a cursor subclass') }
+  queryToJSON() { throw new Error('queryToJSON must be implemented by a cursor subclass') }
 
 
   //#############################################
@@ -128,15 +200,15 @@ export default class Cursor {
     for (let key in this._find) {
 
       // A dot indicates a condition on a related model
-      var reverseRelation
-      const value = this._find[key]
+      const reverseRelation = this.modelType.reverseRelation(key)
+      // const value = this._find[key]
       if (key.indexOf('.') > 0) {
         [relationKey, key] = Array.from(key.split('.'))
         relatedFields.push(relationKey)
 
       // Many to Many relationships may be queried on the foreign key of the join table
       }
-      else if ((reverseRelation = this.modelType.reverseRelation(key)) && reverseRelation.joinTable) {
+      else if (reverseRelation && reverseRelation.joinTable) {
         relatedModelTypes.push(reverseRelation.modelType)
         relatedModelTypes.push(reverseRelation.joinTable)
       }
@@ -144,8 +216,8 @@ export default class Cursor {
 
     if (this._cursor != null ? this._cursor.$include : undefined) { relatedFields = relatedFields.concat(this._cursor.$include) }
     for (relationKey of Array.from(relatedFields)) {
-      var relation
-      if (relation = this.modelType.schema.relation(relationKey)) {
+      const relation = this.modelType.schema.relation(relationKey)
+      if (relation) {
         relatedModelTypes.push(relation.reverseModelType)
         if (relation.joinTable) { relatedModelTypes.push(relation.joinTable) }
       }

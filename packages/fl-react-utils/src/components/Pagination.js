@@ -29,7 +29,7 @@ export default class Pagination extends React.Component {
     next: '→',
   }
 
-  query = () => qs.parse(this.props.location.search)
+  query = () => qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
   link = page => `${this.props.location.pathname}?${qs.stringify(_.extend({}, this.query(), {page}))}`
 
   render() {
