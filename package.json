@@ -14,7 +14,7 @@
     "esdoc": "^1.1.0",
     "esdoc-standard-plugin": "^1.0.0",
     "eslint": "^4.0.0",
-    "eslint-config-founderlab": "^0.3.15",
+    "eslint-config-founderlab": "^0.3.0",
     "expect": "^21.0.0",
     "jest": "^22.0.0",
     "lerna": "^2.0.0",
