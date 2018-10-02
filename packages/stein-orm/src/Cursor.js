@@ -82,7 +82,7 @@ export default class Cursor {
     this._cursor = parsedQuery.cursor
 
     // ensure arrays
-    for (const key of ['$whitelist', '$select', '$values', '$unique']) {
+    for (const key of ['$whitelist', '$select', '$values', '$unique', '$include']) {
       if (this._cursor[key] && !_.isArray(this._cursor[key])) {
         this._cursor[key] = [this._cursor[key]]
       }
@@ -93,31 +93,31 @@ export default class Cursor {
   limit(limit) { this._cursor.$limit = limit; return this }
   sort(sort) { this._cursor.$sort = sort; return this }
 
-  whiteList(args) {
+  whiteList(...args) {
     const keys = _.flatten(args)
     this._cursor.$whitelist = this._cursor.$whitelist ? _.intersection(this._cursor.$whitelist, keys) : keys
     return this
   }
 
-  select(args) {
+  select(...args) {
     const keys = _.flatten(args)
     this._cursor.$select = this._cursor.$select ? _.intersection(this._cursor.$select, keys) : keys
     return this
   }
 
-  include(args) {
+  include(...args) {
     const keys = _.flatten(args)
     this._cursor.$include = this._cursor.$include ? _.intersection(this._cursor.$include, keys) : keys
     return this
   }
 
-  values(args) {
+  values(...args) {
     const keys = _.flatten(args)
     this._cursor.$values = this._cursor.$values ? _.intersection(this._cursor.$values, keys) : keys
     return this
   }
 
-  unique(args) {
+  unique(...args) {
     const keys = _.flatten(args)
     this._cursor.$unique = this._cursor.$unique ? _.intersection(this._cursor.$unique, keys) : keys
     return this
