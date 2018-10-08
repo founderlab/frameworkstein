@@ -13,10 +13,10 @@
 
 <header>
   <a href="./">Home</a>
-  
+
   <a href="identifiers.html">Reference</a>
   <a href="source.html">Source</a>
-  
+
   <div class="search-box">
   <span>
     <img src="./image/search.png">
@@ -24,11 +24,11 @@
   </span>
     <ul class="search-result"></ul>
   </div>
-<a style="position:relative; top:3px;" href="https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm.git"><img width="20px" src="./image/github.png"></a></header>
+<a style="position:relative; top:3px;" href="https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm"><img width="20px" src="./image/github.png"></a></header>
 
 <nav class="navigation" data-ice="nav"><div>
   <ul>
-    
+
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html">Cursor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Model.js~FLModel.html">FLModel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Schema.js~Schema.html">Schema</a></span></span></li>
@@ -48,29 +48,29 @@
   <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Cursor from &apos;<span><a href="file/src/Cursor.js.html#lineNumber57">stein-orm/src/Cursor.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
-  
-  
-  
+
+
+
   <span data-ice="source">| <span><a href="file/src/Cursor.js.html#lineNumber57">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
   <h1 data-ice="name">Cursor</h1>
 
-  
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+
   <div class="description" data-ice="description"><p>This class is created via <code>Model.cursor()</code>, which will return an instance of <code>Cursor</code> that can be used to build a database query.
 <code>Cursor</code> shouldn&apos;t be instantiated outside of the <code>Model.cursor()</code> class method.</p>
 <h4 id="cursor-options">Cursor options</h4><p>Cursor accepts the following query options. These options can be specified with chained methods or properties within a query object prefixed with $.</p>
@@ -91,85 +91,85 @@
 <p><code>$or [array]</code> matches any of the given queries <code>{$or: [{name: &apos;bob&apos;}, {city: &apos;sydney&apos;}]}</code> =&gt; <code>name = &apos;bob&apos; or city = &apos;sydney&apos;</code></p>
 <p><code>$and [array]</code> matches all of the given queries. Doesn&apos;t do anything on its own, but is useful when nesting conditionals <code>{$and: [{name: &apos;bob&apos;}, {city: &apos;sydney&apos;}]}</code> =&gt; <code>name = &apos;bob&apos; and city = &apos;sydney&apos;</code></p>
 </div>
-  
 
-  
+
+
 
   <div data-ice="exampleDocs">
     <h4>Example:</h4>
-    
+
   <div class="example-doc" data-ice="exampleDoc">
-      
+
       <pre class="prettyprint source-code"><code data-ice="exampleCode">const cursor = MyModel.cursor({name: &apos;bob&apos;, $one: true}) // cursor represents a query for models named bob
 cursor.select(&apos;id&apos;, &apos;name&apos;)                              // only select the &apos;id&apos;, and &apos;name&apos; fields. This is equivalent to including {$select: [&apos;id&apos;, &apos;name&apos;]} in the query object
 const results = await cursor.toJSON()                    // toJSON or toModels will execute the query represented by this cursor and return the results</code></pre>
     </div>
 </div>
 
-  
 
-  
+
+
 </div>
 
 
 <div data-ice="staticMethodSummary"><h2>Static Method Summary</h2><table class="summary" data-ice="summary">
   <thead><tr><td data-ice="title" colspan="3">Static Public Methods</td></tr></thead>
   <tbody>
-  
+
   <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
       <span data-ice="static">static</span>
-      
-      
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#static-method-parseQuery">parseQuery</a></span></span><span class="code" data-ice="signature">(query: <span>*</span>, modelType: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
       <span data-ice="static">static</span>
-      
-      
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#static-method-validateQuery">validateQuery</a></span></span><span class="code" data-ice="signature">(query: <span>*</span>, memo: <span>*</span>, modelType: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 </tbody>
@@ -178,34 +178,34 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 <div data-ice="constructorSummary"><h2>Constructor Summary</h2><table class="summary" data-ice="summary">
   <thead><tr><td data-ice="title" colspan="3">Public Constructor</td></tr></thead>
   <tbody>
-  
+
   <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(query: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>)</span>
         </p>
       </div>
       <div>
-        
-        
+
+
         <div data-ice="description"><p>Called with <code>Model.cursor()</code></p>
 </div>
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 </tbody>
@@ -214,201 +214,201 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 <div data-ice="memberSummary"><h2>Member Summary</h2><table class="summary" data-ice="summary">
   <thead><tr><td data-ice="title" colspan="3">Public Members</td></tr></thead>
   <tbody>
-  
+
   <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-[key]">[key]</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-count">count</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-exists">exists</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-hasCursorQuery">hasCursorQuery</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-toJSON">toJSON</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-toModel">toModel</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-toModels">toModels</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 </tbody>
@@ -416,201 +416,201 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 <table class="summary" data-ice="summary">
   <thead><tr><td data-ice="title" colspan="3">Private Members</td></tr></thead>
   <tbody>
-  
+
   <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">private</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-_count">_count</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">private</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-_cursor">_cursor</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">private</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-_exists">_exists</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">private</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-_find">_find</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">private</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-_toJSON">_toJSON</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">private</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-_toModel">_toModel</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">private</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-member-_toModels">_toModels</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 </tbody>
@@ -619,397 +619,397 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 <div data-ice="methodSummary"><h2>Method Summary</h2><table class="summary" data-ice="summary">
   <thead><tr><td data-ice="title" colspan="3">Public Methods</td></tr></thead>
   <tbody>
-  
+
   <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-execWithCursorQuery">execWithCursorQuery</a></span></span><span class="code" data-ice="signature">(key: <span>*</span>, method: <span>*</span>, callback: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-ids">ids</a></span></span><span class="code" data-ice="signature">(): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-include">include</a></span></span><span class="code" data-ice="signature">(args: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-limit">limit</a></span></span><span class="code" data-ice="signature">(limit: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-offset">offset</a></span></span><span class="code" data-ice="signature">(offset: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-prepareIncludes">prepareIncludes</a></span></span><span class="code" data-ice="signature">(json: <span>*</span>, callback: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-queryToJSON">queryToJSON</a></span></span><span class="code" data-ice="signature">()</span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-relatedModelTypesInQuery">relatedModelTypesInQuery</a></span></span><span class="code" data-ice="signature">(): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-select">select</a></span></span><span class="code" data-ice="signature">(args: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-selectResults">selectResults</a></span></span><span class="code" data-ice="signature">(json: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-sort">sort</a></span></span><span class="code" data-ice="signature">(sort: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-unique">unique</a></span></span><span class="code" data-ice="signature">(args: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-values">values</a></span></span><span class="code" data-ice="signature">(args: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 <tr data-ice="target">
     <td>
       <span class="access" data-ice="access">public</span>
-      
-      
-      
+
+
+
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-          
-          
-          
+
+
+
           <span class="code" data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html#instance-method-whiteList">whiteList</a></span></span><span class="code" data-ice="signature">(args: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
-        
-        
-        
+
+
+
       </div>
     </td>
     <td>
-      
-      
+
+
     </td>
   </tr>
 </tbody>
@@ -1025,24 +1025,24 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
   <h3 data-ice="anchor" id="static-method-parseQuery">
     <span class="access" data-ice="access">public</span>
     <span data-ice="static">static</span>
-    
-    
-    
-    
+
+
+
+
     <span class="code" data-ice="name">parseQuery</span><span class="code" data-ice="signature">(query: <span>*</span>, modelType: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber284">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -1051,7 +1051,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">query</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -1075,7 +1075,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -1083,43 +1083,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-method-validateQuery">
     <span class="access" data-ice="access">public</span>
     <span data-ice="static">static</span>
-    
-    
-    
-    
+
+
+
+
     <span class="code" data-ice="name">validateQuery</span><span class="code" data-ice="signature">(query: <span>*</span>, memo: <span>*</span>, modelType: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber268">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -1128,7 +1128,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">query</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -1158,7 +1158,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -1166,20 +1166,20 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 </div>
 <div data-ice="constructorDetails"><h2 data-ice="title">Public Constructors</h2>
@@ -1187,26 +1187,26 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-constructor-constructor">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(query: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>)</span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber64">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
+
+
+
   <div data-ice="description"><p>Called with <code>Model.cursor()</code></p>
 </div>
 
-  
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -1215,7 +1215,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">query</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
@@ -1235,22 +1235,22 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 </div>
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
@@ -1258,606 +1258,606 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-[key]">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">[key]</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber68">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-count">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">count</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber124">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-exists">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">exists</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber127">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-hasCursorQuery">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">hasCursorQuery</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber172">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-toJSON">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">toJSON</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber161">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-toModel">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">toModel</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber130">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-toModels">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">toModels</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber158">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <h2 data-ice="title">Private Members</h2>
 
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-_count">
     <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">_count</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber123">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-_cursor">
     <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">_cursor</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber73">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-_exists">
     <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">_exists</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber126">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-_find">
     <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">_find</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber72">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-_toJSON">
     <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">_toJSON</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber160">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-_toModel">
     <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">_toModel</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber129">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-_toModels">
     <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">_toModels</span><span class="code" data-ice="signature">: <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber132">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 </div>
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
@@ -1865,25 +1865,25 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-execWithCursorQuery">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">execWithCursorQuery</span><span class="code" data-ice="signature">(key: <span>*</span>, method: <span>*</span>, callback: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber175">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -1892,7 +1892,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">key</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -1922,7 +1922,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -1930,43 +1930,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-ids">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">ids</span><span class="code" data-ice="signature">(): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber118">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
@@ -1977,7 +1977,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -1985,43 +1985,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-include">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">include</span><span class="code" data-ice="signature">(args: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber99">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -2030,7 +2030,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">args</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -2048,7 +2048,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2056,43 +2056,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-limit">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">limit</span><span class="code" data-ice="signature">(limit: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber84">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -2101,7 +2101,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">limit</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -2119,7 +2119,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2127,43 +2127,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-offset">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">offset</span><span class="code" data-ice="signature">(offset: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber83">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -2172,7 +2172,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">offset</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -2190,7 +2190,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2198,43 +2198,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-prepareIncludes">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">prepareIncludes</span><span class="code" data-ice="signature">(json: <span>*</span>, callback: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber244">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -2243,7 +2243,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">json</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -2267,7 +2267,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2275,86 +2275,86 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-queryToJSON">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">queryToJSON</span><span class="code" data-ice="signature">()</span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber164">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-relatedModelTypesInQuery">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">relatedModelTypesInQuery</span><span class="code" data-ice="signature">(): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber186">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties">
 </div>
@@ -2365,7 +2365,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2373,43 +2373,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-select">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">select</span><span class="code" data-ice="signature">(args: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber93">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -2418,7 +2418,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">args</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -2436,7 +2436,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2444,43 +2444,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-selectResults">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">selectResults</span><span class="code" data-ice="signature">(json: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber221">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -2489,7 +2489,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">json</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -2507,7 +2507,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2515,43 +2515,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-sort">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">sort</span><span class="code" data-ice="signature">(sort: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber85">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -2560,7 +2560,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">sort</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -2578,7 +2578,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2586,43 +2586,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-unique">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">unique</span><span class="code" data-ice="signature">(args: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber111">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -2631,7 +2631,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">args</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -2649,7 +2649,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2657,43 +2657,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-values">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">values</span><span class="code" data-ice="signature">(args: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber105">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -2702,7 +2702,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">args</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -2720,7 +2720,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2728,43 +2728,43 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-whiteList">
     <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
+
+
+
+
+
     <span class="code" data-ice="name">whiteList</span><span class="code" data-ice="signature">(args: <span>*</span>): <span>*</span></span>
     <span class="right-info">
-      
-      
+
+
       <span data-ice="source"><span><a href="file/src/Cursor.js.html#lineNumber87">source</a></span></span>
     </span>
   </h3>
 
-  
-  
-  
-  
 
-  
+
+
+
+
+
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -2773,7 +2773,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
     <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
     </thead>
     <tbody>
-    
+
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">args</td>
       <td data-ice="type" class="code"><span>*</span></td>
@@ -2791,7 +2791,7 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
       <tbody>
         <tr>
           <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
+
         </tr>
       </tbody>
     </table>
@@ -2799,20 +2799,20 @@ const results = await cursor.toJSON()                    // toJSON or toModels w
 </div>
   </div>
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
 </div>
 </div>
 </div>

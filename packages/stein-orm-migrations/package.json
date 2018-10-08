@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/founderlab/stein-orm-migrations.git"
+    "url": "git+https://github.com/founderlab/stein-orm-migrations"
   },
   "author": "Danny Sullivan <dbsullivan23@gmail.com>",
   "license": "MIT",

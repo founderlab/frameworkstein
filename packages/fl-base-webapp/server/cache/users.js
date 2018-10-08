@@ -1,10 +1,9 @@
 import _ from 'lodash'
-import { JSONUtils } from 'backbone-orm'
 import cache from './index'
 
 
 const cacheOptions = {ttl: 60 * 60 * 1000} // 1 hour
-const idKey = id => `fl_user|${id}`
+const idKey = id => `rl_user|${id}`
 const verbose = false
 
 export function wrapById(id, getUser, callback) {
