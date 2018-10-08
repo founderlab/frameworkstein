@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/Cursor.js | stein-orm</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html">Cursor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Model.js~FLModel.html">FLModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Schema.js~Schema.html">Schema</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModel">createModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#lib">lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/lib/DatabaseUrl.js~DatabaseUrl.html">DatabaseUrl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/lib/Fabricator.js~Fabricator.html">Fabricator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/lib/naming.js~NamingConvention.html">NamingConvention</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/lib/utils.js~Utils.html">Utils</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#relations">relations</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/relations/Many.js~Many.html">Many</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/relations/One.js~One.html">One</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/relations/Relation.js~Relation.html">Relation</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Cursor.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable new-cap */
+import _ from &apos;lodash&apos;
+import { promisify } from &apos;util&apos;
+
+/**
+ * This class is created via `Model.cursor()`, which will return an instance of `Cursor` that can be used to build a database query.
+ * `Cursor` shouldn&apos;t be instantiated outside of the `Model.cursor()` class method.
+
+
+ * #### Cursor options
+ * Cursor accepts the following query options. These options can be specified with chained methods or properties within a query object prefixed with $.
+
+ * `one [bool]` return a single object rather than an array
+
+ * `values [array]` return, for each model found, an array of values rather than an object. For example, Model.cursor().values([&apos;id&apos;, name&apos;]) will return a 2d array like [[1, &apos;Bob&apos;], [2, &apos;Emily&apos;]]
+
+ * `select [array]` select only the given fields from the db
+
+ * `count [bool]` return a count of the number of models matching the given query
+
+ * `exists [bool]` return a boolean indicating whether any number of models exist matching the given query
+
+ * `unique [string]` like `select disctinct`, return no more than one result per distinct value of the given field
+
+ * `limit [number]` limit results to the given number of rows
+
+ * `offset [number]` offset results by the given number of rows
+
+ * `page: [bool]` if true, return paging information with results. Querries will return an object of the form {rows, totalRows, offset}
+
+
+ * #### Field modifiers
+ * Each field in a query can either be a plan value, which will be matched against directly, or an object with the following special matches:
+
+ * `$in [array]` field matches any of the given values `{name: {$in: [&apos;bob&apos;, emily&apos;]}}` =&gt; `name in (&apos;bob&apos;, &apos;emily&apos;)`
+
+ * `$nin [array]` field matches none of the given values `{name: {$nin: [&apos;bob&apos;, emily&apos;]}}` =&gt; `name not in (&apos;bob&apos;, &apos;emily&apos;)`
+
+ * `$exists [bool]` equivalent to a null check `{name: {$exists: true}}` =&gt; `name is not null`
+
+
+ * #### Query conditions
+ * Advanced conditional operations
+
+ * `$or [array]` matches any of the given queries `{$or: [{name: &apos;bob&apos;}, {city: &apos;sydney&apos;}]}` =&gt; `name = &apos;bob&apos; or city = &apos;sydney&apos;`
+
+ * `$and [array]` matches all of the given queries. Doesn&apos;t do anything on its own, but is useful when nesting conditionals `{$and: [{name: &apos;bob&apos;}, {city: &apos;sydney&apos;}]}` =&gt; `name = &apos;bob&apos; and city = &apos;sydney&apos;`
+
+
+
+
+ * @example
+ * const cursor = MyModel.cursor({name: &apos;bob&apos;, $one: true}) // cursor represents a query for models named bob
+ * cursor.select(&apos;id&apos;, &apos;name&apos;)                              // only select the &apos;id&apos;, and &apos;name&apos; fields. This is equivalent to including {$select: [&apos;id&apos;, &apos;name&apos;]} in the query object
+ * const results = await cursor.toJSON()                    // toJSON or toModels will execute the query represented by this cursor and return the results
+ */
+export default class Cursor {
+
+  /**
+   * Called with `Model.cursor()`
+   * @param {object} query an initial query
+   * @param {object} options additional options (currently unused)
+   */
+  constructor(query, options) {
+    this.relatedModelTypesInQuery = this.relatedModelTypesInQuery.bind(this)
+
+    for (const key in options) {
+      if (options.hasOwnProperty(key)) this[key] = options[key]
+    }
+
+    const parsedQuery = Cursor.parseQuery(query, this.modelType)
+    this._find = parsedQuery.find
+    this._cursor = parsedQuery.cursor
+
+    // ensure arrays
+    for (const key of [&apos;$whitelist&apos;, &apos;$select&apos;, &apos;$values&apos;, &apos;$unique&apos;]) {
+      if (this._cursor[key] &amp;&amp; !_.isArray(this._cursor[key])) {
+        this._cursor[key] = [this._cursor[key]]
+      }
+    }
+  }
+
+  offset(offset) { this._cursor.$offset = offset; return this }
+  limit(limit) { this._cursor.$limit = limit; return this }
+  sort(sort) { this._cursor.$sort = sort; return this }
+
+  whiteList(args) {
+    const keys = _.flatten(args)
+    this._cursor.$whitelist = this._cursor.$whitelist ? _.intersection(this._cursor.$whitelist, keys) : keys
+    return this
+  }
+
+  select(args) {
+    const keys = _.flatten(args)
+    this._cursor.$select = this._cursor.$select ? _.intersection(this._cursor.$select, keys) : keys
+    return this
+  }
+
+  include(args) {
+    const keys = _.flatten(args)
+    this._cursor.$include = this._cursor.$include ? _.intersection(this._cursor.$include, keys) : keys
+    return this
+  }
+
+  values(args) {
+    const keys = _.flatten(args)
+    this._cursor.$values = this._cursor.$values ? _.intersection(this._cursor.$values, keys) : keys
+    return this
+  }
+
+  unique(args) {
+    const keys = _.flatten(args)
+    this._cursor.$unique = this._cursor.$unique ? _.intersection(this._cursor.$unique, keys) : keys
+    return this
+  }
+
+  // @nodoc
+  ids() { this._cursor.$values = [&apos;id&apos;]; return this }
+
+  //#############################################
+  // Execution of the Query
+
+  _count = (callback) =&gt; this.execWithCursorQuery(&apos;$count&apos;, &apos;toJSON&apos;, callback)
+  count = (callback) =&gt; callback ? this._count(callback) : promisify(this._count)()
+
+  _exists = (callback) =&gt; this.execWithCursorQuery(&apos;$exists&apos;, &apos;toJSON&apos;, callback)
+  exists = (callback) =&gt; callback ? this._exists(callback) : promisify(this._exists)()
+
+  _toModel = (callback) =&gt; this.execWithCursorQuery(&apos;$one&apos;, &apos;toModels&apos;, callback)
+  toModel = (callback) =&gt; callback ? this._toModel(callback) : promisify(this._toModel)()
+
+  _toModels = (callback) =&gt; {
+    if (this._cursor.$values) { return callback(new Error(`Cannot call toModels on cursor with $values for model ${this.modelType.modelName}. Values: ${JSON.stringify(this._cursor.$values)}`)) }
+
+    return this.toJSON((err, res) =&gt; {
+      if (err) return callback(err)
+      if (this._cursor.$one &amp;&amp; !res) return callback(null, null)
+      let json = this.hasCursorQuery(&apos;$page&apos;) ? res.rows : res
+      if (!_.isArray(json)) json = [json]
+
+      return this.prepareIncludes(json, (err, json) =&gt; {
+        const models = _.map(json, data =&gt; new this.modelType(data))
+        let result
+        if (this.hasCursorQuery(&apos;$page&apos;)) {
+          result = res
+          result.rows = models
+        }
+        else if (this._cursor.$one) {
+          result = models[0]
+        }
+        else {
+          result = models
+        }
+        return callback(null, result)
+      })
+    })
+  }
+  toModels = (callback) =&gt; callback ? this._toModels(callback) : promisify(this._toModels)()
+
+  _toJSON = (callback) =&gt; this.queryToJSON(callback)
+  toJSON = (callback) =&gt; callback ? this._toJSON(callback) : promisify(this._toJSON)()
+
+  // Subclasses must implement
+  queryToJSON() { throw new Error(&apos;queryToJSON must be implemented by a cursor subclass&apos;) }
+
+
+  //#############################################
+  // Helpers
+  //#############################################
+
+  // @nodoc
+  hasCursorQuery = (key) =&gt; this._cursor[key] || (this._cursor[key] === &apos;&apos;)
+
+  // @nodoc
+  execWithCursorQuery(key, method, callback) {
+    const value = this._cursor[key]
+    this._cursor[key] = true
+    return this[method]((err, json) =&gt; {
+      if (_.isUndefined(value)) { delete this._cursor[key] }
+      else { this._cursor[key] = value }
+      return callback(err, json)
+    })
+  }
+
+  // @nodoc
+  relatedModelTypesInQuery() {
+    let relationKey
+    let relatedFields = []
+    const relatedModelTypes = []
+
+    for (let key in this._find) {
+
+      // A dot indicates a condition on a related model
+      const reverseRelation = this.modelType.reverseRelation(key)
+      // const value = this._find[key]
+      if (key.indexOf(&apos;.&apos;) &gt; 0) {
+        [relationKey, key] = Array.from(key.split(&apos;.&apos;))
+        relatedFields.push(relationKey)
+
+      // Many to Many relationships may be queried on the foreign key of the join table
+      }
+      else if (reverseRelation &amp;&amp; reverseRelation.joinTable) {
+        relatedModelTypes.push(reverseRelation.modelType)
+        relatedModelTypes.push(reverseRelation.joinTable)
+      }
+    }
+
+    if (this._cursor != null ? this._cursor.$include : undefined) { relatedFields = relatedFields.concat(this._cursor.$include) }
+    for (relationKey of Array.from(relatedFields)) {
+      const relation = this.modelType.schema.relation(relationKey)
+      if (relation) {
+        relatedModelTypes.push(relation.reverseModelType)
+        if (relation.joinTable) { relatedModelTypes.push(relation.joinTable) }
+      }
+    }
+
+    return relatedModelTypes
+  }
+
+  // @nodoc
+  selectResults(json) {
+    let result = json
+    if (this._cursor.$one) result = result.slice(0, 1)
+    if (this._cursor.$values) {
+      const $values = this._cursor.$whitelist ? _.intersection(this._cursor.$values, this._cursor.$whitelist) : this._cursor.$values
+      result = this._cursor.$values.length === 1 ? _.map(json, item =&gt; item[$values[0]] || null) : _.map(json, item =&gt; _.map($values, key =&gt; item[key] || null))
+    }
+    else if (this._cursor.$select) {
+      let $select = this._cursor.$whitelist ? _.intersection(this._cursor.$select, this._cursor.$whitelist) : this._cursor.$select
+      $select = _.map($select, field =&gt; field.includes(&apos;.&apos;) ? field.split(&apos;.&apos;).pop() : field)
+      result = _.map(json, item =&gt; _.pick(item, $select))
+    }
+    else if (this._cursor.$whitelist) {
+      result = _.map(json, item =&gt; _.pick(item, this._cursor.$whitelist))
+    }
+
+    if (this.hasCursorQuery(&apos;$page&apos;)) return result // paging expects an array
+    if (this._cursor.$one) return result[0] || null
+
+    return result
+  }
+
+  // @nodoc
+  prepareIncludes(json, callback) {
+    if (!_.isArray(this._cursor.$include) || _.isEmpty(this._cursor.$include)) return callback(null, json)
+    const schema = this.modelType.schema
+
+    for (const include of this._cursor.$include) {
+      const relation = schema.relation(include)
+
+      for (const modelJson of json) {
+        // many
+        const relatedJson = modelJson[include]
+        if (_.isArray(relatedJson)) {
+          modelJson[include] = _.map(relatedJson, item =&gt; new relation.reverseModelType(item))
+        }
+        // one
+        else if (relatedJson) {
+          modelJson[include] = new relation.reverseModelType(relatedJson)
+        }
+      }
+    }
+
+    return callback(null, json)
+  }
+
+  // @nodoc
+  static validateQuery(query, memo, modelType) {
+    const result = []
+    for (const key in query) {
+      const value = query[key]
+      if (!_.isUndefined(value) &amp;&amp; !_.isObject(value)) { continue }
+      const fullKey = memo ? `${memo}.${key}` : key
+      if (_.isUndefined(value)) { throw new Error(`Unexpected undefined for query key &apos;${fullKey}&apos; on ${(modelType != null ? modelType.modelName : undefined)}`) }
+      if (_.isObject(value)) { result.push(this.validateQuery(value, fullKey, modelType)) }
+      else {
+        result.push(undefined)
+      }
+    }
+    return result
+  }
+
+  // @nodoc
+  static parseQuery(query, modelType) {
+    if (!query) {
+      return {find: {}, cursor: {}}
+    }
+    else if (!_.isObject(query)) {
+      return {find: {id: query}, cursor: {$one: true}}
+    }
+    else if (query.find || query.cursor) {
+      return {find: query.find || {}, cursor: query.cursor || {}}
+    }
+    try {
+      this.validateQuery(query, null, modelType)
+    }
+    catch (e) {
+      throw new Error(`Error: ${e}. Query: `, query)
+    }
+    const parsedQuery = {find: {}, cursor: {}}
+    for (const key in query) {
+      const value = query[key]
+      if (key[0] !== &apos;$&apos;) { parsedQuery.find[key] = value }
+      else { parsedQuery.cursor[key] = value }
+    }
+    return parsedQuery
+  }
+
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
