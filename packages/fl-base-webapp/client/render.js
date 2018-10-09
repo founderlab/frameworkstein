@@ -16,10 +16,6 @@ import createStore from '../shared/createStore'
 // Set moment locale to aus
 moment.locale('en-AU')
 
-// no jQuery, backbone needs an ajax function
-const Backbone = require('backbone')
-Backbone.ajax = require('fl-backbone.nativeajax')
-
 export default function(getRoutes) {
   const initialState = window.__INITIAL_STATE__
 
