@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser'
 import csurf from 'csurf'
 import favicon from 'serve-favicon'
 import s3Router from 'react-dropzone-s3-uploader/s3router'
-import { configure as configureAuth, createInternalMiddleware, sessionOrToken } from 'fl-auth-server'
+import { configure as configureAuth, sessionOrToken } from 'fl-auth-server'
 import { cors } from 'fl-server-utils'
 
 import './initialise'
@@ -30,7 +30,6 @@ const controllerOptions = {
     createHash: controller => `rl_${controller.route}`,
   },
   origins: config.origins,
-  // auth: [createInternalMiddleware({secret: config.secret, deserializeUser: User.deserializeUser})],
   auth: [sessionOrToken],
 }
 const app = controllerOptions.app = express()
