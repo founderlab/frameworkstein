@@ -36,7 +36,7 @@ export default class ${options.classPlural}Controller extends RestController {
       templates: {
         base: require('../templates/${options.variablePlural}/base'),
       },
-      default_template: 'base',
+      defaultTemplate: 'base',
       whitelist: {
         create: whitelist,
         update: whitelist,
