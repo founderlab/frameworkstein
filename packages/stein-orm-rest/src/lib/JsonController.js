@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import EventEmitter from 'events'
+import { promisify } from 'util'
 
 
 export default class JSONController {
@@ -53,6 +54,15 @@ export default class JSONController {
   //###############################
   // Private
   //###############################
+
+  _promiseOrCallbackFn(fn) {
+    return (...args) => {
+      const maybeCb = args[args.length-1]
+      if (_.isFunction(maybeCb)) return fn.bind(this)(...args)
+      return promisify(fn.bind(this))(...args)
+    }
+  }
+
   _setHeaders = (req, res, next) => {
     for (const key in this.headers) { const value = this.headers[key]; res.setHeader(key, value) }
     return next()

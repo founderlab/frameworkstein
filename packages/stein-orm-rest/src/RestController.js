@@ -179,10 +179,11 @@ export default class RESTController extends JsonController {
     })
   }
 
-  clearCache(callback) {
-    let cache
-    if (!callback) { callback = () => {} }
-    if (!(cache = this.cache != null ? this.cache.cache : undefined)) { return callback() }
+  _clearCache(callback) {
+    const cache = this.cache
+    if (!callback) callback = () => {}
+    if (!cache) return callback()
+
     if (!cache.store.hreset) {
       if (cache.reset) { return cache.reset(callback) }
       return callback()
@@ -197,8 +198,11 @@ export default class RESTController extends JsonController {
 
     return queue.await(err => {
       if (err) { console.log(`[${this.modelType.name} controller] Error clearing cache: `, err) }
-      if (callback) callback(err)
+      callback(err)
     })
+  }
+  clearCache(...args) {
+    return this._promiseOrCallbackFn(this._clearCache)(...args)
   }
 
   fetchIndexJSON(req, callback) { this.fetchJSON(req, this.whitelist.index, callback) }
@@ -241,7 +245,7 @@ export default class RESTController extends JsonController {
     })
   }
 
-  render(req, json, callback) {
+  _render(req, json, callback) {
     let templateName = req.query.$render || req.query.$template || this.defaultTemplate
     const key = `render_${templateName}_${this.route}`
     let single = false
@@ -277,6 +281,9 @@ export default class RESTController extends JsonController {
       return done(null, _.map(json, j => _.pick(j, template.$select)))
     }
     return callback(new Error(`Unrecognised template type: ${this.name} ${templateName} ${JSON.stringify(template)}`))
+  }
+  render(...args) {
+    return this._promiseOrCallbackFn(this._render)(...args)
   }
 
   parse(model) { return parse(model) }
