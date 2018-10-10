@@ -180,7 +180,7 @@ export default class RESTController extends JsonController {
   }
 
   _clearCache(callback) {
-    const cache = this.cache
+    const cache = this.cache ? this.cache.cache : null
     if (!callback) callback = () => {}
     if (!cache) return callback()
 
