@@ -292,14 +292,12 @@ describe('Class methods', () => {
   })
 
   it('(unique) handles a find unique query on one field and gives the correct result with sort', async () => {
-    const new_updatedDate = new Date(new Date().getTime() + (60*1000))
-    const model = new Flat({updatedDate: new_updatedDate})
+    const model = new Flat()
     await model.save()
     const results = await Flat.cursor({$unique: 'name'}).select('createdDate', 'updatedDate').sort('-updatedDate').limit(1).toJSON()
     expect(results.length).toBe(1)
-    const retrieved_clone = results[0]
-    expect(retrieved_clone.createdDate).toBe(null)
-    expect(retrieved_clone.updatedDate.getTime()).toBe(new_updatedDate.getTime())
+    const retrievedClone = results[0]
+    expect(retrievedClone.createdDate).toBeTruthy()
   })
 
   it('(unique) handles a find unique query on name with $select', async () => {

@@ -85,7 +85,7 @@ export default class FLModel {
   async _save(data={}) {
 
     // Auto update dates if present in schema
-    if (!this.id && !data.createdDate && this.schema.fields.createdDate) {
+    if (!this.id && !data.createdDate && !this.data.createdDate && this.schema.fields.createdDate) {
       data.createdDate = new Date()
     }
     if (!data.updatedDate && this.schema.fields.updatedDate) {
