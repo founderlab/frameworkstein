@@ -5,8 +5,11 @@ import { promisify } from 'util'
 export default class FLModel {
 
   constructor(data={}) {
-    const defaultsSrc = this.constructor.defaults || this.defaults || {}
-    this.data = _.cloneDeep(_.isFunction(defaultsSrc) ? defaultsSrc() : defaultsSrc)
+    // Only apply defaults if the model is created without an id
+    if (!data.id) {
+      const defaultsSrc = this.constructor.defaults || this.defaults || {}
+      this.data = _.cloneDeep(_.isFunction(defaultsSrc) ? defaultsSrc() : defaultsSrc)
+    }
     this.set(data)
   }
 

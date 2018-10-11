@@ -17,6 +17,7 @@ export default class PasswordStrategy extends LocalStrategy {
       if (!user.passwordIsValid(password)) {
         return callback(null, false, 'Incorrect password')
       }
+      if (User.onLogin) return User.onLogin({req, user}, err => callback(err, user))
       callback(null, user)
     })
   }
