@@ -4,6 +4,8 @@ import { promisify } from 'util'
 
 export default class FLModel {
 
+  data = {}
+
   constructor(data={}) {
     // Only apply defaults if the model is created without an id
     if (!data.id) {
