@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import warning from 'warning'
 import ReactDatetime from 'react-datetime'
 import Select from 'react-select'
-import { FormGroup, Label, Input, FormText, FormFeedback, Row, Col } from 'reactstrap'
+import { FormGroup, Label, Input, FormText, FormFeedback, Row, Col, InputGroup, InputGroupAddon } from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
 import S3Uploader from './S3Uploader'
 import { validationError, validationState } from '../validation'
@@ -44,6 +44,7 @@ export default class FLInput extends React.Component {
     dateFormat: PropTypes.string,
     className: PropTypes.string,
     localeDateFormat: PropTypes.string,
+    prepend: PropTypes.string,
   }
 
   static defaultProps = {
@@ -58,7 +59,7 @@ export default class FLInput extends React.Component {
   }
 
   render() {
-    const { label, input, meta, helpMd, helpTop, type, className, bsProps, validationState, options } = this.props
+    const { label, input, meta, helpMd, helpTop, type, className, bsProps, validationState, prepend, options } = this.props
 
     const validation = validationState ? validationState(meta) : null
     const inputProps = _.extend({
@@ -213,6 +214,16 @@ export default class FLInput extends React.Component {
         control = (
           <Input type={type} {...bsProps} {...inputProps} />
         )
+        if (prepend) {
+          control = (
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">
+                <InputGroupAddon addonType="prepend">{prepend}</InputGroupAddon>
+              </InputGroupAddon>
+              {control}
+            </InputGroup>
+          )
+        }
     }
 
     let content = null
