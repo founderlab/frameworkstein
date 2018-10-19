@@ -31,7 +31,8 @@ export default class SqlAst {
     this.find = options.find || {}
     this.cursor = options.cursor || {}
     this.query = options.query || _.extend({}, this.find, this.cursor)
-    if (!(this.modelType = options.modelType)) { throw new Error('Ast requires a modelType option') }
+    this.modelType = options.modelType
+    if (!this.modelType) { throw new Error('Ast requires a modelType option') }
 
     this.prefixColumns = options.prefixColumns
 
@@ -53,23 +54,22 @@ export default class SqlAst {
 
   // Internal parse method that recursively parses the query
   parseQuery(query, options) {
-    let cond,
-      q
     if (options == null) { options = {} }
     const { table } = options
-    if (!options.method) { options.method = 'where' }
+    if (!options.method) options.method = 'where'
     const conditions = []
 
     for (const key in query) {
       const value = query[key]
       if (key[0] !== '$') {
-        let reverseRelation
+        const reverseRelation = this.modelType.reverseRelation(key)
 
         if (_.isUndefined(value)) { throw new Error(`Unexpected undefined for query key '${key}'`) }
 
         // A dot indicates a condition on a relation model
         if (key.indexOf('.') > 0) {
-          if (cond = this.parseJsonField(key, value, options)) {
+          let cond = this.parseJsonField(key, value, options)
+          if (cond) {
             conditions.push(cond)
           }
           else {
@@ -79,38 +79,36 @@ export default class SqlAst {
 
         // Many to Many relationships may be queried on the foreign key of the join table
         }
-        else if ((reverseRelation = this.modelType.reverseRelation(key)) && reverseRelation.joinTable) {
-          let relation,
-            relationKey;
-          [cond, relationKey, relation] = Array.from(this.parseManyToManyRelation(key, value, reverseRelation))
+        else if (reverseRelation && reverseRelation.joinTable) {
+          const [cond, relationKey, relation] = Array.from(this.parseManyToManyRelation(key, value, reverseRelation))
           this.join(relationKey, relation, {pivotOnly: true})
           conditions.push(cond)
 
         }
         else {
-          cond = this.parseCondition(key, value, {table, method: options.method})
+          const cond = this.parseCondition(key, value, {table, method: options.method})
           conditions.push(cond)
         }
       }
     }
 
-    if (query != null ? query.$ids : undefined) {
-      cond = this.parseCondition('id', {$in: query.$ids}, {table})
+    if (query.$ids) {
+      const cond = this.parseCondition('id', {$in: query.$ids}, {table})
       conditions.push(cond)
       if (!query.$ids.length) { this.abort = true }
     }
 
-    if (query != null ? query.$or : undefined) {
+    if (query.$or) {
       const orWhere = {method: options.method, conditions: []}
-      for (q of Array.from(query.$or)) {
+      for (const q of Array.from(query.$or)) {
         orWhere.conditions = orWhere.conditions.concat(this.parseQuery(q, {table, method: 'orWhere'}))
       }
       conditions.push(orWhere)
     }
 
-    if (query != null ? query.$and : undefined) {
+    if (query.$and) {
       const andWhere = {method: options.method, conditions: []}
-      for (q of Array.from(query.$and)) {
+      for (const q of Array.from(query.$and)) {
         andWhere.conditions = andWhere.conditions.concat(this.parseQuery(q, {table}))
       }
       conditions.push(andWhere)
@@ -139,7 +137,7 @@ export default class SqlAst {
         relation,
         modelType,
         key: relationKey,
-        method: 'whereIn',
+        method: options.method === 'orWhere' ? 'orWhereIn' : 'whereIn',
         dotWhere: this.relatedCondition(keys, value, modelType, options),
       }
 
@@ -189,8 +187,8 @@ export default class SqlAst {
       const value_string = JSON.stringify(value)
       const cond = {
         method: options.method === 'orWhere' ? 'orWhereRaw' : 'whereRaw',
-        key: `\"${jsonField}\" @> ?`,
-        value: `[{\"${attr}\": ${value_string}}]`,
+        key: `"${jsonField}" @> ?`,
+        value: `[{"${attr}": ${value_string}}]`,
       }
       return cond
     }
@@ -214,8 +212,8 @@ export default class SqlAst {
 
     if (_.isObject(value) && !_.isDate(value)) {
 
-      let mongoConditions,
-        val
+      let mongoConditions
+      let val
       if (value != null ? value.$in : undefined) {
         //todo: might be better to throw an error if $in isn't an array
         if (!value.$in.length) {

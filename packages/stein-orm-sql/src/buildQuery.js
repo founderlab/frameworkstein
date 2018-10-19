@@ -57,7 +57,7 @@ function appendRelatedWhere(query, condition, options={}) {
     select = condition.relation.reverseRelation.foreignKey
   }
 
-  const inMethod = condition.method === 'orWhere' ? 'orWhereIn' : 'whereIn'
+  const inMethod = (condition.method === 'orWhere' || condition.method === 'orWhereIn') ? 'orWhereIn' : 'whereIn'
   if (condition.operator) {
     return query[inMethod](fromKey, builder => {
       if (condition.value) {
@@ -89,7 +89,7 @@ function appendWhere(query, condition, options={}) {
     if (condition.relation) {
       if ((condition.relation.type === 'hasMany') && (condition.relation.reverseRelation.type === 'hasMany')) {
 
-        const relationTable = condition.key.split('.').shift()
+        // const relationTable = condition.key.split('.').shift()
         const fromModelType = condition.relation.modelType
         const relationModelType = condition.relation.reverseModelType
 
@@ -101,7 +101,7 @@ function appendWhere(query, condition, options={}) {
         const pivotToKey = `${pivotTable}.${condition.relation.foreignKey}`
 
         const pivotFromKey = `${pivotTable}.${condition.relation.reverseRelation.foreignKey}`
-        const toKey = `${toTable}.id`
+        // const toKey = `${toTable}.id`
 
         if (condition.operator) {
           query.whereIn(fromKey, builder => {
@@ -130,7 +130,6 @@ function appendWhere(query, condition, options={}) {
     else {
       query[condition.method](condition.key, condition.value)
     }
-
   }
   else if (condition.conditions && condition.conditions.length) {
     query[condition.method](builder => condition.conditions.forEach(c => appendWhere(builder, c)))
