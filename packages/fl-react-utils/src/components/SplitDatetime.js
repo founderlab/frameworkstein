@@ -33,6 +33,7 @@ export default class SplitDatetime extends React.Component {
     timeFormat: PropTypes.string,
     markdownProps: PropTypes.object,
     defaultTime: PropTypes.object,
+    readOnly: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -66,7 +67,8 @@ export default class SplitDatetime extends React.Component {
   getDateFormat = () => this.props.dateFormat ? this.props.dateFormat : moment.localeData().longDateFormat(this.props.localeDateFormat)
 
   getDate = () => {
-    const currentDate = moment(this.state.date)
+    let currentDate = moment(this.state.date)
+    if (!currentDate.isValid()) currentDate = moment()
     const newDate = currentDate.hours(this.state.time.hours()).minutes(this.state.time.minutes())
     return newDate
   }
