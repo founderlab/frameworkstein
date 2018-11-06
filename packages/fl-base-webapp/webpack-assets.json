@@ -1,4 +1,7 @@
 {
+  "admin": {
+    "js": "http://localhost:4001/public/admin.js"
+  },
   "app": {
     "js": "http://localhost:4001/public/app.js"
   },
@@ -10,6 +13,7 @@
     "woff2": "http://localhost:4001/public/af7ae505a9eed503f8b8e6982036873e.woff2",
     "woff": "http://localhost:4001/public/fee66e712a8a08eef5805a46892932ad.woff",
     "ttf": "http://localhost:4001/public/b06871f281fee6b241d60582ae9369b9.ttf",
-    "svg": "http://localhost:4001/public/912ec66d7572ff821749319396470bde.svg"
+    "svg": "http://localhost:4001/public/912ec66d7572ff821749319396470bde.svg",
+    "json": "http://localhost:4001/public/b833b4111f5251ca7632.hot-update.json"
   }
 }

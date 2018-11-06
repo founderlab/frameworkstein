@@ -1,0 +1,24 @@
+$complete-color: $primary;
+$dot-color: #ddd;
+$bar-color: #ddd;
+
+$header-text-color: $text-muted;
+$header-text-active-color: $primary;
+$header-text-disabled-color: transparent;
+
+$dot-size: 20px;
+$dot-size-xs: 20px;
+$dot-active-size: 30px;
+$dot-active-size-xs: 30px;
+
+$step-text-height: 55px;
+$step-font-size: $font-size-base;
+$step-height: 40px;
+$step-height-xs: 40px;
+$step-offset-top: 50%;
+
+.step-header .number {
+  color: transparent;
+}
+
+@import '~fl-react-steps/client/style'

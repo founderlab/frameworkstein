@@ -10,7 +10,6 @@ import { saveProfile, loadActiveProfile } from '../actions'
 import Steps from '../../utils/components/Steps'
 import DetailsStep from '../components/registerSteps/DetailsStep'
 import RegisterStep from '../components/registerSteps/RegisterStep'
-import NotFound from '../../utils/components/NotFound'
 
 
 @connect(state => ({
@@ -29,12 +28,10 @@ export default class RegisterContainer extends React.PureComponent {
     push: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     loadActiveProfile: PropTypes.func.isRequired,
-    loadUserScoreCards: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     url: PropTypes.string.isRequired,
-    organisation: PropTypes.object.isRequired,
   }
 
   state = {}
@@ -88,14 +85,12 @@ export default class RegisterContainer extends React.PureComponent {
   }
 
   handleRegister = async data => {
-    data.organisation_id = this.context.organisation.id
     data.email = data.email && data.email.trim()
     try {
       await this.props.register(`${this.context.url}/register`, data)
       this.setState({firstReg: true})
       const userId = this.props.auth.get('user').get('id')
       await this.props.loadActiveProfile({user_id: userId})
-      await this.props.loadUserScoreCards(userId)
       this._steps.next()
     }
     catch (err) {

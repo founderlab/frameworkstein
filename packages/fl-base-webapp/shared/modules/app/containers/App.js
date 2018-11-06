@@ -7,6 +7,7 @@ import { renderRoutes } from 'react-router-config'
 import Navbar from '../components/Navbar'
 import headerTags from '../headerTags'
 import { loadAppSettings } from '../actions'
+import { loadActiveProfile } from '../../users/actions'
 
 
 @connect(state => ({
@@ -31,8 +32,23 @@ export default class App extends Component {
   }
 
   static async fetchData({store}) {
-    const { app } = store.getState()
-    if (!app.get('loaded')) return store.dispatch(loadAppSettings())
+    const { app, auth, profiles } = store.getState()
+    try {
+      if (!app.get('loaded')) {
+        await store.dispatch(loadAppSettings())
+
+        if (auth.get('user')) {
+          const userId = auth.get('user').get('id')
+          if (!profiles.get('loading') && !profiles.get('active')) {
+            await store.dispatch(loadActiveProfile({user_id: userId}))
+          }
+        }
+      }
+    }
+    catch (err) {
+      console.log('[App fetchData] error, logging user out: ', err)
+      return {logout: true, redirect: '/login'}
+    }
   }
 
   state = {}

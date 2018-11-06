@@ -39,3 +39,5 @@ button:focus, button:active {
 table {
   @extend .table;
 }
+
+@import './steps'

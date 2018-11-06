@@ -36,10 +36,6 @@ export default class RegisterStep extends React.PureComponent {
     location: PropTypes.object.isRequired,
   }
 
-  static contextTypes = {
-    organisation: PropTypes.object.isRequired,
-  }
-
   state = {}
 
   onSubmit = (data) => {
@@ -73,7 +69,7 @@ export default class RegisterStep extends React.PureComponent {
               <div className="text-center mb-4">
                 <h2>Sign up</h2>
                 <p>
-                  <Link to={`/login?${qs.stringify(query)}`}>Already have a Ramen Life account? Login here</Link>.
+                  <Link to={`/login?${qs.stringify(query)}`}>Already have a Frameworkstein account? Login here</Link>.
                 </p>
               </div>
 
@@ -115,7 +111,7 @@ export default class RegisterStep extends React.PureComponent {
 
                   <div className="small light my-3 text-center">
                     <Checkbox checked={!!this.state.termsAccepted} onChange={() => this.setState({termsAccepted: !this.state.termsAccepted})}>
-                      I accept Ramen Life's <a href="/terms" target="_blank">Terms of Use</a> and <a href="/privacy" target="_blank">Privacy Policy</a>.
+                      I accept Frameworkstein's <a href="/terms" target="_blank">Terms of Use</a> and <a href="/privacy" target="_blank">Privacy Policy</a>.
                     </Checkbox>
                   </div>
 
