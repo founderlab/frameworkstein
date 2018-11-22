@@ -110,7 +110,7 @@ export default function configureRoutes(options={}) {
 
   // logout
   app.all(options.paths.logout, (req, res) => {
-    logout(req, () => res.redirect('/'))
+    logout(req, () => res.redirect(req.query.returnTo || '/'))
   })
 
   // status
