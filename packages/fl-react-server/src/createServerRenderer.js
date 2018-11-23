@@ -13,7 +13,7 @@ import serialize from 'serialize-javascript'
 import { jsAssets, cssAssets } from './assets'
 
 
-const sendError = (res, err) => {
+const sendTextError = (res, err) => {
   console.log(err)
   return res.status(500).send('Error loading initial state')
 }
@@ -48,13 +48,24 @@ async function checkRedirect({ req, store, branch }) {
 export default function createServerRenderer(_options) {
   const options = _.extend({}, defaults, _options)
   const { createStore, getRoutes, gaId, config={} } = options
+  const sendError = options.sendError || sendTextError
   let alwaysFetch = options.alwaysFetch || []
   if (!_.isArray(alwaysFetch)) alwaysFetch = [alwaysFetch]
   if (!createStore) throw new Error('[fl-react-server] createServerRenderer: Missing createStore from options')
   if (!getRoutes) throw new Error('[fl-react-server] createServerRenderer: Missing getRoutes from options')
 
   return async function app(req, res) {
+    let scriptTags = ''
+    let cssTags = ''
+
     try {
+      const js = jsAssets(options.entries, options.webpackAssetsPath)
+      scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
+
+      const css = cssAssets(options.entries, options.webpackAssetsPath)
+      console.log('css', css)
+      cssTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
+
       const serverState = {
         auth: req.user ? {user: _.omit(req.user, 'password', '_rev')} : {},
       }
@@ -80,7 +91,7 @@ export default function createServerRenderer(_options) {
         if (fetchResult.status) res.status(fetchResult.status)
       }
       catch (err) {
-        return sendError(res, err)
+        return sendError(res, err, cssTags)
       }
 
       // Initial state now includes data fetched by components
@@ -97,12 +108,6 @@ export default function createServerRenderer(_options) {
           </ConnectedRouter>
         </Provider>
       )
-
-      const js = jsAssets(options.entries, options.webpackAssetsPath)
-      const scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
-
-      const css = cssAssets(options.entries, options.webpackAssetsPath)
-      const cssTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
 
       const rendered = renderToString(component)
       const head = Helmet.rewind()
@@ -151,7 +156,7 @@ export default function createServerRenderer(_options) {
       res.type('html').send(html)
     }
     catch (err) {
-      return sendError(res, err)
+      return sendError(res, err, cssTags)
     }
   }
 }
