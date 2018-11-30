@@ -123,11 +123,11 @@ export default class FLInput extends React.Component {
           warning(false, 'react-select components require an options prop')
           return null
         }
-        const { onChange, onBlur, onFocus, value, ...props } = inputProps
+        const { onChange, onBlur, onFocus, value, multi, ...props } = inputProps
         const stringValue = _.isArray(value) ? value.join(',') : value
         const funcs = {}
 
-        if (onChange) funcs.onChange = value => onChange(parseSelectValues(value))
+        if (onChange) funcs.onChange = value => onChange(parseSelectValues(value, multi))
         if (onBlur) funcs.onBlur = () => onBlur(value)
         if (onFocus) {
           funcs.onFocus = e => {
@@ -145,6 +145,7 @@ export default class FLInput extends React.Component {
             value={stringValue}
             onBlurResetsInput={false}
             onCloseResetsInput={false}
+            multi={multi}
             {...funcs}
             {...props}
           />

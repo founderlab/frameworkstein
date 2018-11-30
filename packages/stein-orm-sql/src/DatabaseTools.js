@@ -18,7 +18,7 @@ const KNEX_TYPES = {
 
 export default class DatabaseTools {
 
-  constructor(connection, tableName, schema, options={}) {
+  constructor(connection, tableName, schema) {
     this.connection = connection
     this.tableName = tableName
     this.schema = schema
@@ -74,6 +74,8 @@ export default class DatabaseTools {
   }
 
   _createOrUpdateTable = (options, callback) => {
+    if (!options) options = {}
+
     this.hasTable((err, tableExists) => {
       if (err) return callback(err)
       if (options.verbose) { console.log(`Ensuring table: ${this.tableName} (exists: ${!!tableExists}) with fields: '${_.keys(this.schema.fields).join(', ')}' and relations: '${_.keys(this.schema.relations).join(', ')}'`) }
