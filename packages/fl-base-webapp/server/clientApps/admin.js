@@ -1,14 +1,15 @@
 import _ from 'lodash'
 import path from 'path'
 import { createServerRenderer } from 'fl-react-server'
+import { getRoutes } from 'fl-admin'
 import config from '../config'
 import createStore from '../../shared/createStore'
-import getRoutes from '../../shared/routes'
 import tags from './tags'
 import loadInitialState from './loadInitialState'
 
 // configure fl-auth before doing anything else to make sure the reducers exist before creating our store
-import '../../shared/configureAdmin'
+import configureAdmin from '../../shared/configureAdmin'
+configureAdmin()
 
 export default createServerRenderer({
   createStore,
