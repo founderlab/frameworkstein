@@ -26,6 +26,7 @@ export default function createAuthMiddleware(options) {
       done(err, authorised, message)
     }
     catch (err) {
+      console.log('Auth error', err)
       res.status(500).send({error: err && err.toString()})
     }
   }
