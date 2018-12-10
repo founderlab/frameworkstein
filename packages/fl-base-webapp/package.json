@@ -1,6 +1,6 @@
 {
   "name": "frameworkstein-base-webapp",
-  "version": "6.7.18",
+  "version": "6.7.19",
   "description": "frameworkstein",
   "main": "index.js",
   "author": "Gwilym Humphreys (https://github.com/gwilymhumphreys)",
@@ -55,7 +55,7 @@
     "fl-admin": "^6.7.15",
     "fl-auth-react": "^6.7.17",
     "fl-auth-redux": "^6.7.6",
-    "fl-auth-server": "^6.7.18",
+    "fl-auth-server": "^6.7.19",
     "fl-backbone.nativeajax": "^0.4.0",
     "fl-cache-manager-redis": "^6.7.6",
     "fl-initdb": "^6.7.6",
