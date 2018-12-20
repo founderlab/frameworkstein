@@ -5,59 +5,19 @@
 import _ from 'lodash'
 import { createModel, Model } from '../../src/'
 import Fabricator from '../../src/lib/Fabricator'
+import Flat from './hasOneModels/Flat'
+import Reverse from './hasOneModels/Reverse'
+import ForeignReverse from './hasOneModels/ForeignReverse'
+import Owner from './hasOneModels/Owner'
 
-
-const DATABASE_URL = process.env.DATABASE_URL
-if (!DATABASE_URL) console.log('Missing DATABASE_URL')
-
-const schema = {
-  name: 'Text',
-  createdDate: 'DateTime',
-  updatedDate: 'DateTime',
-}
 
 const BASE_COUNT = 5
 const PICK_KEYS = ['id', 'name']
 
 describe('HasOne', () => {
-  let Flat = null
-  let Reverse = null
-  let ForeignReverse = null
-  let Owner = null
   const createdModels = {}
 
   beforeEach(async () => {
-    Flat = createModel({
-      url: `${DATABASE_URL}/flats`,
-      schema: _.defaults({}, schema, {
-        owner() { return ['hasOne', Owner] },
-      }),
-    })(class Flat extends Model {})
-
-    Reverse = createModel({
-      url: `${DATABASE_URL}/reverses`,
-      schema: _.defaults({}, schema, {
-        owner() { return ['belongsTo', Owner] },
-        ownerAs() { return ['belongsTo', Owner, {as: 'reverseAs'}] },
-      }),
-    })(class Reverse extends Model {})
-
-    ForeignReverse = createModel({
-      url: `${DATABASE_URL}/one_foreign_reverses`,
-      schema: _.defaults({}, schema, {
-        owner() { return ['belongsTo', Owner, {foreignKey: 'ownerish_id'}] },
-      }),
-    })(class ForeignReverse extends Model {})
-
-    Owner = createModel({
-      url: `${DATABASE_URL}/owners`,
-      schema: _.defaults({}, schema, {
-        flat() { return ['belongsTo', Flat] },
-        reverse() { return ['hasOne', Reverse] },
-        reverseAs() { return ['hasOne', Reverse, {as: 'ownerAs'}] },
-        foreignReverse() { return ['hasOne', ForeignReverse] },
-      }),
-    })(class Owner extends Model {})
 
     await Flat.store.resetSchema({verbose: process.env.VERBOSE})
     await Reverse.store.resetSchema({verbose: process.env.VERBOSE})

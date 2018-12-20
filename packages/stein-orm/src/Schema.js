@@ -35,7 +35,7 @@ export default class Schema {
   }
 
   // @nodoc
-  initialize() {
+  initialise() {
     if (this.isInitialised) return
     this.isInitialised = true
     // initalize in two steps to break circular dependencies
@@ -45,9 +45,10 @@ export default class Schema {
     }
     for (const key in this.relations) {
       const relation = this.relations[key]
-      relation.initialize()
+      relation.initialise()
     }
   }
+  initialize() { return this.initialise() }
 
   type(key, newType) {
     if (key === 'id') return this.keyType()
@@ -124,24 +125,6 @@ export default class Schema {
   }
 
   // @nodoc
-  generateBelongsTo(reverseModelType) {
-    let relation
-    const key = naming.attribute(reverseModelType.modelName)
-    if (relation = this.relations[key]) { return relation } // already exists
-
-    if (this.raw[key]) { // not intitialized yet, intialize now
-      relation = this._parseField(key, this.raw[key])
-      relation.initialize()
-      return relation
-    }
-
-    // generate new
-    relation = this._parseField(key, (this.raw[key] = ['belongsTo', reverseModelType, {manual_fetch: true}]))
-    relation.initialize()
-    return relation
-  }
-
-  // @nodoc
   generateJoinTable(relation) {
     const type = relation.modelType.schema.type('id')
     const schema = {}
@@ -183,10 +166,10 @@ export default class Schema {
     }
 
     options.type = type
-    const relation = (this.relations[key] = type === 'hasMany' ? new Many(this.modelType, key, options) : new One(this.modelType, key, options))
+    const relation = type === 'hasMany' ? new Many(this.modelType, key, options) : new One(this.modelType, key, options)
+    this.relations[key] = relation
     if (relation.virtualIdAccessor) this.virtualAccessors[relation.virtualIdAccessor] = relation
     if (type === 'belongsTo') this.virtualAccessors[relation.foreignKey] = relation
-    return relation
   }
 
   // @nodoc
@@ -204,13 +187,15 @@ export default class Schema {
     }
 
     // reverse relation
-    if (_.isFunction(options[0])) {
-      result.reverseModelType = options[0]
+    if (_.isFunction(options[0]) || !options[0] || (_.isObject(options[0]) && (_.isEmpty(options[0]) || options[0].hasOwnProperty('default') && _.isUndefined(options[0].default)))) {
+      result.reverseModelType = _.isFunction(options[0]) ? options[0] : null
       options = options.slice(1)
     }
 
     // too many options
-    if (options.length > 1) { throw new Error(`Unexpected field options array: ${JSON.stringify(options)}`) }
+    if (options.length > 1) {
+      throw new Error(`Unexpected field options array: ${JSON.stringify(options)}`)
+    }
 
     // options object
     if (options.length === 1) { _.extend(result, options[0]) }

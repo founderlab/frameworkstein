@@ -2,6 +2,7 @@ import _ from 'lodash'
 // import Model from '../Model'
 import naming from '../lib/naming'
 
+
 // @nodoc
 export default class Relation {
 
@@ -19,12 +20,15 @@ export default class Relation {
 
   _findOrGenerateReverseRelation() {
     const { modelType, reverseModelType } = this
+
     if (!reverseModelType) {
-      console.log(`[florm] Could not find reverse model type on relation ${this.key} ${this.type} ${this.modelType.modelName}, import all models before performing operations on them`)
+      // console.dir(this)
+      console.log(`[florm] Could not find reverse model type on relation ${this.modelType.modelName} ${this.type} ${this.key}`)
       return
     }
 
     let reverseRelation = reverseModelType.schema.relation(this.as)
+    // if (reverseRelation && (reverseRelation._isInitialised || reverseRelation._isInitialising)) return reverseRelation
     if (!reverseRelation) reverseRelation = reverseModelType.schema.relation(naming.attribute(modelType.modelName, false)) // singular
     if (!reverseRelation) reverseRelation = reverseModelType.schema.relation(naming.attribute(modelType.modelName, true)) // plural
 

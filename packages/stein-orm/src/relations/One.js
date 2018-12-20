@@ -2,6 +2,7 @@ import _ from 'lodash'
 import naming from '../lib/naming'
 import Relation from './Relation'
 
+
 // @nodoc
 export default class One extends Relation {
   constructor(modelType, key, options) {
@@ -17,20 +18,28 @@ export default class One extends Relation {
     }
   }
 
-  initialize() {
-    if (this._isInitialised) return
-    this._isInitialised = true
+  initialise(reverseRelation) {
+    if (this._isInitialised || this._isInitialising) return
+    this._isInitialising = true
 
-    this.reverseRelation = this._findOrGenerateReverseRelation(this)
-
-    if (!this.reverseRelation) return
-
-    if (this.reverseModelType != null) {
-      const newType = this.modelType && this.modelType.schema ? this.modelType.schema.type('id') : this.modelType
-      this.reverseModelType.schema.type(this.foreignKey, newType)
+    if (reverseRelation) {
+      this.reverseRelation = reverseRelation
+      this.reverseModelType = reverseRelation.modelType
     }
+    else if (this.reverseModelType) {
+      this.reverseRelation = this._findOrGenerateReverseRelation(this)
+      if (!this.reverseRelation) return
+    }
+    else {
+      this._isInitialising = false
+      return
+    }
+    const newType = this.modelType && this.modelType.schema ? this.modelType.schema.type('id') : this.modelType
+    this.reverseModelType.schema.type(this.foreignKey, newType)
 
-    if (!this.reverseRelation._isInitialised) this.reverseRelation.initialize(this)
+    if (!this.reverseRelation._isInitialised) this.reverseRelation.initialise(this)
+
+    this._isInitialising = false
+    this._isInitialised = true
   }
-
 }

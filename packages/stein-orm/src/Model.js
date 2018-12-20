@@ -172,8 +172,8 @@ export default class FLModel {
    * Class api *
    ----------- */
 
-  static initialize() {
-    return this.schema.initialize()
+  static initialise() {
+    return this.schema.initialise()
   }
 
   static parse(data) {

@@ -48,7 +48,6 @@ describe('Model', () => {
     }
 
     const DecoratedModel = createModel()(SubModel)
-    DecoratedModel.initialize()
 
     const instance = new DecoratedModel()
 

@@ -31,6 +31,9 @@
   },
   "jest": {
     "verbose": true,
-    "bail": true
+    "bail": true,
+    "modulePathIgnorePatterns": [
+      "hasOneModels"
+    ]
   }
 }

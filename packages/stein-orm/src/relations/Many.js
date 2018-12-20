@@ -17,28 +17,38 @@ export default class Many extends Relation {
     this._isInitialised = false
   }
 
-  initialize(reverseRelation) {
-    if (this._isInitialised) return
-    this._isInitialised = true
+  initialise(reverseRelation) {
+    if (this._isInitialised || this._isInitialising) return
+    this._isInitialising = true
 
-    this.reverseRelation = reverseRelation || this._findOrGenerateReverseRelation()
-    if (!this.reverseRelation) return
-
-    if (this.reverseModelType != null) {
-      const newType = this.modelType && this.modelType.schema ? this.modelType.schema.type('id') : this.modelType
-      this.reverseModelType.schema.type(this.foreignKey, newType)
+    if (reverseRelation) {
+      this.reverseRelation = reverseRelation
+      this.reverseModelType = reverseRelation.modelType
     }
+    else if (this.reverseModelType) {
+      this.reverseRelation = this._findOrGenerateReverseRelation(this)
+      if (!this.reverseRelation) return
+    }
+    else {
+      this._isInitialising = false
+      return
+    }
+    const newType = this.modelType && this.modelType.schema ? this.modelType.schema.type('id') : this.modelType
+    this.reverseModelType.schema.type(this.foreignKey, newType)
 
-    if (!this.reverseRelation._isInitialised) this.reverseRelation.initialize(this)
+    if (!this.reverseRelation._isInitialised) this.reverseRelation.initialise(this)
 
     if (this.reverseRelation.type === 'hasOne') {
       throw new Error(`The reverse of a hasMany relation should be \`belongsTo\`, not \`hasOne\` (${this.modelType.modelName} and ${this.reverseModelType.modelName}).`)
     }
-
     // check for join table
     // console.log('init check', this.modelType.modelName, this.key, this.type, '->', this.reverseRelation.type)
     if (this.reverseRelation.type === 'hasMany') {
       this.joinTable = this.findOrGenerateJoinTable(this)
     }
+
+    this._isInitialising = false
+    this._isInitialised = true
   }
+
 }
