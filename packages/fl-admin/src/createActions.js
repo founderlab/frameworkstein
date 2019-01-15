@@ -1,23 +1,14 @@
 
 
 export default function createActions(modelAdmin) {
-  const actionType = name => `${modelAdmin.actionType}_${name.toUpperCase()}`
   const { Model } = modelAdmin
 
   return {
     loadModels: (query, callback) => {
       if (!query.$sort && modelAdmin.sort) query.$sort = modelAdmin.sort
       return {
-        type: actionType('load'),
+        type: modelAdmin.actionType + '_LOAD',
         request: Model.cursor(query),
-        callback,
-      }
-    },
-
-    countModels: (query, callback) => {
-      return {
-        type: actionType('count'),
-        request: callback => Model.count(query, callback),
         callback,
       }
     },
@@ -26,8 +17,16 @@ export default function createActions(modelAdmin) {
       if (!query.$sort&& modelAdmin.sort) query.$sort = modelAdmin.sort
       return {
         page,
-        type: actionType('load'),
+        type: modelAdmin.actionType + '_LOAD',
         request: Model.cursor(query),
+        callback,
+      }
+    },
+
+    countModels: (query, callback) => {
+      return {
+        type: modelAdmin.actionType + '_COUNT',
+        request: callback => Model.count(query, callback),
         callback,
       }
     },
@@ -37,16 +36,16 @@ export default function createActions(modelAdmin) {
       // const endpoint = data.id ? `${Model.prototype.urlRoot}/${data.id}` : Model.prototype.urlRoot
       const model = new Model(data)
       return {
-        type: actionType('save'),
+        type: modelAdmin.actionType + '_SAVE',
         // request: request[method](endpoint).send(data),
         request: callback => model.save(callback),
         callback,
       }
     },
 
-    delModel: (data, callback) => {
+    deleteModel: (data, callback) => {
       return {
-        type: actionType('del'),
+        type: modelAdmin.actionType + '_DELETE',
         request: callback => Model.destroy({id: data.id}, callback),
         deletedId: data.id,
         callback,

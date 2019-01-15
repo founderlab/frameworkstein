@@ -20,14 +20,14 @@ export default function createReducer(modelAdmin) {
     switch (action.type) {
       case modelAdmin.actionType + '_LOAD_START':
       case modelAdmin.actionType + '_SAVE_START':
-      case modelAdmin.actionType + '_DEL_START':
+      case modelAdmin.actionType + '_DELETE_START':
         return state.merge({loading: true, errors: {}})
 
       case modelAdmin.actionType + '_LOAD_ERROR':
         return state.merge({loading: false, errors: {load: action.error || action.res.body.error}})
       case modelAdmin.actionType + '_SAVE_ERROR':
         return state.merge({loading: false, errors: {save: action.error || action.res.body.error}})
-      case modelAdmin.actionType + '_DEL_ERROR':
+      case modelAdmin.actionType + '_DELETE_ERROR':
         return state.merge({loading: false, errors: {del: action.error || action.res.body.error}})
 
       case modelAdmin.actionType + '_COUNT_SUCCESS':
@@ -56,7 +56,7 @@ export default function createReducer(modelAdmin) {
           },
         })
 
-      case modelAdmin.actionType + '_DEL_SUCCESS':
+      case modelAdmin.actionType + '_DELETE_SUCCESS':
         const models = state.get('models').toJSON()
         delete models[action.deletedId]
         return state.merge({
