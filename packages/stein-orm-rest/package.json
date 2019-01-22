@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-rest",
-  "version": "6.7.15",
+  "version": "6.8.0",
   "description": "",
   "main": "lib/index.js",
   "author": {
@@ -21,7 +21,7 @@
   "devDependencies": {
     "babel-cli": "^6.0.0",
     "jest": "^22.0.0",
-    "stein-orm": "^6.7.15"
+    "stein-orm": "^6.8.0"
   },
   "peerDependencies": {
     "stein-orm": "^6.0.3"
