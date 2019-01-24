@@ -23,7 +23,7 @@ export function jsAssets(entries, webpackAssetsPath) {
 }
 
 export function cssAssets(entries, webpackAssetsPath) {
-  if (process.env.NODE_ENV === 'development') return []
+  if (process.env.NODE_ENV === 'development' && !process.env.STATIC_CSS) return []
   const fileNames = []
   const assets = getAssetJSON(webpackAssetsPath)
   _.forEach(entries, e => {
