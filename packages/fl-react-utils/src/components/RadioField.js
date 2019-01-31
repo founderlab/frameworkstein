@@ -88,8 +88,8 @@ export default class RadioField extends React.Component {
         {label && <Label>{label}</Label>}
         {help && helpTop && <FormText color="muted">{help}</FormText>}
         {inline ? this.renderItemsInline() : this.renderItemColumns()}
-        {error && <FormFeedback>{error}</FormFeedback>}
         {help && !helpTop && <FormText color="muted">{help}</FormText>}
+        {error && <FormFeedback>{error}</FormFeedback>}
       </FormGroup>
     )
   }
