@@ -1,11 +1,16 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Field } from 'redux-form'
+import { Field, getFormSyncErrors, hasSubmitFailed } from 'redux-form'
+import { connect } from 'react-redux'
 import { Row, Col, FormGroup, Label, FormText, FormFeedback } from 'reactstrap'
 import { validationError } from '../validation'
 
 
+@connect((state, props) => ({
+  formSyncErrors: getFormSyncErrors(props.form)(state),
+  submitFailed: hasSubmitFailed(props.form)(state),
+}))
 export default class RadioField extends React.Component {
 
   static propTypes = {
@@ -19,6 +24,7 @@ export default class RadioField extends React.Component {
     submitFailed: PropTypes.bool,
     inline: PropTypes.bool,
     options: PropTypes.array,
+    validate: PropTypes.func,
   }
 
   static defaultProps = {
@@ -30,7 +36,7 @@ export default class RadioField extends React.Component {
   }
 
   renderItemsInline() {
-    const { name, options } = this.props
+    const { name, options, validate } = this.props
     return (
       <div>
         {options.map(opt => (
@@ -40,6 +46,7 @@ export default class RadioField extends React.Component {
               value={opt.value}
               component="input"
               type="radio"
+              validate={validate}
             />
             {opt.label}
           </label>
@@ -49,7 +56,7 @@ export default class RadioField extends React.Component {
   }
 
   renderItemColumns() {
-    const { name, options } = this.props
+    const { name, options, validate } = this.props
 
     return (
       <Row className="mt-3">
@@ -61,6 +68,7 @@ export default class RadioField extends React.Component {
                 value={opt.value}
                 component="input"
                 type="radio"
+                validate={validate}
               />
               {opt.label}
             </label>
@@ -78,10 +86,10 @@ export default class RadioField extends React.Component {
     return (
       <FormGroup>
         {label && <Label>{label}</Label>}
-        {help && helpTop && (<FormText color="muted">{help}</FormText>)}
+        {help && helpTop && <FormText color="muted">{help}</FormText>}
         {inline ? this.renderItemsInline() : this.renderItemColumns()}
-        {error && (<FormFeedback>{error}</FormFeedback>)}
-        {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
+        {error && <FormFeedback>{error}</FormFeedback>}
+        {help && !helpTop && <FormText color="muted">{help}</FormText>}
       </FormGroup>
     )
   }
