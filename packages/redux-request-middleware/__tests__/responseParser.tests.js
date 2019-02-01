@@ -1,14 +1,19 @@
+/* eslint-disable
+    prefer-const,
+    no-unused-vars,
+*/
 import _ from 'lodash'
 import expect from 'expect'
 import { spy } from 'sinon'
 import { createResponseParserMiddleware } from '../src'
+
 
 function createJSONSpy(input) {
   return spy(action => {
     const inputList = _.isArray(input) ? input : [input]
     _.forEach(inputList, modelJson => {
       expect(action.models[modelJson.id]).toEqual(modelJson)
-      expect(action.ids).toInclude(modelJson.id)
+      expect(action.ids).toEqual(expect.arrayContaining([modelJson.id]))
     })
   })
 }
@@ -38,7 +43,7 @@ describe('responseParserMiddleware', () => {
     const next = createJSONSpy(action.res)
     const middleware = createResponseParserMiddleware()
     middleware()(next)(action)
-    expect(next.calledOnce).toExist()
+    expect(next.calledOnce).toBeTruthy()
   })
 
   it('Parses a list of json', () => {
@@ -57,7 +62,7 @@ describe('responseParserMiddleware', () => {
     const next = createJSONSpy(action.res)
     const middleware = createResponseParserMiddleware()
     middleware()(next)(action)
-    expect(next.calledOnce).toExist()
+    expect(next.calledOnce).toBeTruthy()
   })
 
   it('Parses a model-like thing', () => {
@@ -70,7 +75,7 @@ describe('responseParserMiddleware', () => {
     const next = createModelSpy(action.res)
     const middleware = createResponseParserMiddleware()
     middleware()(next)(action)
-    expect(next.calledOnce).toExist()
+    expect(next.calledOnce).toBeTruthy()
   })
 
 })

@@ -1,3 +1,7 @@
+/* eslint-disable
+    prefer-const,
+    no-unused-vars,
+*/
 import assert from 'assert'
 import { spy } from 'sinon'
 import { createRequestMiddleware } from '../src'
@@ -11,25 +15,25 @@ const TYPE = 'ACTIONTYPE'
 
 function createSpy() {
   return spy(action => {
-    assert.ok(action)
+    expect(action).toBeTruthy()
     assert.ok(action.type === TYPE)
   })
 }
 
 function createMiddlewareSpy() {
   const nextFn = spy(action => {
-    assert.ok(action)
+    expect(action).toBeTruthy()
 
     if (nextFn.calledOnce) {
-      assert.ok(action.type === TYPE + suffixes.START)
+      expect(action.type).toEqual(TYPE + suffixes.START)
     }
     else if (nextFn.calledTwice) {
       if (action.error || !action.res || action.res.ok === false) {
-        assert.ok(action.type === TYPE + suffixes.ERROR)
+        expect(action.type).toEqual(TYPE + suffixes.ERROR)
       }
       else {
-        assert.ok(action.res)
-        assert.ok(action.type === TYPE + suffixes.SUCCESS)
+        expect(action.res).toBeTruthy()
+        expect(action.type).toEqual(TYPE + suffixes.SUCCESS)
       }
     }
   })
@@ -43,7 +47,7 @@ describe('requestMiddleware', () => {
     const action = {type: TYPE}
     const middleware = createRequestMiddleware({retry: false})
     middleware()(next)(action)
-    assert.ok(next.calledOnce)
+    expect(next.calledOnce).toBeTruthy()
   })
 
   it('Passes through an action with a request field that isnt a function', () => {
@@ -51,7 +55,7 @@ describe('requestMiddleware', () => {
     const action = {type: TYPE, request: 'lol'}
     const middleware = createRequestMiddleware({retry: false})
     middleware()(next)(action)
-    assert.ok(next.calledOnce)
+    expect(next.calledOnce).toBeTruthy()
   })
 
   it('Passes through an action with a custom extractRequest method that isnt a function', () => {
@@ -65,7 +69,7 @@ describe('requestMiddleware', () => {
       retry: false,
     })
     middleware()(next)(action)
-    assert.ok(next.calledOnce)
+    expect(next.calledOnce).toBeTruthy()
   })
 
   it('Calls a request', () => {
@@ -76,8 +80,8 @@ describe('requestMiddleware', () => {
     const middleware = createRequestMiddleware({retry: false})
     middleware()(next)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(req.end.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.end.calledOnce).toBeTruthy()
   })
 
   it('Calls a request with retries', () => {
@@ -87,8 +91,8 @@ describe('requestMiddleware', () => {
     const next = createMiddlewareSpy()
 
     const action = {type: TYPE, request: req, callback: err => {
-      assert.ok(!err)
-      assert.ok(next.calledTwice)
+      expect(!err).toBeTruthy()
+      expect(next.calledTwice).toBeTruthy()
       assert.equal(req.end.callCount, times-2)
     }}
 
@@ -104,8 +108,8 @@ describe('requestMiddleware', () => {
     const middleware = createRequestMiddleware({retry: false})
     middleware()(next)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(req.end.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.end.calledOnce).toBeTruthy()
   })
 
   it('Calls a pure function request', () => {
@@ -116,8 +120,20 @@ describe('requestMiddleware', () => {
     const middleware = createRequestMiddleware({retry: false})
     middleware()(next)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(req.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.calledOnce).toBeTruthy()
+  })
+
+  it('Calls an async function request', () => {
+    const req = spy(async () => ({ok: true}))
+    const next = createMiddlewareSpy()
+    const action = {type: TYPE, request: req}
+
+    const middleware = createRequestMiddleware({retry: false})
+    middleware()(next)(action)
+
+    expect(next.calledOnce).toBeTruthy()
+    expect(req.calledOnce).toBeTruthy()
   })
 
   it('Custom parses a response', () => {
@@ -132,22 +148,22 @@ describe('requestMiddleware', () => {
     const middleware = createRequestMiddleware({retry: false})
     middleware()(wrapper)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(req.end.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.end.calledOnce).toBeTruthy()
   })
 
   it('Calls a request then calls a callback', () => {
     const req = {end: spy(callback => callback(null, {ok: true}))}
     const next = createMiddlewareSpy()
-    const callback = spy(err => {assert.ok(!err)})
+    const callback = spy(err => {expect(!err).toBeTruthy()})
     const action = {callback, type: TYPE, request: req}
 
     const middleware = createRequestMiddleware({retry: false})
     middleware()(next)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(callback.calledOnce)
-    assert.ok(req.end.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(callback.calledOnce).toBeTruthy()
+    expect(req.end.calledOnce).toBeTruthy()
   })
 
   it('Calls a request with config', () => {
@@ -164,8 +180,8 @@ describe('requestMiddleware', () => {
     const middleware = createRequestMiddleware({extractRequest, getEndFn, retry: false})
     middleware()(next)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(req.next.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.next.calledOnce).toBeTruthy()
   })
 
   it('Errors from an error callback', () => {
@@ -176,8 +192,8 @@ describe('requestMiddleware', () => {
     const middleware = createRequestMiddleware({retry: false})
     middleware()(next)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(req.end.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.end.calledOnce).toBeTruthy()
   })
 
   it('Errors from an error callback after retries', () => {
@@ -186,8 +202,8 @@ describe('requestMiddleware', () => {
     const next = createMiddlewareSpy()
 
     const action = {type: TYPE, request: req, callback: err => {
-      assert.ok(err)
-      assert.ok(next.calledTwice)
+      expect(err).toBeTruthy()
+      expect(next.calledTwice).toBeTruthy()
       assert.equal(req.end.callCount, times-1)
     }}
 
@@ -203,8 +219,8 @@ describe('requestMiddleware', () => {
     const middleware = createRequestMiddleware()
     middleware()(next)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(req.end.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.end.calledOnce).toBeTruthy()
   })
 
   it('Errors from a bad status', () => {
@@ -215,8 +231,8 @@ describe('requestMiddleware', () => {
     const middleware = createRequestMiddleware()
     middleware()(next)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(req.end.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.end.calledOnce).toBeTruthy()
   })
 
   it('Errors from a bad status without a body', () => {
@@ -227,8 +243,8 @@ describe('requestMiddleware', () => {
     const middleware = createRequestMiddleware()
     middleware()(next)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(req.end.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.end.calledOnce).toBeTruthy()
   })
 
   it('Errors from a bad status without a body or status', () => {
@@ -239,7 +255,7 @@ describe('requestMiddleware', () => {
     const middleware = createRequestMiddleware()
     middleware()(next)(action)
 
-    assert.ok(next.calledTwice)
-    assert.ok(req.end.calledOnce)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.end.calledOnce).toBeTruthy()
   })
 })

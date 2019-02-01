@@ -74,12 +74,28 @@ const defaults = {
 
 // Wrap the end function to place the error status code on it if not present
 const wrapEnd = endFn => callback => {
-  endFn((err, res) => {
+  let done = false
+
+  const p = endFn((err, res) => {
+    if (done) return
+    done = true
     if (err && res && !err.status) {
       err.status = res.status
     }
     callback(err, res)
   })
+
+  if (p && p.then) {
+    p.then(res => {
+      if (done) return
+      done = true
+      callback(null, res)
+    }).catch(err => {
+      if (done) return
+      done = true
+      callback(err)
+    })
+  }
 }
 
 export default function createRequestMiddleware(_options={}) {

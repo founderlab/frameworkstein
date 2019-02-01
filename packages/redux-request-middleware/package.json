@@ -16,14 +16,18 @@
     "prepublish": "npm run build",
     "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
     "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
-    "test": "eval $(cat test/.env) mocha test/**/*.tests.js",
-    "cover": "eval $(cat test/.env) istanbul cover _mocha -- test/**/*.tests.js"
+    "test": "eval $(cat __tests__/.env) jest --runInBand"
   },
   "dependencies": {
     "lodash": "^4.0.0",
     "retry-unless": "^1.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.0.0"
+    "babel-cli": "^6.0.0",
+    "jest": "^22.4.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true
   }
 }
