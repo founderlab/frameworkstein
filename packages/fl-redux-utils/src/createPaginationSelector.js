@@ -31,7 +31,10 @@ export default function createPaginationSelector(paginateOn, selectState=default
       const totalItems = pagination ? +pagination.get('total') : 0
       const currentPage = pagination ? +pagination.get('currentPage') : 1
 
-      _.forEach(visibleIds, id => visibleItems.push(models.get(id).toJSON()))
+      _.forEach(visibleIds, id => {
+        const m = models.get(id)
+        m && visibleItems.push(m.toJSON())
+      })
 
       return {visibleItems, totalItems, currentPage}
     },

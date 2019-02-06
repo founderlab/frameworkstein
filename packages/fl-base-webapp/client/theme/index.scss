@@ -21,7 +21,6 @@ html {
 	box-sizing: border-box;
 }
 
-
 a {
   cursor: pointer;
 	text-decoration: none;
@@ -34,6 +33,17 @@ a:focus, a:active,
 button:focus, button:active {
   outline: none;
   text-decoration: none;
+}
+
+.form-container {
+  margin: 0 auto;
+  width: 580px;
+  padding: $spacer;
+  padding-bottom: 4rem;
+
+  @include media-breakpoint-down(xs) {
+    width: 100%;
+  }
 }
 
 table {

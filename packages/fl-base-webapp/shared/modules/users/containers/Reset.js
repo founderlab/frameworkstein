@@ -1,40 +1,55 @@
+/* eslint-env browser */
 import _ from 'lodash' // eslint-disable-line
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import qs from 'qs'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import { reset } from 'fl-auth-redux'
 import Reset from '../components/Reset'
 
 
-@connect(state => _.extend(_.pick(state, 'auth', 'config'), {}), {reset})
-export default class ResetContainer extends Component {
+@connect(state => ({
+  auth: state.auth,
+}), {reset, push})
+export default class ResetContainer extends React.PureComponent {
 
   static propTypes = {
     auth: PropTypes.object,
-    config: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
     reset: PropTypes.func.isRequired,
+    // push: PropTypes.func.isRequired,
   }
 
-  onReset = data => {
-    this.props.reset(`${this.props.config.get('url')}/reset`, data.email && data.email.trim(), data.password, data.resetToken, err => {
-      if (!err) this.props.history.push(this.query().returnTo || '/')
-    })
+  static contextTypes = {
+    url: PropTypes.string.isRequired,
   }
 
-  query = () => qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
+  onReset = async data => {
+    try {
+      await this.props.reset(`${this.context.url}/reset`, data.email && data.email.trim(), data.password, data.resetToken)
+      // this.props.push(this.props.location.query.returnTo || '/')
+      window.location.href = this.props.location.query.returnTo || '/'
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
 
   render() {
-    const query = this.query()
+    const { auth } = this.props
+    const errorMsg = auth.get('errors') && auth.get('errors').get('reset') && auth.get('errors').get('reset').toString()
 
     return (
-      <div>
+      <React.Fragment>
         <Helmet title="Reset your password" />
-        <Reset auth={this.props.auth} email={query.email} resetToken={query.resetToken} onSubmit={this.onReset} />
-      </div>
+        <Reset
+          errorMsg={errorMsg}
+          email={this.props.location.query.email}
+          resetToken={this.props.location.query.resetToken}
+          onSubmit={this.onReset}
+        />
+      </React.Fragment>
     )
   }
 }
