@@ -109,7 +109,8 @@ export default class HttpStore {
   _destroy = async (query, callback) => {
 
     try {
-      const res = await fetch(`${this.modelType.url}?${qs.stringify(query)}`, this.fetchOptions({
+      const url = query.id ? `${this.modelType.url}/${query.id}` : `${this.modelType.url}?${qs.stringify(query)}`
+      const res = await fetch(url, this.fetchOptions({
         method: 'DELETE',
       }))
       const json = await res.json()
