@@ -1,6 +1,6 @@
 {
   "name": "frameworkstein-base-webapp",
-  "version": "6.9.1",
+  "version": "6.9.2",
   "description": "frameworkstein",
   "main": "index.js",
   "author": "Gwilym Humphreys (https://github.com/gwilymhumphreys)",
@@ -112,7 +112,7 @@
     "sessionstore": "^1.0.0",
     "slugify": "^1.0.0",
     "stein-orm": "^6.8.0",
-    "stein-orm-http": "^6.8.0",
+    "stein-orm-http": "^6.9.2",
     "stein-orm-migrations": "^6.8.0",
     "stein-orm-rest": "^6.8.0",
     "stein-orm-sql": "^6.8.0",
