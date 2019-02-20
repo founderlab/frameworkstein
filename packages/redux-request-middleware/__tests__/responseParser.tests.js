@@ -78,4 +78,21 @@ describe('responseParserMiddleware', () => {
     expect(next.calledOnce).toBeTruthy()
   })
 
+  it('Parses a fetch response', () => {
+    const action = {
+      res: {
+        json: () => {
+          return new Model({
+            id: 'model1id',
+            name: 'model1',
+          })
+        },
+      },
+    }
+    const next = createModelSpy(action.res)
+    const middleware = createResponseParserMiddleware()
+    middleware()(next)(action)
+    expect(next.calledOnce).toBeTruthy()
+  })
+
 })

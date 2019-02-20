@@ -1,5 +1,7 @@
 import _ from 'lodash'
 
+export function isFetch(action) { return action.res && _.isFunction(action.res.json) }
+
 export function isModel(action) { return action.res && _.isFunction(action.res.toJSON) }
 
 export function parseJSON(action, {mutate, force}) {
@@ -40,10 +42,17 @@ export function parseModel(action, options) {
   return parseJSON(action, options)
 }
 
+export async function parseFetch(action, options) {
+  action.res = action.res ? await action.res.json() : null
+  return parseJSON(action, options)
+}
+
 const defaults = {
   isModel,
+  isFetch,
   parseModel,
   parseJSON,
+  parseFetch,
   mutate: true,
 }
 
@@ -51,8 +60,12 @@ export default function createResponseParserMiddleware(_options={}) {
   const options = _.merge({}, defaults, _options)
 
   return function responseParserMiddleware() {
-    return next => action => {
-      return next(options.isModel(action) ? options.parseModel(action, options) : options.parseJSON(action, options))
+    return next => async action => {
+      let res
+      if (options.isModel(action)) res = options.parseModel(action, options)
+      else if (options.isFetch(action)) res = await options.parseFetch(action, options)
+      else res = options.parseJSON(action, options)
+      next(res)
     }
   }
 }
