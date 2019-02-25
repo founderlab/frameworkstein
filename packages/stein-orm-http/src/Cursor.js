@@ -18,7 +18,9 @@ export default class HttpCursor extends Cursor {
 
     try {
       const res = await fetch(`${this.modelType.store.urlRoot()}?${qs.stringify(query)}`, this.modelType.store.fetchOptions())
-      if (res.status === '404' && query.$one) return callback(null, null)
+      if (res.status.toString() === '404' && query.$one) {
+        return callback(null, null)
+      }
       json = await res.json()
     }
     catch (err) {
