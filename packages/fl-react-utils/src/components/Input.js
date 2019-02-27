@@ -106,8 +106,8 @@ export default class FLInput extends React.Component {
         }
         control = (
           <Input type="select" {...inputProps}>
-            {this.props.includeEmpty && (<option />)}
-            {inputProps.placeholder && (<option>{inputProps.placeholder}</option>)}
+            {this.props.includeEmpty && <option />}
+            {inputProps.placeholder && <option value="">{inputProps.placeholder}</option>}
             {_.map(options, opt => {
               const option = _.isObject(opt) ? opt : {label: opt, value: opt}
               return (
