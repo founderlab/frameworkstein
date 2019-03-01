@@ -239,4 +239,31 @@ describe('HasOne', () => {
     expect(owner.data.flat_id).toBe(flat.id)
   })
 
+  it('can query on a related (hasOne) model spanning a relationship', async () => {
+    const reverse = await Reverse.findOne({owner_id: {$exists: true}})
+    expect(reverse).toBeTruthy()
+
+    const flat = await Flat.find({$one: true, 'owner.reverse.name': reverse.data.name})
+    expect(flat).toBeTruthy()
+
+    expect(flat.data.owner_id).toBe(reverse.owner_id)
+  })
+
+  it('can query on a related (hasOne) model spanning a relationship with $exists and $ne', async () => {
+    const NAME = 'newname'
+    const reverse = await Reverse.findOne({owner_id: {$exists: true}})
+    expect(reverse).toBeTruthy()
+    await reverse.save({name: null})
+
+    const flat = await Flat.find({$one: true, 'owner.reverse.name': {$exists: false}})
+    expect(flat).toBeTruthy()
+
+    const owner = await Owner.find({$one: true, flat_id: flat.id})
+    expect(owner).toBeTruthy()
+    expect(owner.id).toBe(reverse.data.owner_id)
+
+    const namedFlats = await Flat.find({'owner.reverse.name': {$ne: null}})
+    expect(_.find(namedFlats, f => f.id === flat.id)).toBeFalsy()
+  })
+
 })

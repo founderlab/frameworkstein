@@ -44,13 +44,13 @@ function joinToRelation(query, relation, options={}) {
 function appendRelatedWhere(query, condition, options={}) {
   let fromKey
   let select
+
   const fromModelType = condition.relation.modelType
   const table = condition.modelType.tableName
 
   if (condition.relation.type === 'belongsTo') {
     fromKey = `${fromModelType.tableName}.${condition.relation.reverseRelation.foreignKey}`
     select = `${condition.relation.reverseModelType.tableName}.id`
-
   }
   else {
     fromKey = `${fromModelType.tableName}.id`
@@ -58,6 +58,7 @@ function appendRelatedWhere(query, condition, options={}) {
   }
 
   const inMethod = (condition.method === 'orWhere' || condition.method === 'orWhereIn') ? 'orWhereIn' : 'whereIn'
+
   if (condition.operator) {
     return query[inMethod](fromKey, builder => {
       if (condition.value) {
@@ -79,6 +80,12 @@ function appendRelatedWhere(query, condition, options={}) {
       builder.select(select).from(table)
       return appendRelatedWhere(builder, condition.dotWhere, options)
     }
+    else if (condition.conditions && condition.conditions.length) {
+      builder.select(select).from(table)
+      appendWhere(builder, condition)
+      return builder
+    }
+    return builder.select(select).from(table)[condition.method](condition.key)
   })
 
 }
@@ -89,7 +96,6 @@ function appendWhere(query, condition, options={}) {
     if (condition.relation) {
       if ((condition.relation.type === 'hasMany') && (condition.relation.reverseRelation.type === 'hasMany')) {
 
-        // const relationTable = condition.key.split('.').shift()
         const fromModelType = condition.relation.modelType
         const relationModelType = condition.relation.reverseModelType
 
@@ -101,7 +107,6 @@ function appendWhere(query, condition, options={}) {
         const pivotToKey = `${pivotTable}.${condition.relation.foreignKey}`
 
         const pivotFromKey = `${pivotTable}.${condition.relation.reverseRelation.foreignKey}`
-        // const toKey = `${toTable}.id`
 
         if (condition.operator) {
           query.whereIn(fromKey, builder => {

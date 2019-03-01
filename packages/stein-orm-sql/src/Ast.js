@@ -203,30 +203,25 @@ export default class SqlAst {
     return [cond, relationKey, relation]
   }
 
-  parseCondition(_key, value, options) {
-    if (options == null) { options = {} }
+  parseCondition(_key, value, options={}) {
     let method = options.method || 'where'
     const key = this.columnName(_key, options.table)
 
     const condition = {method, conditions: [], relation: options.relation, modelType: options.modelType}
 
     if (_.isObject(value) && !_.isDate(value)) {
-
-      let mongoConditions
-      let val
-      if (value != null ? value.$in : undefined) {
-        //todo: might be better to throw an error if $in isn't an array
-        if (!value.$in.length) {
-          this.abort = true
-          return condition
+      if (value.$in) {
+        if (!_.isArray(value.$in)) {
+          const val = JSON.stringify(value)
+          throw new Error(`[stein-orm-sql] Unexpected non-array value for $in: ${val}`)
         }
         if (this.isJsonField(_key) || (options.relation && this.isJsonField(_key, options.modelType))) {
-          for (val of Array.from(value.$in)) {
+          for (const inVal of Array.from(value.$in)) {
             condition.conditions.push({
               method: 'orWhere',
               conditions: [{
                 key: '?? \\? ?',
-                value: [key, val],
+                value: [key, inVal],
                 method: 'whereRaw',
                 relation: options.relation,
                 modelType: options.modelType,
@@ -235,45 +230,48 @@ export default class SqlAst {
           }
           return condition
         }
-
         condition.conditions.push({key, method: 'whereIn', value: value.$in, relation: options.relation, modelType: options.modelType})
-
       }
 
-      if (value != null ? value.$nin : undefined) {
+      if (value.$nin) {
         condition.conditions.push({key, method: 'whereNotIn', value: value.$nin, relation: options.relation, modelType: options.modelType})
       }
 
-      if ((value != null ? value.$exists : undefined) != null) {
-        condition.conditions.push({key, method: ((value != null ? value.$exists : undefined) ? 'whereNotNull' : 'whereNull'), relation: options.relation, modelType: options.modelType})
+      if (value.hasOwnProperty('$exists')) {
+        condition.conditions.push({key, method: value.$exists ? 'whereNotNull' : 'whereNull', relation: options.relation, modelType: options.modelType})
       }
 
       // Transform a conditional of type {key: {$like: 'string'}} to ('key', 'like', '%string%')
-      if (_.isObject(value) && value.$like) {
-        val = Array.from(value.$like).includes('%') ? value.$like : `%${value.$like}%`
-        condition.conditions.push({key, method, operator: 'ilike', value: val, relation: options.relation, modelType: options.modelType})
+      if (value.$like) {
+        const likeVal = Array.from(value.$like).includes('%') ? value.$like : `%${value.$like}%`
+        condition.conditions.push({key, method, operator: 'ilike', value: likeVal, relation: options.relation, modelType: options.modelType})
       }
 
       // Transform a conditional of type {key: {$lt: 5, $gt: 3}} to [('key', '<', 5), ('key', '>', 3)]
-      if (_.size(mongoConditions = _.pick(value, COMPARATOR_KEYS))) {
+      const mongoConditions = _.pick(value, COMPARATOR_KEYS)
+      if (_.size(mongoConditions)) {
         for (const mongoOp in mongoConditions) {
-          val = mongoConditions[mongoOp]
+          const mongoVal = mongoConditions[mongoOp]
           const operator = COMPARATORS[mongoOp]
 
           if (mongoOp === '$ne') {
-            if (_.isNull(val)) {
+            if (_.isNull(mongoVal)) {
               condition.conditions.push({key, method: `${method}NotNull`}, {relation: options.relation, modelType: options.modelType})
             }
             else {
-              condition.conditions.push({method,
+              condition.conditions.push({
+                method,
+                relation: options.relation,
+                modelType: options.modelType,
                 conditions: [
-                  {key, operator, method: 'orWhere', value: val, relation: options.relation},
-                  {key, method: 'orWhereNull', relation: options.relation},
-                ]})
+                  {key, operator, method: 'orWhere', value: mongoVal},
+                  {key, method: 'orWhereNull'},
+                ],
+              })
             }
 
           }
-          else if (_.isNull(val)) {
+          else if (_.isNull(mongoVal)) {
             if (mongoOp === '$eq') {
               condition.conditions.push({key, method: `${method}Null`, relation: options.relation, modelType: options.modelType})
             }
@@ -283,7 +281,7 @@ export default class SqlAst {
 
           }
           else {
-            condition.conditions.push({key, operator, method, value: val, relation: options.relation, modelType: options.modelType})
+            condition.conditions.push({key, operator, method, value: mongoVal, relation: options.relation, modelType: options.modelType})
           }
         }
       }
@@ -432,7 +430,7 @@ export default class SqlAst {
     const modelName = cond.modelType != null ? cond.modelType.modelName : undefined
     if (modelName) { to_print.modelName = modelName }
 
-    const previousModelName = __guard__(cond.relation != null ? cond.relation.modelType : undefined, x => x.modelName)
+    const previousModelName = cond.relation && cond.relation.modelType && cond.relation.modelType.modelName
     if (previousModelName) { to_print.previousModelName = previousModelName }
 
     console.dir(to_print, {depth: null, colors: true})
@@ -445,8 +443,4 @@ export default class SqlAst {
       return this.printCondition(cond.dotWhere, indent + '  ')
     }
   }
-}
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
 }

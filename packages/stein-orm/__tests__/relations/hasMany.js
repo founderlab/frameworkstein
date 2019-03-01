@@ -48,7 +48,7 @@ describe('HasMany', () => {
       schema: _.defaults({}, schema, {
         flats() { return ['hasMany', Flat] },
         reverses() { return ['hasMany', Reverse] },
-        // moreReverses() { return ['hasMany', Reverse, {as: 'anotherOwner'}] },
+        moreReverses() { return ['hasMany', Reverse, {as: 'anotherOwner'}] },
       }),
     })(class Owner extends Model {})
 
@@ -189,6 +189,39 @@ describe('HasMany', () => {
 
     const count = await Reverse.count({owner_id: owner.id})
     expect(count).toBe(0)
+  })
+
+  it('can query on a related (hasOne) model spanning a relationship', async () => {
+    const NAME = 'newname'
+    const reverse = await Reverse.findOne({owner_id: {$exists: true}})
+    expect(reverse).toBeTruthy()
+    await reverse.save({name: null})
+
+    const flats = await Flat.find({'owner.reverses.name': reverse.data.name})
+    expect(flats.length).toBeTruthy()
+
+    for (const f of flats) {
+      expect(f.data.owner_id).toBe(reverse.data.owner_id)
+    }
+  })
+
+  it('can query on a related (hasOne) model spanning a relationship with $exists and $ne', async () => {
+    const NAME = 'newname'
+    const reverse = await Reverse.findOne({owner_id: {$exists: true}})
+    expect(reverse).toBeTruthy()
+    await reverse.save({name: null})
+
+    const flats = await Flat.find({'owner.reverses.name': {$exists: false}})
+    expect(flats.length).toBeTruthy()
+
+    for (const f of flats) {
+      expect(f.data.owner_id).toBe(reverse.data.owner_id)
+    }
+
+    const namedFlats = await Flat.find({'owner.reverses.name': {$ne: null}})
+    for (const flat of flats) {
+      expect(_.find(namedFlats, f => f.id === flat.id)).toBeFalsy
+    }
   })
 
 })
