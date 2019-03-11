@@ -7,9 +7,10 @@
   - API
 
 - Front end
-  - Actions
+  - [Actions](frontend/actions.md)
   - Container components
   - Components
+  - [Requests](frontend/requests.md)
   - Fetching data
   - Saving data
   - Redux data structure conventions
