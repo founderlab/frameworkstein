@@ -64,7 +64,7 @@ export default class User extends Model {
       const now = new Date()
 
       if (!user.lastActiveDate || (now.getTime() - user.lastActiveDate > LAST_ACTIVE_UPDATE_INTERVAL)) {
-        const userModel = new User(user)
+        const userModel = new User({id: user.id})
         userModel.save({lastActiveDate: now}, err => err && console.log(err))
       }
 

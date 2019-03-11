@@ -1,14 +1,9 @@
-import _ from 'lodash'
+import _ from 'lodash' // eslint-disable-line
+import User from '../../../models/User'
 
-const template = (_models, options, callback) => {
-  let single = false
-  let models = _models
-  if (!_.isArray(models)) {
-    single = true
-    models = [models]
-  }
-  callback(null, single ? models[0] : models)
+
+export default {
+  $select: [
+    _.omit(User.schema.columns(), 'password'),
+  ],
 }
-
-template.$raw = true
-export default template
