@@ -344,6 +344,8 @@ export default class SqlAst {
       this.fields = this.columns
     }
 
+    this.fields = _.intersection(this.fields, this.columns)
+
     this.select = []
     for (const col of Array.from(this.fields)) {
       this.select.push(this.prefixColumns ? this.prefixColumn(col, this.modelType.tableName) : col)
