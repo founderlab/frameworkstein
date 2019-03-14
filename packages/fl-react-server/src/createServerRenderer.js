@@ -63,7 +63,6 @@ export default function createServerRenderer(_options) {
       scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
 
       const css = cssAssets(options.entries, options.webpackAssetsPath)
-      console.log('css', css)
       cssTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
 
       const serverState = {
