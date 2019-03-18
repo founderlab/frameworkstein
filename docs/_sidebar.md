@@ -1,10 +1,10 @@
 
 - [Home](/)
 
-- Back End
-  - Database
-  - ORM
-  - API
+- Back end
+  - [Database](backend/database.md)
+  - [ORM](backend/orm.md)
+  - [API](backend/api.md)
 
 - Front end
   - [Actions](frontend/actions.md)
@@ -42,5 +42,5 @@
   - ESLint settings
 
 - Processes
-  - [Back end](processes-backend.md)
-  - [Front end](processes-frontend.md)
+  - [Back end](processes/backend.md)
+  - [Front end](processes/frontend.md)

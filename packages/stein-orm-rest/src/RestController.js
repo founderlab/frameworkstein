@@ -10,7 +10,7 @@ import JoinTableControllerSingleton from './lib/JoinTableControllerSingleton'
 import defaultTemplate from './lib/defaultTemplate'
 
 
-export default class RESTController extends JsonController {
+export default class RestController extends JsonController {
 
   constructor(app, options={}) {
     super(app, options)

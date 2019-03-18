@@ -30,11 +30,15 @@ export default function createGroupByReducer(actionTypes, groupingKey, options={
       const _key = groupingKey(action.deletedModel)
       const key = keyFn(_key)
       const current = state.get(key)
+
       if (_.isNil(key)) {
         warning(false, `[fl-redux-utils] groupByReducer: groupingKey(action.deletedModel) was ${key} for deleted model ${JSON.stringify(action.deletedModel)}`)
       }
       else if (!current) {
         warning(false, `[fl-redux-utils] groupByReducer: state.get(key) doesnt exist for key ${key} from deleted model ${JSON.stringify(action.deletedModel)}`)
+      }
+      else if (options.single) {
+        return state.merge({[key]: null})
       }
       else {
         const set = Set.isSet(current) ? current : new Set(current || [])
@@ -54,7 +58,7 @@ export default function createGroupByReducer(actionTypes, groupingKey, options={
         let groupState
 
         if (options.single) {
-          groupState = models[0] && models[0].id.toString()
+          groupState = models[0] ? models[0].id.toString() : null
         }
         else {
           groupState = state.get(key) || new Set()

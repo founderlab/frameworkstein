@@ -16,11 +16,12 @@
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
     "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
     "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
-    "test": "eval $(cat test/.env) mocha test/**/*.tests.js",
+    "test": "eval $(cat __tests__/.env) jest --runInBand",
     "cover": "eval $(cat test/.env) istanbul cover _mocha -- test/**/*.tests.js"
   },
   "devDependencies": {
-    "babel-cli": "^6.0.0"
+    "babel-cli": "^6.0.0",
+    "jest": "^22.4.4"
   },
   "dependencies": {
     "classnames": "^2.0.0",
@@ -31,5 +32,8 @@
     "redux": "^4.0.0",
     "reselect": "^3.0.0",
     "warning": "^2.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
