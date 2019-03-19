@@ -117,6 +117,8 @@ export default class FLModel {
     return this._save(data)
   }
 
+  link = (...args) => this.constructor.link(...args)
+
   destroy = (callback) => {
     if (!this.id) {
       if (callback) return callback()
@@ -250,6 +252,41 @@ export default class FLModel {
   }
   static findOrCreate(...args) {
     return this.promiseOrCallbackFn(this._findOrCreate)(...args)
+  }
+
+  /*
+   * Link a many to many relation
+   * @param {string} relationName the name of the relation
+   * @param {object} linkData an object containing the foreign keys of the link to create, e.g. {modelOne_id: 1, modelTwo_id: 2}
+   */
+  static async _link(relationName, data, callback) {
+    if (!_.isString(relationName) || !_.isObject(data)) throw new Error(`[stein-orm::link] arguments should be relationName::string, linkData::object - got ${relationName} ${data}`)
+
+    const JoinTableModel = this.joinTable(relationName)
+    if (!JoinTableModel) throw new Error(`[stein-orm::link] relation or join table not found for model ${this.name} and relation ${relationName}`)
+
+    const entry = new JoinTableModel(data)
+    return entry.save(callback)
+  }
+  static link(...args) {
+    return this.promiseOrCallbackFn(this._link)(...args)
+  }
+
+  /*
+   * Unlink a many to many relation
+   * @param {string} relationName the name of the relation
+   * @param {object} linkData an object containing the foreign keys of the link to remove, e.g. {modelOne_id: 1, modelTwo_id: 2}
+   */
+  static async _unlink(relationName, data, callback) {
+    if (!_.isString(relationName) || !_.isObject(data)) throw new Error(`[stein-orm::unlink] arguments should be relationName::string, linkData::object - got ${relationName} ${data}`)
+
+    const JoinTableModel = this.joinTable(relationName)
+    if (!JoinTableModel) throw new Error(`[stein-orm::unlink] relation or join table not found for model ${this.name} and relation ${relationName}`)
+
+    return JoinTableModel.destroy(data, callback)
+  }
+  static unlink(...args) {
+    return this.promiseOrCallbackFn(this._unlink)(...args)
   }
 
   static _destroy(query, callback) {

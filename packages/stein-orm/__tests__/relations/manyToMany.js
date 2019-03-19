@@ -10,6 +10,8 @@ import Fabricator from '../../src/lib/Fabricator'
 const DATABASE_URL = process.env.DATABASE_URL
 if (!DATABASE_URL) console.log('Missing DATABASE_URL')
 
+const THROUGH_TABLE = 'through_table_name'
+
 const schema = {
   name: 'Text',
   createdDate: 'DateTime',
@@ -28,7 +30,7 @@ describe('ManyToMany', () => {
     Reverse = createModel({
       url: `${DATABASE_URL}/reverses`,
       schema: _.defaults({}, schema, {
-        owners() { return ['hasMany', Owner] },
+        owners() { return ['hasMany', Owner, {through: THROUGH_TABLE}] },
       }),
     })(class Reverse extends Model {})
 
@@ -69,6 +71,30 @@ describe('ManyToMany', () => {
     await Owner.relation('reverses').joinTable.store.disconnect()
   })
 
+
+  it('Can add a m2m relation with `link` and remove with `unlink`', async () => {
+    const newOwner = new Owner()
+    await newOwner.save()
+    const newReverse = new Reverse()
+    await newReverse.save()
+
+    const linkData = {owner_id: newOwner.id, reverse_id: newReverse.id}
+    const link = await Owner.link('reverses', linkData)
+
+    expect(link).toBeTruthy()
+    expect(link.data.owner_id).toBe(newOwner.id)
+    expect(link.data.reverse_id).toBe(newReverse.id)
+
+    await Owner.unlink('reverses', linkData)
+    const JoinTableModel = Owner.relation('reverses').joinTable
+    const exists = await JoinTableModel.exists(linkData)
+    expect(exists).toBeFalsy()
+  })
+
+  it('Can specify the join table name with `through`', async () => {
+    const JoinTable = Owner.joinTable('reverses')
+    expect(JoinTable.store.table).toBe(THROUGH_TABLE)
+  })
 
   it('Can include related (two-way hasMany) models', async () => {
     const owner = await Owner.cursor({$one: true}).include('reverses').toJSON()

@@ -67,7 +67,7 @@ export default class Relation {
   _findOrGenerateReverseRelation() {
     const { modelType, reverseModelType } = this
     if (!reverseModelType) {
-      console.log(`[florm] Could not find reverse model type on relation ${this.key} ${this.type} ${this.modelType.modelName}, import all models before performing operations on them`)
+      console.log(`[stein-orm] Could not find reverse model type on relation ${this.key} ${this.type} ${this.modelType.modelName}, import all models before performing operations on them`)
       return
     }
 

@@ -2314,8 +2314,8 @@
                                         }
                                       },
                                       "value": {
-                                        "raw": "[florm] Could not find reverse model type on relation ",
-                                        "cooked": "[florm] Could not find reverse model type on relation "
+                                        "raw": "[stein-orm] Could not find reverse model type on relation ",
+                                        "cooked": "[stein-orm] Could not find reverse model type on relation "
                                       },
                                       "tail": false
                                     },
@@ -7156,7 +7156,7 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "[florm] Could not find reverse model type on relation ",
+      "value": "[stein-orm] Could not find reverse model type on relation ",
       "start": 786,
       "end": 840,
       "loc": {

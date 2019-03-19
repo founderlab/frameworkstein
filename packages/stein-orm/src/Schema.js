@@ -203,6 +203,9 @@ export default class Schema {
   }
 
   static joinTableTableName(relation) {
+    const throughTableName = relation.through || relation.reverseRelation.through
+    if (throughTableName) return throughTableName
+
     const tableName1 = naming.tableName(relation.modelType.modelName)
     const tableName2 = naming.tableName(relation.reverseRelation.modelType.modelName)
     return tableName1.localeCompare(tableName2) < 0 ? `${tableName1}_${tableName2}` : `${tableName2}_${tableName1}`
