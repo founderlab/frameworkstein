@@ -18,6 +18,10 @@ const sendTextError = (res, err) => {
   return res.status(500).send('Error loading initial state')
 }
 
+const sendTextNotFound = res => {
+  return res.status(404).send('404 not found')
+}
+
 const evalSource = (req, source) => _.isFunction(source) ? source(req) : source || ''
 
 const defaults = {
@@ -49,6 +53,7 @@ export default function createServerRenderer(_options) {
   const options = _.extend({}, defaults, _options)
   const { createStore, getRoutes, gaId, config={} } = options
   const sendError = options.sendError || sendTextError
+  const sendNotFound = options.sendNotFound || sendTextNotFound
   let alwaysFetch = options.alwaysFetch || []
   if (!_.isArray(alwaysFetch)) alwaysFetch = [alwaysFetch]
   if (!createStore) throw new Error('[fl-react-server] createServerRenderer: Missing createStore from options')
@@ -63,6 +68,7 @@ export default function createServerRenderer(_options) {
       scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
 
       const css = cssAssets(options.entries, options.webpackAssetsPath)
+      console.log('css', css)
       cssTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
 
       const serverState = {
@@ -87,7 +93,10 @@ export default function createServerRenderer(_options) {
         const fetchResult = await fetchComponentData({store, branch, location: history.location})
         if (fetchResult.logout) req.logout()
         if (fetchResult.redirect) return res.redirect(fetchResult.redirect)
-        if (fetchResult.status) res.status(fetchResult.status)
+        if (fetchResult.status) {
+          if (res.status === 404) return sendNotFound(res, cssTags)
+          return res.status(fetchResult.status)
+        }
       }
       catch (err) {
         return sendError(res, err, cssTags)
