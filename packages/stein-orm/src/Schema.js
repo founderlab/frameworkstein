@@ -128,6 +128,8 @@ export default class Schema {
   generateJoinTable(relation) {
     const type = relation.modelType.schema.type('id')
     const schema = {}
+    console.log('relation.joinKey', relation.joinKey)
+    console.log('relation.reverseRelation.joinKey', relation.reverseRelation.joinKey)
     schema[relation.joinKey] = [type, {indexed: true}]
     schema[relation.reverseRelation.joinKey] = [(relation.reverseModelType != null ? relation.reverseModelType.schema.type('id') : undefined) || type, {indexed: true}]
 
@@ -137,6 +139,7 @@ export default class Schema {
       url = `${(new DatabaseUrl(relation.modelType.url)).format({excludeTable: true})}/${tableName}`
     }
     catch (err) {
+      console.log(err)
       url = `/${tableName}`
     }
     const name = naming.modelName(tableName, true)
@@ -189,6 +192,7 @@ export default class Schema {
     // reverse relation
     if (_.isFunction(options[0]) || !options[0] || (_.isObject(options[0]) && (_.isEmpty(options[0]) || options[0].hasOwnProperty('default') && _.isUndefined(options[0].default)))) {
       result.reverseModelType = _.isFunction(options[0]) ? options[0] : null
+      if (!result.reverseModelType && options[1] && options[1].self) result.reverseModelType = this.modelType
       options = options.slice(1)
     }
 

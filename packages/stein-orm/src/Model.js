@@ -153,6 +153,7 @@ export default class FLModel {
     return json
   }
 
+
   /* ----------------------
    * Class helper methods *
    ---------------------- */
@@ -303,7 +304,10 @@ export default class FLModel {
     return this.promiseOrCallbackFn(this._destroy)(...args)
   }
 
-  static get url() { return this.store.url }
+  static get url() {
+    console.log('get url() {  this.store', this.store)
+    return this.store.url
+  }
   static get table() { return this.store.table }
   static get tableName() { return this.store.table }
 
