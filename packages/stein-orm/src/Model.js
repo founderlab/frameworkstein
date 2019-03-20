@@ -117,7 +117,39 @@ export default class FLModel {
     return this._save(data)
   }
 
-  link = (...args) => this.constructor.link(...args)
+  _linkData = async (relationName, _data) => {
+    if (!this.id) await this.save()
+    const relatedId = _data.id || _data
+    const relation = this.schema.relation(relationName)
+    return {
+      [relation.foreignKey]: this.id,
+      [relation.reverseRelation.foreignKey]: relatedId,
+    }
+  }
+
+  _link = async (relationName, _data) => {
+    const data = await this._linkData(relationName, _data)
+    return this.constructor.link(relationName, data)
+  }
+
+  link = (relationName, data, callback) => {
+    if (_.isFunction(callback)) {
+      return this._link(relationName, data).then(() => callback(null, this)).catch(callback)
+    }
+    return this._link(relationName, data)
+  }
+
+  _unlink = async (relationName, _data) => {
+    const data = await this._linkData(relationName, _data)
+    return this.constructor.unlink(relationName, data)
+  }
+
+  unlink = (relationName, data, callback) => {
+    if (_.isFunction(callback)) {
+      return this._unlink(relationName, data).then(() => callback(null, this)).catch(callback)
+    }
+    return this._unlink(relationName, data)
+  }
 
   destroy = (callback) => {
     if (!this.id) {

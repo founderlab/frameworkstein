@@ -102,7 +102,7 @@ describe('ManyToMany', () => {
     expect(exists).toBeFalsy()
   })
 
-  it('Can add a m2m relation with `link` and remove with `unlink`', async () => {
+  it('Can add a m2m relation with `Model.link` and remove with `Model.unlink`', async () => {
     const newOwner = new Owner()
     await newOwner.save()
     const newReverse = new Reverse()
@@ -118,6 +118,24 @@ describe('ManyToMany', () => {
     await Owner.unlink('reverses', linkData)
     const JoinTableModel = Owner.relation('reverses').joinTable
     const exists = await JoinTableModel.exists(linkData)
+    expect(exists).toBeFalsy()
+  })
+
+  it('Can add a m2m relation with `link` and remove with `unlink`', async () => {
+    const newOwner = new Owner()
+    await newOwner.save()
+    const newReverse = new Reverse()
+    await newReverse.save()
+
+    const link = await newOwner.link('reverses', newReverse)
+
+    expect(link).toBeTruthy()
+    expect(link.data.owner_id).toBe(newOwner.id)
+    expect(link.data.reverse_id).toBe(newReverse.id)
+
+    await newOwner.unlink('reverses', newReverse.id)
+    const JoinTableModel = Owner.relation('reverses').joinTable
+    const exists = await JoinTableModel.exists({owner_id: newOwner.id, reverse_id: newReverse.id})
     expect(exists).toBeFalsy()
   })
 
