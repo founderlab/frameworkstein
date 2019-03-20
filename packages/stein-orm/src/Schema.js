@@ -128,8 +128,6 @@ export default class Schema {
   generateJoinTable(relation) {
     const type = relation.modelType.schema.type('id')
     const schema = {}
-    console.log('relation.joinKey', relation.joinKey)
-    console.log('relation.reverseRelation.joinKey', relation.reverseRelation.joinKey)
     schema[relation.joinKey] = [type, {indexed: true}]
     schema[relation.reverseRelation.joinKey] = [(relation.reverseModelType != null ? relation.reverseModelType.schema.type('id') : undefined) || type, {indexed: true}]
 
@@ -139,7 +137,7 @@ export default class Schema {
       url = `${(new DatabaseUrl(relation.modelType.url)).format({excludeTable: true})}/${tableName}`
     }
     catch (err) {
-      console.log(err)
+      console.log('[stein-orm] Schema.generateJoinTable err', err)
       url = `/${tableName}`
     }
     const name = naming.modelName(tableName, true)
