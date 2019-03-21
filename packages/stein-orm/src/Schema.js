@@ -3,7 +3,6 @@ import naming from './lib/naming'
 import One from './relations/One'
 import Many from './relations/Many'
 import DatabaseUrl from './lib/DatabaseUrl'
-import createModel from './createModel'
 
 
 const RELATION_VARIANTS = {
@@ -143,7 +142,7 @@ export default class Schema {
     const name = naming.modelName(tableName, true)
 
     const Model = require('./Model')
-    const JoinTable = createModel({
+    const JoinTable = relation.modelType.createModel({
       name,
       url,
       schema,

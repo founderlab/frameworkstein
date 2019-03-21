@@ -33,7 +33,8 @@
     "verbose": true,
     "bail": true,
     "modulePathIgnorePatterns": [
-      "hasOneModels"
+      "hasOneModels",
+      "m2mModels"
     ]
   }
 }

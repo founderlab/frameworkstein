@@ -5,6 +5,7 @@
 import _ from 'lodash'
 import { createModel, Model } from '../../src/'
 import Fabricator from '../../src/lib/Fabricator'
+import SelfOwner from './m2mModels/SelfOwner'
 
 
 const DATABASE_URL = process.env.DATABASE_URL
@@ -24,7 +25,7 @@ const PICK_KEYS = ['id', 'name']
 describe('ManyToMany', () => {
   let Reverse = null
   let Owner = null
-  let SelfOwner = null
+  // let SelfOwner = null
   const createdModels = {}
 
   beforeEach(async () => {
@@ -41,14 +42,6 @@ describe('ManyToMany', () => {
         reverses() { return ['hasMany', Reverse] },
       }),
     })(class Owner extends Model {})
-
-    SelfOwner = createModel({
-      url: `${DATABASE_URL}/owners`,
-      schema: _.defaults({}, schema, {
-        childOwners: () => ['hasMany', SelfOwner, {as: 'parentOwners', through: 'owner_links', self: true}],
-        parentOwners: () => ['hasMany', SelfOwner, {as: 'childOwners', self: true}],
-      }),
-    })(class SelfOwner extends Model {})
 
     await Reverse.store.resetSchema({verbose: process.env.VERBOSE})
     await Owner.store.resetSchema({verbose: process.env.VERBOSE})
@@ -81,6 +74,24 @@ describe('ManyToMany', () => {
     await Owner.relation('reverses').joinTable.store.disconnect()
     await SelfOwner.store.disconnect()
     await SelfOwner.relation('parentOwners').joinTable.store.disconnect()
+  })
+
+  it('Can select a self relation with $include`', async () => {
+    const childOwner = new SelfOwner()
+    await childOwner.save()
+    const parentOwner = new SelfOwner()
+    await parentOwner.save()
+    const parentOwner2 = new SelfOwner()
+    await parentOwner2.save()
+
+    await childOwner.link('parentOwners', parentOwner.id)
+    await childOwner.link('parentOwners', parentOwner2.id)
+
+    const childOwner2 = await SelfOwner.cursor({id: childOwner.id, $one: true}).select('id').include('parentOwners').toJSON()
+
+    expect(childOwner2.parentOwners.length).toBe(2)
+    expect(childOwner2.parentOwners[0].id).toBe(parentOwner.id)
+    expect(childOwner2.parentOwners[1].id).toBe(parentOwner2.id)
   })
 
   it('Can add a m2m relation with `link` and remove with `unlink` with the same model', async () => {

@@ -164,13 +164,23 @@ export default class SqlAst {
   join(relationKey, relation, options) {
     if (options == null) { options = {} }
     this.prefixColumns = true
-    if (!relation) { relation = this.getRelation(relationKey) }
+    if (!relation) relation = this.getRelation(relationKey)
     const modelType = relation.reverseModelType
-    return this.joins[relationKey] = _.extend((this.joins[relationKey] || {}), {
+
+    const join = this.joins[relationKey] || {}
+    const tableName = modelType.tableName
+
+    const asTableName = relation.isManyToMany() && relation.self ? `_join_${tableName}` : null
+
+    _.extend(join, {
       relation,
       key: relationKey,
-      columns: Array.from(modelType.schema.columns()).map((col) => this.prefixColumn(col, modelType.tableName)),
+      columns: _.map(modelType.schema.columns(), col => this.prefixColumn(col, asTableName || tableName)),
     }, options)
+
+    if (asTableName) join.asTableName = asTableName
+
+    return this.joins[relationKey] = join
   }
 
   isJsonField(jsonField, modelType) {
@@ -357,21 +367,21 @@ export default class SqlAst {
     }
   }
 
-  jsonColumnName(attr, col, table) { return `${table}->'${col}'->>'${attr}'` }
+  jsonColumnName = (attr, col, table) => `${table}->'${col}'->>'${attr}'`
 
-  columnName(col, table) { return `${table}.${col}` } //if table and @prefixColumns then "#{table}.#{col}" else col
+  columnName = (col, table) => `${table}.${col}` //if table and @prefixColumns then "#{table}.#{col}" else col
 
   prefixColumn(col, table) {
-    if (Array.from(col).includes('.')) { return col }
+    if (Array.from(col).includes('.')) return col
     return `${table}.${col} as ${this.tablePrefix(table)}${col}`
   }
 
-  prefixColumns(cols, table) { return Array.from(cols).map((col) => this.prefixColumn(col, table)) }
+  prefixColumns = (cols, table) => Array.from(cols).map((col) => this.prefixColumn(col, table))
 
-  tablePrefix(table) { return `${table}_` }
+  tablePrefix = table => `${table}_`
 
   prefixRegex(table) {
-    if (!table) { table = this.modelType.tableName }
+    if (!table) table = this.modelType.tableName
     return new RegExp(`^${this.tablePrefix(table)}(.*)$`)
   }
 
