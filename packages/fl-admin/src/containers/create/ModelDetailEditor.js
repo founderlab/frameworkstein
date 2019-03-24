@@ -1,5 +1,5 @@
+/* eslint-env browser */
 import _ from 'lodash' // eslint-disable-line
-import qs from 'qs'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -45,8 +45,8 @@ export default function createModelDetailEditor(modelAdmin) {
 
         if (modelId) {
           query.id = modelId
-          console.log(await store.dispatch(loadModels(query)))
-          console.log(await fetchRelated({store, modelAdmin, modelIds: [modelId], loadAll: true}))
+          await store.dispatch(loadModels(query))
+          await fetchRelated({store, modelAdmin, modelIds: [modelId], loadAll: true})
         }
       }
       catch (err) {

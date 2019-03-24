@@ -5,9 +5,8 @@ import { Link } from 'react-router-dom'
 import { FormGroup, Label } from 'reactstrap'
 
 
-export default function HasMany(_props) {
-  // const { relationField, model, models, inputProps } = props
-  const { relationField, model, models, label, ...props } = _props
+export default function HasMany(props) {
+  const { relationField, model, models, label } = props
 
   // shortcut to avoid messing with saving relations: link to the related model for hasMany
   // the alternative is to set `inputProps.multiple = true` and figure it out
@@ -38,4 +37,5 @@ HasMany.propTypes = {
   model: PropTypes.object.isRequired,
   models: PropTypes.array.isRequired,
   relationField: PropTypes.object.isRequired,
+  label: PropTypes.string.isRequired,
 }

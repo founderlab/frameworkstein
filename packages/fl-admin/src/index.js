@@ -59,7 +59,6 @@ function createModelAdmin(options, modelDescriptor) {
     relationFields: {}, //references the same fields as `fields` (relations only) but is indexed by virtualIdAccessor
     components: {},
   }
-  console.log('init admin start', defaults.name)
 
   _.defaults(modelAdmin, defaults)
 
@@ -134,9 +133,11 @@ export default function configure(_options) {
   _.forEach(modelAdmins, modelAdmin => {
     _.forEach(modelAdmin.relationFields, modelField => {
       modelField.modelAdmin = _.find(modelAdmins, ma => ma.Model === modelField.Model)
+
       warning(modelField.modelAdmin, `[fl-admin] configure: Couldnt find modelAdmin for the relation ${modelField.key} of ${modelAdmin.name}`)
+
       if (!modelField._customInput) {
-        modelField.InputComponent = createRelatedInput(modelField)
+        modelField.InputComponent = createRelatedInput(modelField, modelAdmin)
       }
     })
   })

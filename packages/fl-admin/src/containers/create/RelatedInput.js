@@ -10,12 +10,13 @@ import HasMany from '../../components/inputs/HasMany'
 import InlineRelation from '../../components/inputs/InlineRelation'
 
 
-export default function createRelatedField(relationField) {
+export default function createRelatedInput(relationField, sourceModelAdmin) {
   const { modelAdmin } = relationField
   if (!modelAdmin) return null
-  const { loadModels, saveModel, deleteModel } = modelAdmin.actions
+  const { loadModels, saveModel, deleteModel, updateModel } = modelAdmin.actions
+  const { linkRelation, unlinkRelation } = sourceModelAdmin.actions
 
-  return @connect(state => ({modelStore: state.admin[modelAdmin.path]}), {loadModels, saveModel, deleteModel})
+  return @connect(state => ({modelStore: state.admin[modelAdmin.path]}), {loadModels, saveModel, deleteModel, updateModel, linkRelation, unlinkRelation})
   class RelatedInput extends Component {
 
     static propTypes = {
@@ -25,6 +26,9 @@ export default function createRelatedField(relationField) {
       loadModels: PropTypes.func,
       saveModel: PropTypes.func,
       deleteModel: PropTypes.func,
+      updateModel: PropTypes.func,
+      linkRelation: PropTypes.func,
+      unlinkRelation: PropTypes.func,
     }
 
     hasData() {
@@ -38,6 +42,14 @@ export default function createRelatedField(relationField) {
     }
     handleSaveFn = model => data => this.props.saveModel(_.extend(this.hasManyRelationAttrs(), model, data))
     handleDeleteFn = model => () => this.props.deleteModel(model)
+
+    handleLinkRelation = relation => {
+      this.props.updateModel(relation)
+      this.props.linkRelation(this.props.model, relationField.key, relationField.relation.virtualIdAccessor, relation.id)
+    }
+    handleUnlinkRelation = relation => {
+      this.props.unlinkRelation(this.props.model, relationField.key, relationField.relation.virtualIdAccessor, relation.id)
+    }
 
     render() {
       if (!this.hasData()) return <Loader type="inline" />
@@ -53,11 +65,13 @@ export default function createRelatedField(relationField) {
         if (relationField.inline) console.log('[fl-admin] inline editing belongsTo relations is not yet supported')
         return <BelongsTo {...props} />
       }
-      if (relationField.type === 'hasMany' && relationField.relation.reverseRelation.type === 'hasMany') {
+      if (relationField.relation.isManyToMany()) {
         return (
           <ManyToMany
-            relationField={relationField}
-            {...this.props}
+            models={_.map(model[relationField.relation.virtualIdAccessor], id => modelStore.get('models').get(id) && modelStore.get('models').get(id).toJSON())}
+            onLinkRelation={this.handleLinkRelation}
+            onUnlinkRelation={this.handleUnlinkRelation}
+            {...props}
           />
         )
       }

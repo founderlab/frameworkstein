@@ -22,7 +22,7 @@ export default function SmartInput(_props) {
   }
 
   if (props.type && _.includes(['boolean', 'checkbox'], props.type.toLowerCase())) props.className = 'mb-3'
-  return (<Input {...props} />)
+  return <Input {...props} />
 }
 
 SmartInput.propTypes = {

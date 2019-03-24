@@ -16,7 +16,7 @@ export default class JoinTableController extends RestController {
         if (err) return this.sendError(res, err)
         if (exists) { this.sendStatus(res, 409, 'Entry already exists') }
 
-        const model = new this.modelType(this.modelType.prototype.parse(json))
+        const model = new this.modelType(json)
 
         return model.save(err => {
           if (err) return this.sendError(res, err)

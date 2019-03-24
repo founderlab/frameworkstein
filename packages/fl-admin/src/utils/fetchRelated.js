@@ -23,31 +23,49 @@ function relatedQuery(modelIds, modelStore, relationField) {
   else if (relationField.type === 'belongsTo') {
     return query
   }
-  // Many to many, load all options
-  // TODO: async load in react-select
-  else if (relationField.type === 'hasMany' && relationField.relation.reverseRelation.type === 'hasMany') {
-    return query
-    // return {[relationField.relation.foreignKey]: {$in: modelIds}}
-  }
+
   return _.extend(query, {[relationField.relation.reverseRelation.virtualIdAccessor]: {$in: modelIds}})
 }
 
+async function fetchManyToMany(relationField, options) {
+  const { store, modelIds } = options
+  const { auth } = store.getState()
+
+  for (const id of modelIds) {
+    const query = {
+      [relationField.relation.foreignKey]: id,
+      $user_id: auth.get('user').get('id'),
+    }
+
+    const relatedAction = await store.dispatch(relationField.modelAdmin.actions.loadModels(query))
+    store.dispatch(relationField.modelAdmin.actions.setRelationIds(id, relationField.relation.virtualIdAccessor, relatedAction.ids))
+  }
+}
+
 // dispatch actions to load related models
-// assumes the action to fetch models is called 'load'
 export default async function fetchRelated(options) {
   const { store, modelAdmin, loadAll, modelIds } = options
   const { auth, admin } = store.getState()
   const modelStore = admin[modelAdmin.path]
   const promises = []
-  _.forEach(modelAdmin.relationFields, relationField => {
-    if (relationField.modelAdmin && loadAll || relationField.listEdit) {
+
+  for (const key in modelAdmin.relationFields) {
+    const relationField = modelAdmin.relationFields[key]
+    if (!relationField.modelAdmin || !(loadAll || relationField.listEdit)) return
+
+    // load m2m relations serially so they can be placed on the model
+    if (relationField.relation.isManyToMany()) {
+      await fetchManyToMany(relationField, options)
+    }
+    else {
       const query = relatedQuery(modelIds, modelStore, relationField)
       if (!query) return
 
+      // load other relations in parallel
       query.$user_id = auth.get('user').get('id')
       promises.push(store.dispatch(relationField.modelAdmin.actions.loadModels(query)))
     }
-  })
+  }
 
   return Promise.all(promises)
 }

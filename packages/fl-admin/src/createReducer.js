@@ -45,6 +45,13 @@ export default function createReducer(modelAdmin) {
           modelIds: action.modelIds,
         })
 
+      case modelAdmin.actionType + '_UPDATE':
+        return state.mergeDeep({
+          models: {
+            [action.model.id]: action.model,
+          },
+        })
+
       case modelAdmin.actionType + '_SAVE_SUCCESS':
         return state.merge({
           loading: false,
@@ -65,6 +72,27 @@ export default function createReducer(modelAdmin) {
           errors: {},
           pagination: pagination(state.get('pagination'), action),
         })
+
+      case modelAdmin.actionType + '_SET_RELATION_IDS':
+        const { modelId, key, ids } = action
+        return state.setIn(['models', modelId, key], ids)
+
+      case modelAdmin.actionType + '_LINK_RELATION_START':
+        return state.merge({
+          errors: {},
+        })
+      case modelAdmin.actionType + '_LINK_RELATION_ERROR':
+        return state.merge({loading: false, errors: {link: action.error || action.res.body.error}})
+
+      case modelAdmin.actionType + '_LINK_RELATION_SUCCESS':
+        const model = state.get('models').get(action.modelId).toJSON()
+        model[action.idsKey] = _.uniq([...(model[action.idsKey] || []), action.relatedModelId])
+        return state.setIn(['models', action.modelId], fromJS(model))
+
+      case modelAdmin.actionType + '_UNLINK_RELATION_SUCCESS':
+        const removingFromModel = state.get('models').get(action.modelId).toJSON()
+        removingFromModel[action.idsKey] = _.without(removingFromModel[action.idsKey] || [], action.relatedModelId)
+        return state.setIn(['models', action.modelId], fromJS(removingFromModel))
 
       default:
         return state

@@ -1,27 +1,83 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Input } from 'fl-react-utils'
+import { Async } from 'react-select'
+import { Link } from 'react-router-dom'
+import { Row, Col, Button } from 'reactstrap'
 
 
-export default function ManyToMany(_props) {
-  const { relationField, modelStore, ...props } = _props
-  const models = modelStore.get('models').toJSON ? modelStore.get('models').toJSON() : {}
+export default class ManyToMany extends React.PureComponent {
+  static propTypes = {
+    models: PropTypes.array,
+    relationField: PropTypes.object.isRequired,
+    label: PropTypes.string.isRequired,
+    onLinkRelation: PropTypes.func.isRequired,
+    onUnlinkRelation: PropTypes.func.isRequired,
+  }
 
-  // const selectOptions = _.map(models, model => (<option key={model.id} value={model.id}>{relationField.modelAdmin.display(model)}</option>))
-  const options = _.map(models, model => ({label: relationField.modelAdmin.display(model), value: model.id}))
+  state = {}
 
-  return (
-    <Input
-      type="react-select"
-      options={options}
-      inputProps={{multi: true}}
-      {...props}
-    />
-  )
-}
+  loadOptions = (input, callback) => {
+    const { relationField } = this.props
+    if (!input.length) return callback(null, {options: [], complete: false})
+    const RelatedModel = relationField.relation.reverseRelation.modelType
 
-ManyToMany.propTypes = {
-  relationField: PropTypes.object.isRequired,
-  modelStore: PropTypes.object.isRequired,
+    const query = {
+      $or: [{name: {$search: input}}],
+    }
+
+    RelatedModel.cursor(query).toJSON((err, relatedModels) => {
+      if (err) return console.log(err)
+
+      const options = _.map(relatedModels, relatedModel => ({
+        relatedModel,
+        value: relatedModel.id,
+        label: relationField.modelAdmin.display(relatedModel),
+      }))
+      callback(null, {options, complete: true})
+    })
+  }
+
+  handleLinkRelation = option => {
+    this.props.onLinkRelation(option.relatedModel)
+  }
+
+  handleUnlinkRelationFn = relation => () => {
+    this.props.onUnlinkRelation(relation)
+  }
+
+  render() {
+    const { label, models, relationField } = this.props
+    const { modelAdmin } = relationField
+
+    return (
+      <div className="m2m form-group">
+        <label>{label}</label>
+        <Async
+          placeholder="Name"
+          loadOptions={this.loadOptions}
+          value={this.state.selectedRelation}
+          onChange={this.handleLinkRelation}
+          onBlurResetsInput={false}
+          onCloseResetsInput={false}
+          autoload={false}
+        />
+
+        <div className="list-group mt-2">
+          {_.map(models, relatedModel => (
+            <div className="list-group-item" key={relatedModel.id}>
+              <Row>
+                <Col className="d-flex align-items-center">
+                  <Link to={modelAdmin.link(relatedModel)} target="_blank">{modelAdmin.display(relatedModel)}</Link>
+                </Col>
+                <Col xs="auto">
+                  <Button color="danger" size="sm" onClick={this.handleUnlinkRelationFn(relatedModel)}><i className="fa fa-times" /></Button>
+                </Col>
+              </Row>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
 }
