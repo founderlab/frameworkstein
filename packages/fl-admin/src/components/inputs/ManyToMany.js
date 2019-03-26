@@ -9,6 +9,7 @@ import { Row, Col, Button } from 'reactstrap'
 export default class ManyToMany extends React.PureComponent {
   static propTypes = {
     models: PropTypes.array,
+    model: PropTypes.object.isRequired,
     relationField: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
     onLinkRelation: PropTypes.func.isRequired,
@@ -47,36 +48,42 @@ export default class ManyToMany extends React.PureComponent {
   }
 
   render() {
-    const { label, models, relationField } = this.props
+    const { label, model, models, relationField } = this.props
     const { modelAdmin } = relationField
 
     return (
       <div className="m2m form-group">
         <label>{label}</label>
-        <Async
-          placeholder="Name"
-          loadOptions={this.loadOptions}
-          value={this.state.selectedRelation}
-          onChange={this.handleLinkRelation}
-          onBlurResetsInput={false}
-          onCloseResetsInput={false}
-          autoload={false}
-        />
+        {model.id ? (
+          <React.Fragment>
+            <Async
+              placeholder="Name"
+              loadOptions={this.loadOptions}
+              value={this.state.selectedRelation}
+              onChange={this.handleLinkRelation}
+              onBlurResetsInput={false}
+              onCloseResetsInput={false}
+              autoload={false}
+            />
 
-        <div className="list-group mt-2">
-          {_.map(models, relatedModel => (
-            <div className="list-group-item" key={relatedModel.id}>
-              <Row>
-                <Col className="d-flex align-items-center">
-                  <Link to={modelAdmin.link(relatedModel)} target="_blank">{modelAdmin.display(relatedModel)}</Link>
-                </Col>
-                <Col xs="auto">
-                  <Button color="danger" size="sm" onClick={this.handleUnlinkRelationFn(relatedModel)}><i className="fa fa-times" /></Button>
-                </Col>
-              </Row>
+            <div className="list-group mt-2">
+              {_.map(models, relatedModel => (
+                <div className="list-group-item" key={relatedModel.id}>
+                  <Row>
+                    <Col className="d-flex align-items-center">
+                      <Link to={modelAdmin.link(relatedModel)} target="_blank">{modelAdmin.display(relatedModel)}</Link>
+                    </Col>
+                    <Col xs="auto">
+                      <Button color="danger" size="sm" onClick={this.handleUnlinkRelationFn(relatedModel)}><i className="fa fa-times" /></Button>
+                    </Col>
+                  </Row>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </React.Fragment>
+        ) : (
+          <p className="text-muted">Hit save to edit this relation.</p>
+        )}
       </div>
     )
   }
