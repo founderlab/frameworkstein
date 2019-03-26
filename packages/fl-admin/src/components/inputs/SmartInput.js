@@ -6,7 +6,8 @@ import JsonInput from './JsonInput'
 
 
 export default function SmartInput(_props) {
-  const { modelField, ...props } = _props
+  const { modelField, ...__props } = _props
+  const props = {...modelField, ...__props}
 
   // Type of text input specified
   const inputType = modelField.input || modelField.type || props.type
@@ -22,6 +23,7 @@ export default function SmartInput(_props) {
   }
 
   if (props.type && _.includes(['boolean', 'checkbox'], props.type.toLowerCase())) props.className = 'mb-3'
+
   return <Input {...props} />
 }
 
