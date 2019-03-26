@@ -62,7 +62,7 @@ import { promisify } from 'util'
  * For example, given some models with json data like `{id: 1, nestedUsers: [{name: 'bob'}, {name: 'emily'}]}` we could query on the nestedUsers name field with `{'nestedUsers.name': 'bob'}` or `{'nestedUsers.name': {$in: ['emily', 'frank']}`
 
  * @example
- * const cursor = MyModel.cursor({name: 'bob', $one: true}) // cursor represents a query for models named bob
+ * const cursor = MyModel.cursor({name: 'bob', $one: true}) // cursor represents a query for a single model named 'bob'
  * cursor.select('id', 'name')                              // only select the 'id', and 'name' fields. This is equivalent to including {$select: ['id', 'name']} in the query object
  * const results = await cursor.toJSON()                    // toJSON or toModels will execute the query represented by this cursor and return the results
  */

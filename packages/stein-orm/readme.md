@@ -55,7 +55,7 @@ import { createModel, Model } from 'stein-orm-sql'    // Import from `stein-orm-
 @createModel({                                        // The `createModel` decorator configures the model when called
   url: 'postgres://localhost:5432/stein-orm/users',   // The url of your database, including the table name
   schema: () => ({                                    // Schema definition, see [stein-orm-sql](https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm) for column options and `relations` below for relations.
-    name: 'Text', 
+    name: 'Text',
   }),
 })
 export default class User extends Model {             // Extending the `stein-orm` `Model` class

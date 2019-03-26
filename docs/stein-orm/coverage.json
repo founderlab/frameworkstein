@@ -1,0 +1,242 @@
+{
+  "coverage": "1.16%",
+  "expectCount": 171,
+  "actualCount": 2,
+  "files": {
+    "src/Cursor.js": {
+      "expectCount": 32,
+      "actualCount": 2,
+      "undocumentLines": [
+        80,
+        84,
+        85,
+        95,
+        96,
+        97,
+        99,
+        105,
+        111,
+        117,
+        123,
+        130,
+        135,
+        136,
+        138,
+        139,
+        141,
+        142,
+        144,
+        170,
+        172,
+        173,
+        176,
+        184,
+        187,
+        198,
+        235,
+        264,
+        288,
+        306
+      ]
+    },
+    "src/Model.js": {
+      "expectCount": 49,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        7,
+        9,
+        22,
+        23,
+        24,
+        28,
+        30,
+        31,
+        41,
+        47,
+        53,
+        77,
+        85,
+        107,
+        120,
+        130,
+        135,
+        142,
+        147,
+        154,
+        165,
+        193,
+        197,
+        210,
+        214,
+        218,
+        222,
+        226,
+        230,
+        234,
+        238,
+        242,
+        246,
+        250,
+        257,
+        261,
+        271,
+        275,
+        286,
+        295,
+        304,
+        313,
+        321,
+        325,
+        335,
+        339,
+        340,
+        341
+      ]
+    },
+    "src/Schema.js": {
+      "expectCount": 25,
+      "actualCount": 0,
+      "undocumentLines": [
+        8,
+        23,
+        25,
+        26,
+        27,
+        28,
+        30,
+        31,
+        32,
+        37,
+        39,
+        50,
+        52,
+        83,
+        85,
+        86,
+        89,
+        93,
+        98,
+        105,
+        116,
+        127,
+        157,
+        176,
+        206
+      ]
+    },
+    "src/createModel.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        5
+      ]
+    },
+    "src/lib/DatabaseUrl.js": {
+      "expectCount": 9,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        6,
+        9,
+        30,
+        38,
+        39,
+        43,
+        46,
+        66
+      ]
+    },
+    "src/lib/Fabricator.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        8,
+        15,
+        27,
+        35,
+        42,
+        49,
+        62,
+        77
+      ]
+    },
+    "src/lib/naming.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        5,
+        9,
+        13,
+        20,
+        27
+      ]
+    },
+    "src/lib/utils.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        8,
+        15,
+        18,
+        24,
+        47,
+        58,
+        78
+      ]
+    },
+    "src/relations/Many.js": {
+      "expectCount": 15,
+      "actualCount": 0,
+      "undocumentLines": [
+        6,
+        7,
+        9,
+        10,
+        11,
+        15,
+        19,
+        23,
+        26,
+        30,
+        35,
+        37,
+        40,
+        41,
+        70
+      ]
+    },
+    "src/relations/One.js": {
+      "expectCount": 12,
+      "actualCount": 0,
+      "undocumentLines": [
+        7,
+        8,
+        10,
+        11,
+        13,
+        14,
+        16,
+        21,
+        23,
+        26,
+        27,
+        43
+      ]
+    },
+    "src/relations/Relation.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        7,
+        8,
+        10,
+        15,
+        19
+      ]
+    }
+  }
+}

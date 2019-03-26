@@ -1,0 +1,4610 @@
+[
+  {
+    "__docId__": 1,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Infinity",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 2,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~NaN",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 3,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~undefined",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 4,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~null",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 5,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 6,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 7,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 8,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 9,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 10,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 11,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Symbol",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 12,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Error",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 13,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~EvalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 14,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~InternalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 15,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~RangeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 16,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~ReferenceError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 17,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~SyntaxError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 18,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~TypeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 19,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~URIError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 20,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 21,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 22,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Date",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 23,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~String",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 24,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~string",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 25,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~RegExp",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 26,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 27,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 28,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 29,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint8ClampedArray",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 30,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 31,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 32,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 33,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 34,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Float32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 35,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Float64Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 36,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Map",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 37,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Set",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 38,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~WeakMap",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~WeakSet",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~ArrayBuffer",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 41,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~DataView",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 42,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~JSON",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 43,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Promise",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 44,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Generator",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 45,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~GeneratorFunction",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 46,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Reflect",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 47,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Proxy",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 48,
+    "kind": "file",
+    "name": "src/Cursor.js",
+    "content": "/* eslint-disable\n  new-cap,\n  no-continue,\n*/\nimport _ from 'lodash'\nimport { promisify } from 'util'\n\n/**\n * This class is created via `Model.cursor()`, which will return an instance of `Cursor` that can be used to build a database query.\n * `Cursor` shouldn't be instantiated outside of the `Model.cursor()` class method.\n\n\n * #### Cursor options\n * Cursor accepts the following query options. These options can be specified with chained methods or properties within a query object prefixed with $.\n\n * `one [bool]` return a single object rather than an array\n\n * `values [array]` return, for each model found, an array of values rather than an object. For example, Model.cursor().values(['id', name']) will return a 2d array like [[1, 'Bob'], [2, 'Emily']]\n\n * `select [array]` select only the given fields from the db\n\n * `count [bool]` return a count of the number of models matching the given query\n\n * `exists [bool]` return a boolean indicating whether any number of models exist matching the given query\n\n * `unique [string]` like `select disctinct`, return no more than one result per distinct value of the given field\n\n * `limit [number]` limit results to the given number of rows\n\n * `offset [number]` offset results by the given number of rows\n\n * `page: [bool]` if true, return paging information with results. Querries will return an object of the form {rows, totalRows, offset}\n\n\n * #### Field modifiers\n * Each field in a query can either be a plan value, which will be matched against directly, or an object with the following special matches:\n\n * `$in [array]` field matches any of the given values `{name: {$in: ['bob', emily']}}` => `name in ('bob', 'emily')`\n\n * `$nin [array]` field matches none of the given values `{name: {$nin: ['bob', emily']}}` => `name not in ('bob', 'emily')`\n\n * `$exists [bool]` equivalent to a null check `{name: {$exists: true}}` => `name is not null`\n\n\n * #### Query conditions\n * Advanced conditional operations\n\n * `$or [array]` matches any of the given queries `{$or: [{name: 'bob'}, {city: 'sydney'}]}` => `name = 'bob' or city = 'sydney'`\n\n * `$and [array]` matches all of the given queries. Doesn't do anything on its own, but is useful when nesting conditionals `{$and: [{name: 'bob'}, {city: 'sydney'}]}` => `name = 'bob' and city = 'sydney'`\n\n\n * #### Relation queries\n * Related models can be queried using `{'relation.field': value}`. All options available to local fields work with relations. Relations must be configured in each models' schema.\n\n * For example, if we had a user model related to a profile model containing a `name` field we could domsomething like `{'profile.name': {$in: ['bob', emily']}}`, which would generate sql similar to `select * from users, profiles where profiles.name in ('bob', 'emily') and profiles.user_id = users.id`\n\n\n * #### JSONb queries\n * JSON fields can be queried in a similar way to related fields: `{'jsonfield.field': value}`\n\n * For example, given some models with json data like `{id: 1, nestedUsers: [{name: 'bob'}, {name: 'emily'}]}` we could query on the nestedUsers name field with `{'nestedUsers.name': 'bob'}` or `{'nestedUsers.name': {$in: ['emily', 'frank']}`\n\n * @example\n * const cursor = MyModel.cursor({name: 'bob', $one: true}) // cursor represents a query for models named bob\n * cursor.select('id', 'name')                              // only select the 'id', and 'name' fields. This is equivalent to including {$select: ['id', 'name']} in the query object\n * const results = await cursor.toJSON()                    // toJSON or toModels will execute the query represented by this cursor and return the results\n */\nexport default class Cursor {\n\n  /**\n   * Called with `Model.cursor()`\n   * @param {object} query an initial query\n   * @param {object} options additional options (currently unused)\n   */\n  constructor(query, options) {\n    this.relatedModelTypesInQuery = this.relatedModelTypesInQuery.bind(this)\n\n    for (const key in options) {\n      if (options.hasOwnProperty(key)) this[key] = options[key]\n    }\n\n    const parsedQuery = Cursor.parseQuery(query, this.modelType)\n    this._find = parsedQuery.find\n    this._cursor = parsedQuery.cursor\n\n    // ensure arrays\n    for (const key of ['$whitelist', '$select', '$values', '$unique', '$include']) {\n      if (this._cursor[key] && !_.isArray(this._cursor[key])) {\n        this._cursor[key] = [this._cursor[key]]\n      }\n    }\n  }\n\n  offset(offset) { this._cursor.$offset = offset; return this }\n  limit(limit) { this._cursor.$limit = limit; return this }\n  sort(sort) { this._cursor.$sort = sort; return this }\n\n  whiteList(...args) {\n    const keys = _.flatten(args)\n    this._cursor.$whitelist = this._cursor.$whitelist ? _.intersection(this._cursor.$whitelist, keys) : keys\n    return this\n  }\n\n  select(...args) {\n    const keys = _.flatten(args)\n    this._cursor.$select = this._cursor.$select ? _.intersection(this._cursor.$select, keys) : keys\n    return this\n  }\n\n  include(...args) {\n    const keys = _.flatten(args)\n    this._cursor.$include = this._cursor.$include ? _.intersection(this._cursor.$include, keys) : keys\n    return this\n  }\n\n  values(...args) {\n    const keys = _.flatten(args)\n    this._cursor.$values = this._cursor.$values ? _.intersection(this._cursor.$values, keys) : keys\n    return this\n  }\n\n  unique(...args) {\n    const keys = _.flatten(args)\n    this._cursor.$unique = this._cursor.$unique ? _.intersection(this._cursor.$unique, keys) : keys\n    return this\n  }\n\n  // @nodoc\n  ids() { this._cursor.$values = ['id']; return this }\n\n  //#############################################\n  // Execution of the Query\n\n  _count = (callback) => this.execWithCursorQuery('$count', 'toJSON', callback)\n  count = (callback) => callback ? this._count(callback) : promisify(this._count)()\n\n  _exists = (callback) => this.execWithCursorQuery('$exists', 'toJSON', callback)\n  exists = (callback) => callback ? this._exists(callback) : promisify(this._exists)()\n\n  _toModel = (callback) => this.execWithCursorQuery('$one', 'toModels', callback)\n  toModel = (callback) => callback ? this._toModel(callback) : promisify(this._toModel)()\n\n  _toModels = (callback) => {\n    if (this._cursor.$values) { return callback(new Error(`Cannot call toModels on cursor with $values for model ${this.modelType.modelName}. Values: ${JSON.stringify(this._cursor.$values)}`)) }\n\n    return this.toJSON((err, res) => {\n      if (err) return callback(err)\n      if (this._cursor.$one && !res) return callback(null, null)\n      let json = this.hasCursorQuery('$page') ? res.rows : res\n      if (!_.isArray(json)) json = [json]\n\n      return this.prepareIncludes(json, (err, json) => {\n        const models = _.map(json, data => new this.modelType(data))\n        let result\n        if (this.hasCursorQuery('$page')) {\n          result = res\n          result.rows = models\n        }\n        else if (this._cursor.$one) {\n          result = models[0]\n        }\n        else {\n          result = models\n        }\n        return callback(null, result)\n      })\n    })\n  }\n  toModels = (callback) => callback ? this._toModels(callback) : promisify(this._toModels)()\n\n  _toJSON = (callback) => this.queryToJSON(callback)\n  toJSON = (callback) => callback ? this._toJSON(callback) : promisify(this._toJSON)()\n\n  // Subclasses must implement\n  queryToJSON() { throw new Error('queryToJSON must be implemented by a cursor subclass') }\n\n\n  //#############################################\n  // Helpers\n  //#############################################\n\n  // @nodoc\n  hasCursorQuery = (key) => this._cursor[key] || (this._cursor[key] === '')\n\n  // @nodoc\n  execWithCursorQuery(key, method, callback) {\n    const value = this._cursor[key]\n    this._cursor[key] = true\n    return this[method]((err, json) => {\n      if (_.isUndefined(value)) { delete this._cursor[key] }\n      else { this._cursor[key] = value }\n      return callback(err, json)\n    })\n  }\n\n  // @nodoc\n  relatedModelTypesInQuery() {\n    let relationKey\n    let relatedFields = []\n    const relatedModelTypes = []\n\n    for (let key in this._find) {\n\n      // A dot indicates a condition on a related model\n      const reverseRelation = this.modelType.reverseRelation(key)\n      // const value = this._find[key]\n      if (key.indexOf('.') > 0) {\n        [relationKey, key] = Array.from(key.split('.'))\n        relatedFields.push(relationKey)\n\n      // Many to Many relationships may be queried on the foreign key of the join table\n      }\n      else if (reverseRelation && reverseRelation.joinTable) {\n        relatedModelTypes.push(reverseRelation.modelType)\n        relatedModelTypes.push(reverseRelation.joinTable)\n      }\n    }\n\n    if (this._cursor != null ? this._cursor.$include : undefined) { relatedFields = relatedFields.concat(this._cursor.$include) }\n    for (relationKey of Array.from(relatedFields)) {\n      const relation = this.modelType.schema.relation(relationKey)\n      if (relation) {\n        relatedModelTypes.push(relation.reverseModelType)\n        if (relation.joinTable) {\n          relatedModelTypes.push(relation.joinTable)\n        }\n      }\n    }\n\n    return relatedModelTypes\n  }\n\n  // @nodoc\n  selectResults(json) {\n    let result = json\n\n    if (this._cursor.$one) result = result.slice(0, 1)\n\n    if (this._cursor.$values) {\n      const $values = this._cursor.$whitelist ? _.intersection(this._cursor.$values, this._cursor.$whitelist) : this._cursor.$values\n      result = this._cursor.$values.length === 1 ? _.map(json, item => item[$values[0]] || null) : _.map(json, item => _.map($values, key => item[key] || null))\n    }\n\n    else if (this._cursor.$select) {\n      let $select = this._cursor.$select\n      if (this._cursor.$include) $select = [...$select, ...this._cursor.$include]\n      if (this._cursor.$whitelist) $select = _.intersection(this._cursor.$select, this._cursor.$whitelist)\n      $select = _.map($select, field => field.includes('.') ? field.split('.').pop() : field)\n      result = _.map(json, item => _.pick(item, $select))\n    }\n\n    else if (this._cursor.$whitelist) {\n      result = _.map(json, item => _.pick(item, this._cursor.$whitelist))\n    }\n\n    if (this.hasCursorQuery('$page')) return result // paging expects an array\n    if (this._cursor.$one) return result[0] || null\n\n    return result\n  }\n\n  // @nodoc\n  prepareIncludes(json, callback) {\n    if (!_.isArray(this._cursor.$include) || _.isEmpty(this._cursor.$include)) return callback(null, json)\n    const schema = this.modelType.schema\n\n    for (const include of this._cursor.$include) {\n      const relation = schema.relation(include)\n\n      for (const modelJson of json) {\n        // many\n        const relatedJson = modelJson[include]\n        if (_.isArray(relatedJson)) {\n          modelJson[include] = _.map(relatedJson, item => new relation.reverseModelType(item))\n        }\n        // one\n        else if (relatedJson) {\n          modelJson[include] = new relation.reverseModelType(relatedJson)\n        }\n      }\n    }\n\n    return callback(null, json)\n  }\n\n  // @nodoc\n  static validateQuery(query, memo, modelType) {\n    const result = []\n    for (const key in query) {\n      const value = query[key]\n      if (!_.isUndefined(value) && !_.isObject(value)) continue\n\n      const fullKey = memo ? `${memo}.${key}` : key\n      if (_.isUndefined(value)) { throw new Error(`Unexpected undefined for query key '${fullKey}' on ${(modelType != null ? modelType.modelName : undefined)}`) }\n\n      if (_.isObject(value)) { result.push(this.validateQuery(value, fullKey, modelType)) }\n      else {\n        result.push(undefined)\n      }\n    }\n    return result\n  }\n\n  // @nodoc\n  static parseQuery(query, modelType) {\n    if (!query) {\n      return {find: {}, cursor: {}}\n    }\n    else if (!_.isObject(query)) {\n      return {find: {id: query}, cursor: {$one: true}}\n    }\n    else if (query.find || query.cursor) {\n      return {find: query.find || {}, cursor: query.cursor || {}}\n    }\n    try {\n      this.validateQuery(query, null, modelType)\n    }\n    catch (e) {\n      throw new Error(`Error: ${e}. Query: `, query)\n    }\n    const parsedQuery = {find: {}, cursor: {}}\n    for (const key in query) {\n      const value = query[key]\n      if (key[0] !== '$') { parsedQuery.find[key] = value }\n      else { parsedQuery.cursor[key] = value }\n    }\n    return parsedQuery\n  }\n\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/Cursor.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 49,
+    "kind": "class",
+    "name": "Cursor",
+    "memberof": "src/Cursor.js",
+    "static": true,
+    "longname": "src/Cursor.js~Cursor",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/Cursor.js",
+    "importStyle": "Cursor",
+    "description": "This class is created via `Model.cursor()`, which will return an instance of `Cursor` that can be used to build a database query.\n`Cursor` shouldn't be instantiated outside of the `Model.cursor()` class method.\n\n\n#### Cursor options\nCursor accepts the following query options. These options can be specified with chained methods or properties within a query object prefixed with $.\n\n`one [bool]` return a single object rather than an array\n\n`values [array]` return, for each model found, an array of values rather than an object. For example, Model.cursor().values(['id', name']) will return a 2d array like [[1, 'Bob'], [2, 'Emily']]\n\n`select [array]` select only the given fields from the db\n\n`count [bool]` return a count of the number of models matching the given query\n\n`exists [bool]` return a boolean indicating whether any number of models exist matching the given query\n\n`unique [string]` like `select disctinct`, return no more than one result per distinct value of the given field\n\n`limit [number]` limit results to the given number of rows\n\n`offset [number]` offset results by the given number of rows\n\n`page: [bool]` if true, return paging information with results. Querries will return an object of the form {rows, totalRows, offset}\n\n\n#### Field modifiers\nEach field in a query can either be a plan value, which will be matched against directly, or an object with the following special matches:\n\n`$in [array]` field matches any of the given values `{name: {$in: ['bob', emily']}}` => `name in ('bob', 'emily')`\n\n`$nin [array]` field matches none of the given values `{name: {$nin: ['bob', emily']}}` => `name not in ('bob', 'emily')`\n\n`$exists [bool]` equivalent to a null check `{name: {$exists: true}}` => `name is not null`\n\n\n#### Query conditions\nAdvanced conditional operations\n\n`$or [array]` matches any of the given queries `{$or: [{name: 'bob'}, {city: 'sydney'}]}` => `name = 'bob' or city = 'sydney'`\n\n`$and [array]` matches all of the given queries. Doesn't do anything on its own, but is useful when nesting conditionals `{$and: [{name: 'bob'}, {city: 'sydney'}]}` => `name = 'bob' and city = 'sydney'`\n\n\n#### Relation queries\nRelated models can be queried using `{'relation.field': value}`. All options available to local fields work with relations. Relations must be configured in each models' schema.\n\nFor example, if we had a user model related to a profile model containing a `name` field we could domsomething like `{'profile.name': {$in: ['bob', emily']}}`, which would generate sql similar to `select * from users, profiles where profiles.name in ('bob', 'emily') and profiles.user_id = users.id`\n\n\n#### JSONb queries\nJSON fields can be queried in a similar way to related fields: `{'jsonfield.field': value}`\n\nFor example, given some models with json data like `{id: 1, nestedUsers: [{name: 'bob'}, {name: 'emily'}]}` we could query on the nestedUsers name field with `{'nestedUsers.name': 'bob'}` or `{'nestedUsers.name': {$in: ['emily', 'frank']}`",
+    "examples": [
+      "const cursor = MyModel.cursor({name: 'bob', $one: true}) // cursor represents a query for models named bob\ncursor.select('id', 'name')                              // only select the 'id', and 'name' fields. This is equivalent to including {$select: ['id', 'name']} in the query object\nconst results = await cursor.toJSON()                    // toJSON or toModels will execute the query represented by this cursor and return the results"
+    ],
+    "lineNumber": 69,
+    "interface": false
+  },
+  {
+    "__docId__": 50,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#constructor",
+    "access": "public",
+    "description": "Called with `Model.cursor()`",
+    "lineNumber": 76,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "query",
+        "description": "an initial query"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "options",
+        "description": "additional options (currently unused)"
+      }
+    ]
+  },
+  {
+    "__docId__": 52,
+    "kind": "member",
+    "name": "[key]",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#[key]",
+    "access": "public",
+    "description": null,
+    "lineNumber": 80,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 53,
+    "kind": "member",
+    "name": "_find",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#_find",
+    "access": "private",
+    "description": null,
+    "lineNumber": 84,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 54,
+    "kind": "member",
+    "name": "_cursor",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#_cursor",
+    "access": "private",
+    "description": null,
+    "lineNumber": 85,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 55,
+    "kind": "method",
+    "name": "offset",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#offset",
+    "access": "public",
+    "description": null,
+    "lineNumber": 95,
+    "undocument": true,
+    "params": [
+      {
+        "name": "offset",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 56,
+    "kind": "method",
+    "name": "limit",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#limit",
+    "access": "public",
+    "description": null,
+    "lineNumber": 96,
+    "undocument": true,
+    "params": [
+      {
+        "name": "limit",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 57,
+    "kind": "method",
+    "name": "sort",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#sort",
+    "access": "public",
+    "description": null,
+    "lineNumber": 97,
+    "undocument": true,
+    "params": [
+      {
+        "name": "sort",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "method",
+    "name": "whiteList",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#whiteList",
+    "access": "public",
+    "description": null,
+    "lineNumber": 99,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 59,
+    "kind": "method",
+    "name": "select",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#select",
+    "access": "public",
+    "description": null,
+    "lineNumber": 105,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 60,
+    "kind": "method",
+    "name": "include",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#include",
+    "access": "public",
+    "description": null,
+    "lineNumber": 111,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 61,
+    "kind": "method",
+    "name": "values",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#values",
+    "access": "public",
+    "description": null,
+    "lineNumber": 117,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 62,
+    "kind": "method",
+    "name": "unique",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#unique",
+    "access": "public",
+    "description": null,
+    "lineNumber": 123,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 63,
+    "kind": "method",
+    "name": "ids",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#ids",
+    "access": "public",
+    "description": null,
+    "lineNumber": 130,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 64,
+    "kind": "member",
+    "name": "_count",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#_count",
+    "access": "private",
+    "description": null,
+    "lineNumber": 135,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 65,
+    "kind": "member",
+    "name": "count",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#count",
+    "access": "public",
+    "description": null,
+    "lineNumber": 136,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 66,
+    "kind": "member",
+    "name": "_exists",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#_exists",
+    "access": "private",
+    "description": null,
+    "lineNumber": 138,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 67,
+    "kind": "member",
+    "name": "exists",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#exists",
+    "access": "public",
+    "description": null,
+    "lineNumber": 139,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 68,
+    "kind": "member",
+    "name": "_toModel",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#_toModel",
+    "access": "private",
+    "description": null,
+    "lineNumber": 141,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 69,
+    "kind": "member",
+    "name": "toModel",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#toModel",
+    "access": "public",
+    "description": null,
+    "lineNumber": 142,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 70,
+    "kind": "member",
+    "name": "_toModels",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#_toModels",
+    "access": "private",
+    "description": null,
+    "lineNumber": 144,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 71,
+    "kind": "member",
+    "name": "toModels",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#toModels",
+    "access": "public",
+    "description": null,
+    "lineNumber": 170,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 72,
+    "kind": "member",
+    "name": "_toJSON",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#_toJSON",
+    "access": "private",
+    "description": null,
+    "lineNumber": 172,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 73,
+    "kind": "member",
+    "name": "toJSON",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#toJSON",
+    "access": "public",
+    "description": null,
+    "lineNumber": 173,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 74,
+    "kind": "method",
+    "name": "queryToJSON",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#queryToJSON",
+    "access": "public",
+    "description": null,
+    "lineNumber": 176,
+    "undocument": true,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 75,
+    "kind": "member",
+    "name": "hasCursorQuery",
+    "memberof": "src/Cursor.js~Cursor",
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#hasCursorQuery",
+    "access": "public",
+    "description": null,
+    "lineNumber": 184,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 76,
+    "kind": "method",
+    "name": "execWithCursorQuery",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#execWithCursorQuery",
+    "access": "public",
+    "description": null,
+    "lineNumber": 187,
+    "undocument": true,
+    "params": [
+      {
+        "name": "key",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "method",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 77,
+    "kind": "method",
+    "name": "relatedModelTypesInQuery",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#relatedModelTypesInQuery",
+    "access": "public",
+    "description": null,
+    "lineNumber": 198,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 78,
+    "kind": "method",
+    "name": "selectResults",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#selectResults",
+    "access": "public",
+    "description": null,
+    "lineNumber": 235,
+    "undocument": true,
+    "params": [
+      {
+        "name": "json",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 79,
+    "kind": "method",
+    "name": "prepareIncludes",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Cursor.js~Cursor#prepareIncludes",
+    "access": "public",
+    "description": null,
+    "lineNumber": 264,
+    "undocument": true,
+    "params": [
+      {
+        "name": "json",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 80,
+    "kind": "method",
+    "name": "validateQuery",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Cursor.js~Cursor.validateQuery",
+    "access": "public",
+    "description": null,
+    "lineNumber": 288,
+    "undocument": true,
+    "params": [
+      {
+        "name": "query",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "memo",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "modelType",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 81,
+    "kind": "method",
+    "name": "parseQuery",
+    "memberof": "src/Cursor.js~Cursor",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Cursor.js~Cursor.parseQuery",
+    "access": "public",
+    "description": null,
+    "lineNumber": 306,
+    "undocument": true,
+    "params": [
+      {
+        "name": "query",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "modelType",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 82,
+    "kind": "file",
+    "name": "src/Model.js",
+    "content": "import _ from 'lodash'\nimport { promisify } from 'util'\n\n\nexport default class SteinModel {\n\n  data = {}\n\n  constructor(data={}) {\n    // Only apply defaults if the model is created without an id\n    if (!data.id) {\n      const defaultsSrc = this.constructor.defaults || this.defaults || {}\n      this.data = _.cloneDeep(_.isFunction(defaultsSrc) ? defaultsSrc() : defaultsSrc)\n    }\n    this.set(data)\n  }\n\n\n  /* ------------------\n   * Instance getters *\n   ------------------ */\n  get name() { return this.constructor && this.constructor.name }\n  get schema() { return this.constructor && this.constructor.schema }\n  get store() {\n    if (!this.constructor.store) throw new Error(`Store has not been defined for model ${this.name}`)\n    return this.constructor.store\n  }\n  get url() { return this.store && this.store.url }\n\n  relation = (...args) => this.schema.relation(...args)\n  joinTable = (...args) => this.schema.joinTable(...args)\n\n\n  /* ------------------\n   * Instance methods *\n   ------------------ */\n\n  /*\n   * Legacy, may be removed later\n   */\n  parse = data => data\n\n  /*\n   * Get the value of a data field\n   * Kept ofr backwards compatibility with backbone models\n   */\n  get = key => this.data[key]\n\n  /*\n   * Set this models data\n   * If a value for `id` is present it is assigned to `model.id`\n   */\n  set = (field, _data) => {\n    let data = {}\n    if (_.isObject(field)) {\n      data = field\n    }\n    else if (_.isString(field)) {\n      data = {[field]: _data}\n    }\n    else {\n      throw new Error('Unrecognised arguments to set:', field, _data, 'first argument should be a string or object')\n    }\n\n    // Check if we need to update a foreign key for a belongsTo relation\n    // For example `model.set({relation: {id: 1}})` should be equivalent to `model.set({relation_id: 1})`\n    const relationIds = {}\n    _.forEach(data, (value, key) => {\n      if (value && value.id) {\n        const relation = this.schema.relation(key)\n        if (relation && relation.type === 'belongsTo') relationIds[relation.foreignKey] = value.id\n      }\n    })\n    _.extend(this.data, relationIds, _.cloneDeep(data))\n\n    if (this.data.id) {\n      this.id = this.data.id\n    }\n    return this\n  }\n\n  /*\n   * Update a model\n   */\n  async _save(data={}) {\n\n    // Auto update dates if present in schema\n    if (!this.id && !data.createdDate && !this.data.createdDate && this.schema.fields.createdDate) {\n      data.createdDate = new Date()\n    }\n    if (!data.updatedDate && this.schema.fields.updatedDate) {\n      data.updatedDate = new Date()\n    }\n\n    this.set(data)\n    let result\n    if (this.id) {\n      result = await this.store.update(this)\n    }\n    else {\n      result = await this.store.create(this)\n    }\n\n    this.set(result)\n    return this\n  }\n  save = (data, _callback) => {\n    let callback\n    if (!callback && _.isFunction(data)) {\n      callback = data\n      data = {}\n    }\n    else if (_.isFunction(_callback)) callback = _callback\n    if (callback) {\n      return this._save(data).then(() => callback(null, this)).catch(callback)\n    }\n    return this._save(data)\n  }\n\n  _linkData = async (relationName, _data) => {\n    if (!this.id) await this.save()\n    const relatedId = _data.id || _data\n    const relation = this.schema.relation(relationName)\n    return {\n      [relation.foreignKey]: this.id,\n      [relation.reverseRelation.foreignKey]: relatedId,\n    }\n  }\n\n  _link = async (relationName, _data) => {\n    const data = await this._linkData(relationName, _data)\n    return this.constructor.link(relationName, data)\n  }\n\n  link = (relationName, data, callback) => {\n    if (_.isFunction(callback)) {\n      return this._link(relationName, data).then(() => callback(null, this)).catch(callback)\n    }\n    return this._link(relationName, data)\n  }\n\n  _unlink = async (relationName, _data) => {\n    const data = await this._linkData(relationName, _data)\n    return this.constructor.unlink(relationName, data)\n  }\n\n  unlink = (relationName, data, callback) => {\n    if (_.isFunction(callback)) {\n      return this._unlink(relationName, data).then(() => callback(null, this)).catch(callback)\n    }\n    return this._unlink(relationName, data)\n  }\n\n  destroy = (callback) => {\n    if (!this.id) {\n      if (callback) return callback()\n      return\n    }\n    return callback ? this.store.destroy({id: this.id}, callback) : this.store.destroy({id: this.id})\n  }\n\n  /*\n   * Return this models data\n   */\n  toJSON = (options={}) => {\n    const json = {}\n    const keys = options.keys || this.whitelist || _.keys(this.data)\n\n    for (const key of keys) {\n      const value = this.data[key]\n      const relation = this.schema.relation(key)\n      if (relation && relation.type === 'belongsTo') {\n        json[relation.foreignKey] = (value && value.id) || value\n      }\n      else if (_.isArray(value)) {\n        json[key] = _.map(value, v => v instanceof SteinModel ? v.toJSON(options) : v)\n      }\n      else if (value instanceof SteinModel) {\n        json[key] = value.toJSON(options)\n      }\n      else {\n        json[key] = value\n      }\n    }\n    return json\n  }\n\n\n  /* ----------------------\n   * Class helper methods *\n   ---------------------- */\n\n  static errorMsg(msg) {\n    return `${this.modelName} ${msg}`\n  }\n\n  static promiseOrCallbackFn(fn) {\n    return (...args) => {\n      const maybeCb = args[args.length-1]\n      if (_.isFunction(maybeCb)) return fn.bind(this)(...args)\n      return promisify(fn.bind(this))(...args)\n    }\n  }\n\n\n  /* -----------\n   * Class api *\n   ----------- */\n\n  static initialise() {\n    return this.schema.initialise()\n  }\n\n  static parse(data) {\n    return data\n  }\n\n  static cursor(query={}) {\n    return this.store.cursor(query)\n  }\n\n  static relation(...args) {\n    return this.schema.relation(...args)\n  }\n\n  static joinTable(...args) {\n    return this.schema.joinTable(...args)\n  }\n\n  static reverseRelation(...args) {\n    return this.schema.reverseRelation(...args)\n  }\n\n  static _exists(query, callback) {\n    if (arguments.length === 1) [callback, query] = [query, {}]\n    return this.store.cursor(query).exists(callback)\n  }\n  static exists(...args) {\n    return this.promiseOrCallbackFn(this._exists)(...args)\n  }\n\n  static _count(query, callback) {\n    if (arguments.length === 1) [callback, query] = [query, {}]\n    return this.store.cursor(query).count(callback)\n  }\n  static count(...args) {\n    return this.promiseOrCallbackFn(this._count)(...args)\n  }\n\n  static _find(query, callback) {\n    if (!callback) {\n      callback = query\n      query = {}\n    }\n    return this.store.cursor(query).toModels(callback)\n  }\n  static find(...args) {\n    return this.promiseOrCallbackFn(this._find)(...args)\n  }\n\n  static _findOne(query, callback) {\n    if (!callback) {\n      callback = query\n      query = {$one: true}\n    }\n    else {\n      query = _.isObject(query) ? _.extend({$one: true}, query) : {id: query, $one: true}\n    }\n    return this.store.cursor(query).toModels(callback)\n  }\n  static findOne(...args) {\n    return this.promiseOrCallbackFn(this._findOne)(...args)\n  }\n\n  static _findOrCreate(data, callback) {\n    const query = _.extend({$one: true}, data)\n\n    this.findOne(query, (err, model) => {\n      if (err) return callback(err)\n      if (model) return callback(null, model)\n\n      const m = new this(data)\n      m.save(callback)\n    })\n  }\n  static findOrCreate(...args) {\n    return this.promiseOrCallbackFn(this._findOrCreate)(...args)\n  }\n\n  /*\n   * Link a many to many relation\n   * @param {string} relationName the name of the relation\n   * @param {object} linkData an object containing the foreign keys of the link to create, e.g. {modelOne_id: 1, modelTwo_id: 2}\n   */\n  static async _link(relationName, data, callback) {\n    if (!_.isString(relationName) || !_.isObject(data)) throw new Error(`[stein-orm::link] arguments should be relationName::string, linkData::object - got ${relationName} ${data}`)\n\n    const JoinTableModel = this.joinTable(relationName)\n    if (!JoinTableModel) throw new Error(`[stein-orm::link] relation or join table not found for model ${this.name} and relation ${relationName}`)\n\n    const entry = new JoinTableModel(data)\n    return entry.save(callback)\n  }\n  static link(...args) {\n    return this.promiseOrCallbackFn(this._link)(...args)\n  }\n\n  /*\n   * Unlink a many to many relation\n   * @param {string} relationName the name of the relation\n   * @param {object} linkData an object containing the foreign keys of the link to remove, e.g. {modelOne_id: 1, modelTwo_id: 2}\n   */\n  static async _unlink(relationName, data, callback) {\n    if (!_.isString(relationName) || !_.isObject(data)) throw new Error(`[stein-orm::unlink] arguments should be relationName::string, linkData::object - got ${relationName} ${data}`)\n\n    const JoinTableModel = this.joinTable(relationName)\n    if (!JoinTableModel) throw new Error(`[stein-orm::unlink] relation or join table not found for model ${this.name} and relation ${relationName}`)\n\n    return JoinTableModel.destroy(data, callback)\n  }\n  static unlink(...args) {\n    return this.promiseOrCallbackFn(this._unlink)(...args)\n  }\n\n  static _destroy(query, callback) {\n    if (!query || _.isFunction(query)) throw new Error(this.errorMsg('Missing query from destroy'))\n    if (!_.isObject(query)) {\n      query = {id: query}\n    }\n    else if (_.isEmpty(query)) {\n      throw new Error(this.errorMsg(`Received empty query, not destroying everything: ${JSON.stringify(query)}`))\n    }\n    return this.store.destroy(query, callback)\n  }\n  static destroy(...args) {\n    return this.promiseOrCallbackFn(this._destroy)(...args)\n  }\n\n  static get url() { return this.store.url }\n  static get table() { return this.store.table }\n  static get tableName() { return this.store.table }\n\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/Model.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 83,
+    "kind": "class",
+    "name": "SteinModel",
+    "memberof": "src/Model.js",
+    "static": true,
+    "longname": "src/Model.js~SteinModel",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/Model.js",
+    "importStyle": "SteinModel",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 84,
+    "kind": "member",
+    "name": "data",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#data",
+    "access": "public",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 85,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Model.js~SteinModel#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true
+  },
+  {
+    "__docId__": 87,
+    "kind": "get",
+    "name": "name",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Model.js~SteinModel#name",
+    "access": "public",
+    "description": null,
+    "lineNumber": 22,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 88,
+    "kind": "get",
+    "name": "schema",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Model.js~SteinModel#schema",
+    "access": "public",
+    "description": null,
+    "lineNumber": 23,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 89,
+    "kind": "get",
+    "name": "store",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Model.js~SteinModel#store",
+    "access": "public",
+    "description": null,
+    "lineNumber": 24,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 90,
+    "kind": "get",
+    "name": "url",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Model.js~SteinModel#url",
+    "access": "public",
+    "description": null,
+    "lineNumber": 28,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 91,
+    "kind": "member",
+    "name": "relation",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#relation",
+    "access": "public",
+    "description": null,
+    "lineNumber": 30,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 92,
+    "kind": "member",
+    "name": "joinTable",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#joinTable",
+    "access": "public",
+    "description": null,
+    "lineNumber": 31,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 93,
+    "kind": "member",
+    "name": "parse",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#parse",
+    "access": "public",
+    "description": null,
+    "lineNumber": 41,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 94,
+    "kind": "member",
+    "name": "get",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#get",
+    "access": "public",
+    "description": null,
+    "lineNumber": 47,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 95,
+    "kind": "member",
+    "name": "set",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#set",
+    "access": "public",
+    "description": null,
+    "lineNumber": 53,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 96,
+    "kind": "member",
+    "name": "id",
+    "memberof": "src/Model.js~SteinModel",
+    "longname": "src/Model.js~SteinModel#id",
+    "access": "public",
+    "description": null,
+    "lineNumber": 77,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 97,
+    "kind": "method",
+    "name": "_save",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "src/Model.js~SteinModel#_save",
+    "access": "private",
+    "description": null,
+    "lineNumber": 85,
+    "undocument": true,
+    "params": [
+      {
+        "name": "data",
+        "optional": true,
+        "types": [
+          "{}"
+        ],
+        "defaultRaw": {},
+        "defaultValue": "{}"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 98,
+    "kind": "member",
+    "name": "save",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#save",
+    "access": "public",
+    "description": null,
+    "lineNumber": 107,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 99,
+    "kind": "member",
+    "name": "_linkData",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#_linkData",
+    "access": "private",
+    "description": null,
+    "lineNumber": 120,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 100,
+    "kind": "member",
+    "name": "_link",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#_link",
+    "access": "private",
+    "description": null,
+    "lineNumber": 130,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 101,
+    "kind": "member",
+    "name": "link",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#link",
+    "access": "public",
+    "description": null,
+    "lineNumber": 135,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 102,
+    "kind": "member",
+    "name": "_unlink",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#_unlink",
+    "access": "private",
+    "description": null,
+    "lineNumber": 142,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 103,
+    "kind": "member",
+    "name": "unlink",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#unlink",
+    "access": "public",
+    "description": null,
+    "lineNumber": 147,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 104,
+    "kind": "member",
+    "name": "destroy",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#destroy",
+    "access": "public",
+    "description": null,
+    "lineNumber": 154,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 105,
+    "kind": "member",
+    "name": "toJSON",
+    "memberof": "src/Model.js~SteinModel",
+    "static": false,
+    "longname": "src/Model.js~SteinModel#toJSON",
+    "access": "public",
+    "description": null,
+    "lineNumber": 165,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 106,
+    "kind": "method",
+    "name": "errorMsg",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.errorMsg",
+    "access": "public",
+    "description": null,
+    "lineNumber": 193,
+    "undocument": true,
+    "params": [
+      {
+        "name": "msg",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 107,
+    "kind": "method",
+    "name": "promiseOrCallbackFn",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.promiseOrCallbackFn",
+    "access": "public",
+    "description": null,
+    "lineNumber": 197,
+    "undocument": true,
+    "params": [
+      {
+        "name": "fn",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 108,
+    "kind": "method",
+    "name": "initialise",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.initialise",
+    "access": "public",
+    "description": null,
+    "lineNumber": 210,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 109,
+    "kind": "method",
+    "name": "parse",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.parse",
+    "access": "public",
+    "description": null,
+    "lineNumber": 214,
+    "undocument": true,
+    "params": [
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 110,
+    "kind": "method",
+    "name": "cursor",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.cursor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 218,
+    "undocument": true,
+    "params": [
+      {
+        "name": "query",
+        "optional": true,
+        "types": [
+          "{}"
+        ],
+        "defaultRaw": {},
+        "defaultValue": "{}"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 111,
+    "kind": "method",
+    "name": "relation",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.relation",
+    "access": "public",
+    "description": null,
+    "lineNumber": 222,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 112,
+    "kind": "method",
+    "name": "joinTable",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.joinTable",
+    "access": "public",
+    "description": null,
+    "lineNumber": 226,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 113,
+    "kind": "method",
+    "name": "reverseRelation",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.reverseRelation",
+    "access": "public",
+    "description": null,
+    "lineNumber": 230,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 114,
+    "kind": "method",
+    "name": "_exists",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel._exists",
+    "access": "private",
+    "description": null,
+    "lineNumber": 234,
+    "undocument": true,
+    "params": [
+      {
+        "name": "query",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 115,
+    "kind": "method",
+    "name": "exists",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.exists",
+    "access": "public",
+    "description": null,
+    "lineNumber": 238,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 116,
+    "kind": "method",
+    "name": "_count",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel._count",
+    "access": "private",
+    "description": null,
+    "lineNumber": 242,
+    "undocument": true,
+    "params": [
+      {
+        "name": "query",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 117,
+    "kind": "method",
+    "name": "count",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.count",
+    "access": "public",
+    "description": null,
+    "lineNumber": 246,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 118,
+    "kind": "method",
+    "name": "_find",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel._find",
+    "access": "private",
+    "description": null,
+    "lineNumber": 250,
+    "undocument": true,
+    "params": [
+      {
+        "name": "query",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 119,
+    "kind": "method",
+    "name": "find",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.find",
+    "access": "public",
+    "description": null,
+    "lineNumber": 257,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 120,
+    "kind": "method",
+    "name": "_findOne",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel._findOne",
+    "access": "private",
+    "description": null,
+    "lineNumber": 261,
+    "undocument": true,
+    "params": [
+      {
+        "name": "query",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 121,
+    "kind": "method",
+    "name": "findOne",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.findOne",
+    "access": "public",
+    "description": null,
+    "lineNumber": 271,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 122,
+    "kind": "method",
+    "name": "_findOrCreate",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel._findOrCreate",
+    "access": "private",
+    "description": null,
+    "lineNumber": 275,
+    "undocument": true,
+    "params": [
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 123,
+    "kind": "method",
+    "name": "findOrCreate",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.findOrCreate",
+    "access": "public",
+    "description": null,
+    "lineNumber": 286,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 124,
+    "kind": "method",
+    "name": "_link",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "src/Model.js~SteinModel._link",
+    "access": "private",
+    "description": null,
+    "lineNumber": 295,
+    "undocument": true,
+    "params": [
+      {
+        "name": "relationName",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 125,
+    "kind": "method",
+    "name": "link",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.link",
+    "access": "public",
+    "description": null,
+    "lineNumber": 304,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 126,
+    "kind": "method",
+    "name": "_unlink",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "src/Model.js~SteinModel._unlink",
+    "access": "private",
+    "description": null,
+    "lineNumber": 313,
+    "undocument": true,
+    "params": [
+      {
+        "name": "relationName",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 127,
+    "kind": "method",
+    "name": "unlink",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.unlink",
+    "access": "public",
+    "description": null,
+    "lineNumber": 321,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 128,
+    "kind": "method",
+    "name": "_destroy",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel._destroy",
+    "access": "private",
+    "description": null,
+    "lineNumber": 325,
+    "undocument": true,
+    "params": [
+      {
+        "name": "query",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 129,
+    "kind": "method",
+    "name": "destroy",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.destroy",
+    "access": "public",
+    "description": null,
+    "lineNumber": 335,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 130,
+    "kind": "get",
+    "name": "url",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.url",
+    "access": "public",
+    "description": null,
+    "lineNumber": 339,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 131,
+    "kind": "get",
+    "name": "table",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.table",
+    "access": "public",
+    "description": null,
+    "lineNumber": 340,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 132,
+    "kind": "get",
+    "name": "tableName",
+    "memberof": "src/Model.js~SteinModel",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Model.js~SteinModel.tableName",
+    "access": "public",
+    "description": null,
+    "lineNumber": 341,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 133,
+    "kind": "file",
+    "name": "src/Schema.js",
+    "content": "import _ from 'lodash'\nimport naming from './lib/naming'\nimport One from './relations/One'\nimport Many from './relations/Many'\nimport DatabaseUrl from './lib/DatabaseUrl'\n\n\nconst RELATION_VARIANTS = {\n  hasOne: 'hasOne',\n  has_one: 'hasOne',\n  HasOne: 'hasOne',\n\n  belongsTo: 'belongsTo',\n  belongs_to: 'belongsTo',\n  BelongsTo: 'belongsTo',\n\n  hasMany: 'hasMany',\n  has_many: 'hasMany',\n  HasMany: 'hasMany',\n}\n\n// @private\nexport default class Schema {\n  // @nodoc\n  constructor(modelType, schema, typeOverrides={}) {\n    this.modelType = modelType\n    this.typeOverrides = typeOverrides\n    this.raw = _.cloneDeep(_.isFunction(schema) ? schema() : schema || {})\n    if (!this.raw.id) this.raw.id = ['increments', {indexed: true, primary: true}]\n    this.fields = {}\n    this.relations = {}\n    this.virtualAccessors = {}\n    if (this.raw.id) { this._parseField('id', this.raw.id) }\n  }\n\n  // @nodoc\n  initialise() {\n    if (this.isInitialised) return\n    this.isInitialised = true\n    // initalize in two steps to break circular dependencies\n    for (const key in this.raw) {\n      const info = this.raw[key]\n      this._parseField(key, info)\n    }\n    for (const key in this.relations) {\n      const relation = this.relations[key]\n      relation.initialise()\n    }\n  }\n  initialize() { return this.initialise() }\n\n  type(key, newType) {\n    if (key === 'id') return this.keyType()\n    let other\n\n    // set type\n    if (arguments.length === 2) {\n      (this.typeOverrides[key] || (this.typeOverrides[key] = {})).type = newType\n      return this\n    }\n\n    // get type\n    const dotIndex = key.indexOf('.')\n    if (dotIndex >= 0) {\n      // queries like 'flat.id'\n      other = key.substr(dotIndex+1)\n      key = key.substr(0, dotIndex)\n    }\n\n    const type = this.typeOverrides[key] || (this.fields[key] && this.fields[key].type) || (this.relation(key) && this.relation(key).reverseModelType) || (this.reverseRelation(key) && this.reverseRelation(key).modelType)\n    if (!type) return null\n\n    if (this.virtualAccessors[key]) {\n      if (other) { console.log(`Unexpected other for virtual id key: ${key}.${other}`); return }\n      return type.schema ? type.schema.keyType() : type\n    }\n    if (other) {\n      if (type.schema) return type.schema.type(other)\n    }\n    return type\n  }\n\n  keyType = () => 'integer'\n\n  field(key) { return this.fields[key] || this.relation(key) }\n  relation(key) {\n    return this.relations[key] || this.virtualAccessors[key]\n  }\n  reverseRelation(reverseKey) {\n    for (const key in this.relations) { const relation = this.relations[key]; if (relation.reverseRelation && (relation.reverseRelation.joinKey === reverseKey)) { return relation.reverseRelation } }\n    return null\n  }\n  joinTable(key) {\n    return this.relation(key) && this.relation(key).joinTable\n  }\n\n  // column and relationship helpers\n  columns() {\n    const columns = _.keys(this.fields)\n    if (!_.find(columns, column => column === 'id')) { columns.push('id') }\n    for (const key in this.relations) { const relation = this.relations[key]; if ((relation.type === 'belongsTo')) { columns.push(relation.foreignKey) } }\n    return columns\n  }\n\n  joinTables() {\n    const result = []\n    for (const key in this.relations) {\n      const relation = this.relations[key]\n      if (relation.joinTable) {\n        result.push(relation.joinTable)\n      }\n    }\n    return result\n  }\n\n  relatedModels() {\n    const relatedModelTypes = []\n    for (const key in this.relations) {\n      const relation = this.relations[key]\n      relatedModelTypes.push(relation.reverseModelType)\n      if (relation.joinTable) { relatedModelTypes.push(relation.joinTable) }\n    }\n    return relatedModelTypes\n  }\n\n  // @nodoc\n  generateJoinTable(relation) {\n    const type = relation.modelType.schema.type('id')\n    const schema = {}\n    schema[relation.joinKey] = [type, {indexed: true}]\n    schema[relation.reverseRelation.joinKey] = [(relation.reverseModelType != null ? relation.reverseModelType.schema.type('id') : undefined) || type, {indexed: true}]\n\n    const tableName = Schema.joinTableTableName(relation)\n    let url\n    try {\n      url = `${(new DatabaseUrl(relation.modelType.url)).format({excludeTable: true})}/${tableName}`\n    }\n    catch (err) {\n      console.log('[stein-orm] Schema.generateJoinTable err', err)\n      url = `/${tableName}`\n    }\n    const name = naming.modelName(tableName, true)\n\n    const Model = require('./Model')\n    const JoinTable = relation.modelType.createModel({\n      name,\n      url,\n      schema,\n    })(class JoinTable extends Model {})\n\n    return JoinTable\n  }\n\n  // Internal\n\n  // @nodoc\n  _parseField(key, info) {\n    const options = this._fieldInfoToOptions(_.isFunction(info) ? info() : info)\n    if (!options.type) return this.fields[key] = options\n\n    // unrecognized\n    const type = RELATION_VARIANTS[options.type]\n    if (!type) {\n      if (!_.isString(options.type)) { throw new Error(`Unexpected type name is not a string: ${JSON.stringify(options)}`) }\n      return this.fields[key] = options\n    }\n\n    options.type = type\n    const relation = type === 'hasMany' ? new Many(this.modelType, key, options) : new One(this.modelType, key, options)\n    this.relations[key] = relation\n    if (relation.virtualIdAccessor) this.virtualAccessors[relation.virtualIdAccessor] = relation\n    if (type === 'belongsTo') this.virtualAccessors[relation.foreignKey] = relation\n  }\n\n  // @nodoc\n  _fieldInfoToOptions(options) {\n    // convert to an object\n    if (_.isString(options)) { return {type: options} }\n    if (!_.isArray(options)) { return options }\n\n    // type\n    const result = {}\n    if (_.isString(options[0])) {\n      result.type = options[0]\n      options = options.slice(1)\n      if (options.length === 0) { return result }\n    }\n\n    // reverse relation\n    if (_.isFunction(options[0]) || !options[0] || (_.isObject(options[0]) && (_.isEmpty(options[0]) || options[0].hasOwnProperty('default') && _.isUndefined(options[0].default)))) {\n      result.reverseModelType = _.isFunction(options[0]) ? options[0] : null\n      if (!result.reverseModelType && options[1] && options[1].self) result.reverseModelType = this.modelType\n      options = options.slice(1)\n    }\n\n    // too many options\n    if (options.length > 1) {\n      throw new Error(`Unexpected field options array: ${JSON.stringify(options)}`)\n    }\n\n    // options object\n    if (options.length === 1) { _.extend(result, options[0]) }\n    return result\n  }\n\n  static joinTableTableName(relation) {\n    const throughTableName = relation.through || relation.reverseRelation.through\n    if (throughTableName) return throughTableName\n\n    const tableName1 = naming.tableName(relation.modelType.modelName)\n    const tableName2 = naming.tableName(relation.reverseRelation.modelType.modelName)\n    return tableName1.localeCompare(tableName2) < 0 ? `${tableName1}_${tableName2}` : `${tableName2}_${tableName1}`\n  }\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/Schema.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 134,
+    "kind": "variable",
+    "name": "RELATION_VARIANTS",
+    "memberof": "src/Schema.js",
+    "static": true,
+    "longname": "src/Schema.js~RELATION_VARIANTS",
+    "access": "public",
+    "export": false,
+    "importPath": "stein-orm/src/Schema.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"hasOne\": string, \"has_one\": string, \"HasOne\": string, \"belongsTo\": string, \"belongs_to\": string, \"BelongsTo\": string, \"hasMany\": string, \"has_many\": string, \"HasMany\": string}"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 135,
+    "kind": "class",
+    "name": "Schema",
+    "memberof": "src/Schema.js",
+    "static": true,
+    "longname": "src/Schema.js~Schema",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/Schema.js",
+    "importStyle": "Schema",
+    "description": null,
+    "lineNumber": 23,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 136,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 25,
+    "undocument": true
+  },
+  {
+    "__docId__": 137,
+    "kind": "member",
+    "name": "modelType",
+    "memberof": "src/Schema.js~Schema",
+    "static": false,
+    "longname": "src/Schema.js~Schema#modelType",
+    "access": "public",
+    "description": null,
+    "lineNumber": 26,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 138,
+    "kind": "member",
+    "name": "typeOverrides",
+    "memberof": "src/Schema.js~Schema",
+    "static": false,
+    "longname": "src/Schema.js~Schema#typeOverrides",
+    "access": "public",
+    "description": null,
+    "lineNumber": 27,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 139,
+    "kind": "member",
+    "name": "raw",
+    "memberof": "src/Schema.js~Schema",
+    "static": false,
+    "longname": "src/Schema.js~Schema#raw",
+    "access": "public",
+    "description": null,
+    "lineNumber": 28,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 140,
+    "kind": "member",
+    "name": "fields",
+    "memberof": "src/Schema.js~Schema",
+    "static": false,
+    "longname": "src/Schema.js~Schema#fields",
+    "access": "public",
+    "description": null,
+    "lineNumber": 30,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 141,
+    "kind": "member",
+    "name": "relations",
+    "memberof": "src/Schema.js~Schema",
+    "static": false,
+    "longname": "src/Schema.js~Schema#relations",
+    "access": "public",
+    "description": null,
+    "lineNumber": 31,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 142,
+    "kind": "member",
+    "name": "virtualAccessors",
+    "memberof": "src/Schema.js~Schema",
+    "static": false,
+    "longname": "src/Schema.js~Schema#virtualAccessors",
+    "access": "public",
+    "description": null,
+    "lineNumber": 32,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 143,
+    "kind": "method",
+    "name": "initialise",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#initialise",
+    "access": "public",
+    "description": null,
+    "lineNumber": 37,
+    "undocument": true,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 144,
+    "kind": "member",
+    "name": "isInitialised",
+    "memberof": "src/Schema.js~Schema",
+    "static": false,
+    "longname": "src/Schema.js~Schema#isInitialised",
+    "access": "public",
+    "description": null,
+    "lineNumber": 39,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 145,
+    "kind": "method",
+    "name": "initialize",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#initialize",
+    "access": "public",
+    "description": null,
+    "lineNumber": 50,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 146,
+    "kind": "method",
+    "name": "type",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#type",
+    "access": "public",
+    "description": null,
+    "lineNumber": 52,
+    "undocument": true,
+    "params": [
+      {
+        "name": "key",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "newType",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 147,
+    "kind": "member",
+    "name": "keyType",
+    "memberof": "src/Schema.js~Schema",
+    "static": false,
+    "longname": "src/Schema.js~Schema#keyType",
+    "access": "public",
+    "description": null,
+    "lineNumber": 83,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 148,
+    "kind": "method",
+    "name": "field",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#field",
+    "access": "public",
+    "description": null,
+    "lineNumber": 85,
+    "undocument": true,
+    "params": [
+      {
+        "name": "key",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 149,
+    "kind": "method",
+    "name": "relation",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#relation",
+    "access": "public",
+    "description": null,
+    "lineNumber": 86,
+    "undocument": true,
+    "params": [
+      {
+        "name": "key",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 150,
+    "kind": "method",
+    "name": "reverseRelation",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#reverseRelation",
+    "access": "public",
+    "description": null,
+    "lineNumber": 89,
+    "undocument": true,
+    "params": [
+      {
+        "name": "reverseKey",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 151,
+    "kind": "method",
+    "name": "joinTable",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#joinTable",
+    "access": "public",
+    "description": null,
+    "lineNumber": 93,
+    "undocument": true,
+    "params": [
+      {
+        "name": "key",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 152,
+    "kind": "method",
+    "name": "columns",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#columns",
+    "access": "public",
+    "description": null,
+    "lineNumber": 98,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 153,
+    "kind": "method",
+    "name": "joinTables",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#joinTables",
+    "access": "public",
+    "description": null,
+    "lineNumber": 105,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 154,
+    "kind": "method",
+    "name": "relatedModels",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#relatedModels",
+    "access": "public",
+    "description": null,
+    "lineNumber": 116,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 155,
+    "kind": "method",
+    "name": "generateJoinTable",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#generateJoinTable",
+    "access": "public",
+    "description": null,
+    "lineNumber": 127,
+    "undocument": true,
+    "params": [
+      {
+        "name": "relation",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 156,
+    "kind": "method",
+    "name": "_parseField",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#_parseField",
+    "access": "private",
+    "description": null,
+    "lineNumber": 157,
+    "undocument": true,
+    "params": [
+      {
+        "name": "key",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "info",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 157,
+    "kind": "method",
+    "name": "_fieldInfoToOptions",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/Schema.js~Schema#_fieldInfoToOptions",
+    "access": "private",
+    "description": null,
+    "lineNumber": 176,
+    "undocument": true,
+    "params": [
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 158,
+    "kind": "method",
+    "name": "joinTableTableName",
+    "memberof": "src/Schema.js~Schema",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Schema.js~Schema.joinTableTableName",
+    "access": "public",
+    "description": null,
+    "lineNumber": 206,
+    "undocument": true,
+    "params": [
+      {
+        "name": "relation",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 159,
+    "kind": "file",
+    "name": "src/createModel.js",
+    "content": "import _ from 'lodash'\nimport Schema from './Schema'\n\n\nexport default function createModel(_options={}) {\n  return function decorator(modelType) {\n    if (!modelType) throw new Error(`[createModel]: Model class not supplied`)\n\n    const options = _.extend({}, _options, modelType)\n    modelType.modelName = options.name || modelType.name\n    modelType.schema = new Schema(modelType, options.schema)\n    modelType.createModel = options.createModel || createModel\n\n    if (!modelType.store) {\n      try {\n        const Store = options.Store || require('stein-orm-sql').default\n        modelType.store = new Store(modelType, options)\n      }\n      catch (err) {\n        const msg = `[stein-orm] Error initializing store, either npm install stein-orm-sql or specifiy provide a Store option to createModel: ${err}`\n        console.log(msg, err)\n        throw new Error(msg)\n      }\n    }\n\n    modelType.schema.initialise()\n\n    return modelType\n  }\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/createModel.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 160,
+    "kind": "function",
+    "name": "createModel",
+    "memberof": "src/createModel.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/createModel.js~createModel",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/createModel.js",
+    "importStyle": "createModel",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "params": [
+      {
+        "name": "_options",
+        "optional": true,
+        "types": [
+          "{}"
+        ],
+        "defaultRaw": {},
+        "defaultValue": "{}"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 161,
+    "kind": "file",
+    "name": "src/index.js",
+    "content": "import createModel from './createModel'\nimport Cursor from './Cursor'\nimport DatabaseUrl from './lib/DatabaseUrl'\nimport Model from './Model'\nimport Schema from './Schema'\n\nexport {\n  createModel,\n  Cursor,\n  DatabaseUrl,\n  Model,\n  Schema,\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 162,
+    "kind": "file",
+    "name": "src/lib/DatabaseUrl.js",
+    "content": "import _ from 'lodash'\nimport URL from 'url'\n\nconst SUPPORTED_KEYS = ['protocol', 'slashes', 'auth', 'host', 'hostname', 'port', 'search', 'query', 'hash', 'href']\n\nexport default class DatabaseUrl {\n\n  // Create an instance. Arguments follow the convention of node url\n  constructor(url, parseQueryString, slashesDenoteHost) {\n    let database,\n      key\n    const urlParts = URL.parse(url, parseQueryString, slashesDenoteHost)\n\n    // multiple, comma-delimited databases\n    const parts = urlParts.pathname.split(',')\n    if (parts.length > 1) {\n      const startParts = _.pick(urlParts, 'protocol', 'auth', 'slashes')\n      startParts.host = '{1}'; startParts.pathname = '{2}'\n      let startUrl = URL.format(startParts)\n      startUrl = startUrl.replace('{1}/{2}', '')\n\n      const pathPaths = urlParts.pathname.split('/')\n      urlParts.pathname = `/${pathPaths[pathPaths.length-2]}/${pathPaths[pathPaths.length-1]}`\n\n      let databasesString = url.replace(startUrl, '')\n      databasesString = databasesString.substring(0, databasesString.indexOf(urlParts.pathname))\n      const databases = databasesString.split(',')\n\n      for (key of ['host', 'hostname', 'port']) { delete urlParts[key] }\n      this.hosts = []\n      for (database of Array.from(databases)) {\n        const host = database.split(':')\n        this.hosts.push(host.length === 1 ? {host: host[0], hostname: host[0]} : {host: host[0], hostname: `${host[0]}:${host[1]}`, port: host[1]})\n      }\n    }\n\n    const databaseParts = _.compact(urlParts.pathname.split('/'))\n    this.table = databaseParts.pop()\n    this.database = databaseParts.join('/')\n    if (urlParts.protocol && urlParts.protocol.endsWith(':')) {\n      urlParts.protocol = urlParts.protocol.slice(0, -1)\n    }\n    for (key of Array.from(SUPPORTED_KEYS)) { if (urlParts.hasOwnProperty(key)) { this[key] = urlParts[key] } }\n  }\n\n  format(options) {\n    if (options == null) { options = {} }\n    const urlParts = _.pick(this, SUPPORTED_KEYS)\n    urlParts.pathname = ''\n\n    // array of hosts\n    if (this.hosts) {\n      const hostStrings = _.map(this.hosts, host => `${host.host}${host.port ? `:${host.port}` : ''}`)\n      urlParts.pathname += hostStrings.join(',')\n      urlParts.host = '{1}'\n    }\n\n    if (this.database) { urlParts.pathname += `/${this.database}` }\n    if (this.table && !options.excludeTable) { urlParts.pathname += `/${this.table}` }\n    if (options.exclude_search || options.excludeQuery) { delete urlParts.search; delete urlParts.query }\n    let url = URL.format(urlParts)\n    if (this.hosts) { url = url.replace(`{1}/${urlParts.pathname}`, urlParts.pathname) }\n    return url\n  }\n\n  parseAuth() {\n    if (!this.auth) { return null }\n    const authParts = this.auth.split(':')\n    const result = {user: authParts[0]}\n    result.password = authParts.length > 1 ? authParts[1] : null\n    return result\n  }\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/lib/DatabaseUrl.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 163,
+    "kind": "variable",
+    "name": "SUPPORTED_KEYS",
+    "memberof": "src/lib/DatabaseUrl.js",
+    "static": true,
+    "longname": "src/lib/DatabaseUrl.js~SUPPORTED_KEYS",
+    "access": "public",
+    "export": false,
+    "importPath": "stein-orm/src/lib/DatabaseUrl.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string[]"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 164,
+    "kind": "class",
+    "name": "DatabaseUrl",
+    "memberof": "src/lib/DatabaseUrl.js",
+    "static": true,
+    "longname": "src/lib/DatabaseUrl.js~DatabaseUrl",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/lib/DatabaseUrl.js",
+    "importStyle": "DatabaseUrl",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 165,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/lib/DatabaseUrl.js~DatabaseUrl",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/lib/DatabaseUrl.js~DatabaseUrl#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true
+  },
+  {
+    "__docId__": 166,
+    "kind": "member",
+    "name": "hosts",
+    "memberof": "src/lib/DatabaseUrl.js~DatabaseUrl",
+    "static": false,
+    "longname": "src/lib/DatabaseUrl.js~DatabaseUrl#hosts",
+    "access": "public",
+    "description": null,
+    "lineNumber": 30,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 167,
+    "kind": "member",
+    "name": "table",
+    "memberof": "src/lib/DatabaseUrl.js~DatabaseUrl",
+    "static": false,
+    "longname": "src/lib/DatabaseUrl.js~DatabaseUrl#table",
+    "access": "public",
+    "description": null,
+    "lineNumber": 38,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 168,
+    "kind": "member",
+    "name": "database",
+    "memberof": "src/lib/DatabaseUrl.js~DatabaseUrl",
+    "static": false,
+    "longname": "src/lib/DatabaseUrl.js~DatabaseUrl#database",
+    "access": "public",
+    "description": null,
+    "lineNumber": 39,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 169,
+    "kind": "member",
+    "name": "[key]",
+    "memberof": "src/lib/DatabaseUrl.js~DatabaseUrl",
+    "static": false,
+    "longname": "src/lib/DatabaseUrl.js~DatabaseUrl#[key]",
+    "access": "public",
+    "description": null,
+    "lineNumber": 43,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 170,
+    "kind": "method",
+    "name": "format",
+    "memberof": "src/lib/DatabaseUrl.js~DatabaseUrl",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/lib/DatabaseUrl.js~DatabaseUrl#format",
+    "access": "public",
+    "description": null,
+    "lineNumber": 46,
+    "undocument": true,
+    "params": [
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 171,
+    "kind": "method",
+    "name": "parseAuth",
+    "memberof": "src/lib/DatabaseUrl.js~DatabaseUrl",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/lib/DatabaseUrl.js~DatabaseUrl#parseAuth",
+    "access": "public",
+    "description": null,
+    "lineNumber": 66,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 172,
+    "kind": "file",
+    "name": "src/lib/Fabricator.js",
+    "content": "import _ from 'lodash'\nimport Queue from 'queue-async'\nimport { promisify } from 'util'\n\n\n// Fabricator to generate test data.\n//\nexport default class Fabricator {\n\n  // Create new models without saving them.\n  //\n  // @example\n  //   Fabricator.create Thing, 200, {name: Fabricator.uniqueId('thing_'), createdDate: Fabricator.date}, (err, models) -> # do something\n  //\n  static new(modelType, count, data) {\n    const results = []\n    while (count-- > 0) {\n      const attributes = {}\n      for (const key in data) { const value = data[key]; attributes[key] = _.isFunction(value) ? value() : value }\n      results.push(new modelType(attributes))\n    }\n    return results\n  }\n\n  // Create new models and save them.\n  //\n  static _create(modelType, count, data, callback) {\n    const models = Fabricator.new(modelType, count, data)\n    const queue = new Queue()\n    models.forEach(model => queue.defer(callback => model.save(callback)))\n    return queue.await(err => {\n      callback(err, models)\n    })\n  }\n  static create(modelType, count, data, callback) {\n    if (callback) return this._create(modelType, count, data, callback)\n    return promisify(this._create)(modelType, count, data)\n  }\n\n  // Return the same fixed value for each fabricated model\n  //\n  static value(value) {\n    if (arguments.length === 0) { return undefined }\n    return () => value\n  }\n\n  // Return the same fixed value for each fabricated model\n  //\n  static increment(value) {\n    if (arguments.length === 0) { return undefined }\n    return () => value++\n  }\n\n  // Return a unique string value for each fabricated model\n  //\n  // @overload uniqueId()\n  //   Creates a unique id without a prefix\n  //\n  // @overload uniqueId(prefix)\n  //   Creates a unique id with a prefix\n  //\n  static uniqueId(prefix) {\n    if (arguments.length === 0) { return _.uniqueId() }\n    return () => _.uniqueId(prefix)\n  }\n\n  // Return a date for each fabricated model\n  //\n  // @overload date()\n  //   The current date/time\n  //\n  // @overload date(stepMs)\n  //   Creates a new date/time for each call in fixed milliseconds from the date/time at the first call\n  //\n  // @overload date(start, stepMs)\n  //   Creates a new date/time for each call in fixed milliseconds from a specified date/time\n  static date(start, stepMs) {\n    const now = new Date()\n    if (arguments.length === 0) { return now }\n\n    if (arguments.length === 1) { [start, stepMs] = Array.from([now, start]) }\n    let current_ms = start.getTime()\n    return function() {\n      const current = new Date(current_ms)\n      current_ms += stepMs\n      return current\n    }\n  }\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/lib/Fabricator.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 173,
+    "kind": "class",
+    "name": "Fabricator",
+    "memberof": "src/lib/Fabricator.js",
+    "static": true,
+    "longname": "src/lib/Fabricator.js~Fabricator",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/lib/Fabricator.js",
+    "importStyle": "Fabricator",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 174,
+    "kind": "method",
+    "name": "new",
+    "memberof": "src/lib/Fabricator.js~Fabricator",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/Fabricator.js~Fabricator.new",
+    "access": "public",
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "params": [
+      {
+        "name": "modelType",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "count",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 175,
+    "kind": "method",
+    "name": "_create",
+    "memberof": "src/lib/Fabricator.js~Fabricator",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/Fabricator.js~Fabricator._create",
+    "access": "private",
+    "description": null,
+    "lineNumber": 27,
+    "undocument": true,
+    "params": [
+      {
+        "name": "modelType",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "count",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 176,
+    "kind": "method",
+    "name": "create",
+    "memberof": "src/lib/Fabricator.js~Fabricator",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/Fabricator.js~Fabricator.create",
+    "access": "public",
+    "description": null,
+    "lineNumber": 35,
+    "undocument": true,
+    "params": [
+      {
+        "name": "modelType",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "count",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 177,
+    "kind": "method",
+    "name": "value",
+    "memberof": "src/lib/Fabricator.js~Fabricator",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/Fabricator.js~Fabricator.value",
+    "access": "public",
+    "description": null,
+    "lineNumber": 42,
+    "undocument": true,
+    "params": [
+      {
+        "name": "value",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 178,
+    "kind": "method",
+    "name": "increment",
+    "memberof": "src/lib/Fabricator.js~Fabricator",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/Fabricator.js~Fabricator.increment",
+    "access": "public",
+    "description": null,
+    "lineNumber": 49,
+    "undocument": true,
+    "params": [
+      {
+        "name": "value",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 179,
+    "kind": "method",
+    "name": "uniqueId",
+    "memberof": "src/lib/Fabricator.js~Fabricator",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/Fabricator.js~Fabricator.uniqueId",
+    "access": "public",
+    "description": null,
+    "lineNumber": 62,
+    "undocument": true,
+    "params": [
+      {
+        "name": "prefix",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 180,
+    "kind": "method",
+    "name": "date",
+    "memberof": "src/lib/Fabricator.js~Fabricator",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/Fabricator.js~Fabricator.date",
+    "access": "public",
+    "description": null,
+    "lineNumber": 77,
+    "undocument": true,
+    "params": [
+      {
+        "name": "start",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "stepMs",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 181,
+    "kind": "file",
+    "name": "src/lib/naming.js",
+    "content": "import inflection from 'inflection'\n\n\nexport default class NamingConvention {\n  static modelName(tableName, plural) {\n    return inflection[plural ? 'pluralize' : 'singularize'](inflection.classify(tableName))\n  }\n\n  static tableName(modelName) {\n    return inflection.pluralize(inflection.underscore(modelName))\n  }\n\n  static foreignKey(modelName, plural) {\n    if (plural) {\n      return inflection.singularize(inflection.camelize(modelName, true)) + '_ids'\n    }\n    return inflection.camelize(modelName, true) + '_id'\n  }\n\n  static foreignKeySingular(modelName, plural) {\n    if (plural) {\n      return inflection.singularize(inflection.camelize(modelName, true)) + '_ids'\n    }\n    return inflection.singularize(inflection.camelize(modelName, true)) + '_id'\n  }\n\n  static attribute(modelName, plural) {\n    return inflection[plural ? 'pluralize' : 'singularize'](inflection.camelize(modelName, true))\n  }\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/lib/naming.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 182,
+    "kind": "class",
+    "name": "NamingConvention",
+    "memberof": "src/lib/naming.js",
+    "static": true,
+    "longname": "src/lib/naming.js~NamingConvention",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/lib/naming.js",
+    "importStyle": "NamingConvention",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 183,
+    "kind": "method",
+    "name": "modelName",
+    "memberof": "src/lib/naming.js~NamingConvention",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/naming.js~NamingConvention.modelName",
+    "access": "public",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "params": [
+      {
+        "name": "tableName",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "plural",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 184,
+    "kind": "method",
+    "name": "tableName",
+    "memberof": "src/lib/naming.js~NamingConvention",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/naming.js~NamingConvention.tableName",
+    "access": "public",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "params": [
+      {
+        "name": "modelName",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 185,
+    "kind": "method",
+    "name": "foreignKey",
+    "memberof": "src/lib/naming.js~NamingConvention",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/naming.js~NamingConvention.foreignKey",
+    "access": "public",
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "params": [
+      {
+        "name": "modelName",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "plural",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 186,
+    "kind": "method",
+    "name": "foreignKeySingular",
+    "memberof": "src/lib/naming.js~NamingConvention",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/naming.js~NamingConvention.foreignKeySingular",
+    "access": "public",
+    "description": null,
+    "lineNumber": 20,
+    "undocument": true,
+    "params": [
+      {
+        "name": "modelName",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "plural",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 187,
+    "kind": "method",
+    "name": "attribute",
+    "memberof": "src/lib/naming.js~NamingConvention",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/naming.js~NamingConvention.attribute",
+    "access": "public",
+    "description": null,
+    "lineNumber": 27,
+    "undocument": true,
+    "params": [
+      {
+        "name": "modelName",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "plural",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 188,
+    "kind": "file",
+    "name": "src/lib/utils.js",
+    "content": "import _ from 'lodash'\nimport Model from '../Model'\n\n\nexport default class Utils {\n\n  // @nodoc\n  static isModel(obj) { return obj instanceof Model }\n\n  //#############################\n  // Data to Model Helpers\n  //#############################\n\n  // @nodoc\n  static dataId(data) { if (_.isObject(data)) { return data.id }  return data  }\n\n  // @nodoc\n  static dataIsSameModel(data1, data2) {\n    if (Utils.dataId(data1) || Utils.dataId(data2)) { return Utils.dataId(data1) === Utils.dataId(data2) }\n    return _.isEqual(data1, data2)\n  }\n\n  // @nodoc\n  static dataToModel(data, modelType) {\n    let model\n    if (!data) { return null }\n    if (_.isArray(data)) { return data.map(item => Utils.dataToModel(item, modelType)) }\n    if (Utils.isModel(data)) {\n      model = data\n    }\n    else if (Utils.dataId(data) !== data) {\n      model = new modelType(modelType.prototype.parse(data))\n    }\n    else {\n      let attributes;\n      (attributes = {})[modelType.prototype.idAttribute] = data\n      model = new modelType(attributes)\n    }\n\n    return model\n  }\n\n  //#############################\n  // Sorting\n  //#############################\n  // @nodoc\n  static isSorted(models, fields) {\n    fields = _.uniq(fields)\n    let lastModel\n    for (const model of Array.from(models)) {\n      if (lastModel && (this.fieldCompare(lastModel, model, fields) === 1)) { return false }\n      lastModel = model\n    }\n    return true\n  }\n\n  // @nodoc\n  static fieldCompare(model, otherModel, fields) {\n    let desc\n    let field = fields[0]\n    if (_.isArray(field)) { field = field[0] } // for mongo\n\n    if (field.charAt(0) === '-') {\n      field = field.substr(1)\n      desc = true\n    }\n    if (model.data.field === otherModel.data.field) {\n      if (fields.length > 1) { return this.fieldCompare(model, otherModel, fields.splice(1)) }  return 0\n    }\n    if (desc) {\n      if (model.data.field < otherModel.data.field) { return 1 }  return -1\n    }\n    if (model.data.field > otherModel.data.field) { return 1 }  return -1\n\n  }\n\n  // @nodoc\n  static jsonFieldCompare(model, otherModel, fields) {\n    let desc\n    let field = fields[0]\n    if (_.isArray(field)) { field = field[0] } // for mongo\n\n    // reverse\n    if (field.charAt(0) === '-') { field = field.substr(1); desc = true }\n\n    if (model[field] === otherModel[field]) {\n      if (fields.length > 1) { return this.jsonFieldCompare(model, otherModel, fields.splice(1)) }  return 0\n    }\n    if (desc) {\n      if (JSON.stringify(model[field]) < JSON.stringify(otherModel[field])) { return 1 }  return -1\n    }\n    if (JSON.stringify(model[field]) > JSON.stringify(otherModel[field])) { return 1 }  return -1\n\n  }\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/lib/utils.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 189,
+    "kind": "class",
+    "name": "Utils",
+    "memberof": "src/lib/utils.js",
+    "static": true,
+    "longname": "src/lib/utils.js~Utils",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/lib/utils.js",
+    "importStyle": "Utils",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 190,
+    "kind": "method",
+    "name": "isModel",
+    "memberof": "src/lib/utils.js~Utils",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/utils.js~Utils.isModel",
+    "access": "public",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "params": [
+      {
+        "name": "obj",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 191,
+    "kind": "method",
+    "name": "dataId",
+    "memberof": "src/lib/utils.js~Utils",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/utils.js~Utils.dataId",
+    "access": "public",
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "params": [
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 192,
+    "kind": "method",
+    "name": "dataIsSameModel",
+    "memberof": "src/lib/utils.js~Utils",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/utils.js~Utils.dataIsSameModel",
+    "access": "public",
+    "description": null,
+    "lineNumber": 18,
+    "undocument": true,
+    "params": [
+      {
+        "name": "data1",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "data2",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 193,
+    "kind": "method",
+    "name": "dataToModel",
+    "memberof": "src/lib/utils.js~Utils",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/utils.js~Utils.dataToModel",
+    "access": "public",
+    "description": null,
+    "lineNumber": 24,
+    "undocument": true,
+    "params": [
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "modelType",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 194,
+    "kind": "method",
+    "name": "isSorted",
+    "memberof": "src/lib/utils.js~Utils",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/utils.js~Utils.isSorted",
+    "access": "public",
+    "description": null,
+    "lineNumber": 47,
+    "undocument": true,
+    "params": [
+      {
+        "name": "models",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "fields",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 195,
+    "kind": "method",
+    "name": "fieldCompare",
+    "memberof": "src/lib/utils.js~Utils",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/utils.js~Utils.fieldCompare",
+    "access": "public",
+    "description": null,
+    "lineNumber": 58,
+    "undocument": true,
+    "params": [
+      {
+        "name": "model",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "otherModel",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "fields",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 196,
+    "kind": "method",
+    "name": "jsonFieldCompare",
+    "memberof": "src/lib/utils.js~Utils",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/lib/utils.js~Utils.jsonFieldCompare",
+    "access": "public",
+    "description": null,
+    "lineNumber": 78,
+    "undocument": true,
+    "params": [
+      {
+        "name": "model",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "otherModel",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "fields",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 197,
+    "kind": "file",
+    "name": "src/relations/Many.js",
+    "content": "import _ from 'lodash'\nimport naming from '../lib/naming'\nimport Relation from './Relation'\n\n// @nodoc\nexport default class Many extends Relation {\n  constructor(modelType, key, options) {\n    super()\n    this.modelType = modelType\n    this.key = key\n    this._initialOptions = options\n    _.extend(this, options)\n\n    if (!this.virtualIdAccessor) {\n      this.virtualIdAccessor = naming.foreignKey(this.key, true)\n    }\n\n    if (!this.foreignKey) {\n      this.foreignKey = naming.foreignKey(this.as || this.modelType.modelName)\n    }\n\n    if (!this.joinKey) {\n      this.joinKey = this.foreignKey\n    }\n\n    this._isInitialised = false\n  }\n\n  // Update foreign key and join key to the correct ones for a m2m table\n  setManyToManyKeys() {\n    if (!this._initialOptions.foreignKey) this.foreignKey = naming.foreignKeySingular(this.as || this.modelType.modelName)\n    if (!this._initialOptions.joinKey) this.joinKey = this.foreignKey\n  }\n\n  initialise(reverseRelation) {\n    if (this._isInitialised || this._isInitialising) return\n    this._isInitialising = true\n\n    if (reverseRelation) {\n      this.reverseRelation = reverseRelation\n      this.reverseModelType = reverseRelation.modelType\n    }\n    else if (this.reverseModelType) {\n      this.reverseRelation = this._findOrGenerateReverseRelation(this)\n      if (!this.reverseRelation) return\n    }\n    else {\n      this._isInitialising = false\n      return\n    }\n\n    const newType = this.modelType && this.modelType.schema ? this.modelType.schema.type('id') : this.modelType\n    this.reverseModelType.schema.type(this.foreignKey, newType)\n\n    if (!this.reverseRelation._isInitialised) this.reverseRelation.initialise(this)\n\n    if (this.reverseRelation.type === 'hasOne') {\n      throw new Error(`The reverse of a hasMany relation should be \\`belongsTo\\`, not \\`hasOne\\` (${this.modelType.modelName} and ${this.reverseModelType.modelName}).`)\n    }\n    // check for join table\n    if (this.reverseRelation.type === 'hasMany') {\n\n      if (this.modelType === this.reverseRelation.modelType) {\n        if (!this.as || !this.reverseRelation.as) throw new Error(`Many to Many relations to the same model require an \\`as\\` option (${this.modelType.modelName} and ${this.reverseModelType.modelName}).`)\n      }\n\n      this.setManyToManyKeys()\n      this.reverseRelation.setManyToManyKeys()\n\n      this.joinTable = this.findOrGenerateJoinTable(this)\n    }\n\n    this._isInitialising = false\n    this._isInitialised = true\n  }\n\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/relations/Many.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 198,
+    "kind": "class",
+    "name": "Many",
+    "memberof": "src/relations/Many.js",
+    "static": true,
+    "longname": "src/relations/Many.js~Many",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/relations/Many.js",
+    "importStyle": "Many",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "src/relations/Relation.js~Relation"
+    ]
+  },
+  {
+    "__docId__": 199,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/relations/Many.js~Many",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/relations/Many.js~Many#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true
+  },
+  {
+    "__docId__": 200,
+    "kind": "member",
+    "name": "modelType",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#modelType",
+    "access": "public",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 201,
+    "kind": "member",
+    "name": "key",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#key",
+    "access": "public",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 202,
+    "kind": "member",
+    "name": "_initialOptions",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#_initialOptions",
+    "access": "private",
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 203,
+    "kind": "member",
+    "name": "virtualIdAccessor",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#virtualIdAccessor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 204,
+    "kind": "member",
+    "name": "foreignKey",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#foreignKey",
+    "access": "public",
+    "description": null,
+    "lineNumber": 19,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 205,
+    "kind": "member",
+    "name": "joinKey",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#joinKey",
+    "access": "public",
+    "description": null,
+    "lineNumber": 23,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 206,
+    "kind": "member",
+    "name": "_isInitialised",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#_isInitialised",
+    "access": "private",
+    "description": null,
+    "lineNumber": 26,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 207,
+    "kind": "method",
+    "name": "setManyToManyKeys",
+    "memberof": "src/relations/Many.js~Many",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/relations/Many.js~Many#setManyToManyKeys",
+    "access": "public",
+    "description": null,
+    "lineNumber": 30,
+    "undocument": true,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 210,
+    "kind": "method",
+    "name": "initialise",
+    "memberof": "src/relations/Many.js~Many",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/relations/Many.js~Many#initialise",
+    "access": "public",
+    "description": null,
+    "lineNumber": 35,
+    "undocument": true,
+    "params": [
+      {
+        "name": "reverseRelation",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 211,
+    "kind": "member",
+    "name": "_isInitialising",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#_isInitialising",
+    "access": "private",
+    "description": null,
+    "lineNumber": 37,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 212,
+    "kind": "member",
+    "name": "reverseRelation",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#reverseRelation",
+    "access": "public",
+    "description": null,
+    "lineNumber": 40,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 213,
+    "kind": "member",
+    "name": "reverseModelType",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#reverseModelType",
+    "access": "public",
+    "description": null,
+    "lineNumber": 41,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 216,
+    "kind": "member",
+    "name": "joinTable",
+    "memberof": "src/relations/Many.js~Many",
+    "static": false,
+    "longname": "src/relations/Many.js~Many#joinTable",
+    "access": "public",
+    "description": null,
+    "lineNumber": 70,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 219,
+    "kind": "file",
+    "name": "src/relations/One.js",
+    "content": "import _ from 'lodash'\nimport naming from '../lib/naming'\nimport Relation from './Relation'\n\n\n// @nodoc\nexport default class One extends Relation {\n  constructor(modelType, key, options) {\n    super()\n    this.modelType = modelType\n    this.key = key\n    _.extend(this, options)\n    if (!this.virtualIdAccessor) { this.virtualIdAccessor = naming.foreignKey(this.key) }\n    if (!this.joinKey) { this.joinKey = this.foreignKey || naming.foreignKey(this.modelType.modelName) }\n    if (!this.foreignKey) {\n      if (this.type === 'belongsTo') this.foreignKey = `${this.key}_id`\n      else this.foreignKey = this.as ? `${this.as}_id` : naming.foreignKey(this.modelType.modelName)\n    }\n  }\n\n  initialise(reverseRelation) {\n    if (this._isInitialised || this._isInitialising) return\n    this._isInitialising = true\n\n    if (reverseRelation) {\n      this.reverseRelation = reverseRelation\n      this.reverseModelType = reverseRelation.modelType\n    }\n    else if (this.reverseModelType) {\n      this.reverseRelation = this._findOrGenerateReverseRelation(this)\n      if (!this.reverseRelation) return\n    }\n    else {\n      this._isInitialising = false\n      return\n    }\n    const newType = this.modelType && this.modelType.schema ? this.modelType.schema.type('id') : this.modelType\n    this.reverseModelType.schema.type(this.foreignKey, newType)\n\n    if (!this.reverseRelation._isInitialised) this.reverseRelation.initialise(this)\n\n    this._isInitialising = false\n    this._isInitialised = true\n  }\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/relations/One.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 220,
+    "kind": "class",
+    "name": "One",
+    "memberof": "src/relations/One.js",
+    "static": true,
+    "longname": "src/relations/One.js~One",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/relations/One.js",
+    "importStyle": "One",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "src/relations/Relation.js~Relation"
+    ]
+  },
+  {
+    "__docId__": 221,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/relations/One.js~One",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/relations/One.js~One#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true
+  },
+  {
+    "__docId__": 222,
+    "kind": "member",
+    "name": "modelType",
+    "memberof": "src/relations/One.js~One",
+    "static": false,
+    "longname": "src/relations/One.js~One#modelType",
+    "access": "public",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 223,
+    "kind": "member",
+    "name": "key",
+    "memberof": "src/relations/One.js~One",
+    "static": false,
+    "longname": "src/relations/One.js~One#key",
+    "access": "public",
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 224,
+    "kind": "member",
+    "name": "virtualIdAccessor",
+    "memberof": "src/relations/One.js~One",
+    "static": false,
+    "longname": "src/relations/One.js~One#virtualIdAccessor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 225,
+    "kind": "member",
+    "name": "joinKey",
+    "memberof": "src/relations/One.js~One",
+    "static": false,
+    "longname": "src/relations/One.js~One#joinKey",
+    "access": "public",
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 226,
+    "kind": "member",
+    "name": "foreignKey",
+    "memberof": "src/relations/One.js~One",
+    "static": false,
+    "longname": "src/relations/One.js~One#foreignKey",
+    "access": "public",
+    "description": null,
+    "lineNumber": 16,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 228,
+    "kind": "method",
+    "name": "initialise",
+    "memberof": "src/relations/One.js~One",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/relations/One.js~One#initialise",
+    "access": "public",
+    "description": null,
+    "lineNumber": 21,
+    "undocument": true,
+    "params": [
+      {
+        "name": "reverseRelation",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 229,
+    "kind": "member",
+    "name": "_isInitialising",
+    "memberof": "src/relations/One.js~One",
+    "static": false,
+    "longname": "src/relations/One.js~One#_isInitialising",
+    "access": "private",
+    "description": null,
+    "lineNumber": 23,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 230,
+    "kind": "member",
+    "name": "reverseRelation",
+    "memberof": "src/relations/One.js~One",
+    "static": false,
+    "longname": "src/relations/One.js~One#reverseRelation",
+    "access": "public",
+    "description": null,
+    "lineNumber": 26,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 231,
+    "kind": "member",
+    "name": "reverseModelType",
+    "memberof": "src/relations/One.js~One",
+    "static": false,
+    "longname": "src/relations/One.js~One#reverseModelType",
+    "access": "public",
+    "description": null,
+    "lineNumber": 27,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 235,
+    "kind": "member",
+    "name": "_isInitialised",
+    "memberof": "src/relations/One.js~One",
+    "static": false,
+    "longname": "src/relations/One.js~One#_isInitialised",
+    "access": "private",
+    "description": null,
+    "lineNumber": 43,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 236,
+    "kind": "file",
+    "name": "src/relations/Relation.js",
+    "content": "import naming from '../lib/naming'\n\n\n// @nodoc\nexport default class Relation {\n\n  hasJoinTable() { return !!this.joinTable || (this.reverseRelation && !!this.reverseRelation.joinTable) }\n  isManyToMany() { return this.type === 'hasMany' && this.reverseRelation && this.reverseRelation.type === 'hasMany' }\n\n  findOrGenerateJoinTable() {\n    // already exists\n    const joinTable = this.joinTable || this.reverseRelation.joinTable\n    if (joinTable) return joinTable\n\n    this.joinTable = this.reverseRelation.joinTable = this.modelType.schema.generateJoinTable(this)\n    return this.joinTable\n  }\n\n  _findOrGenerateReverseRelation() {\n    const { modelType, reverseModelType } = this\n\n    if (!reverseModelType) {\n      console.log(`[stein-orm] Could not find reverse model type on relation ${this.modelType.modelName} ${this.type} ${this.key}`)\n      return\n    }\n\n    let reverseRelation = reverseModelType.schema.relation(this.as)\n    // if (reverseRelation && (reverseRelation._isInitialised || reverseRelation._isInitialising)) return reverseRelation\n    if (!reverseRelation) reverseRelation = reverseModelType.schema.relation(naming.attribute(modelType.modelName, false)) // singular\n    if (!reverseRelation) reverseRelation = reverseModelType.schema.relation(naming.attribute(modelType.modelName, true)) // plural\n\n    if (reverseRelation) reverseRelation.reverseRelation = this\n    return reverseRelation\n  }\n}\n",
+    "static": true,
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/src/relations/Relation.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 237,
+    "kind": "class",
+    "name": "Relation",
+    "memberof": "src/relations/Relation.js",
+    "static": true,
+    "longname": "src/relations/Relation.js~Relation",
+    "access": "public",
+    "export": true,
+    "importPath": "stein-orm/src/relations/Relation.js",
+    "importStyle": "Relation",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 238,
+    "kind": "method",
+    "name": "hasJoinTable",
+    "memberof": "src/relations/Relation.js~Relation",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/relations/Relation.js~Relation#hasJoinTable",
+    "access": "public",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 239,
+    "kind": "method",
+    "name": "isManyToMany",
+    "memberof": "src/relations/Relation.js~Relation",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/relations/Relation.js~Relation#isManyToMany",
+    "access": "public",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 240,
+    "kind": "method",
+    "name": "findOrGenerateJoinTable",
+    "memberof": "src/relations/Relation.js~Relation",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/relations/Relation.js~Relation#findOrGenerateJoinTable",
+    "access": "public",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 241,
+    "kind": "member",
+    "name": "joinTable",
+    "memberof": "src/relations/Relation.js~Relation",
+    "static": false,
+    "longname": "src/relations/Relation.js~Relation#joinTable",
+    "access": "public",
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 242,
+    "kind": "method",
+    "name": "_findOrGenerateReverseRelation",
+    "memberof": "src/relations/Relation.js~Relation",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/relations/Relation.js~Relation#_findOrGenerateReverseRelation",
+    "access": "private",
+    "description": null,
+    "lineNumber": 19,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "index",
+    "content": "## \n\n[![version][version-badge]][package]\n[![MIT License][license-badge]][LICENSE]\n[![PRs Welcome][prs-badge]][prs]\n\n\n[version-badge]: https://img.shields.io/npm/v/stein-orm.svg?style=flat-square\n[package]: https://www.npmjs.com/package/stein-orm\n[license-badge]: https://img.shields.io/npm/l/stein-orm.svg?style=flat-square\n[license]: https://github.com/robinpowered/stein-orm/blob/master/LICENSE\n[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square\n[prs]: http://makeapullrequest.com\n\n\n### Frameworkstein ORM\n\n\nThis is the core package for the Frameworkstein Object Relational Mapper (Frameworkstein ORM, or just `stein-orm`).\n\n\nFrameworkstein ORM consists of a few packages that make it easy to create and query SQL backed REST APIs in Node.js.\n\n\nCreate model definitions, assign them schemas, auto-generate REST endpoints for them then query them using the same powerful query syntax on the client as the server.\n\n\nThe main packages are as follows:\n\n[stein-orm](https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm)\nThe core package. Exports functions for creating models and defining relations between them. Also contains a cursor interface for querying models which is extended by either `stein-orm-sql` or `stein-orm-rest`.\n\n[stein-orm-sql](https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm)\nPackage that translates `stein-orm` queries into sql statements (using [knex.js](https://knexjs.org/) internally) and sql results into models.\n\n[stein-orm-http](https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm)\nPackage that translates `stein-orm` queries into http requests. This allows models to be queried using the same syntax on the client as the server. Assumes that an endpoint has been configured on the server for the model using `stein-orm-rest`.\n\n[stein-orm-rest](https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm)\nPackage that generates REST API endpoints for `stein-orm` models. These endpoints can be queried with `stein-orm-http` or with any standard REST client.\n\n\n### Usage\n\nFor a complete example of how the parts work together see the [fl-base-webapp](https://github.com/founderlab/frameworkstein/tree/master/packages/fl-base-webapp) repo. stein-orm models are stored in `server/models` (server side models) and `shared/models` (client side models). stein-orm-rest endpoints can be found in `server/api/controllers`. The `scaffold` directory has examples of creasting and saving models.\n\n\n##### Model definitions\nModels are defined using the `createModel` decorator. Generally You'll want to create two model files, one for the server with your server code with an sql store (`stein-orm-sql`) and one for the client with a http store (`stein-orm-http`).\n\nServer model definition `/server/models/User.js`\n```javascript\nimport { createModel, Model } from 'stein-orm-sql'    // Import from `stein-orm-sql` to use the sql store\n\n@createModel({                                        // The `createModel` decorator configures the model when called\n  url: 'postgres://localhost:5432/stein-orm/users',   // The url of your database, including the table name\n  schema: () => ({                                    // Schema definition, see [stein-orm-sql](https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm) for column options and `relations` below for relations.\n    name: 'Text', \n  }),\n})\nexport default class User extends Model {             // Extending the `stein-orm` `Model` class\n  defaults() {                                        // Function returning default properties for new models\n    return {name: 'Default name'}\n  }\n}\n\n```\n\nClient model definition `/shared/models/User.js`\n```javascript\nimport { createModel, Model } from 'stein-orm-http'   // Import from `stein-orm-http` to use the http store\n\n@createModel({                                        // As above, will configure the model with a http store\n  url: '/api/users',                                  // The root url of your `stein-orm-rest` api for this model\n                                                      // No need to define a schema on the client\n})\nexport default class User extends Model {             \n                                                      // No need to define defaults on the client\n}\n\n```\n\n##### Relations\nRelations are specified in the model schema. There are the following standard sql relations available:\n\n`belongsTo`:  This model has a foreign key to another model\n`hasOne`:     One related model has a foreign key to this model\n`hasMany`:    Any number of related models have foreign keys to this model\n\nThese three relation types can be combined \n\n\nThis class is created via `Model.cursor()`, which will return an instance of `Cursor` that can be used to build a database query.\n`Cursor` shouldn't be instantiated outside of the `Model.cursor()` class method.\n\n\n#### Query options\nModels can be queried with the following query options. These options can be specified with chained methods or properties within a query object prefixed with $.\n\n`one [bool]` return a single object rather than an array\n\n`values [array]` return, for each model found, an array of values rather than an object. For example, Model.cursor().values(['id', name']) will return a 2d array like [[1, 'Bob'], [2, 'Emily']]\n\n`select [array]` select only the given fields from the db\n\n`count [bool]` return a count of the number of models matching the given query\n\n`exists [bool]` return a boolean indicating whether any number of models exist matching the given query\n\n`unique [string]` like `select disctinct`, return no more than one result per distinct value of the given field\n\n`limit [number]` limit results to the given number of rows\n\n`offset [number]` offset results by the given number of rows\n\n`page: [bool]` if true, return paging information with results. Querries will return an object of the form {rows, totalRows, offset}\n\n\n#### Field modifiers\nEach field in a query can either be a plan value, which will be matched against directly, or an object with the following special matches:\n\n`$in [array]` field matches any of the given values `{name: {$in: ['bob', emily']}}` => `name in ('bob', 'emily')`\n\n`$nin [array]` field matches none of the given values `{name: {$nin: ['bob', emily']}}` => `name not in ('bob', 'emily')`\n\n`$exists [bool]` equivalent to a null check `{name: {$exists: true}}` => `name is not null`\n\n\n#### Query conditions\nAdvanced conditional operations\n\n`$or [array]` matches any of the given queries `{$or: [{name: 'bob'}, {city: 'sydney'}]}` => `name = 'bob' or city = 'sydney'`\n\n`$and [array]` matches all of the given queries. Doesn't do anything on its own, but is useful when nesting conditionals `{$and: [{name: 'bob'}, {city: 'sydney'}]}` => `name = 'bob' and city = 'sydney'`\n\n\n#### Relation queries\nRelated models can be queried using `{'relation.field': value}`. All options available to local fields work with relations. Relations must be configured in each models' schema.\n\nFor example, if we had a user model related to a profile model containing a `name` field we could domsomething like `{'profile.name': {$in: ['bob', emily']}}`, which would generate sql similar to `selectfrom users, profiles where profiles.name in ('bob', 'emily') and profiles.user_id = users.id`\n\n\n#### JSONb queries\nJSON fields can be queried in a similar way to related fields: `{'jsonfield.field': value}`\n\nFor example, given some models with json data like `{id: 1, nestedUsers: [{name: 'bob'}, {name: 'emily'}]}` we could query on the nestedUsers name field with `{'nestedUsers.name': 'bob'}` or `{'nestedUsers.name': {$in: ['emily', 'frank']}`\n",
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/README.md",
+    "name": "./README.md",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "packageJSON",
+    "content": "{\n  \"name\": \"stein-orm\",\n  \"version\": \"6.11.2\",\n  \"description\": \"\",\n  \"main\": \"lib/index.js\",\n  \"author\": {\n    \"name\": \"Gwilym Humphreys\",\n    \"url\": \"https://github.com/gwilymhumphreys\"\n  },\n  \"license\": \"MIT\",\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm\"\n  },\n  \"scripts\": {\n    \"prepublish\": \"rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib\",\n    \"build\": \"rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib\",\n    \"watch\": \"rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib\",\n    \"test\": \"eval $(cat __tests__/.env) jest --runInBand\",\n    \"docs\": \"../../node_modules/.bin/esdoc -c ../../.esdoc.json\"\n  },\n  \"devDependencies\": {\n    \"babel-cli\": \"^6.0.0\",\n    \"jest\": \"^22.0.0\",\n    \"stein-orm-sql\": \"^6.11.2\"\n  },\n  \"dependencies\": {\n    \"inflection\": \"^1.0.0\",\n    \"lodash\": \"^4.0.0\",\n    \"queue-async\": \"^1.0.0\"\n  },\n  \"jest\": {\n    \"verbose\": true,\n    \"bail\": true,\n    \"modulePathIgnorePatterns\": [\n      \"hasOneModels\",\n      \"m2mModels\"\n    ]\n  }\n}\n",
+    "longname": "/Users/gwilym/projects/founderlab/frameworkstein/frameworkstein/packages/stein-orm/package.json",
+    "name": "package.json",
+    "static": true,
+    "access": "public"
+  }
+]

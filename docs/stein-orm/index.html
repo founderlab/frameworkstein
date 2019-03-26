@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl">
+  <title data-ice="title">Home | stein-orm</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Cursor.js~Cursor.html">Cursor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Model.js~SteinModel.html">SteinModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Schema.js~Schema.html">Schema</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModel">createModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#lib">lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/lib/DatabaseUrl.js~DatabaseUrl.html">DatabaseUrl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/lib/Fabricator.js~Fabricator.html">Fabricator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/lib/naming.js~NamingConvention.html">NamingConvention</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/lib/utils.js~Utils.html">Utils</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#relations">relations</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/relations/Many.js~Many.html">Many</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/relations/One.js~One.html">One</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/relations/Relation.js~Relation.html">Relation</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><p>## </p>
+<p><a href="https://www.npmjs.com/package/stein-orm"><img src="https://img.shields.io/npm/v/stein-orm.svg?style=flat-square" alt="version"></a>
+<a href="https://github.com/robinpowered/stein-orm/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/stein-orm.svg?style=flat-square" alt="MIT License"></a>
+<a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome"></a></p>
+<h3 id="frameworkstein-orm">Frameworkstein ORM</h3><p>This is the core package for the Frameworkstein Object Relational Mapper (Frameworkstein ORM, or just <code>stein-orm</code>).</p>
+<p>Frameworkstein ORM consists of a few packages that make it easy to create and query SQL backed REST APIs in Node.js.</p>
+<p>Create model definitions, assign them schemas, auto-generate REST endpoints for them then query them using the same powerful query syntax on the client as the server.</p>
+<p>The main packages are as follows:</p>
+<p><a href="https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm">stein-orm</a>
+The core package. Exports functions for creating models and defining relations between them. Also contains a cursor interface for querying models which is extended by either <code>stein-orm-sql</code> or <code>stein-orm-rest</code>.</p>
+<p><a href="https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm">stein-orm-sql</a>
+Package that translates <code>stein-orm</code> queries into sql statements (using <a href="https://knexjs.org/">knex.js</a> internally) and sql results into models.</p>
+<p><a href="https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm">stein-orm-http</a>
+Package that translates <code>stein-orm</code> queries into http requests. This allows models to be queried using the same syntax on the client as the server. Assumes that an endpoint has been configured on the server for the model using <code>stein-orm-rest</code>.</p>
+<p><a href="https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm">stein-orm-rest</a>
+Package that generates REST API endpoints for <code>stein-orm</code> models. These endpoints can be queried with <code>stein-orm-http</code> or with any standard REST client.</p>
+<h3 id="usage">Usage</h3><p>For a complete example of how the parts work together see the <a href="https://github.com/founderlab/frameworkstein/tree/master/packages/fl-base-webapp">fl-base-webapp</a> repo. stein-orm models are stored in <code>server/models</code> (server side models) and <code>shared/models</code> (client side models). stein-orm-rest endpoints can be found in <code>server/api/controllers</code>. The <code>scaffold</code> directory has examples of creasting and saving models.</p>
+<h5 id="model-definitions">Model definitions</h5><p>Models are defined using the <code>createModel</code> decorator. Generally You&apos;ll want to create two model files, one for the server with your server code with an sql store (<code>stein-orm-sql</code>) and one for the client with a http store (<code>stein-orm-http</code>).</p>
+<p>Server model definition <code>/server/models/User.js</code></p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">import { createModel, Model } from &apos;stein-orm-sql&apos;    // Import from `stein-orm-sql` to use the sql store
+
+@createModel({                                        // The `createModel` decorator configures the model when called
+  url: &apos;postgres://localhost:5432/stein-orm/users&apos;,   // The url of your database, including the table name
+  schema: () =&gt; ({                                    // Schema definition, see [stein-orm-sql](https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm) for column options and `relations` below for relations.
+    name: &apos;Text&apos;, 
+  }),
+})
+export default class User extends Model {             // Extending the `stein-orm` `Model` class
+  defaults() {                                        // Function returning default properties for new models
+    return {name: &apos;Default name&apos;}
+  }
+}
+</code>
+</code></pre>
+<p>Client model definition <code>/shared/models/User.js</code></p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">import { createModel, Model } from &apos;stein-orm-http&apos;   // Import from `stein-orm-http` to use the http store
+
+@createModel({                                        // As above, will configure the model with a http store
+  url: &apos;/api/users&apos;,                                  // The root url of your `stein-orm-rest` api for this model
+                                                      // No need to define a schema on the client
+})
+export default class User extends Model {             
+                                                      // No need to define defaults on the client
+}
+</code>
+</code></pre>
+<h5 id="relations">Relations</h5><p>Relations are specified in the model schema. There are the following standard sql relations available:</p>
+<p><code>belongsTo</code>:  This model has a foreign key to another model
+<code>hasOne</code>:     One related model has a foreign key to this model
+<code>hasMany</code>:    Any number of related models have foreign keys to this model</p>
+<p>These three relation types can be combined </p>
+<p>This class is created via <code>Model.cursor()</code>, which will return an instance of <code>Cursor</code> that can be used to build a database query.
+<code>Cursor</code> shouldn&apos;t be instantiated outside of the <code>Model.cursor()</code> class method.</p>
+<h4 id="query-options">Query options</h4><p>Models can be queried with the following query options. These options can be specified with chained methods or properties within a query object prefixed with $.</p>
+<p><code>one [bool]</code> return a single object rather than an array</p>
+<p><code>values [array]</code> return, for each model found, an array of values rather than an object. For example, Model.cursor().values([&apos;id&apos;, name&apos;]) will return a 2d array like [[1, &apos;Bob&apos;], [2, &apos;Emily&apos;]]</p>
+<p><code>select [array]</code> select only the given fields from the db</p>
+<p><code>count [bool]</code> return a count of the number of models matching the given query</p>
+<p><code>exists [bool]</code> return a boolean indicating whether any number of models exist matching the given query</p>
+<p><code>unique [string]</code> like <code>select disctinct</code>, return no more than one result per distinct value of the given field</p>
+<p><code>limit [number]</code> limit results to the given number of rows</p>
+<p><code>offset [number]</code> offset results by the given number of rows</p>
+<p><code>page: [bool]</code> if true, return paging information with results. Querries will return an object of the form {rows, totalRows, offset}</p>
+<h4 id="field-modifiers">Field modifiers</h4><p>Each field in a query can either be a plan value, which will be matched against directly, or an object with the following special matches:</p>
+<p><code>$in [array]</code> field matches any of the given values <code>{name: {$in: [&apos;bob&apos;, emily&apos;]}}</code> =&gt; <code>name in (&apos;bob&apos;, &apos;emily&apos;)</code></p>
+<p><code>$nin [array]</code> field matches none of the given values <code>{name: {$nin: [&apos;bob&apos;, emily&apos;]}}</code> =&gt; <code>name not in (&apos;bob&apos;, &apos;emily&apos;)</code></p>
+<p><code>$exists [bool]</code> equivalent to a null check <code>{name: {$exists: true}}</code> =&gt; <code>name is not null</code></p>
+<h4 id="query-conditions">Query conditions</h4><p>Advanced conditional operations</p>
+<p><code>$or [array]</code> matches any of the given queries <code>{$or: [{name: &apos;bob&apos;}, {city: &apos;sydney&apos;}]}</code> =&gt; <code>name = &apos;bob&apos; or city = &apos;sydney&apos;</code></p>
+<p><code>$and [array]</code> matches all of the given queries. Doesn&apos;t do anything on its own, but is useful when nesting conditionals <code>{$and: [{name: &apos;bob&apos;}, {city: &apos;sydney&apos;}]}</code> =&gt; <code>name = &apos;bob&apos; and city = &apos;sydney&apos;</code></p>
+<h4 id="relation-queries">Relation queries</h4><p>Related models can be queried using <code>{&apos;relation.field&apos;: value}</code>. All options available to local fields work with relations. Relations must be configured in each models&apos; schema.</p>
+<p>For example, if we had a user model related to a profile model containing a <code>name</code> field we could domsomething like <code>{&apos;profile.name&apos;: {$in: [&apos;bob&apos;, emily&apos;]}}</code>, which would generate sql similar to <code>selectfrom users, profiles where profiles.name in (&apos;bob&apos;, &apos;emily&apos;) and profiles.user_id = users.id</code></p>
+<h4 id="jsonb-queries">JSONb queries</h4><p>JSON fields can be queried in a similar way to related fields: <code>{&apos;jsonfield.field&apos;: value}</code></p>
+<p>For example, given some models with json data like <code>{id: 1, nestedUsers: [{name: &apos;bob&apos;}, {name: &apos;emily&apos;}]}</code> we could query on the nestedUsers name field with <code>{&apos;nestedUsers.name&apos;: &apos;bob&apos;}</code> or <code>{&apos;nestedUsers.name&apos;: {$in: [&apos;emily&apos;, &apos;frank&apos;]}</code></p>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

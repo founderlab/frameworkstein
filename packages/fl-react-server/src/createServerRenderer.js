@@ -95,7 +95,10 @@ export default function createServerRenderer(_options) {
         if (fetchResult.redirect) return res.redirect(fetchResult.redirect)
         if (fetchResult.status) {
           if (fetchResult.status.toString() === '404') return sendNotFound(res, cssTags)
-          return res.status(fetchResult.status).send(fetchResult.message || `Sorry, we couldn't complete that request. Status: ${fetchResult.status}`)
+          if (fetchResult.status.toString() !== '200') {
+            const msg = fetchResult.message || `Sorry, we couldn't complete that request. Status: ${fetchResult.status}`
+            return res.status(fetchResult.status).send(msg)
+          }
         }
       }
       catch (err) {
