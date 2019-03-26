@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'reactstrap'
-import createModelListForm from './create/ModelListForm'
+import ModelListForm from './forms/ModelListForm'
 import { shouldEditFieldInline, shouldDisplayFieldInline } from '../utils/inline'
 
 
@@ -10,9 +10,10 @@ export default function ModelListTable(props) {
   const { models, modelAdmin, handleSaveFn, handleDeleteFn } = props
 
   const modelListRows = _.map(models, model => {
-    const ModelListForm = createModelListForm(model)
     return (
       <ModelListForm
+        form={`modelListRow_${model.id}`}
+        initialValues={model}
         key={model.id}
         formKey={model.id}
         model={model}

@@ -7,7 +7,8 @@ import { reduxForm, Field } from 'redux-form'
 import { shouldEditFieldInline, shouldDisplayFieldInline } from '../../utils/inline'
 
 
-export class ModelListForm extends React.Component {
+@reduxForm()
+export default class ModelListForm extends React.Component {
 
   static propTypes = {
     model: PropTypes.object.isRequired,
@@ -69,13 +70,4 @@ export class ModelListForm extends React.Component {
       </tr>
     )
   }
-}
-
-export default function createModelListForm(model) {
-  return reduxForm(
-    {
-      form: `model_list_row_${model.id}`,
-      initialValues: model,
-    },
-  )(ModelListForm)
 }

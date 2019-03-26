@@ -5,7 +5,10 @@ import { FormGroup, Label, Row, Col, Button } from 'reactstrap'
 import { reduxForm, Field, FieldArray } from 'redux-form'
 
 
-export class ModelDetailForm extends React.Component {
+@reduxForm({
+  form: 'modelDetail',
+})
+export default class ModelDetailForm extends React.Component {
 
   static propTypes = {
     model: PropTypes.object.isRequired,
@@ -60,11 +63,4 @@ export class ModelDetailForm extends React.Component {
       </div>
     )
   }
-}
-
-export default function createModelDetailForm(model) {
-  return reduxForm({
-    form: 'model_detail',
-    initialValues: model,
-  })(ModelDetailForm)
 }

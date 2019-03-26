@@ -89,10 +89,13 @@ export default function createModelDetailEditor(modelAdmin) {
         })
       })
 
+      const modelIm = modelStore.get('models').get(id)
+      const model = modelIm ? modelIm.toJSON() : {}
+console.log(';model, model', model)
       const componentProps = {
         id,
         modelAdmin,
-        modelStore,
+        model,
         location,
         visibleItems,
         totalItems,

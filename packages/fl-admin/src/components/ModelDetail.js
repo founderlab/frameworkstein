@@ -4,16 +4,13 @@ import PropTypes from 'prop-types'
 import warning from 'warning'
 import { Link } from 'react-router-dom'
 import { Container, Row, Col } from 'reactstrap'
-import createModelDetailForm from '../components/create/ModelDetailForm'
+import ModelDetailForm from '../components/forms/ModelDetailForm'
 
 
 export default function ModelDetail(props) {
 
-  const { modelAdmin, modelStore, id, handleSaveFn, handleDeleteFn } = props
-  const modelIm = modelStore.get('models').get(id)
-  const model = modelIm ? modelIm.toJSON() : {}
+  const { model, modelAdmin, id, handleSaveFn, handleDeleteFn } = props
   warning(model, `[fl-admin] ModelDetail: Model ${modelAdmin.name} not loaded with id ${id}`)
-  const ModelDetailForm = createModelDetailForm(model)
 
   return (
     <section className="fla-model-detail">
@@ -31,6 +28,7 @@ export default function ModelDetail(props) {
         <ModelDetailForm
           formKey={model.id}
           model={model}
+          initialValues={model}
           modelAdmin={modelAdmin}
           onSubmit={handleSaveFn(model)}
           onDelete={handleDeleteFn(model)}
@@ -42,8 +40,12 @@ export default function ModelDetail(props) {
 
 ModelDetail.propTypes = {
   id: PropTypes.string,
-  modelStore: PropTypes.object,
+  model: PropTypes.object,
   modelAdmin: PropTypes.object,
   handleSaveFn: PropTypes.func,
   handleDeleteFn: PropTypes.func,
+}
+
+ModelDetail.defaultProps = {
+  model: {},
 }
