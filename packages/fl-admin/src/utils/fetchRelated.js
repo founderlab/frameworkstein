@@ -51,7 +51,7 @@ export default async function fetchRelated(options) {
 
   for (const key in modelAdmin.relationFields) {
     const relationField = modelAdmin.relationFields[key]
-    if (!relationField.modelAdmin || !(loadAll || relationField.listEdit)) return
+    if (!relationField.modelAdmin || !(loadAll || relationField.listEdit)) continue
 
     // load m2m relations serially so they can be placed on the model
     if (relationField.relation.isManyToMany()) {
@@ -59,7 +59,7 @@ export default async function fetchRelated(options) {
     }
     else {
       const query = relatedQuery(modelIds, modelStore, relationField)
-      if (!query) return
+      if (!query) continue
 
       // load other relations in parallel
       query.$user_id = auth.get('user').get('id')
