@@ -9,7 +9,6 @@ export default function createModel(_options={}) {
     const options = _.extend({}, _options, modelType)
     modelType.modelName = options.name || modelType.name
     modelType.schema = new Schema(modelType, options.schema)
-    modelType.createModel = options.createModel || createModel
 
     if (!modelType.store) {
       try {
