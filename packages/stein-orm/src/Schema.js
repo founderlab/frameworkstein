@@ -147,7 +147,7 @@ export default class Schema {
       name,
       url,
       schema,
-      store: relation.modelType.store.constructor,
+      Store: relation.modelType.store.constructor,
     })(class JoinTable extends Model {})
 
     return JoinTable
