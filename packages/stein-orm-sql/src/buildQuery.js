@@ -10,8 +10,7 @@ function joinToRelation(query, relation, options={}) {
   const relationModelType = relation.reverseModelType
 
   const fromTable = modelType.tableName
-  let toTable = relationModelType.tableName
-  const asTableName = options.asTableName
+  const toTable = relationModelType.tableName
 
   if ((relation.type === 'hasMany') && (relation.reverseRelation.type === 'hasMany')) {
     const pivotTable = relation.joinTable.tableName
@@ -24,9 +23,7 @@ function joinToRelation(query, relation, options={}) {
     if (!options.pivotOnly) {
       // Then to the to model's table (only if we need data from them second table)
       const pivotFromKey = `${pivotTable}.${relation.reverseRelation.foreignKey}`
-      toKey = `${asTableName || toTable}.id`
-      if (asTableName) toTable = `${toTable} as ${asTableName}`
-
+      toKey = `${toTable}.id`
       return query.leftOuterJoin(toTable, pivotFromKey, '=', toKey)
     }
 
@@ -169,11 +166,10 @@ export default function buildQueryFromAst(query, ast, options) {
 
   let hasInclude = false
 
+  // for (const key in ast.joins) {
+  // const join = ast.joins[key]
   _.forEach(ast.joins, join => {
-    const joinOptions = {
-      pivotOnly: join.pivotOnly && !(join.include || join.condition),
-      asTableName: join.asTableName,
-    }
+    const joinOptions = {pivotOnly: join.pivotOnly && !(join.include || join.condition)}
     if (join.include) {
       joinToRelation(query, join.relation, joinOptions)
       hasInclude = true
