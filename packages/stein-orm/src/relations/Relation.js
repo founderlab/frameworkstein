@@ -1,3 +1,5 @@
+import _ from 'lodash'
+// import Model from '../Model'
 import naming from '../lib/naming'
 
 
@@ -20,7 +22,8 @@ export default class Relation {
     const { modelType, reverseModelType } = this
 
     if (!reverseModelType) {
-      console.log(`[stein-orm] Could not find reverse model type on relation ${this.modelType.modelName} ${this.type} ${this.key}`)
+      // console.dir(this)
+      console.log(`[florm] Could not find reverse model type on relation ${this.modelType.modelName} ${this.type} ${this.key}`)
       return
     }
 

@@ -10,6 +10,8 @@ export default function createModel(_options={}) {
     modelType.modelName = options.name || modelType.name
     modelType.schema = new Schema(modelType, options.schema)
 
+    modelType.schema.initialise()
+
     if (!modelType.store) {
       try {
         const Store = options.Store || require('stein-orm-sql').default
@@ -21,8 +23,6 @@ export default function createModel(_options={}) {
         throw new Error(msg)
       }
     }
-
-    modelType.schema.initialise()
 
     return modelType
   }
