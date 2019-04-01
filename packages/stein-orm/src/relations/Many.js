@@ -8,13 +8,28 @@ export default class Many extends Relation {
     super()
     this.modelType = modelType
     this.key = key
+    this._initialOptions = options
     _.extend(this, options)
-    if (!this.virtualIdAccessor) { this.virtualIdAccessor = naming.foreignKey(this.key, true) }
-    if (!this.joinKey) { this.joinKey = this.foreignKey || naming.foreignKey(this.modelType.modelName) }
-    if (!this.foreignKey) {
-      this.foreignKey = this.as ? `${this.as}_id` : naming.foreignKey(this.modelType.modelName)
+
+    if (!this.virtualIdAccessor) {
+      this.virtualIdAccessor = naming.foreignKey(this.key, true)
     }
+
+    if (!this.foreignKey) {
+      this.foreignKey = naming.foreignKey(this.as || this.modelType.modelName)
+    }
+
+    if (!this.joinKey) {
+      this.joinKey = this.foreignKey
+    }
+
     this._isInitialised = false
+  }
+
+  // Update foreign key and join key to the correct ones for a m2m table
+  setManyToManyKeys() {
+    if (!this._initialOptions.foreignKey) this.foreignKey = naming.foreignKeySingular(this.as || this.modelType.modelName)
+    if (!this._initialOptions.joinKey) this.joinKey = this.foreignKey
   }
 
   initialise(reverseRelation) {
@@ -33,6 +48,7 @@ export default class Many extends Relation {
       this._isInitialising = false
       return
     }
+
     const newType = this.modelType && this.modelType.schema ? this.modelType.schema.type('id') : this.modelType
     this.reverseModelType.schema.type(this.foreignKey, newType)
 
@@ -42,8 +58,15 @@ export default class Many extends Relation {
       throw new Error(`The reverse of a hasMany relation should be \`belongsTo\`, not \`hasOne\` (${this.modelType.modelName} and ${this.reverseModelType.modelName}).`)
     }
     // check for join table
-    // console.log('init check', this.modelType.modelName, this.key, this.type, '->', this.reverseRelation.type)
     if (this.reverseRelation.type === 'hasMany') {
+
+      if (this.modelType === this.reverseRelation.modelType) {
+        if (!this.as || !this.reverseRelation.as) throw new Error(`Many to Many relations to the same model require an \`as\` option (${this.modelType.modelName} and ${this.reverseModelType.modelName}).`)
+      }
+
+      this.setManyToManyKeys()
+      this.reverseRelation.setManyToManyKeys()
+
       this.joinTable = this.findOrGenerateJoinTable(this)
     }
 

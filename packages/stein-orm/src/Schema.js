@@ -137,6 +137,7 @@ export default class Schema {
       url = `${(new DatabaseUrl(relation.modelType.url)).format({excludeTable: true})}/${tableName}`
     }
     catch (err) {
+      console.log('[stein-orm] Schema.generateJoinTable err', err)
       url = `/${tableName}`
     }
     const name = naming.modelName(tableName, true)
@@ -146,6 +147,7 @@ export default class Schema {
       name,
       url,
       schema,
+      Store: relation.modelType.store.constructor,
     })(class JoinTable extends Model {})
 
     return JoinTable
@@ -189,6 +191,7 @@ export default class Schema {
     // reverse relation
     if (_.isFunction(options[0]) || !options[0] || (_.isObject(options[0]) && (_.isEmpty(options[0]) || options[0].hasOwnProperty('default') && _.isUndefined(options[0].default)))) {
       result.reverseModelType = _.isFunction(options[0]) ? options[0] : null
+      if (!result.reverseModelType && options[1] && options[1].self) result.reverseModelType = this.modelType
       options = options.slice(1)
     }
 
@@ -203,6 +206,9 @@ export default class Schema {
   }
 
   static joinTableTableName(relation) {
+    const throughTableName = relation.through || relation.reverseRelation.through
+    if (throughTableName) return throughTableName
+
     const tableName1 = naming.tableName(relation.modelType.modelName)
     const tableName2 = naming.tableName(relation.reverseRelation.modelType.modelName)
     return tableName1.localeCompare(tableName2) < 0 ? `${tableName1}_${tableName2}` : `${tableName2}_${tableName1}`

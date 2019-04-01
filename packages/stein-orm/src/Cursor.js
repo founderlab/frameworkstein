@@ -1,4 +1,7 @@
-/* eslint-disable new-cap */
+/* eslint-disable
+  new-cap,
+  no-continue,
+*/
 import _ from 'lodash'
 import { promisify } from 'util'
 
@@ -59,7 +62,7 @@ import { promisify } from 'util'
  * For example, given some models with json data like `{id: 1, nestedUsers: [{name: 'bob'}, {name: 'emily'}]}` we could query on the nestedUsers name field with `{'nestedUsers.name': 'bob'}` or `{'nestedUsers.name': {$in: ['emily', 'frank']}`
 
  * @example
- * const cursor = MyModel.cursor({name: 'bob', $one: true}) // cursor represents a query for models named bob
+ * const cursor = MyModel.cursor({name: 'bob', $one: true}) // cursor represents a query for a single model named 'bob'
  * cursor.select('id', 'name')                              // only select the 'id', and 'name' fields. This is equivalent to including {$select: ['id', 'name']} in the query object
  * const results = await cursor.toJSON()                    // toJSON or toModels will execute the query represented by this cursor and return the results
  */
@@ -219,7 +222,9 @@ export default class Cursor {
       const relation = this.modelType.schema.relation(relationKey)
       if (relation) {
         relatedModelTypes.push(relation.reverseModelType)
-        if (relation.joinTable) { relatedModelTypes.push(relation.joinTable) }
+        if (relation.joinTable) {
+          relatedModelTypes.push(relation.joinTable)
+        }
       }
     }
 
@@ -229,16 +234,22 @@ export default class Cursor {
   // @nodoc
   selectResults(json) {
     let result = json
+
     if (this._cursor.$one) result = result.slice(0, 1)
+
     if (this._cursor.$values) {
       const $values = this._cursor.$whitelist ? _.intersection(this._cursor.$values, this._cursor.$whitelist) : this._cursor.$values
       result = this._cursor.$values.length === 1 ? _.map(json, item => item[$values[0]] || null) : _.map(json, item => _.map($values, key => item[key] || null))
     }
+
     else if (this._cursor.$select) {
-      let $select = this._cursor.$whitelist ? _.intersection(this._cursor.$select, this._cursor.$whitelist) : this._cursor.$select
+      let $select = this._cursor.$select
+      if (this._cursor.$include) $select = [...$select, ...this._cursor.$include]
+      if (this._cursor.$whitelist) $select = _.intersection(this._cursor.$select, this._cursor.$whitelist)
       $select = _.map($select, field => field.includes('.') ? field.split('.').pop() : field)
       result = _.map(json, item => _.pick(item, $select))
     }
+
     else if (this._cursor.$whitelist) {
       result = _.map(json, item => _.pick(item, this._cursor.$whitelist))
     }
@@ -278,9 +289,11 @@ export default class Cursor {
     const result = []
     for (const key in query) {
       const value = query[key]
-      if (!_.isUndefined(value) && !_.isObject(value)) { continue }
+      if (!_.isUndefined(value) && !_.isObject(value)) continue
+
       const fullKey = memo ? `${memo}.${key}` : key
       if (_.isUndefined(value)) { throw new Error(`Unexpected undefined for query key '${fullKey}' on ${(modelType != null ? modelType.modelName : undefined)}`) }
+
       if (_.isObject(value)) { result.push(this.validateQuery(value, fullKey, modelType)) }
       else {
         result.push(undefined)

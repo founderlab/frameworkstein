@@ -67,7 +67,6 @@ export default class SqlCursor extends Cursor {
   }
 
   queryToJSON = callback => {
-    let ast, query
     if (this.hasCursorQuery('$zero')) { return callback(null, this.hasCursorQuery('$one') ? null : []) }
 
     if (!this.verbose) { this.verbose = this._cursor.$verbose }
@@ -82,23 +81,23 @@ export default class SqlCursor extends Cursor {
     if (this._cursor.$unique) { return this.execUnique(callback) }
 
     try {
-      ast = new Ast({
+      const ast = new Ast({
         find: this._find,
         cursor: this._cursor,
         modelType: this.modelType,
       })
-      query = this.connection(this.modelType.tableName)
+      let query = this.connection(this.modelType.tableName)
       query = buildQuery(query, ast)
 
       // $in : [] or another query that would result in an empty result set in mongo has been given
       if (ast.abort) { return callback(null, this._cursor.$count ? 0 : (this._cursor.$one ? null : [])) }
 
+      return this.runQuery(query, ast, callback)
     }
     catch (err) {
       console.log(err)
       return callback(`Query failed for model: ${this.modelType.modelName} with error: ${err}`)
     }
-    return this.runQuery(query, ast, callback)
   }
 
   runQuery = (query, ast, _callback) => {
@@ -125,7 +124,7 @@ export default class SqlCursor extends Cursor {
         return callback(null, this.hasCursorQuery('$count') ? count : (count > 0))
       }
 
-      if (ast.prefixColumns) { json = this.unjoinResults(json, ast) }
+      if (ast.prefixColumns) json = this.unjoinResults(json, ast)
 
       if (ast.joinedIncludesWithConditions().length) {
         return this.fetchIncludedRelations(json, ast, callback)
@@ -138,7 +137,9 @@ export default class SqlCursor extends Cursor {
   processResponse = (json, ast, callback) => {
     const schema = this.modelType.schema
 
-    for (const modelJson of Array.from(json)) { parseJson(modelJson, schema) }
+    for (const modelJson of Array.from(json)) {
+      parseJson(modelJson, schema)
+    }
     json = this.selectResults(json)
 
     // NOTE: limit and offset would apply to the join table so do as post-process. TODO: optimize
@@ -217,26 +218,30 @@ export default class SqlCursor extends Cursor {
     const { modelType } = ast
 
     for (const row of Array.from(rawJson)) {
-      let found, relatedJson, relationKey
+      let found
       let modelJson = {}
-      const row_relationJson = {}
+      const rowRelationJson = {}
 
       // Fields are prefixed with the table name of the model they belong to so we can test which the values are for
       // and assign them to the correct object
       for (const key in row) {
-        let match
         const value = row[key]
-        if (match = ast.prefixRegex().exec(key)) {
-          modelJson[match[1]] = value
+        const match = ast.prefixRegex().exec(key)
 
+        // Match meants this column is from the original model
+        if (match) {
+          modelJson[match[1]] = value
         }
         else {
-          for (relationKey in ast.joins) {
+          // No match means we check joined models
+          for (const relationKey in ast.joins) {
             const join = ast.joins[relationKey]
+
             if (join.include) {
-              relatedJson = (row_relationJson[relationKey] || (row_relationJson[relationKey] = {}))
-              if (match = ast.prefixRegex(join.relation.reverseModelType.tableName).exec(key)) {
-                relatedJson[match[1]] = value
+              const relatedJson = (rowRelationJson[relationKey] || (rowRelationJson[relationKey] = {}))
+              const includeMatch = ast.prefixRegex(join.asTableName || join.relation.reverseModelType.tableName).exec(key)
+              if (includeMatch) {
+                relatedJson[includeMatch[1]] = value
                 found = true
               }
             }
@@ -248,7 +253,8 @@ export default class SqlCursor extends Cursor {
       }
 
       // If there was a hasMany relationship or multiple $includes we'll have multiple rows for each model
-      if ((found = _.find(json, test => test.id === modelJson.id))) {
+      found = _.find(json, test => test.id === modelJson.id)
+      if (found) {
         modelJson = found
       // Add this model to the result if we haven't already
       }
@@ -257,9 +263,9 @@ export default class SqlCursor extends Cursor {
       }
 
       // Add relations to the modelJson if included
-      for (relationKey in row_relationJson) {
+      for (const relationKey in rowRelationJson) {
 
-        relatedJson = row_relationJson[relationKey]
+        let relatedJson = rowRelationJson[relationKey]
         if (_.isNull(relatedJson.id)) {
           if (modelType.schema.relation(relationKey).type === 'hasMany') {
             modelJson[relationKey] = []

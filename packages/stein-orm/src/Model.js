@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { promisify } from 'util'
 
 
-export default class FLModel {
+export default class SteinModel {
 
   data = {}
 
@@ -117,6 +117,40 @@ export default class FLModel {
     return this._save(data)
   }
 
+  _linkData = async (relationName, _data) => {
+    if (!this.id) await this.save()
+    const relatedId = _data.id || _data
+    const relation = this.schema.relation(relationName)
+    return {
+      [relation.foreignKey]: this.id,
+      [relation.reverseRelation.foreignKey]: relatedId,
+    }
+  }
+
+  _link = async (relationName, _data) => {
+    const data = await this._linkData(relationName, _data)
+    return this.constructor.link(relationName, data)
+  }
+
+  link = (relationName, data, callback) => {
+    if (_.isFunction(callback)) {
+      return this._link(relationName, data).then(() => callback(null, this)).catch(callback)
+    }
+    return this._link(relationName, data)
+  }
+
+  _unlink = async (relationName, _data) => {
+    const data = await this._linkData(relationName, _data)
+    return this.constructor.unlink(relationName, data)
+  }
+
+  unlink = (relationName, data, callback) => {
+    if (_.isFunction(callback)) {
+      return this._unlink(relationName, data).then(() => callback(null, this)).catch(callback)
+    }
+    return this._unlink(relationName, data)
+  }
+
   destroy = (callback) => {
     if (!this.id) {
       if (callback) return callback()
@@ -139,9 +173,9 @@ export default class FLModel {
         json[relation.foreignKey] = (value && value.id) || value
       }
       else if (_.isArray(value)) {
-        json[key] = _.map(value, v => v instanceof FLModel ? v.toJSON(options) : v)
+        json[key] = _.map(value, v => v instanceof SteinModel ? v.toJSON(options) : v)
       }
-      else if (value instanceof FLModel) {
+      else if (value instanceof SteinModel) {
         json[key] = value.toJSON(options)
       }
       else {
@@ -150,6 +184,7 @@ export default class FLModel {
     }
     return json
   }
+
 
   /* ----------------------
    * Class helper methods *
@@ -250,6 +285,41 @@ export default class FLModel {
   }
   static findOrCreate(...args) {
     return this.promiseOrCallbackFn(this._findOrCreate)(...args)
+  }
+
+  /*
+   * Link a many to many relation
+   * @param {string} relationName the name of the relation
+   * @param {object} linkData an object containing the foreign keys of the link to create, e.g. {modelOne_id: 1, modelTwo_id: 2}
+   */
+  static async _link(relationName, data, callback) {
+    if (!_.isString(relationName) || !_.isObject(data)) throw new Error(`[stein-orm::link] arguments should be relationName::string, linkData::object - got ${relationName} ${data}`)
+
+    const JoinTableModel = this.joinTable(relationName)
+    if (!JoinTableModel) throw new Error(`[stein-orm::link] relation or join table not found for model ${this.name} and relation ${relationName}`)
+
+    const entry = new JoinTableModel(data)
+    return entry.save(callback)
+  }
+  static link(...args) {
+    return this.promiseOrCallbackFn(this._link)(...args)
+  }
+
+  /*
+   * Unlink a many to many relation
+   * @param {string} relationName the name of the relation
+   * @param {object} linkData an object containing the foreign keys of the link to remove, e.g. {modelOne_id: 1, modelTwo_id: 2}
+   */
+  static async _unlink(relationName, data, callback) {
+    if (!_.isString(relationName) || !_.isObject(data)) throw new Error(`[stein-orm::unlink] arguments should be relationName::string, linkData::object - got ${relationName} ${data}`)
+
+    const JoinTableModel = this.joinTable(relationName)
+    if (!JoinTableModel) throw new Error(`[stein-orm::unlink] relation or join table not found for model ${this.name} and relation ${relationName}`)
+
+    return JoinTableModel.destroy(data, callback)
+  }
+  static unlink(...args) {
+    return this.promiseOrCallbackFn(this._unlink)(...args)
   }
 
   static _destroy(query, callback) {
