@@ -35,7 +35,7 @@ export default function configureAdmin() {
 ${_.map(options.modelOptions, options => {
   return `
     {
-      Model: require('./models/MeetingRequest'),
+      Model: require('./models/${options.className}'),
       fields: {
       },
     },
