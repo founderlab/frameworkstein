@@ -1,6 +1,6 @@
 
 ## [Unreleased]
-  
+  - v2.0 started
 
 ## [1.1.3]
   - Updated controller template
