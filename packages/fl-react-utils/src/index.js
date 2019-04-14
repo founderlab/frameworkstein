@@ -3,6 +3,7 @@ import Input from './components/Input'
 import Pagination from './components/Pagination'
 import parseSelectValues from './parseSelectValues'
 import RadioField from './components/RadioField'
+import RadioInput from './components/RadioInput'
 import S3Image from './components/S3Image'
 import S3Uploader from './components/S3Uploader'
 import Sidebar from './components/Sidebar'
@@ -18,6 +19,7 @@ export {
   Pagination,
   parseSelectValues,
   RadioField,
+  RadioInput,
   S3Image,
   S3Uploader,
   Sidebar,
