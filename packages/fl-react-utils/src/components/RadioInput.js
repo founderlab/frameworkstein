@@ -24,15 +24,6 @@ export default class RadioInput extends React.PureComponent {
     inline: true,
   }
 
-  constructor(props) {
-    super(props)
-    console.log('remade')
-  }
-
-  componentWillReceiveProps(props) {
-    console.log('componentWillReceiveProps', props.input.value)
-  }
-
   renderOption = (opt, labelProps={}) => {
     const { input, meta } = this.props
 
