@@ -9,7 +9,7 @@ import ${options.className} from '../../models/${options.className}'
 const whitelist = ${options.className}.schema.columns()
 
 export function canAccessAsync(options) {
-  const {user, req} = options
+  const { user, req } = options
   if (user && user.admin) return true
 
   // Don't allow inclusion of related models by default
