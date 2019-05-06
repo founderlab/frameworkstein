@@ -1,0 +1,10 @@
+{
+  "extends": "../.eslintrc",
+  "env": {
+    "jest": true
+  },
+  "rules": {
+    "import/no-dynamic-require": 0
+  }
+}
+

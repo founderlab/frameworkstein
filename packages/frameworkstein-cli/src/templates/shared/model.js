@@ -10,7 +10,7 @@ import { createModel, Model } from 'stein-orm-http'
 })
 export default class ${options.className} extends Model {
   static schema = () => _.extend({
-    ${renderRelations(options.relations)}
+${renderRelations(options.relations)}
   }, require('./schemas/${options.variableName}'))
 
 }

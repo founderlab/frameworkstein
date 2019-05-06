@@ -1,8 +1,4 @@
-import _ from 'lodash'
-
-
-export default options =>
-`import _ from 'lodash' // eslint-disable-line
+import _ from 'lodash' // eslint-disable-line
 import admin from 'fl-admin'
 
 
@@ -32,13 +28,12 @@ export default function configureAdmin() {
             linked: true,
           },
         },
-      },${_.map(options.modelOptions, options => `
+      },
       {
-        Model: require('./models/${options.className}'),
+        Model: require('./models/TestModel'),
         fields: {
         },
-      },`)}
+      },
     ],
   })
 }
-`
