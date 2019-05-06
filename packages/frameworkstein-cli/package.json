@@ -21,7 +21,9 @@
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
     "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
     "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
-    "test": "eval $(cat __tests__/.env) jest --runInBand"
+    "test": "eval $(cat __tests__/.env) jest --runInBand",
+    "parse-schema": "node  --experimental-modules ./src/lib/parseSchema.mjs",
+    "create-app": "lib/index.js"
   },
   "dependencies": {
     "chalk": "^1.0.0",
