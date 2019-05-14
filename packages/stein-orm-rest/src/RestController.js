@@ -4,6 +4,7 @@
 import _ from 'lodash'
 import path from 'path'
 import Queue from 'queue-async'
+import { parseAsync } from 'json2csv'
 import { parse, parseField, parseDates, parseQuery } from './lib/parsers'
 import JsonController from './lib/JsonController'
 import JoinTableControllerSingleton from './lib/JoinTableControllerSingleton'
@@ -64,6 +65,8 @@ export default class RestController extends JsonController {
       if (err) return this.sendError(res, err)
       const { json, status } = result
       if (status) { return this.sendStatus(res, status) }
+
+      if (req.query.$csv) return this.sendCSV(res, json)
       return res.json(json)
     }
 
@@ -329,6 +332,16 @@ export default class RestController extends JsonController {
       }
     }
     return finalObj
+  }
+
+  async sendCSV(res, json) {
+    try {
+      const csv = await parseAsync(json, {})
+      res.send(csv)
+    }
+    catch (err) {
+      this.sendError(res, err)
+    }
   }
 
   __testEmit() {
