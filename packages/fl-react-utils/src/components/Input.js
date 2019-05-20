@@ -45,6 +45,7 @@ export default class FLInput extends React.Component {
     className: PropTypes.string,
     localeDateFormat: PropTypes.string,
     prepend: PropTypes.string,
+    append: PropTypes.string,
   }
 
   static defaultProps = {
@@ -59,7 +60,7 @@ export default class FLInput extends React.Component {
   }
 
   render() {
-    const { label, input, meta, helpMd, helpTop, type, className, bsProps, validationState, prepend, options } = this.props
+    const { label, input, meta, helpMd, helpTop, type, className, bsProps, validationState, prepend, append, options } = this.props
 
     const validation = validationState ? validationState(meta) : null
     const inputProps = _.extend({
@@ -215,13 +216,20 @@ export default class FLInput extends React.Component {
         control = (
           <Input type={type} {...bsProps} {...inputProps} />
         )
-        if (prepend) {
+        if (prepend || append) {
           control = (
             <InputGroup>
-              <InputGroupAddon addonType="prepend">
-                <InputGroupAddon addonType="prepend">{prepend}</InputGroupAddon>
-              </InputGroupAddon>
+              {prepend && (
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupAddon addonType="prepend">{prepend}</InputGroupAddon>
+                </InputGroupAddon>
+              )}
               {control}
+              {append && (
+                <InputGroupAddon addonType="append">
+                  <InputGroupAddon addonType="append">{append}</InputGroupAddon>
+                </InputGroupAddon>
+              )}
             </InputGroup>
           )
         }
