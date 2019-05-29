@@ -12,7 +12,7 @@ export default function createModel(_options={}) {
 
     if (!modelType.store) {
       try {
-        const Store = options.Store || require('stein-orm-sql').default
+        const Store = options.Store
         modelType.store = new Store(modelType, options)
       }
       catch (err) {

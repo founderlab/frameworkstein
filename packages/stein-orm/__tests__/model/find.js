@@ -12,6 +12,7 @@ const DATABASE_URL = process.env.DATABASE_URL
 if (!DATABASE_URL) console.log('Missing DATABASE_URL')
 
 const options = {
+  Store: require('stein-orm-sql').default,
   url: `${DATABASE_URL}/flats`,
   schema: {
     name: 'Text',
