@@ -1,6 +1,6 @@
 {
   "name": "frameworkstein-base-webapp",
-  "version": "6.14.8",
+  "version": "6.14.9",
   "description": "frameworkstein",
   "main": "index.js",
   "author": "Gwilym Humphreys (https://github.com/gwilymhumphreys)",
@@ -55,7 +55,7 @@
     "fl-admin": "^6.14.5",
     "fl-auth-react": "^6.14.5",
     "fl-auth-redux": "^6.7.6",
-    "fl-auth-server": "^6.14.8",
+    "fl-auth-server": "^6.14.9",
     "fl-backbone.nativeajax": "^0.4.0",
     "fl-cache-manager-redis": "^6.7.6",
     "fl-initdb": "^6.7.6",
@@ -111,11 +111,11 @@
     "serve-favicon": "^2.0.0",
     "sessionstore": "^1.0.0",
     "slugify": "^1.0.0",
-    "stein-orm": "^6.14.8",
-    "stein-orm-http": "^6.14.8",
-    "stein-orm-migrations": "^6.14.8",
-    "stein-orm-rest": "^6.14.8",
-    "stein-orm-sql": "^6.14.8",
+    "stein-orm": "^6.14.9",
+    "stein-orm-http": "^6.14.9",
+    "stein-orm-migrations": "^6.14.9",
+    "stein-orm-rest": "^6.14.9",
+    "stein-orm-sql": "^6.14.9",
     "warning": "^2.0.0"
   },
   "devDependencies": {
