@@ -184,21 +184,24 @@ export default class SqlAst {
   }
 
   isJsonField(jsonField, modelType) {
-    let needle
     if (!modelType) { ({ modelType } = this) }
     const field = modelType.schema.fields[jsonField]
-    return field && (needle = field.type.toLowerCase(), ['json', 'jsonb'].includes(needle))
+    if (field && ['json', 'jsonb'].includes(field.type.toLowerCase())) {
+      return field
+    }
   }
 
   parseJsonField(key, value, options) {
     if (options == null) { options = {} }
     const [jsonField, attr] = Array.from(key.split('.'))
-    if (this.isJsonField(jsonField)) {
-      const value_string = JSON.stringify(value)
+    const field = this.isJsonField(jsonField)
+    if (field) {
+      const valueString = JSON.stringify(value)
+      const queryString = `{"${attr}": ${valueString}}`
       const cond = {
         method: options.method === 'orWhere' ? 'orWhereRaw' : 'whereRaw',
         key: `"${jsonField}" @> ?`,
-        value: `[{"${attr}": ${value_string}}]`,
+        value: field.jsonType === 'object' ? queryString : `[${queryString}]`,
       }
       return cond
     }
