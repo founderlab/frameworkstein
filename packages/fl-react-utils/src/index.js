@@ -1,5 +1,9 @@
 import Button from './components/LoaderButton'
 import Input from './components/Input'
+import BelongsToInput from './components/BelongsToInput'
+import BelongsToInputAsync from './components/BelongsToInputAsync'
+import HasManyInput from './components/HasManyInput'
+import ManyToManyInput from './components/ManyToManyInput'
 import Pagination from './components/Pagination'
 import parseSelectValues from './parseSelectValues'
 import RadioField from './components/RadioField'
@@ -29,4 +33,8 @@ export {
   validationStyle,
   validDate,
   withAuth,
+  BelongsToInput,
+  BelongsToInputAsync,
+  HasManyInput,
+  ManyToManyInput,
 }
