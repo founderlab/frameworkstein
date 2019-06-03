@@ -20,6 +20,7 @@ export default function createModel(_options, callback) {
   }
   options.variablePlural = inflection.pluralize(options.variableName)
   options.classPlural = inflection.pluralize(options.className)
+  options.actionName = options.tableName.toUpperCase()
 
   const output = {
     serverModel: {
