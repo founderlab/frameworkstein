@@ -64,7 +64,7 @@ function appendRelatedWhere(query, condition, options={}) {
 
   if (condition.operator) {
     return query[inMethod](fromKey, builder => {
-      if (condition.value) {
+      if (!_.isUndefined(condition.value)) {
         return builder.select(select).from(table)[condition.method](condition.key, condition.operator, condition.value)
       }
       else if (condition.dotWhere) {
@@ -76,7 +76,7 @@ function appendRelatedWhere(query, condition, options={}) {
   }
 
   return query[inMethod](fromKey, builder => {
-    if (condition.value) {
+    if (!_.isUndefined(condition.value)) {
       return builder.select(select).from(table)[condition.method](condition.key, condition.value)
     }
     else if (condition.dotWhere) {
