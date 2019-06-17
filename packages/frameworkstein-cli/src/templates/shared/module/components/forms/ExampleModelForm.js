@@ -1,4 +1,4 @@
-import renderFormFields from '../../../../renderers/renderFormFields'
+import renderFormFields from './renderFormFields'
 
 export default options =>
 `import _ from 'lodash' // eslint-disable-line

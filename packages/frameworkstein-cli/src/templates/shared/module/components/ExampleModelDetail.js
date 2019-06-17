@@ -21,7 +21,7 @@ export default class ${options.className}Detail extends React.PureComponent {
         {_.map(${options.variableName}, (value, key) => {
           return <p key={key}>{key}: {value ? value.toString() : ''}</p>
         })}
-        <p><Link to={`/${options.variablePlural}/$\{${options.variableName}.id\}/edit`}>edit</Link></p>
+        <p><Link to={\`/${options.variablePlural}/$\{${options.variableName}.id}/edit\`}>edit</Link></p>
       </div>
     )
   }

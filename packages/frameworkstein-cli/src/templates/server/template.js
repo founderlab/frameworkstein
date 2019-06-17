@@ -1,12 +1,9 @@
 
 export default options =>
 `import _ from 'lodash' // eslint-disable-line
-import schema from '../../../../shared/models/schemas/${options.variableName}'
+import ${options.className} from '../../../../shared/models/${options.className}'
 
 export default {
-  $select: [
-    'id',
-    ..._.keys(schema),
-  ],
+  $select: [...${options.className}.schema.columns()],
 }
 `

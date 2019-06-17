@@ -41,32 +41,12 @@ export default function configureAdmin() {
           },
         },
       },
-      {
-        Model: require('./models/StaticPage'),
-        fields: {
-          title: {
-            listEdit: true,
-          },
-          contentMd: {
-            InputComponent: MarkdownInput,
-          },
-        },
-      },
-      {
-        Model: require('./models/ExampleModel'),
-        fields: {
-        },
-      },
-      {
-        Model: require('./models/Order'),
-        fields: {
-        },
-      },
-      {
-        Model: require('./models/ManyModel'),
-        fields: {
-        },
-      },
+      ${options.models.map(modelOption => (`
+        {
+          Model: require('./models/${modelOption.className}'),
+          fields: {},
+        },`
+      ))}
     ],
   })
 }

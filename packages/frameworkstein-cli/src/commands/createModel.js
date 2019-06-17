@@ -8,8 +8,9 @@ import inflection from 'inflection'
 import createServerModel from '../templates/server/model'
 import createServerController from '../templates/server/controller'
 import createServerTemplate from '../templates/server/template'
-import createSharedModel from '../templates/shared/model'
-import createSharedSchema from '../templates/shared/schema'
+import createSharedModel from '../templates/shared/models/model'
+import createSharedSchema from '../templates/shared/models/schema'
+
 
 export default function createModel(_options, callback) {
   const options = {

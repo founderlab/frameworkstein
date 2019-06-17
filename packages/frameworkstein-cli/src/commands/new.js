@@ -4,6 +4,7 @@ import unzip from 'unzip'
 import rimraf from 'rimraf'
 import Queue from 'queue-async'
 
+
 function replaceString(fileName, oldStr, newStr, callback) {
   fs.access(fileName, fs.W_OK|fs.R_OK, err => {
     if (err) return callback(new Error(`String replacement failure: ${err}`))
@@ -65,7 +66,7 @@ export default function newApp(_options, _callback) {
 
     queue.defer(callback => { // delete old folder
       fs.access(oldFolder, fs.F_OK, err => {
-        if (err) {// err means successfully renamed
+        if (err) { // err means successfully renamed
           return callback(null)
         } // otherwise delete the old folder
         rimraf(oldFolder, err => {
