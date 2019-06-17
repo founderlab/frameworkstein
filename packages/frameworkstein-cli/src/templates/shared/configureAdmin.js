@@ -2,7 +2,7 @@
 export default options =>
 `import _ from 'lodash' // eslint-disable-line
 import admin from 'fl-admin'
-import MarkdownInput from './modules/utils/components/MarkdownInput'
+
 
 export default function configureAdmin() {
   admin({
@@ -41,12 +41,12 @@ export default function configureAdmin() {
           },
         },
       },
-      ${options.models.map(modelOption => (`
-        {
-          Model: require('./models/${modelOption.className}'),
-          fields: {},
-        },`
-      ))}
+${options.models.map(modelOption => (`
+      {
+        Model: require('./models/${modelOption.className}'),
+        fields: {},
+      },`
+)).join('')}
     ],
   })
 }

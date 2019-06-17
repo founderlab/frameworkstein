@@ -18,8 +18,7 @@ program
   .action(name => {
     const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
 
-    if (
-      !options.force && (
+    if (!options.force && (
       !fs.existsSync(path.resolve(process.cwd(), 'client')) ||
       !fs.existsSync(path.resolve(process.cwd(), 'server')) ||
       !fs.existsSync(path.resolve(process.cwd(), 'shared')))) {
