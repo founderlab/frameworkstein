@@ -7,6 +7,7 @@ export default function createPaginationReducer(actionType, options={}) {
     visible: [],
     total: 0,
     currentPage: 0,
+    cache: {},
   })
 
   return function pagination(_state=defaultState, action={}) {
@@ -31,6 +32,21 @@ export default function createPaginationReducer(actionType, options={}) {
       else {
         state = state.merge({visible: action.ids, currentPage: action.page})
       }
+    }
+
+    else if (action.type === actionType + '_CACHE_RESTORE' && action.cacheKey) {
+      const cachedState = state.get('cache').get(action.cacheKey) && state.get('cache').get(action.cacheKey).toJSON()
+      // Return here so we don't cached the cached result again
+      return state.merge(cachedState)
+    }
+
+    if (action.cacheKey) {
+      const cachedState = {
+        visible: state.get('visible').toJSON(),
+        currentPage: state.get('currentPage'),
+        total: state.get('total'),
+      }
+      state = state.setIn(['cache', action.cacheKey], fromJS(cachedState))
     }
 
     return state

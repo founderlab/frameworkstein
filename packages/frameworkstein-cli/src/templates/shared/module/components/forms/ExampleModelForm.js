@@ -1,29 +1,28 @@
-import renderFormFields from './renderFormFields'
-
-export default options =>
-`import _ from 'lodash' // eslint-disable-line
-import React from 'react'
-import PropTypes from 'prop-types'
 import Inflection from 'inflection'
-import { reduxForm, Field } from 'redux-form'
-import { Input, HasManyInput, BelongsToInput, ManyToManyInput } from 'fl-react-utils'
-import Button from '../../../utils/components/Button'
-import ${options.className} from '../../../../models/${options.className}'
-
 
 export function label(key) {
   return Inflection.humanize(Inflection.underscore(key))
 }
 
+export default model =>
+`import _ from 'lodash' // eslint-disable-line
+import React from 'react'
+import PropTypes from 'prop-types'
+import { reduxForm, Field } from 'redux-form'
+import { Input, HasManyInput, BelongsToInput, ManyToManyInput } from 'fl-react-utils'
+import Button from '../../../utils/components/Button'
+import ${model.className} from '../../../../models/${model.className}'
+
+
 @reduxForm({
-  form: '${options.variableName}',
+  form: '${model.variableName}',
 })
-export default class ${options.className}Form extends React.PureComponent {
+export default class ${model.className}Form extends React.PureComponent {
 
   static propTypes = {
     loading: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
-    ${options.variableName}: PropTypes.object,
+    ${model.variableName}: PropTypes.object,
 
     // Relations
     orders: PropTypes.array,
@@ -32,38 +31,52 @@ export default class ${options.className}Form extends React.PureComponent {
   }
 
   render() {
-    const { loading, handleSubmit, ${options.variableName}, orders, profiles, manyModels } = this.props
+    const { loading, handleSubmit, ${model.variableName}${model.relations.map(relation => relation.variablePlural).join(', ')}, manyModels } = this.props
 
     return (
       <form onSubmit={handleSubmit}>
-
-        ${renderFormFields(options)}
-
+${model.fields.map(field => `
         <Field
-          name="orders"
-          label="Orders"
-          path="/orders"
-          models={orders}
-          component={HasManyInput}
+          name="${field.name}"
+          label="${label(field.name)}"
+          component={Input}
         />
-
-        <Field
-          name="profile_id"
-          label="Profile"
-          models={profiles}
-          component={BelongsToInput}
-        />
-
+`).join('')}
+${model.relations.map(relation => {
+    if (relation.m2m) {
+      return `
         <Field
           {...this.props}
-          name="manyModels"
-          label="Many Models"
-          path="/manyModels"
-          model={${options.variableName}}
-          models={manyModels}
+          name="${relation.name}"
+          label="${label(relation.name)}"
+          path="/${relation.model.variablePlural}"
+          model={${model.variableName}}
+          models={${relation.model.variablePlural}}
           component={ManyToManyInput}
-          relation={${options.className}.schema.relations.manyModels}
-        />
+          relation={${model.className}.schema.relations.${relation.name}}
+        />`
+    }
+    if (relation.relationType === 'hasMany') {
+      return `
+        <Field
+          name="${relation.name}"
+          label="${label(relation.name)}"
+          path="/${relation.model.variablePlural}"
+          models={${relation.model.variablePlural}}
+          component={HasManyInput}
+        />`
+    }
+    if (relation.relationType === 'belongsTo') {
+      return `
+        <Field
+          name="${relation.name}"
+          label="${label(relation.name)}"
+          models={${relation.model.variablePlural}}
+          component={BelongsToInput}
+        />`
+    }
+    return ''
+}).join('')}
 
         <div className="text-center mt-5">
           <Button loading={loading} type="submit" size="lg">Save</Button>
