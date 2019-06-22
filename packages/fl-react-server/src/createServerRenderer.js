@@ -34,6 +34,7 @@ async function checkRedirect({ req, store, branch }) {
 
   branch.forEach(branch => {
     const { route } = branch
+    branch.location = branch.location || {pathname: req.path, query: req.query}
     if (route.authenticate && !route.authenticate(store.getState(), branch)) {
       redirectUrl = route.redirectUrl ? route.redirectUrl(req.originalUrl) : '/'
     }
