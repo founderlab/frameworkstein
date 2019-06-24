@@ -5,8 +5,7 @@ export function label(key) {
 }
 
 export default model =>
-`import _ from 'lodash' // eslint-disable-line
-import React from 'react'
+`import React from 'react'
 import PropTypes from 'prop-types'
 import { reduxForm, Field } from 'redux-form'
 import { Input, HasManyInput, BelongsToInput, ManyToManyInput } from 'fl-react-utils'
@@ -15,7 +14,7 @@ import ${model.className} from '../../../../models/${model.className}'
 
 
 @reduxForm({
-  form: '${model.variableName}',
+  form: '${model.variableName}Form',
 })
 export default class ${model.className}Form extends React.PureComponent {
 
@@ -25,13 +24,11 @@ export default class ${model.className}Form extends React.PureComponent {
     ${model.variableName}: PropTypes.object,
 
     // Relations
-    orders: PropTypes.array,
-    profiles: PropTypes.array,
-    manyModels: PropTypes.array,
+    ${model.relations.map(relation => `${relation.model.variablePlural}: PropTypes.array,`).join('\n')}
   }
 
   render() {
-    const { loading, handleSubmit, ${model.variableName}${model.relations.map(relation => relation.variablePlural).join(', ')}, manyModels } = this.props
+    const { loading, handleSubmit, ${model.variableName}, ${model.relations.map(relation => relation.model.variablePlural).join(', ')} } = this.props
 
     return (
       <form onSubmit={handleSubmit}>

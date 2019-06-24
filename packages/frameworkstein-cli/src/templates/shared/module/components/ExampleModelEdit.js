@@ -1,7 +1,6 @@
 
 export default options =>
-`import _ from 'lodash' // eslint-disable-line
-import React from 'react'
+`import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, CardBody } from 'reactstrap'
 import ${options.className}Form from './forms/${options.className}Form'

@@ -1,7 +1,6 @@
 
 export default options =>
-`import _ from 'lodash'
-import React from 'react'
+`import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button, Row, Col } from 'reactstrap'

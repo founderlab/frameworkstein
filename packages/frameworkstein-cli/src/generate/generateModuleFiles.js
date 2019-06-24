@@ -8,6 +8,14 @@ import createServerTemplate from '../templates/server/template'
 import createSharedModel from '../templates/shared/models/model'
 import createSharedSchema from '../templates/shared/models/schema'
 import createForm from '../templates/shared/module/components/forms/ExampleModelForm'
+import createModelCreate from '../templates/shared/module/components/ExampleModelCreate'
+import createModelDetail from '../templates/shared/module/components/ExampleModelDetail'
+import createModelEdit from '../templates/shared/module/components/ExampleModelEdit'
+import createModelList from '../templates/shared/module/components/ExampleModelList'
+import createModelCreateContainer from '../templates/shared/module/containers/ExampleModelCreate'
+import createModelDetailContainer from '../templates/shared/module/containers/ExampleModelDetail'
+import createModelEditContainer from '../templates/shared/module/containers/ExampleModelEdit'
+import createModelListContainer from '../templates/shared/module/containers/ExampleModelList'
 
 
 export default async function generateModuleFiles(model, options) {
@@ -34,8 +42,41 @@ export default async function generateModuleFiles(model, options) {
     },
 
     {
-      path: path.join(options.root, `shared/modules/${model.variableName}/components/forms/${model.className}Form.js`),
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/components/forms/${model.className}Form.js`),
       content: createForm(model),
+    },
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/components/${model.className}Create.js`),
+      content: createModelCreate(model),
+    },
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/components/${model.className}Detail.js`),
+      content: createModelDetail(model),
+    },
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/components/${model.className}Edit.js`),
+      content: createModelEdit(model),
+    },
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/components/${model.className}List.js`),
+      content: createModelList(model),
+    },
+
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/containers/${model.className}Create.js`),
+      content: createModelCreateContainer(model),
+    },
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/containers/${model.className}Detail.js`),
+      content: createModelDetailContainer(model),
+    },
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/containers/${model.className}Edit.js`),
+      content: createModelEditContainer(model),
+    },
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/containers/${model.className}List.js`),
+      content: createModelListContainer(model),
     },
   ]
 

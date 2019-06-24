@@ -6,6 +6,7 @@ import generateNames from './generateNames'
 import generateModuleFiles from './generateModuleFiles'
 import generateConfigureAdmin from '../templates/shared/configureAdmin'
 import generateReducer from '../templates/shared/reducer'
+import generateRoutes from '../templates/shared/routes/index'
 
 
 export default async function generateFiles(options) {
@@ -44,6 +45,10 @@ export default async function generateFiles(options) {
       {
         path: path.join(options.root, `shared/configureAdmin.js`),
         content: generateConfigureAdmin(options),
+      },
+      {
+        path: path.join(options.root, `shared/routes/index.js`),
+        content: generateRoutes(options),
       },
     ]
 

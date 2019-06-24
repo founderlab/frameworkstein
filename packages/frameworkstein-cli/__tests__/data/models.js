@@ -43,9 +43,9 @@ export default [
     ],
     "relations":[
       {
-        "name":"author",
+        "name":"authors",
         "modelType":"Author",
-        "relationType":"belongsTo"
+        "relationType":"hasMany"
       }
     ]
   }
