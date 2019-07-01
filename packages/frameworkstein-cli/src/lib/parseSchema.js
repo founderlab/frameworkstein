@@ -41,5 +41,6 @@ export function parseModelsFromSchema(schema) {
     })
     models.push(model)
   })
+  console.log('models', JSON.stringify(models))
   return models
 }
