@@ -5,7 +5,7 @@ import models from './data/models'
 import generateFiles from '../src/generate/generateFiles'
 
 
-const TEMP_DIR = path.join(process.cwd(), './tmp')
+const TEMP_DIR = path.join(process.cwd(), './.tmp')
 console.log('TEMP_DIR', TEMP_DIR)
 
 describe('Model Generation', () => {

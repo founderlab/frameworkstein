@@ -46,6 +46,32 @@ export default [
         "name":"authors",
         "modelType":"Author",
         "relationType":"hasMany"
+      },
+      {
+        "name":"comments",
+        "modelType":"Comment",
+        "relationType":"hasMany"
+      }
+    ]
+  },
+  {
+    "name":"Comment",
+    "root":"/Users/nickshelswell/Projects/frameworkstein/packages/frameworkstein-cli/api-test",
+    "modelType":"Comment",
+    "fields":[
+      {
+        "name":"title",
+        "type":"Text"
+      },
+      {
+        "name":"name"
+      }
+    ],
+    "relations":[
+      {
+        "name":"post",
+        "modelType":"Post",
+        "relationType":"belongsTo"
       }
     ]
   }

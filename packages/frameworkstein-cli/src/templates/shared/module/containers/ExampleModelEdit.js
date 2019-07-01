@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 export default options =>
 `import _ from 'lodash'
@@ -7,28 +8,34 @@ import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { load${options.classPlural}, save${options.className}, delete${options.className}, update${options.className}, linkRelation, unlinkRelation } from '../actions'
-import { loadOrders } from '../../orders/actions'
-import { loadProfiles } from '../../profiles/actions'
-import { loadManyModels, updateManyModel } from '../../manyModels/actions'
 import { select${options.className}, select${options.classPlural}Error } from '../selectors'
 import ${options.className}Edit from '../components/${options.className}Edit'
 import Loader from '../../utils/components/Loader'
-
+${options.relations.map(relation => {
+  if (relation.m2m) {
+    return `import { load${relation.model.classPlural}, update${relation.model.className} } from '../../${relation.model.variablePlural}/actions'\n`
+  }
+  return `import { load${relation.model.classPlural} } from '../../${relation.model.variablePlural}/actions'\n`
+}).join('')}
 
 @connect((state, props) => ({
   ${options.variableName}: select${options.className}(state, props),
   errorMsg: select${options.classPlural}Error(state, 'save'),
-  loading: state.${options.variablePlural}.get('loading'),
-  orders: _(state.orders.get('models').toJSON()).values().filter(m => m.${options.variableName}_id == props.match.params.id).value(),
-  profiles: _.values(state.profiles.get('models').toJSON()),
-  manyModelsStore: state.manyModels,
+  loading: state.${options.variablePlural}.get('loading'),${options.relations.map(relation => {
+  if (relation.m2m) {
+    return `\n  ${relation.model.variablePlural}Store: state.${relation.model.variablePlural},`
+  }
+  if (relation.relationType === 'belongsTo') {
+    return `\n  ${relation.model.variablePlural}: _.values(state.${relation.model.variablePlural}.get('models').toJSON()),`
+  }
+  return `\n  ${relation.model.variablePlural}: _(state.${relation.model.variablePlural}.get('models').toJSON()).values().filter(m => m.${options.variableName}_id == props.match.params.id).value(),`
+}).join('')}
 }), {
   save${options.className},
   delete${options.className},
   push,
   linkRelation,
-  unlinkRelation,
-  updateManyModel,
+  unlinkRelation,${options.relations.map(relation => relation.m2m ? `\n  update${relation.model.className},` : '').join('')}
 })
 export default class ${options.classPlural}EditContainer extends React.PureComponent {
 
@@ -41,13 +48,16 @@ export default class ${options.classPlural}EditContainer extends React.PureCompo
     push: PropTypes.func.isRequired,
 
     linkRelation: PropTypes.func.isRequired,
-    unlinkRelation: PropTypes.func.isRequired,
-    updateManyModel: PropTypes.func.isRequired,
+    unlinkRelation: PropTypes.func.isRequired,${options.relations.map(relation => relation.m2m ? `\n    update${relation.model.className}: PropTypes.func.isRequired,` : '').join('')}
 
-    // Relations
-    orders: PropTypes.array.isRequired,
-    profiles: PropTypes.array.isRequired,
-    manyModelsStore: PropTypes.object.isRequired,
+    // Relations${options.relations.map(relation => {
+  if (relation.m2m) {
+    return `
+    ${relation.model.variablePlural}: PropTypes.array.isRequired,`
+  }
+  return `
+    ${relation.model.variablePlural}Store: PropTypes.object.isRequired,`
+}).join('')}
   }
 
   static async fetchData({store, match}) {
@@ -63,22 +73,26 @@ export default class ${options.classPlural}EditContainer extends React.PureCompo
           console.log('No ${options.variableName} found for params:', match.params)
           return {status: 404}
         }
+      }${options.relations.map(relation => {
+    if (relation.m2m) {
+      return `
 
-      }
-      // orders belongsTo ${options.variableName} or m2m
-      const ordersAction = await store.dispatch(loadOrders({${options.variableName}_id: id}))
+      // load m2m
+      const ${relation.name}Action = await store.dispatch(load${relation.model.classPlural}({${options.variableName}_id: id}))
+      // set related ids
+      store.dispatch(update${options.className}({id, ${relation.model.variableName}_ids: ${relation.name}Action.ids}))`
+    }
+    if (relation.relationType === 'belongsTo') {
+      return `
 
-      // // set related ids if m2m
-      // store.dispatch(update${options.className}({id, order_ids: ordersAction.ids}))
+      // load all models for belongsTo selector
+      await store.dispatch(load${relation.variablePlural}({}))`
+    }
+    return `
 
-      // orders belongsTo ${options.variableName} or m2m
-      const profileAction = await store.dispatch(loadProfiles({}))
-
-      // orders belongsTo ${options.variableName} or m2m
-      const manyModelsAction = await store.dispatch(loadManyModels({${options.variableName}_id: id}))
-      // set related ids if m2m
-      store.dispatch(update${options.className}({id, manyModel_ids: manyModelsAction.ids}))
-
+      // load related hasMany models
+      await store.dispatch(load${relation.variablePlural}({${options.variableName}_id: id}))`
+}).join('')}
     }
     catch (err) {
       console.log(err)
@@ -130,13 +144,32 @@ export default class ${options.classPlural}EditContainer extends React.PureCompo
           onLinkRelation={this.handleLinkRelation}
           onUnlinkRelation={this.handleUnlinkRelation}
 
-          // Relations
-          orders={this.props.orders}
-          profiles={this.props.profiles}
-          manyModels={_(${options.variableName}.manyModel_ids).map(id => this.props.manyModelsStore.get('models').get(id) && this.props.manyModelsStore.get('models').get(id).toJSON()).compact().value()}
+          // Relations${options.relations.map(relation => {
+    if (relation.m2m) {
+      return `
+          ${relation.model.variablePlural}={_(${options.variableName}.${relation.model.variableName}_ids).map(id => this.props.${relation.model.variablePlural}Store.get('models').get(id) && this.props.${relation.model.variablePlural}Store.get('models').get(id).toJSON()).compact().value()}`
+    }
+    return `
+          ${relation.model.variablePlural}: this.props.${relation.model.variablePlural}`
+}).join('')}
         />
       </div>
     )
   }
 }
 `
+
+
+      // // orders belongsTo ${options.variableName} or m2m
+      // const ordersAction = await store.dispatch(loadOrders({${options.variableName}_id: id}))
+
+      // // // set related ids if m2m
+      // // store.dispatch(update${options.className}({id, order_ids: ordersAction.ids}))
+
+      // // orders belongsTo ${options.variableName} or m2m
+      // const profileAction = await store.dispatch(loadProfiles({}))
+
+      // // orders belongsTo ${options.variableName} or m2m
+      // const manyModelsAction = await store.dispatch(loadManyModels({${options.variableName}_id: id}))
+      // // set related ids if m2m
+      // store.dispatch(update${options.className}({id, manyModel_ids: manyModelsAction.ids}))
