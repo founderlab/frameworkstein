@@ -17,6 +17,11 @@ export default function configureRoutes(options={}) {
       req.login(user, {}, err => {
         if (err) return sendError(res, err)
 
+        // Send a http redirect if not an ajax request
+        if (req.headers['content-type'] === 'application/x-www-form-urlencoded') {
+          return res.redirect(req.query.returnTo || req.body.returnTo || '/')
+        }
+
         const { accessToken } = info
         return res.json({
           accessToken,

@@ -14,3 +14,5 @@ export default function createSchema(_options, _callback) {
   })
 
 }
+
+  // options.actionName = options.tableName.toUpperCase()

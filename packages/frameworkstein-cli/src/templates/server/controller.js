@@ -6,7 +6,7 @@ import { createAuthMiddleware } from 'fl-auth-server'
 import ${options.className} from '../../models/${options.className}'
 
 
-const whitelist = ${options.className}.schema.columns()
+const whitelist = [...${options.className}.schema.columns()]
 
 export function canAccessAsync(options) {
   const { user, req } = options
@@ -20,8 +20,10 @@ export function canAccessAsync(options) {
 
   // Check if the current user is authorised to edit this model here
 
+  // Defaults to unrestricted access
   return true
 }
+
 
 export default class ${options.classPlural}Controller extends RestController {
   constructor(options) {

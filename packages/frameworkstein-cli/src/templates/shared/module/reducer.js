@@ -1,8 +1,10 @@
+
 export default options =>
 `import _ from 'lodash' // eslint-disable-line
 import { fromJS } from 'immutable'
-import { TYPES } from '../actions'
 import { removeModel, updateModel } from 'fl-redux-utils'
+import { TYPES } from './actions'
+
 
 const defaultState = fromJS({
   loading: false,
@@ -42,6 +44,28 @@ export default function reducer(state=defaultState, action={}) {
 
     case TYPES.${options.actionName}_DELETE + '_SUCCESS':
       return removeModel(state, action.deletedModel.id)
+
+    case TYPES.${options.actionName}_LOCAL_UPDATE:
+      const uModel = state.get('models').get(action.model.id) && state.get('models').get(action.model.id).toJSON()
+      if (!uModel) return state
+      return state.setIn(['models', action.model.id], fromJS(_.merge(uModel, action.model)))
+
+    case TYPES.${options.actionName}_LINK_RELATION + '_START':
+      return state.merge({
+        errors: {},
+      })
+    case TYPES.${options.actionName}_LINK_RELATION + '_ERROR':
+      return state.merge({loading: false, errors: {link: action.error || action.res.body.error}})
+
+    case TYPES.${options.actionName}_LINK_RELATION + '_SUCCESS':
+      const model = state.get('models').get(action.modelId).toJSON()
+      model[action.idsKey] = _.uniq([...(model[action.idsKey] || []), action.relatedModelId])
+      return state.setIn(['models', action.modelId], fromJS(model))
+
+    case TYPES.${options.actionName}_UNLINK_RELATION + '_SUCCESS':
+      const removingFromModel = state.get('models').get(action.modelId).toJSON()
+      removingFromModel[action.idsKey] = _.without(removingFromModel[action.idsKey] || [], action.relatedModelId)
+      return state.setIn(['models', action.modelId], fromJS(removingFromModel))
 
     default:
       return state

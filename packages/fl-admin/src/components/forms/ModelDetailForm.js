@@ -27,7 +27,7 @@ export default class ModelDetailForm extends React.Component {
             <form>
               {_.map(modelAdmin.fields, (modelField, key) => {
                 if (!modelField || modelField.hidden || !modelField.InputComponent) return null
-                const FieldComponent = (modelField.type && modelField.type.toLowerCase() === 'json') ? FieldArray : Field
+                const FieldComponent = (modelField.type && modelField.type.toLowerCase() === 'json' && modelField.schema) ? FieldArray : Field
                 const fieldName = modelField.virtualIdAccessor || modelField.key || key
 
                 if (modelField.readOnly) {

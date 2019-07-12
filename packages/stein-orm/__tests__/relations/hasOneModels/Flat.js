@@ -4,6 +4,7 @@ import Owner from './Owner'
 
 
 @createModel({
+  Store: require('stein-orm-sql').default,
   url: `${process.env.DATABASE_URL}/flats`,
 })
 export default class Flat extends Model {

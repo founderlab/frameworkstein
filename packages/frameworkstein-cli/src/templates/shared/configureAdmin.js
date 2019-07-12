@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 
 export default options =>
 `import _ from 'lodash' // eslint-disable-line
@@ -14,9 +12,6 @@ export default function configureAdmin() {
         display: model => model.email,
         searchFields: ['email'],
         fields: {
-          id: {
-            listDisplay: true,
-          },
           admin: {
             listDisplay: true,
           },
@@ -25,19 +20,33 @@ export default function configureAdmin() {
       {
         Model: require('./models/Profile'),
         query: {$include: 'user'},
-        display: model => model.nickname,
-        searchFields: ['nickname'],
+        display: model => model.displayName,
         fields: {
           user: {
-            linked: true,
+            label: 'Email',
+            readOnly: true,
+            display: profile => profile.user.email,
           },
         },
-      },${_.map(options.modelOptions, options => `
+      },
       {
-        Model: require('./models/${options.className}'),
+        Model: require('./models/AppSettings'),
+        singleton: true,
         fields: {
+          landingPageImage: {
+            input: 'image',
+          },
+          footerContactInfo: {
+            input: 'textarea',
+          },
         },
-      },`)}
+      },
+${options.models.map(modelOption => (`
+      {
+        Model: require('./models/${modelOption.className}'),
+        fields: {},
+      },`
+)).join('')}
     ],
   })
 }

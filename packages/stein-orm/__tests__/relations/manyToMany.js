@@ -30,6 +30,7 @@ describe('ManyToMany', () => {
 
   beforeEach(async () => {
     Reverse = createModel({
+      Store: require('stein-orm-sql').default,
       url: `${DATABASE_URL}/reverses`,
       schema: _.defaults({}, schema, {
         owners() { return ['hasMany', Owner, {through: THROUGH_TABLE}] },
@@ -37,6 +38,7 @@ describe('ManyToMany', () => {
     })(class Reverse extends Model {})
 
     Owner = createModel({
+      Store: require('stein-orm-sql').default,
       url: `${DATABASE_URL}/owners`,
       schema: _.defaults({}, schema, {
         reverses() { return ['hasMany', Reverse] },

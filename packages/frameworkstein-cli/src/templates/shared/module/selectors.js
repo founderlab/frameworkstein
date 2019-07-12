@@ -1,4 +1,3 @@
-
 export default options =>
 `import { createSelector } from 'reselect'
 
@@ -20,5 +19,18 @@ const select${options.className} = createSelector(
   _select${options.className},
 )
 
-export { select${options.className} }
+export function _select${options.classPlural}Error(${options.variablePlural}, errorType) {
+  const err = ${options.variablePlural}.get('errors') && ${options.variablePlural}.get('errors').get(errorType)
+  if (err) return err.toString()
+  return null
+}
+const select${options.classPlural}Error = createSelector(
+  [
+    state => state.${options.variablePlural},
+    (_, errorType) => errorType,
+  ],
+  _select${options.classPlural}Error,
+)
+
+export { select${options.className}, select${options.classPlural}Error }
 `

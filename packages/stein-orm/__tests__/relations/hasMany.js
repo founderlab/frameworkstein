@@ -29,6 +29,7 @@ describe('HasMany', () => {
   beforeEach(async () => {
 
     Flat = createModel({
+      Store: require('stein-orm-sql').default,
       url: `${DATABASE_URL}/flats`,
       schema: _.defaults({}, schema, {
         owner() { return ['belongsTo', Owner] },
@@ -36,6 +37,7 @@ describe('HasMany', () => {
     })(class Flat extends Model {})
 
     Reverse = createModel({
+      Store: require('stein-orm-sql').default,
       url: `${DATABASE_URL}/reverses`,
       schema: _.defaults({}, schema, {
         owner() { return ['belongsTo', Owner] },
@@ -44,6 +46,7 @@ describe('HasMany', () => {
     })(class Reverse extends Model {})
 
     Owner = createModel({
+      Store: require('stein-orm-sql').default,
       url: `${DATABASE_URL}/owners`,
       schema: _.defaults({}, schema, {
         flats() { return ['hasMany', Flat] },

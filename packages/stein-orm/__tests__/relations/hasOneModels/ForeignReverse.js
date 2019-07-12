@@ -3,6 +3,7 @@ import { createModel, Model } from '../../../src'
 
 
 @createModel({
+  Store: require('stein-orm-sql').default,
   url: `${process.env.DATABASE_URL}/foreign_reverses`,
 })
 export default class ForeignReverse extends Model {

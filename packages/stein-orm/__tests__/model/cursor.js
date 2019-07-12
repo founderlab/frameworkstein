@@ -11,6 +11,7 @@ const DATABASE_URL = process.env.DATABASE_URL
 if (!DATABASE_URL) console.log('Missing DATABASE_URL')
 
 const options = {
+  Store: require('stein-orm-sql').default,
   url: `${DATABASE_URL}/flats`,
   schema: {
     name: 'Text',
@@ -350,7 +351,11 @@ describe('Class methods', () => {
 
   // TODO: test more edge cases
   it('(unique) handles a find unique query with count on empty collection', async () => {
-    const Empty = createModel({url: `${DATABASE_URL}/empties`, schema: {name: 'Text'}})(class Empty extends Model {})
+    const Empty = createModel({
+      Store: require('stein-orm-sql').default,
+      url: `${DATABASE_URL}/empties`,
+      schema: {name: 'Text'},
+    })(class Empty extends Model {})
     await Empty.store.resetSchema({})
     const result = await Empty.count({$unique: 'name'})
     expect(result).toBe(0)

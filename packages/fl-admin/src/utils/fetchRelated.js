@@ -28,7 +28,7 @@ function relatedQuery(modelIds, modelStore, relationField) {
 }
 
 async function fetchManyToMany(relationField, options) {
-  const { store, modelIds } = options
+  const { store, modelAdmin, modelIds } = options
   const { auth } = store.getState()
 
   for (const id of modelIds) {
@@ -38,7 +38,7 @@ async function fetchManyToMany(relationField, options) {
     }
 
     const relatedAction = await store.dispatch(relationField.modelAdmin.actions.loadModels(query))
-    store.dispatch(relationField.modelAdmin.actions.setRelationIds(id, relationField.relation.virtualIdAccessor, relatedAction.ids))
+    store.dispatch(modelAdmin.actions.setRelationIds(id, relationField.relation.virtualIdAccessor, relatedAction.ids))
   }
 }
 

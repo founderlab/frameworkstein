@@ -4,6 +4,7 @@ import Owner from './Owner'
 
 
 @createModel({
+  Store: require('stein-orm-sql').default,
   url: `${process.env.DATABASE_URL}/reverses`,
 })
 export default class Reverse extends Model {

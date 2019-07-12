@@ -43,7 +43,8 @@
     "verbose": true,
     "bail": true,
     "modulePathIgnorePatterns": [
-      "checkfiles"
+      "checkfiles",
+      "data"
     ]
   }
 }
