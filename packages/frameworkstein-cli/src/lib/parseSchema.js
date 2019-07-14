@@ -2,6 +2,7 @@ import program from 'commander'
 import { parse } from 'graphql'
 import { isCustomObject, translateType } from './dataTypes'
 
+
 export function parseModelsFromSchema(schema) {
   const parsedSchema = parse(schema)
   const models = []

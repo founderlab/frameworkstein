@@ -8,7 +8,7 @@ const dbUrl = process.env.DATABASE_URL
 if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 
 @createModel({
-  url: \`\$\{dbUrl\}/${model.tableName}\`,
+  url: \`$\{dbUrl}/${model.tableName}\`,
 })
 export default class ${model.className} extends Model {
 

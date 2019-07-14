@@ -28,6 +28,7 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "commander": "^2.0.0",
+    "graphql": "^14.4.2",
     "inflection": "^1.0.0",
     "lodash": "^4.0.0",
     "mkdirp": "^0.5.0",
