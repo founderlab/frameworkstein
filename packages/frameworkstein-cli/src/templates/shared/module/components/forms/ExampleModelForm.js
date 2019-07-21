@@ -24,7 +24,7 @@ export default class ${model.className}Form extends React.PureComponent {
     ${model.variableName}: PropTypes.object,
 
     // Relations
-    ${model.relations.map(relation => `${relation.model.variablePlural}: PropTypes.array,`).join('\n')}
+    ${model.relations.map(relation => `${relation.model.variablePlural}: PropTypes.array,`).join('\n    ')}
   }
 
   render() {

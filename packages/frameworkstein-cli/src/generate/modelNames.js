@@ -1,7 +1,7 @@
 import Inflection from 'inflection'
 
 
-export default function generateNames(name) {
+export default function modelNames(name) {
   const names = {
     className: Inflection.classify(name),
     tableName: Inflection.tableize(name),

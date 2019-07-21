@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import chalk from 'chalk' // eslint-disable-line
 import path from 'path'
 import writeFiles from './writeFiles'
-import generateNames from './generateNames'
+import modelNames from './modelNames'
 import generateModuleFiles from './generateModuleFiles'
 import generateConfigureAdmin from '../templates/shared/configureAdmin'
 import generateReducer from '../templates/shared/reducer'
@@ -17,7 +17,7 @@ export default async function generateFiles(options) {
     const { models } = options
 
     for (const model of models) {
-      const names = generateNames(model.name)
+      const names = modelNames(model.name)
       model.fields = model.fields || []
       model.relations = model.relations || []
       _.extend(model, names)
