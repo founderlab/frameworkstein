@@ -5,7 +5,7 @@ export function onlyExistingRelationsFilter(modelIds, modelStore, relationField)
   const relatedIds = []
   _.forEach(modelStore.get('models').toJSON(), (model, id) => {
     const relatedId = model[relationField.virtualIdAccessor]
-    if (_.includes(modelIds, id) && relatedId) relatedIds.push(relatedId)
+    if (relatedId && _.includes(modelIds, id)) relatedIds.push(relatedId)
   })
   if (!relatedIds.length) return null
   return {$ids: _.uniq(relatedIds)}

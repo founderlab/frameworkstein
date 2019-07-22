@@ -4,6 +4,18 @@ import program from 'commander'
 import chalk from 'chalk'
 import fs from 'fs'
 import path from 'path'
+import createProject from './commands/createProject'
+import createModel from './commands/createModel'
+import createSchema from './commands/createSchema'
+
+
+console.log('process.argv', process.argv)
+
+function inCorrectDirectory() {
+  return fs.existsSync(path.resolve(process.cwd(), 'client')) &&
+    fs.existsSync(path.resolve(process.cwd(), 'server')) &&
+    fs.existsSync(path.resolve(process.cwd(), 'shared'))
+}
 
 program
   .version('0.0.1')
@@ -15,22 +27,33 @@ program
   .command('add-model <name>')
   .alias('m')
   .description('Create a new model in the current app')
-  .action(name => {
+  .action(async name => {
     const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
 
-    if (
-      !options.force && (
-      !fs.existsSync(path.resolve(process.cwd(), 'client')) ||
-      !fs.existsSync(path.resolve(process.cwd(), 'server')) ||
-      !fs.existsSync(path.resolve(process.cwd(), 'shared')))) {
-      return console.log(chalk.red(`This command should be run from the root directory of FounderLab web apps`))
+    if (!options.force && !inCorrectDirectory()) {
+      return console.log(chalk.red(`This command should be run from the root directory of Frameworkstein web apps`))
     }
 
     console.log(`Creating model ${chalk.blue(name)} with options`, options)
-    require('./commands/createModel')(options, err => {
-      if (err) return console.log(chalk.red(err.message))
-      console.log(chalk.green('done'))
-    })
+    await createModel(options)
+  })
+
+program
+  .command('add-models <filename>')
+  .alias('schema')
+  .alias('models')
+  .description('Generate model files from a graphql schema definition file')
+  .action(async filename => {
+
+    const options = {filename: path.join(process.cwd(), filename), root: process.cwd(), force: program.force, verbose: program.verbose}
+
+    if (!options.force && !inCorrectDirectory()) {
+      return console.log(chalk.red(`This command should be run from the root directory of Frameworkstein web apps`))
+    }
+
+    console.log(`Creating models from file ${chalk.green(filename)} with options`, options)
+
+    await createSchema(options)
   })
 
 program
@@ -38,32 +61,24 @@ program
   .alias('new')
   .description('Create a new web app')
   .option('-t, --type', 'Type')
-  .action(name => {
+  .action(async name => {
     const options = {name, type: 'web', root: process.cwd(), force: program.force, verbose: program.verbose}
 
     console.log(`Creating new web app ${chalk.green(name)} with options`, options)
 
-    require('./commands/new')(options, err => {
-      if (err) return console.log(chalk.red(err.message))
-      console.log(chalk.green('done'))
-    })
-
+    await createProject(options)
   })
 
 program
   .command('new-mobile <name>')
   .description('Create a new mobile app')
   .option('-t, --type', 'Type')
-  .action(name => {
+  .action(async name => {
     const options = {name, type: 'mobile', root: process.cwd(), force: program.force, verbose: program.verbose}
 
     console.log(`Creating new mobile app ${chalk.green(name)} with options`, options)
 
-    require('./commands/new')(options, err => {
-      if (err) return console.log(chalk.red(err.message))
-      console.log(chalk.green('done'))
-    })
-
+    await createProject(options)
   })
 
 

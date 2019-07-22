@@ -1,20 +1,22 @@
-export default options =>
-`import _ from 'lodash' // eslint-disable-line
-import { createModel, Model } from 'stein-orm-sql'
+import renderRelations from '../../templateHelpers/renderRelations'
+
+export default model =>
+`import { createModel, Model } from 'stein-orm-sql'
 
 
 const dbUrl = process.env.DATABASE_URL
 if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 
 @createModel({
-  url: \`\$\{dbUrl\}/${options.tableName}\`,
+  url: \`$\{dbUrl}/${model.tableName}\`,
 })
-export default class ${options.className} extends Model {
+export default class ${model.className} extends Model {
 
   static schema = () => _.extend({
 
+${renderRelations(model.relations)}
 
-  }, require('../../shared/models/schemas/${options.variableName}'))
+  }, require('../../shared/models/schemas/${model.variableName}'))
 
   defaults() {
     return {

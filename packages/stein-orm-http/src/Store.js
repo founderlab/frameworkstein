@@ -51,7 +51,7 @@ export default class HttpStore {
         body: JSON.stringify(saveJson),
       }))
       const json = await res.json()
-      if (!res.status === 200) return callback(new Error(`Error creating model (${res.status}): ${json.error}`))
+      if (res.status !== 200) return callback(new Error(`Error creating model (${res.status}): ${json.error}`))
       return callback(null, json)
     }
     catch (err) {
@@ -75,7 +75,7 @@ export default class HttpStore {
         body: JSON.stringify(saveJson),
       }))
       const json = await res.json()
-      if (!res.status === 200) return callback(new Error(`Error updating model (${res.status}): ${json.error}`))
+      if (res.status !== 200) return callback(new Error(`Error updating model (${res.status}): ${json.error}`))
       return callback(null, json)
     }
     catch (err) {
@@ -94,7 +94,7 @@ export default class HttpStore {
         method: 'DELETE',
       }))
       const json = await res.json()
-      if (!res.status === 200) return callback(new Error(`Error deleting model (${res.status}): ${json.error}`))
+      if (res.status !== 200) return callback(new Error(`Error deleting model (${res.status}): ${json.error}`))
       return callback(null, json)
     }
     catch (err) {
@@ -114,7 +114,7 @@ export default class HttpStore {
         method: 'DELETE',
       }))
       const json = await res.json()
-      if (!res.status === 200) return callback(new Error(`Error deleting model (${res.status}): ${json.error}`))
+      if (res.status !== 200) return callback(new Error(`Error deleting model (${res.status}): ${json.error}`))
       return callback(null, json)
     }
     catch (err) {
