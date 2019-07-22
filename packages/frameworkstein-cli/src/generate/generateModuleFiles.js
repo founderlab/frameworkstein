@@ -19,7 +19,6 @@ import createModelListContainer from '../templates/shared/module/containers/Exam
 
 
 export default async function generateModuleFiles(model, options) {
-  console.log('generateModuleFiles', model, options)
   const output = [
     {
       path: path.join(options.root, `server/models/${model.className}.js`),

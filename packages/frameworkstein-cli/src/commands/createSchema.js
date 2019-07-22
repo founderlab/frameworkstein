@@ -1,7 +1,7 @@
 import fs from 'fs'
 import chalk from 'chalk'
 import { promisify } from 'util'
-import generateModuleFiles from '../generate/generateModuleFiles'
+import generateFiles from '../generate/generateFiles'
 import { parseModelsFromSchema } from '../parse/parseSchema'
 
 
@@ -17,14 +17,8 @@ export default async function createSchema(options) {
     const models = parseModelsFromSchema(schema)
     console.log('models', models)
 
-    for (const model of models) {
-      try {
-        await generateModuleFiles(model, options)
-      }
-      catch (err) {
-        console.log(chalk.red(err.message))
-      }
-    }
+    await generateFiles({models, ...options})
+
     console.log(chalk.green('done'))
   }
   catch (err) {

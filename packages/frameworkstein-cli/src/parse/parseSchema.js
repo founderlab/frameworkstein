@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import program from 'commander'
 import { parse } from 'graphql'
 import { isCustomObject, translateType } from './dataTypes'
@@ -50,7 +51,13 @@ export function parseModelsFromSchema(schema) {
   }
 
   for (const model of models) {
-
+    for (const relation of model.relations) {
+      relation.model = _.find(models, m => m.modelType === relation.modelType)
+      if (relation.relationType === 'hasMany') {
+        const reverseRelation = _.find(relation.model.relations, m => m.modelType === model.modelType)
+        if (reverseRelation.relationType === 'hasMany') relation.m2m = true
+      }
+    }
   }
 
   return models

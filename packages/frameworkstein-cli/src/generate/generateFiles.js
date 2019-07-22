@@ -16,16 +16,6 @@ export default async function generateFiles(options) {
     const { models } = options
 
     for (const model of models) {
-      for (const relation of model.relations) {
-        relation.model = _.find(models, m => m.modelType === relation.modelType)
-        if (relation.relationType === 'hasMany') {
-          const reverseRelation = _.find(relation.model.relations, m => m.modelType === model.modelType)
-          if (reverseRelation.relationType === 'hasMany') relation.m2m = true
-        }
-      }
-    }
-
-    for (const model of models) {
       await generateModuleFiles(model, options)
     }
 
@@ -44,7 +34,7 @@ export default async function generateFiles(options) {
       },
     ]
 
-    await writeFiles(output, options)
+    await writeFiles(output, {options, force: true})
   }
   catch (err) {
     console.log(err)
