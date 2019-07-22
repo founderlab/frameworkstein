@@ -49,6 +49,9 @@ export function parseModelsFromSchema(schema) {
     models.push(model)
   }
 
-  console.log('models', JSON.stringify(models))
+  for (const model of models) {
+
+  }
+
   return models
 }

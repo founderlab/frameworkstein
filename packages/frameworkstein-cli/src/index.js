@@ -39,19 +39,19 @@ program
   })
 
 program
-  .command('add-models <file>')
+  .command('add-models <filename>')
   .alias('schema')
   .alias('models')
   .description('Generate model files from a graphql schema definition file')
-  .action(async file => {
+  .action(async filename => {
 
-    const options = {file, root: process.cwd(), force: program.force, verbose: program.verbose}
+    const options = {filename: path.join(process.cwd(), filename), root: process.cwd(), force: program.force, verbose: program.verbose}
 
     if (!options.force && !inCorrectDirectory()) {
       return console.log(chalk.red(`This command should be run from the root directory of Frameworkstein web apps`))
     }
 
-    console.log(`Creating models from file ${chalk.green(file)} with options`, options)
+    console.log(`Creating models from file ${chalk.green(filename)} with options`, options)
 
     await createSchema(options)
   })

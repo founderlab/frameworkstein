@@ -11,7 +11,7 @@ export default async function createModel(options) {
       relations: [],
       ...modelNames(options.name),
     }
-    await generateModuleFiles(model)
+    await generateModuleFiles(model, options)
   }
   catch (err) {
     console.log(chalk.red(err.message))
