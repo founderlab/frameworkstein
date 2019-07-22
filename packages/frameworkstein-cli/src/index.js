@@ -1,5 +1,3 @@
-#! /usr/bin/env babel-node
-
 import program from 'commander'
 import chalk from 'chalk'
 import fs from 'fs'
@@ -8,8 +6,6 @@ import createProject from './commands/createProject'
 import createModel from './commands/createModel'
 import createSchema from './commands/createSchema'
 
-
-console.log('process.argv', process.argv)
 
 function inCorrectDirectory() {
   return fs.existsSync(path.resolve(process.cwd(), 'client')) &&
