@@ -3,33 +3,11 @@ import https from 'https'
 import unzip from 'unzip'
 import rimraf from 'rimraf'
 import Queue from 'queue-async'
+import { promisify } from 'util'
+import replaceString from './replaceString'
 
-function replaceString(fileName, oldStr, newStr, callback) {
-  fs.access(fileName, fs.W_OK|fs.R_OK, err => {
-    if (err) return callback(new Error(`String replacement failure: ${err}`))
 
-    fs.readFile(fileName, (err, data) => { //read old file
-      if (err) return callback(new Error(`String replacement failure: ${err}`))
-      const txt = data.toString()
-      const replacedTxt = txt.replace(oldStr, newStr)
-
-      fs.writeFile(fileName+'_tmp', replacedTxt, err => { //write tmp file
-        if (err) return callback(new Error(`String replacement failure: ${err}`))
-
-        fs.unlink(fileName, err => { //delete old file
-          if (err) return callback(new Error(`String replacement failure: ${err}`))
-
-          fs.rename(fileName+'_tmp', fileName, err => { // rename tmp file
-            if (err) return callback(new Error(`String replacement failure: ${err}`))
-            return callback(null)
-          })
-        })
-      })
-    })
-  })
-}
-
-export default function createFolderStructure(_options, _callback) {
+export function generateFolderStructure(_options, _callback) {
 
   const options = {
     ..._options,
@@ -51,7 +29,8 @@ export default function createFolderStructure(_options, _callback) {
   function callback(err) {
     const queue = new Queue()
 
-    queue.defer(callback => { // delete zip
+    // delete zip
+    queue.defer(callback => {
       fs.access(zipFilename, fs.F_OK, err => {
         if (err) return callback(err)
         fs.unlink(zipFilename, err => {
@@ -62,11 +41,14 @@ export default function createFolderStructure(_options, _callback) {
       })
     })
 
-    queue.defer(callback => { // delete old folder
+    // delete old folder
+    queue.defer(callback => {
       fs.access(oldFolder, fs.F_OK, err => {
-        if (err) {// err means successfully renamed
+        if (err) {
+          // err means successfully renamed
           return callback(null)
-        } // otherwise delete the old folder
+        }
+        // otherwise delete the old folder
         rimraf(oldFolder, err => {
           if (err) return callback(err)
           if (options.verbose) console.log('--Folder ' + oldFolder + ' deleted.')
@@ -76,9 +58,12 @@ export default function createFolderStructure(_options, _callback) {
     })
 
     if (err && err.message === `String replacement failure: ${err}`) {
-      queue.defer(callback => { // delete new folder
+      // delete new folder
+      queue.defer(callback => {
         fs.access(newFolder, fs.F_OK, err => {
-          if (err) return callback(err) // otherwise delete the old folder
+          if (err) return callback(err)
+
+          // otherwise delete the old folder
           rimraf(newFolder, err => {
             if (err) return callback(err)
             if (options.verbose) console.log('--Folder ' + newFolder + ' deleted.')
@@ -124,3 +109,5 @@ export default function createFolderStructure(_options, _callback) {
     })
   })
 }
+
+export default promisify(generateFolderStructure)

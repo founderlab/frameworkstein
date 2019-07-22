@@ -1,12 +1,14 @@
 import program from 'commander'
 import { parse } from 'graphql'
 import { isCustomObject, translateType } from './dataTypes'
+import modelNames from './modelNames'
 
 
 export function parseModelsFromSchema(schema) {
   const parsedSchema = parse(schema)
   const models = []
-  parsedSchema.definitions.map((definition) => {
+
+  for (const definition of parsedSchema.definitions) {
     let model = {
       name: definition.name.value,
       root: process.cwd() + '/api-test',
@@ -16,8 +18,10 @@ export function parseModelsFromSchema(schema) {
     }
     const fields = []
     const relations = []
-    definition.fields.map((field) => {
+
+    for (const field of definition.fields) {
       const modelType = field.type.type ? translateType(field.type.type.name.value) : translateType(field.type.name.value)
+
       if (isCustomObject(modelType)) {
         fields.push({
           name: field.name.value,
@@ -39,9 +43,12 @@ export function parseModelsFromSchema(schema) {
         fields,
         relations,
       }
-    })
+    }
+
+    model = {...model, ...modelNames(model.name)}
     models.push(model)
-  })
+  }
+
   console.log('models', JSON.stringify(models))
   return models
 }

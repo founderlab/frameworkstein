@@ -1,18 +1,26 @@
-// call createModel from lib
 import chalk from 'chalk'
+import generateModuleFiles from '../generate/generateModuleFiles'
+import { parseModelsFromSchema } from '../parse/parseSchema'
+
+
 import { schema } from '../examples/exampleGraphqlSchema'
-import createModel from '../lib/createModel'
-import { parseModelsFromSchema } from '../lib/parseSchema'
 
-export default function createSchema(_options, _callback) {
 
-  parseModelsFromSchema(schema).map((model) => {
-    createModel(model, err => {
-      if (err) return console.log(chalk.red(err.message))
-      console.log(chalk.green('done'))
-    })
-  })
+export default async function createSchema(options) {
+  try {
+    const models = parseModelsFromSchema(schema)
 
+    for (const model of models) {
+      try {
+        await generateModuleFiles(model)
+      }
+      catch (err) {
+        console.log(chalk.red(err.message))
+      }
+    }
+    console.log(chalk.green('done'))
+  }
+  catch (err) {
+    console.log(chalk.red(err.message))
+  }
 }
-
-  // options.actionName = options.tableName.toUpperCase()
