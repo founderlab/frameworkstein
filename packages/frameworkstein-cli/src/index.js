@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
-/* eslint-disable import/first */
-require('babel-core/register')
-require('babel-polyfill')
-
+import 'babel-polyfill'
 import program from 'commander'
 import chalk from 'chalk'
 import fs from 'fs'
