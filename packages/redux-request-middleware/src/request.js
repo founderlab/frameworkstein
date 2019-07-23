@@ -29,7 +29,8 @@ export function getEndFn(request) {
   return null
 }
 
-export function getError(err, res) {
+// Try a bunch of stuff to extract an error message
+export async function getError(err, res) {
   if (err) {
     if (err.text) {
       let json
@@ -47,7 +48,18 @@ export function getError(err, res) {
   if (!res) return null
   if (res.body && res.body.error) return res.body.error
   if (res.error) return res.error
-  if (res.ok === false) return res.body || res.status || '[redux-request-middleware] Unknown error: res.ok was false'
+  if (res.ok === false) {
+    let json = ''
+    try {
+      json = await res.json()
+      // Replace the json functionto avoid the fetch response throwing an error when calling res.json() more than once
+      res.json = () => json
+    }
+    catch (err) {
+      // pass
+    }
+    return res.body || json.error || json.err || json || res.status || '[redux-request-middleware] Unknown error: res.ok was false'
+  }
   return null
 }
 
@@ -119,8 +131,8 @@ export default function createRequestMiddleware(_options={}) {
 
         const wrappedEnd = wrapEnd(end, type)
 
-        const done = (err, res) => {
-          const error = options.getError(err, res)
+        const done = async (err, res) => {
+          const error = await options.getError(err, res)
           let finalAction = {}
           if (error) {
             finalAction = {res, error, type: ERROR, ...rest}
