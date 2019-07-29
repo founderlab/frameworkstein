@@ -12,11 +12,10 @@ if (!dbUrl) console.log('Missing process.env.DATABASE_URL')
 })
 export default class ${model.className} extends Model {
 
-  static schema = () => _.extend({
-
+  static schema = () => ({
 ${renderRelations(model.relations)}
-
-  }, require('../../shared/models/schemas/${model.variableName}'))
+    ...require('../../shared/models/schemas/${model.variableName}'),
+  })
 
   defaults() {
     return {

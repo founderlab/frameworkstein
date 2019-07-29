@@ -53,10 +53,10 @@ export default class ${options.classPlural}EditContainer extends React.PureCompo
     // Relations${options.relations.map(relation => {
   if (relation.m2m) {
     return `
-    ${relation.model.variablePlural}: PropTypes.array.isRequired,`
+    ${relation.model.variablePlural}Store: PropTypes.object.isRequired,`
   }
   return `
-    ${relation.model.variablePlural}Store: PropTypes.object.isRequired,`
+    ${relation.model.variablePlural}: PropTypes.array.isRequired,`
 }).join('')}
   }
 
@@ -86,12 +86,12 @@ export default class ${options.classPlural}EditContainer extends React.PureCompo
       return `
 
       // load all models for belongsTo selector
-      await store.dispatch(load${relation.variablePlural}({}))`
+      await store.dispatch(load${relation.model.variablePlural}({}))`
     }
     return `
 
       // load related hasMany models
-      await store.dispatch(load${relation.variablePlural}({${options.variableName}_id: id}))`
+      await store.dispatch(load${relation.model.variablePlural}({${options.variableName}_id: id}))`
 }).join('')}
     }
     catch (err) {
@@ -121,7 +121,7 @@ export default class ${options.classPlural}EditContainer extends React.PureCompo
   }
 
   handleLinkRelation = (relatedModel, relationField, idsKey) => {
-    this.props.updateManyModel(relatedModel)
+    this.props.update${options.className}(relatedModel)
     this.props.linkRelation(this.props.${options.variableName}, relationField, idsKey, relatedModel.id)
   }
   handleUnlinkRelation = (relatedModel, relationField, idsKey) => {
@@ -150,7 +150,7 @@ export default class ${options.classPlural}EditContainer extends React.PureCompo
           ${relation.model.variablePlural}={_(${options.variableName}.${relation.model.variableName}_ids).map(id => this.props.${relation.model.variablePlural}Store.get('models').get(id) && this.props.${relation.model.variablePlural}Store.get('models').get(id).toJSON()).compact().value()}`
     }
     return `
-          ${relation.model.variablePlural}: this.props.${relation.model.variablePlural}`
+          ${relation.model.variablePlural}={this.props.${relation.model.variablePlural}}`
 }).join('')}
         />
       </div>

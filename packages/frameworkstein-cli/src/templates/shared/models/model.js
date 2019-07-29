@@ -8,11 +8,11 @@ export default model =>
   url: '/api/${model.tableName}',
 })
 export default class ${model.className} extends Model {
-  static schema = () => _.extend({
 
+  static schema = () => ({
 ${renderRelations(model.relations)}
-
-  }, require('./schemas/${model.variableName}'))
+    ...require('./schemas/${model.variableName}'),
+  })
 
 }
 `
