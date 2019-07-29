@@ -7,6 +7,9 @@ import createServerController from '../templates/server/controller'
 import createServerTemplate from '../templates/server/template'
 import createSharedModel from '../templates/shared/models/model'
 import createSharedSchema from '../templates/shared/models/schema'
+import createActions from '../templates/shared/module/actions'
+import createReducer from '../templates/shared/module/reducer'
+import createSelectors from '../templates/shared/module/selectors'
 import createForm from '../templates/shared/module/components/forms/ExampleModelForm'
 import createModelCreate from '../templates/shared/module/components/ExampleModelCreate'
 import createModelDetail from '../templates/shared/module/components/ExampleModelDetail'
@@ -39,6 +42,21 @@ export default async function generateModuleFiles(model, options) {
     {
       path: path.join(options.root, `shared/models/schemas/${model.variableName}.js`),
       content: createSharedSchema(model),
+    },
+
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/actions.js`),
+      content: createActions(model),
+    },
+
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/reducer.js`),
+      content: createReducer(model),
+    },
+
+    {
+      path: path.join(options.root, `shared/modules/${model.variablePlural}/selectors.js`),
+      content: createSelectors(model),
     },
 
     {
