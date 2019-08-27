@@ -21,7 +21,7 @@ export default function fetchComponentData(options, callback) {
     branch.forEach(branch => {
 
       let Component = branch.route.component
-      if (!Component) return callback()
+      if (!Component) return callback && callback()
 
       while (Component.WrappedComponent) {
         Component = Component.WrappedComponent
