@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDatetime from 'react-datetime'
 import ReactMarkdown from 'react-markdown'
-import { FormGroup, Label, FormFeedback, FormText } from 'reactstrap'
+import { Row, Col, FormGroup, Label, FormFeedback, FormText } from 'reactstrap'
 import { validationError } from '../validation'
 
 
@@ -34,6 +34,7 @@ export default class SplitDatetime extends React.Component {
     markdownProps: PropTypes.object,
     defaultTime: PropTypes.object,
     readOnly: PropTypes.bool,
+    inline: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -107,7 +108,7 @@ export default class SplitDatetime extends React.Component {
   }
 
   render() {
-    const { label, dateLabel, timeLabel, meta, helpMd, helpTop, readOnly } = this.props
+    const { label, dateLabel, timeLabel, meta, helpMd, helpTop, readOnly, inline } = this.props
     const inputProps = _.extend({}, this.props.input, this.props.inputProps)
 
     let help = this.props.help
@@ -157,19 +158,43 @@ export default class SplitDatetime extends React.Component {
     const dateControl = (<ReactDatetime {...dateInputProps} />)
     const timeControl = (<ReactDatetime {...timeInputProps} />)
 
+    let controls
+    if (inline) {
+      controls = (
+        <Row>
+          <Col xs={6}>
+            {dateLabel && (<Label>{dateLabel}</Label>)}
+            {dateControl}
+          </Col>
+          {error && (<FormFeedback>{error}</FormFeedback>)}
+          <Col xs={6}>
+            {timeLabel && (<Label>{timeLabel}</Label>)}
+            {timeControl}
+          </Col>
+        </Row>
+      )
+    }
+    else {
+      controls = (
+        <React.Fragment>
+          <div>
+            {dateLabel && (<Label>{dateLabel}</Label>)}
+            {dateControl}
+          </div>
+          {error && (<FormFeedback>{error}</FormFeedback>)}
+          <div className="mt-3">
+            {timeLabel && (<Label>{timeLabel}</Label>)}
+            {timeControl}
+          </div>
+        </React.Fragment>
+      )
+    }
+
     return (
       <FormGroup className="form-group split-datetime">
         {label && (<Label>{label}</Label>)}
         {help && helpTop && (<FormText color="muted">{help}</FormText>)}
-        <div>
-          {dateLabel && (<Label>{dateLabel}</Label>)}
-          {dateControl}
-        </div>
-        {error && (<FormFeedback>{error}</FormFeedback>)}
-        <div className="mt-3">
-          {timeLabel && (<Label>{timeLabel}</Label>)}
-          {timeControl}
-        </div>
+        {controls}
         {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
       </FormGroup>
     )
