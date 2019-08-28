@@ -3,7 +3,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "6.17.14",
+  "version": "6.17.15",
   "command": {
     "bootstrap": {
       "nohoist": [
