@@ -49,7 +49,7 @@ const defaults = {
     console.log('[fl-auth] sendConfirmationEmail not configured. No email confirmation email will be sent. Token:', user.get('email'), user.get('emailConfirmationToken'))
     callback()
   },
-  sendResetEmail: (user, callback) => {
+  sendResetEmail: ({user, req}, callback) => {
     console.log('[fl-auth] sendResetEmail not configured. No password reset email will be sent. Reset token:', user.get('email'), user.get('resetToken'))
     callback()
   },

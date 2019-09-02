@@ -40,7 +40,7 @@ export default class ResetRequestForm extends Component {
         <p><Button onClick={handleSubmit} bsStyle="primary" type="submit">Reset your password</Button></p>
 
         {loading && <p><small>loading...</small></p>}
-        {errorMsg && <p><small>errorMsg...</small></p>}
+        {errorMsg && <p><small>{errorMsg}</small></p>}
         {resetEmailSent && <p>A link to reset your password has been sent to {email}.</p>}
 
       </form>

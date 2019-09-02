@@ -74,7 +74,7 @@ Usage (server) - values shown are defaults:
       // You need to override this with a function that sends this user an email with a link to the reset page, 
       // with a query param containing this resetToken 
       // e.g. <a href="https://example.com/reset?resetToken=${user.get('resetToken')}>Reset your password here</a>
-      sendResetEmail: (user, callback) => {
+      sendResetEmail: ({user, req}, callback) => {
         console.log('[fl-auth] sendResetEmail not configured. No password reset email will be sent. Reset token:', user.get('email'), user.get('resetToken'))
         callback()
       },
