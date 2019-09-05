@@ -25,7 +25,7 @@ export default (options, callback) => {
       const pool = new pg.Pool({connectionString})
 
       pool.connect((err, client, done) => {
-        if (err) return console.error('error connecting to postgres db', err)
+        if (err) return callback(err)
 
         client.query(`SELECT datname FROM pg_catalog.pg_database WHERE lower(datname) = lower('${databaseName}')`, (err, result) => {
           if (err || result && result.rowCount > 0) return callback(err)
