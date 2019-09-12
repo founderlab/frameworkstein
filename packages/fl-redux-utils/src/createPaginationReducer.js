@@ -40,6 +40,11 @@ export default function createPaginationReducer(actionType, options={}) {
       return state.merge(cachedState)
     }
 
+    else if (action.type === actionType + '_SAVE_SUCCESS') {
+      // Clear cache on save
+      return state.merge({cache: {}})
+    }
+
     if (action.cacheKey) {
       const cachedState = {
         visible: state.get('visible').toJSON(),
