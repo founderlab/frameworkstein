@@ -2,7 +2,9 @@ import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, FormGroup, Label, FormText, FormFeedback } from 'reactstrap'
+import ReactMarkdown from 'react-markdown'
 import { validationError } from '../validation'
+import markdownProps from '../markdownProps'
 
 
 export default class RadioInput extends React.PureComponent {
@@ -12,13 +14,15 @@ export default class RadioInput extends React.PureComponent {
     label: PropTypes.string,
     meta: PropTypes.object,
     help: PropTypes.string,
+    helpMd: PropTypes.string,
     inline: PropTypes.bool,
     options: PropTypes.array,
     helpTop: PropTypes.bool,
-
+    markdownProps: PropTypes.object,
   }
 
   static defaultProps = {
+    markdownProps,
     options: [],
     helpTop: true,
     inline: true,
@@ -28,7 +32,6 @@ export default class RadioInput extends React.PureComponent {
     const { input, meta } = this.props
 
     const oc2 = e => {
-      console.log('onchange', e.target.value)
       input.onChange(e.target.value)
     }
     return (
@@ -68,8 +71,13 @@ export default class RadioInput extends React.PureComponent {
   }
 
   render() {
-    const { label, meta, help, helpTop } = this.props
+    const { label, meta, helpTop } = this.props
     const error = validationError(meta)
+
+    let help = this.props.help
+    if (_.isUndefined(help) && this.props.helpMd) {
+      help = (<ReactMarkdown source={this.props.helpMd} {...this.props.markdownProps} />)
+    }
 
     return (
       <FormGroup>

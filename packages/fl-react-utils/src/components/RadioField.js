@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import { Field, getFormSyncErrors, hasSubmitFailed } from 'redux-form'
 import { connect } from 'react-redux'
 import { Row, Col, FormGroup, Label, FormText, FormFeedback } from 'reactstrap'
+import ReactMarkdown from 'react-markdown'
 import { validationError } from '../validation'
+import markdownProps from '../markdownProps'
 
 
 @connect((state, props) => ({
@@ -18,6 +20,7 @@ export default class RadioField extends React.Component {
     label: PropTypes.string,
     helpTop: PropTypes.bool,
     help: PropTypes.string,
+    helpMd: PropTypes.string,
     error: PropTypes.string,
     formMeta: PropTypes.object,
     formSyncErrors: PropTypes.object,
@@ -28,6 +31,7 @@ export default class RadioField extends React.Component {
   }
 
   static defaultProps = {
+    markdownProps,
     options: [],
     formMeta: {},
     formSyncErrors: {},
@@ -79,9 +83,14 @@ export default class RadioField extends React.Component {
   }
 
   render() {
-    const { name, label, inline, help, formMeta, formSyncErrors, submitFailed, helpTop } = this.props
+    const { name, label, inline, formMeta, formSyncErrors, submitFailed, helpTop } = this.props
     const meta = {...formMeta[name] || {}, error: formSyncErrors[name], submitFailed}
     const error = this.props.error || validationError(meta)
+
+    let help = this.props.help
+    if (_.isUndefined(help) && this.props.helpMd) {
+      help = (<ReactMarkdown source={this.props.helpMd} {...this.props.markdownProps} />)
+    }
 
     return (
       <FormGroup>
