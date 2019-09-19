@@ -3,9 +3,9 @@ import Queue from 'queue-async'
 import fs from 'fs'
 import path from 'path'
 import cors from './cors'
-import createBasicAjax from './createBasicAjax'
 
-export { cors, createBasicAjax }
+
+export { cors }
 
 const EXCLUDED_FILES = ['.DS_Store']
 

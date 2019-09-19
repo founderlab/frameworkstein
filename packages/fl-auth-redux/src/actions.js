@@ -1,10 +1,18 @@
-import request from 'superagent'
+import fetch from 'cross-fetch'
 import types from './action_types'
+
 
 export function login(url, email, password, callback) {
   return {
     type: types.LOGIN,
-    request: request.post(url).send({email, password}),
+    request: fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email, password}),
+    }),
+
     callback,
   }
 }
@@ -12,7 +20,14 @@ export function login(url, email, password, callback) {
 export function register(url, data, callback) {
   return {
     type: types.REGISTER,
-    request: request.post(url).send(data),
+    request: fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }),
+
     callback,
   }
 }
@@ -20,7 +35,13 @@ export function register(url, data, callback) {
 export function reset(url, email, password, resetToken, callback) {
   return {
     type: types.RESET,
-    request: request.post(url).send({email, password, resetToken}),
+    request: fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email, password, resetToken}),
+    }),
     callback,
   }
 }
@@ -28,7 +49,13 @@ export function reset(url, email, password, resetToken, callback) {
 export function resetRequest(url, email, callback) {
   return {
     type: types.RESET_REQUEST,
-    request: request.post(url).send({email}),
+    request: fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email}),
+    }),
     callback,
   }
 }
@@ -36,7 +63,13 @@ export function resetRequest(url, email, callback) {
 export function confirmEmail(url, email, token, callback) {
   return {
     type: types.CONFIRM_EMAIL,
-    request: request.post(url).send({email, token}),
+    request: fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email, token}),
+    }),
     callback,
   }
 }

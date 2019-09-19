@@ -134,7 +134,7 @@ export default function configure(_options) {
     _.forEach(modelAdmin.relationFields, modelField => {
       modelField.modelAdmin = _.find(modelAdmins, ma => ma.Model === modelField.Model)
 
-      warning(modelField.modelAdmin, `[fl-admin] configure: Couldnt find modelAdmin for the relation ${modelField.key} of ${modelAdmin.name}`)
+      !_options.quiet && warning(modelField.modelAdmin, `[fl-admin] configure: Couldnt find modelAdmin for the relation ${modelField.key} of ${modelAdmin.name}`)
 
       if (!modelField._customInput) {
         modelField.InputComponent = createRelatedInput(modelField, modelAdmin)
