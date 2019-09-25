@@ -126,7 +126,7 @@ export default class DatabaseTools {
     })
   }
   createOrUpdateTable = (options, callback) => {
-    if (arguments.length === 1) [callback, options] = [options, {}]
+    if (_.isFunction(options)) [callback, options] = [options, {}]
     if (callback) return this._createOrUpdateTable(options, callback)
     return promisify(this._createOrUpdateTable)(options)
   }
