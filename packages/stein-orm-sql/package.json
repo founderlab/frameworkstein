@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-sql",
-  "version": "6.15.1",
+  "version": "7.0.0",
   "description": "",
   "main": "lib/index.js",
   "author": {
@@ -22,7 +22,7 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "jest": "^22.0.0",
-    "stein-orm": "^6.15.1"
+    "stein-orm": "^7.0.0"
   },
   "peerDependencies": {
     "stein-orm": "^6.0.3"

@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-migrations",
-  "version": "6.19.0",
+  "version": "7.0.0",
   "description": "Automatic migrations for stein-orm",
   "main": "lib/index.js",
   "scripts": {
@@ -29,12 +29,12 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "jest": "^22.0.0",
-    "stein-orm": "^6.15.1"
+    "stein-orm": "^7.0.0"
   },
   "dependencies": {
-    "fl-server-utils": "^6.19.0",
-    "stein-orm": "^6.15.1",
-    "stein-orm-sql": "^6.15.1"
+    "fl-server-utils": "^7.0.0",
+    "stein-orm": "^7.0.0",
+    "stein-orm-sql": "^7.0.0"
   },
   "jest": {
     "verbose": true,
