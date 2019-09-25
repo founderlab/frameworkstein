@@ -26,7 +26,7 @@
     "create-app": "lib/index.js"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
+    "@babel/polyfill": "^7.0.0",
     "chalk": "^1.0.0",
     "commander": "^2.0.0",
     "graphql": "^14.4.2",

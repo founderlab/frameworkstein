@@ -23,6 +23,7 @@
     "@babel/core": "^7.0.0"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0",
     "classnames": "^2.0.0",
     "fl-react-utils": "^7.0.0",
     "fl-redux-utils": "^7.0.0",

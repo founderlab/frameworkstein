@@ -1,4 +1,4 @@
-import 'babel-polyfill' // import first to avoid probs with `regeneratorRuntime` not being defined, see https://github.com/babel/babel-preset-env/issues/112
+import '@babel/polyfill' // import first to avoid probs with `regeneratorRuntime` not being defined, see https://github.com/babel/babel-preset-env/issues/112
 import _ from 'lodash'
 import warning from 'warning'
 import { combineReducers } from 'redux'
