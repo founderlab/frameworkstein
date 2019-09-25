@@ -4,9 +4,9 @@
   "description": "Automatic migrations for stein-orm",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
-    "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
-    "watch": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib",
+    "prepublish": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
+    "build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
+    "watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
     "test": "eval $(cat __tests__/.env) jest --runInBand"
   },
   "repository": {
@@ -26,7 +26,8 @@
     "node": "8.3.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.0.0",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
     "jest": "^22.0.0",
     "stein-orm": "^6.15.1"
   },

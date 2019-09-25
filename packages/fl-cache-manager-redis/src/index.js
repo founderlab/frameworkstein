@@ -361,12 +361,11 @@ class RedisStore {
       }
       callback(null, {
         client: conn,
-        done: done => {
-          const options = Array.prototype.slice.call(arguments, 1)
+        done: (done, ...args) => {
           this.pool.release(conn)
 
           if (done && typeof done === 'function') {
-            done.apply(null, options)
+            done(...args)
           }
         },
       })

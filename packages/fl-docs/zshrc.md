@@ -39,7 +39,7 @@ alias nt='npm test'
 alias ds='npm run dev'
 alias dds='DEBUG=true npm run dev'
 alias dw='npm run watch'
-alias de='rm -rf ./lib && babel ./src --ignore '/node_modules/' --watch --out-dir ./lib'
+alias de='rm -rf ./lib && npx babel ./src --watch --out-dir ./lib'
 alias nb='npm run build; git add .; c "build"; p'
 alias rinm='rm -rf node_models && npm install'
 function mt() { NODE_ENV=test UNIT=true mocha $1 --compilers coffee:coffee-script/register  --reporter nyan --timeout 120000; }
