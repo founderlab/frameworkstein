@@ -25,7 +25,7 @@
     "stein-orm": "^7.0.0"
   },
   "peerDependencies": {
-    "stein-orm": "^6.0.3"
+    "stein-orm": "^7.0.0"
   },
   "dependencies": {
     "escope": "^3.0.0",
