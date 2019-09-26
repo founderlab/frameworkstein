@@ -1,6 +1,6 @@
 {
   "name": "fetch-component-data",
-  "version": "7.0.0",
+  "version": "7.0.5",
   "description": "Small util functions for Frameworkstein",
   "main": "lib/index.js",
   "author": {
@@ -24,7 +24,7 @@
     "queue-async": "^1.0.0",
     "react": ">=16.0.0",
     "react-router": "^4.0.0",
-    "react-router-config": "^1.0.0-beta.4"
+    "react-router-config": "^5.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

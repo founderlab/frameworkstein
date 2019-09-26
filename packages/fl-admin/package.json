@@ -1,6 +1,6 @@
 {
   "name": "fl-admin",
-  "version": "7.0.3",
+  "version": "7.0.5",
   "description": "Admin panel for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -25,7 +25,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "classnames": "^2.0.0",
-    "fl-react-utils": "^7.0.3",
+    "fl-react-utils": "^7.0.5",
     "fl-redux-utils": "^7.0.0",
     "immutable": "^3.0.0",
     "inflection": "^1.0.0",
@@ -39,11 +39,11 @@
     "react-dropzone-s3-uploader": "^1.0.0",
     "react-helmet": "^5.0.0",
     "react-redux": "^5.0.0",
-    "react-router-config": "^1.0.0-beta.4",
+    "react-router-config": "^5.0.0",
     "react-router-dom": "^4.0.0",
     "react-select": "^1.0.0",
     "react-sidebar": "^2.0.0",
-    "reactstrap": "^8.0.1",
+    "reactstrap": "^8.0.0",
     "redux": "^4.0.0",
     "redux-form": "^8.0.0",
     "warning": "^2.0.0"
