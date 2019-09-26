@@ -27,7 +27,7 @@
     "classnames": "^2.0.0",
     "fl-react-utils": "^7.0.5",
     "fl-redux-utils": "^7.0.0",
-    "immutable": "^3.0.0",
+    "immutable": "^4.0.0-rc.12",
     "inflection": "^1.0.0",
     "lodash": "^4.0.0",
     "moment": "^2.0.0",
