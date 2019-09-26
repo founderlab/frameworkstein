@@ -6,6 +6,7 @@
   "version": "7.0.3",
   "command": {
     "bootstrap": {
+     "npmClientArgs": ["--no-package-lock"],
       "nohoist": [
         "bootstrap",
         "bootstrap-loader"
