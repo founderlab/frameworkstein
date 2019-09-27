@@ -4,7 +4,7 @@ export default options =>
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { save${options.className} } from '../actions'
 import { select${options.classPlural}Error } from '../selectors'
 import ${options.className}Create from '../components/${options.className}Create'

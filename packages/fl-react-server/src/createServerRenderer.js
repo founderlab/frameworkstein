@@ -5,8 +5,8 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'
 import Helmet from 'react-helmet'
-import createHistory from 'history/createMemoryHistory'
-import { ConnectedRouter } from 'react-router-redux'
+import { createMemoryHistory } from 'history'
+import { ConnectedRouter } from 'connected-react-router'
 import { matchRoutes, renderRoutes } from 'react-router-config'
 import { fetchComponentData } from 'fetch-component-data'
 import serialize from 'serialize-javascript'
@@ -77,7 +77,7 @@ export default function createServerRenderer(_options) {
       if (options.loadInitialState) _.merge(serverState, await options.loadInitialState(req))
       serverState.config = _.isFunction(config) ? await config(req) : config
 
-      const history = createHistory({initialEntries: [req.originalUrl]})
+      const history = createMemoryHistory({initialEntries: [req.originalUrl]})
       const store = createStore({history, getRoutes, initialState: serverState})
       const routes = getRoutes(store)
 

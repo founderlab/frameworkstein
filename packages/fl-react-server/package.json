@@ -35,7 +35,7 @@
     "react-redux": "^7.0.0",
     "react-router-config": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react-router-redux": "^4.0.0",
+    "connected-react-router": "^4.0.0",
     "redux": "^4.0.0",
     "serialize-javascript": "^1.0.0"
   }
