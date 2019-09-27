@@ -1,6 +1,6 @@
 {
   "name": "fl-react-server",
-  "version": "7.0.5",
+  "version": "7.0.7",
   "description": "Server side renderer function for React, used in Frameworkstein apps",
   "main": "lib/index.js",
   "author": {
