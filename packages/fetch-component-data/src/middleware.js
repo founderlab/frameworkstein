@@ -18,7 +18,7 @@ export default function createFetchComponentDataMiddlware(getRoutes) {
     const currentLocation = router.location
 
     if (currentLocation && _.includes(routeChangeTypes, action.type)) {
-      const newLocation = action.payload.location || action.payload
+      const newLocation = (action.payload && action.payload.location) || action.payload
       if (locsEqual(currentLocation, newLocation)) return
       const branch = matchRoutes(routes, newLocation.pathname)
 

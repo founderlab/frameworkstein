@@ -143,7 +143,7 @@ export default function createRequestMiddleware(_options={}) {
           }
 
           try {
-            next(finalAction)
+            await next(finalAction)
 
             if (callback && _.isFunction(callback))  {
               return callback(error, finalAction)
