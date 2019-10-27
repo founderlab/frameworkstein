@@ -11,25 +11,20 @@ export default class S3Uploader extends React.Component {
     label: PropTypes.string,
     size: PropTypes.string,
     style: PropTypes.object,
-    inputProps: PropTypes.object.isRequired,
-    config: PropTypes.object,
-  }
-
-  static defaultProps = {
-    config: {},
-  }
-
-  static contextTypes = {
-    url: PropTypes.string,
-    s3Url: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    maxFileUploadSize: PropTypes.number,
+    accept: PropTypes.string,
+    value: PropTypes.string,
+    url: PropTypes.string.isRequired,
+    s3Url: PropTypes.string.isRequired,
   }
 
   handleFinishedUpload = (info) => {
-    this.props.inputProps.onChange(info.filename)
+    this.props.onChange(info.filename)
   }
 
   render() {
-    const { config, size, inputProps } = this.props
+    const { url, s3Url, value, accept, size, maxFileUploadSize } = this.props
 
     const style = this.props.style || {
       height: size === 'large' ? 200 : 100,
@@ -43,20 +38,20 @@ export default class S3Uploader extends React.Component {
 
     const uploaderProps = {
       style,
-      s3Url: config.s3Url || this.context.s3Url,
-      filename: inputProps.value,
-      maxSize: config.maxFileUploadSize,
-      progressComponent: ({progress}) => progress ? (<Progress value={progress} />) : null,
+      s3Url,
+      filename: value,
+      maxSize: maxFileUploadSize,
+      progressComponent: ({progress}) => progress ? <Progress value={progress} /> : null,
 
       upload: {
-        accept: inputProps.accept || '',
-        server: config.url || this.context.url,
+        accept: accept || '',
+        server: url,
       },
     }
 
     return (
       <div>
-        {this.props.label ? (<label className="control-label">{this.props.label}</label>) : null}
+        {this.props.label ? <label className="control-label">{this.props.label}</label> : null}
         <DropzoneS3Uploader onFinish={this.handleFinishedUpload} {...uploaderProps} />
       </div>
     )
