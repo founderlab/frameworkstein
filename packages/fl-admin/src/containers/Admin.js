@@ -8,6 +8,7 @@ import { Sidebar } from 'fl-react-utils'
 import Navbar from '../components/Navbar'
 import AdminSidebar from '../components/Sidebar'
 import headerTags from '../utils/headerTags'
+import AdminContext from '../AdminContext'
 
 
 @connect(state => ({
@@ -25,24 +26,11 @@ export default class Admin extends React.Component {
 
   state = {}
 
-  static childContextTypes = {
-    url: PropTypes.string,
-    s3Url: PropTypes.string,
-  }
-
-  getChildContext() {
-    return {
-      url: this.state.url,
-      s3Url: this.state.s3Url,
-    }
-  }
-
-  componentWillMount() {
-    if (!this.state.url) {
-      this.setState({
-        url: this.props.config.get('url'),
-        s3Url: this.props.config.get('s3Url'),
-      })
+  constructor(props) {
+    super(props)
+    this.state = {
+      url: this.props.config.get('url'),
+      s3Url: this.props.config.get('s3Url'),
     }
   }
 
@@ -56,17 +44,19 @@ export default class Admin extends React.Component {
     }
 
     return (
-      <Sidebar {...sidebarProps}>
-        <Helmet
-          title=""
-          titleTemplate="%s - admin"
-          {...headerTags(this.props)}
-        />
-        <Navbar />
-        <div className="fla-main">
-          {renderRoutes(this.props.route.routes)}
-        </div>
-      </Sidebar>
+      <AdminContext.Provider value={this.state}>
+        <Sidebar {...sidebarProps}>
+          <Helmet
+            title=""
+            titleTemplate="%s - admin"
+            {...headerTags(this.props)}
+          />
+          <Navbar />
+          <div className="fla-main">
+            {renderRoutes(this.props.route.routes)}
+          </div>
+        </Sidebar>
+      </AdminContext.Provider>
     )
   }
 }
