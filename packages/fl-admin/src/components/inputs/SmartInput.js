@@ -1,13 +1,20 @@
 import _ from 'lodash' // eslint-disable-line
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Input } from 'fl-react-utils'
 import JsonInput from './JsonInput'
+import AdminContext from '../../AdminContext'
 
 
 export default function SmartInput(_props) {
   const { modelField, ...__props } = _props
   const props = {...modelField, ...__props}
+
+  const context = useContext(AdminContext)
+  props.inputProps = {
+    ...context,
+    ...(props.inputProps || {}),
+  }
 
   // Type of text input specified
   const inputType = modelField.input || modelField.type || props.type
@@ -28,6 +35,7 @@ export default function SmartInput(_props) {
 }
 
 SmartInput.propTypes = {
+  inputProps: PropTypes.object,
   modelField: PropTypes.object.isRequired,
   type: PropTypes.string,
 }
