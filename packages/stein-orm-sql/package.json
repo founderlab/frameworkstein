@@ -30,7 +30,7 @@
   "dependencies": {
     "escope": "^3.0.0",
     "inflection": "^1.0.0",
-    "knex": "^0.14.0",
+    "knex": "^0.20.0",
     "lodash": "^4.0.0",
     "pg": "^7.0.0",
     "queue-async": "^1.0.0"
