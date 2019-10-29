@@ -38,7 +38,7 @@
     "react-dom": ">=16.0.0",
     "react-dropzone-s3-uploader": "^1.0.0",
     "react-helmet": "^5.0.0",
-    "react-redux": "^7.1.1",
+    "react-redux": "^7.0.0",
     "react-router-config": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-select": "^1.0.0",
