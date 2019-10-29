@@ -96,7 +96,7 @@ export default class FLInput extends React.Component {
         else if (!meta.dirty && _.isString(inputProps.value)) {
           inputProps.value = moment(inputProps.value)
         }
-        control = (<ReactDatetime closeOnSelect inputProps={{placeholder}} {..._.omit(inputProps, 'onFocus')} />)
+        control = <ReactDatetime closeOnSelect inputProps={{placeholder}} {..._.omit(inputProps, 'onFocus')} />
         break
 
       case 'select':
@@ -161,7 +161,7 @@ export default class FLInput extends React.Component {
 
       case 'static':
         control = (
-          <Input plaintext {...bsProps} {...inputProps}>{inputProps.value}</Input>
+          <Input plaintext value={inputProps.value} {...bsProps} {...inputProps} />
         )
         break
 
@@ -240,9 +240,9 @@ export default class FLInput extends React.Component {
         <Row>
           <Col>
             {label && !check && <Label>{label}</Label>}
-            {help && helpTop && (<FormText color="muted">{help}</FormText>)}
-            {error && (<FormFeedback>{error}</FormFeedback>)}
-            {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
+            {help && helpTop && <FormText color="muted">{help}</FormText>}
+            {error && <FormFeedback>{error}</FormFeedback>}
+            {help && !helpTop && <FormText color="muted">{help}</FormText>}
           </Col>
           <Col>
             {control}
@@ -255,10 +255,10 @@ export default class FLInput extends React.Component {
         <Row>
           <Col>
             {label && !check && <Label>{label}</Label>}
-            {help && helpTop && (<FormText color="muted">{help}</FormText>)}
+            {help && helpTop && <FormText color="muted">{help}</FormText>}
             {control}
-            {error && (<FormFeedback>{error}</FormFeedback>)}
-            {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
+            {error && <FormFeedback>{error}</FormFeedback>}
+            {help && !helpTop && <FormText color="muted">{help}</FormText>}
           </Col>
         </Row>
       )
