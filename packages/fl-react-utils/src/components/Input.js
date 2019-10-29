@@ -96,7 +96,7 @@ export default class FLInput extends React.Component {
         else if (!meta.dirty && _.isString(inputProps.value)) {
           inputProps.value = moment(inputProps.value)
         }
-        control = <ReactDatetime closeOnSelect inputProps={{placeholder}} {..._.omit(inputProps, 'onFocus')} />
+        control = <ReactDatetime closeOnSelect inputProps={{placeholder}} {..._.omit(inputProps, 'onFocus', 'onBlur')} />
         break
 
       case 'select':
