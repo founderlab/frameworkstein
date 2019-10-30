@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
 import DropzoneS3Uploader from 'react-dropzone-s3-uploader'
-import { Progress } from 'reactstrap'
+import { Progress, FormFeedback } from 'reactstrap'
 
 
 export default class S3Uploader extends React.Component {
@@ -15,16 +15,35 @@ export default class S3Uploader extends React.Component {
     maxFileUploadSize: PropTypes.number,
     accept: PropTypes.string,
     value: PropTypes.string,
+    type: PropTypes.string,
     url: PropTypes.string.isRequired,
     s3Url: PropTypes.string.isRequired,
+  }
+
+  state = {
+    error: '',
   }
 
   handleFinishedUpload = (info) => {
     this.props.onChange(info.filename)
   }
 
+  handlePreprocess = (file, next) => {
+    const { type, maxFileUploadSize } = this.props
+    if (file.size > maxFileUploadSize) {
+      const error = type === 'image' ?
+        `Image size should be less than ${maxFileUploadSize/1024}kb, please resize your image or use a smaller one.` :
+        `File size should be less than ${maxFileUploadSize/1024}kb, please select a smaller file.`
+      this.setState({error})
+    }
+    else {
+      this.setState({error: ''})
+      next(file)
+    }
+  }
+
   render() {
-    const { url, s3Url, value, accept, size, maxFileUploadSize } = this.props
+    const { url, s3Url, value, accept, size } = this.props
 
     const style = this.props.style || {
       height: size === 'large' ? 200 : 100,
@@ -40,12 +59,12 @@ export default class S3Uploader extends React.Component {
       style,
       s3Url,
       filename: value,
-      maxSize: maxFileUploadSize,
       progressComponent: ({progress}) => progress ? <Progress value={progress} /> : null,
 
       upload: {
         accept: accept || '',
         server: url,
+        preprocess: this.handlePreprocess,
       },
     }
 
@@ -53,6 +72,7 @@ export default class S3Uploader extends React.Component {
       <div>
         {this.props.label ? <label className="control-label">{this.props.label}</label> : null}
         <DropzoneS3Uploader onFinish={this.handleFinishedUpload} {...uploaderProps} />
+        {this.state.error && <FormFeedback>{this.state.error}</FormFeedback>}
       </div>
     )
   }

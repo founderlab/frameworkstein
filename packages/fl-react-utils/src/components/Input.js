@@ -155,7 +155,7 @@ export default class FLInput extends React.Component {
       case 'image':
       case 'file':
         control = (
-          <S3Uploader {...inputProps} />
+          <S3Uploader type={type} {...inputProps} />
         )
         break
 
