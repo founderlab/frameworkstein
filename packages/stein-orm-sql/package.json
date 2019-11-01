@@ -38,6 +38,7 @@
   "jest": {
     "verbose": true,
     "bail": true,
+    "testURL": "http://localhost/",
     "testPathIgnorePatterns": [
       "node_modules/!(stein-orm)/*"
     ]

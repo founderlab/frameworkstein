@@ -153,7 +153,9 @@ function appendSelect(query, ast) {
 
 function appendSort(query, ast) {
   if (!ast.sort) { return query }
-  for (const sort of Array.from(ast.sort)) { query.orderBy(sort.column, sort.direction) }
+  for (const sort of ast.sort) {
+    query.orderBy(sort.column, sort.direction)
+  }
   return query
 }
 

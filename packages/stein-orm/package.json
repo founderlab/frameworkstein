@@ -32,9 +32,13 @@
   "jest": {
     "verbose": true,
     "bail": true,
+    "testURL": "http://localhost/",
     "modulePathIgnorePatterns": [
       "hasOneModels",
       "m2mModels"
-    ]
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
   }
 }

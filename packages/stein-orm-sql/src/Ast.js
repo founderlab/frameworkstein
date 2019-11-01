@@ -11,8 +11,10 @@ const COMPARATORS = {
 const COMPARATOR_KEYS = _.keys(COMPARATORS)
 
 function parseSortField(sort) {
-  if (sort[0] === '-') { return [sort.substr(1), 'desc'] }
-  return [sort, 'asc']
+  if (_.isObject(sort)) {
+    return [sort.field, sort.order]
+  }
+  return sort[0] === '-' ? [sort.substr(1), 'desc'] : [sort, 'asc']
 }
 
 export default class SqlAst {
@@ -328,22 +330,21 @@ export default class SqlAst {
 
   // Set up sort columns
   setSortFields(sort) {
-    if (!sort) { return }
+    if (!sort) return
+
     this.sort = []
-    const to_sort = _.isArray(this.query.$sort) ? this.query.$sort : [this.query.$sort]
-    return (() => {
-      const result = []
-      for (const sortKey of Array.from(to_sort)) {
-        const [column, direction] = Array.from(parseSortField(sortKey))
-        if (this.prefixColumns && !Array.from(column).includes('.')) {
-          result.push(this.sort.push({column: this.columnName(column, this.modelType.tableName), direction}))
-        }
-        else {
-          result.push(this.sort.push({column, direction}))
-        }
+    const toSort = _.isArray(this.query.$sort) ? this.query.$sort : [this.query.$sort]
+
+    for (const sortKey of toSort) {
+      const [column, direction] = parseSortField(sortKey)
+
+      if (this.prefixColumns && !column.includes('.')) {
+        this.sort.push({column: this.columnName(column, this.modelType.tableName), direction})
       }
-      return result
-    })()
+      else {
+        this.sort.push({column, direction})
+      }
+    }
   }
 
   // Ensure that column references have table prefixes where required
