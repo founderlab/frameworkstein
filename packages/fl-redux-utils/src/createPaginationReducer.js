@@ -40,7 +40,7 @@ export default function createPaginationReducer(actionType, options={}) {
       return state.merge(cachedState)
     }
 
-    else if (action.type === actionType + '_SAVE_SUCCESS') {
+    else if (action.type === actionType + '_SAVE_SUCCESS' || action.type === actionType + '_CACHE_CLEAR') {
       // Clear cache on save
       return state.merge({cache: {}})
     }
