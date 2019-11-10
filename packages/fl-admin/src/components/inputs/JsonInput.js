@@ -7,18 +7,17 @@ import { Input } from 'fl-react-utils'
 
 
 export default function JsonInput(props) {
-  const { modelField, fields } = props
+  console.log('JsonInput', props)
+  const { modelField, fields, model } = props
   const schema = modelField.schema
+
+  let content
+
   if (!schema) {
-    console.log(`Json fields require a jsonSchema property describing the form fields to render. Missing from ${modelField.key}`)
-    return null
+    content = <div className="small text-muted">{JSON.stringify(model[modelField.key])}</div>
   }
-
-  return (
-    <FormGroup className="json-field">
-      <Label>{modelField.label || modelField.key}</Label>
-      {modelField.help && <HelpBlock>{modelField.help}</HelpBlock>}
-
+  else {
+    content = (
       <div className="json-fields">
         {fields.map((currentItem, i) => (
           <div key={i} className="json-field">
@@ -62,6 +61,14 @@ export default function JsonInput(props) {
           </Row>
         )}
       </div>
+    )
+  }
+
+  return (
+    <FormGroup className="json-field">
+      <Label>{modelField.label || modelField.key}</Label>
+      {modelField.help && <HelpBlock>{modelField.help}</HelpBlock>}
+      {content}
     </FormGroup>
   )
 }
