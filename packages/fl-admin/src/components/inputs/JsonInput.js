@@ -7,7 +7,6 @@ import { Input } from 'fl-react-utils'
 
 
 export default function JsonInput(props) {
-  console.log('JsonInput', props)
   const { modelField, fields, model } = props
   const schema = modelField.schema
 
@@ -74,6 +73,7 @@ export default function JsonInput(props) {
 }
 
 JsonInput.propTypes = {
+  model: PropTypes.object.isRequired,
   modelField: PropTypes.object.isRequired,
   fields: PropTypes.object.isRequired,
 }

@@ -1,3 +1,4 @@
 import createServerRenderer from './createServerRenderer'
+import { jsAssets, cssAssets } from './assets'
 
-export { createServerRenderer }
+export { createServerRenderer, jsAssets, cssAssets }
