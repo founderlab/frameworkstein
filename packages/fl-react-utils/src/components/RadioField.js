@@ -5,8 +5,8 @@ import { Field, getFormSyncErrors, hasSubmitFailed } from 'redux-form'
 import { connect } from 'react-redux'
 import { Row, Col, FormGroup, Label, FormText, FormFeedback } from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
-import { validationError } from '../validation'
-import markdownProps from '../markdownProps'
+import { validationError } from '../utils/validation'
+import markdownProps from '../utils/markdownProps'
 
 
 @connect((state, props) => ({

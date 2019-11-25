@@ -3,8 +3,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, FormGroup, Label, FormText, FormFeedback } from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
-import { validationError } from '../validation'
-import markdownProps from '../markdownProps'
+import { validationError } from '../utils/validation'
+import markdownProps from '../utils/markdownProps'
 
 
 export default class RadioInput extends React.PureComponent {

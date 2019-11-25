@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import ReactDatetime from 'react-datetime'
 import ReactMarkdown from 'react-markdown'
 import { Row, Col, FormGroup, Label, FormFeedback, FormText } from 'reactstrap'
-import { validationError } from '../validation'
+import { validationError } from '../utils/validation'
 
 
 export default class SplitDatetime extends React.Component {

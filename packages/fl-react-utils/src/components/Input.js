@@ -5,13 +5,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import warning from 'warning'
 import ReactDatetime from 'react-datetime'
-import Select from 'react-select'
 import { FormGroup, Label, Input, FormText, FormFeedback, Row, Col, InputGroup, InputGroupAddon } from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
+import Select from './Select'
 import S3Uploader from './S3Uploader'
-import { validationError, validationState } from '../validation'
-import markdownProps from '../markdownProps'
-import parseSelectValues from '../parseSelectValues'
+import { validationError, validationState } from '../utils/validation'
+import markdownProps from '../utils/markdownProps'
 
 
 export default class FLInput extends React.Component {
@@ -70,7 +69,7 @@ export default class FLInput extends React.Component {
 
     let help = this.props.help
     if (_.isUndefined(help) && helpMd) {
-      help = (<ReactMarkdown source={helpMd} {...this.props.markdownProps} />)
+      help = <ReactMarkdown source={helpMd} {...this.props.markdownProps} />
     }
     const error = validationError(meta)
     let check = false
@@ -123,32 +122,9 @@ export default class FLInput extends React.Component {
           warning(false, 'react-select components require an options prop')
           return null
         }
-        const { onChange, onBlur, onFocus, value, multi, ...props } = inputProps
-        const stringValue = _.isArray(value) ? value.join(',') : value
-        const funcs = {}
-
-        if (onChange) funcs.onChange = value => onChange(parseSelectValues(value, multi))
-        if (onBlur) funcs.onBlur = () => onBlur(value)
-        if (onFocus) {
-          funcs.onFocus = e => {
-            if (window.innerWidth < this.props.autoScrollWidth && this._scrollEle) this._scrollEle.scrollIntoView()
-            onFocus(e)
-          }
-        }
-        if (_.isUndefined(props.autoBlur)) props.autoBlur = true
-
+        const { onBlur, ...props } = inputProps
         control = (
-          <Select
-            autoBlur
-            ref={c => this._select = c}
-            options={options}
-            value={stringValue}
-            onBlurResetsInput={false}
-            onCloseResetsInput={false}
-            multi={multi}
-            {...funcs}
-            {...props}
-          />
+          <Select options={options} {...props} />
         )
         break
 
