@@ -1,6 +1,6 @@
 {
   "name": "fl-auth-server",
-  "version": "7.0.22",
+  "version": "7.1.1",
   "description": "Auth server package for FounderLab apps",
   "main": "lib/index.js",
   "author": {
