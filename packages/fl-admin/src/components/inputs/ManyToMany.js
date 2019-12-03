@@ -1,7 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Async } from 'react-select'
+import AsyncSelect from 'react-select/async'
 import { Link } from 'react-router-dom'
 import { Row, Col, Button } from 'reactstrap'
 
@@ -18,25 +18,29 @@ export default class ManyToMany extends React.PureComponent {
 
   state = {}
 
-  loadOptions = (input, callback) => {
-    const { relationField } = this.props
-    if (!input.length) return callback(null, {options: [], complete: false})
-    const RelatedModel = relationField.relation.reverseRelation.modelType
+  loadOptions = async input => {
+    try {
+      const { relationField } = this.props
+      if (!input.length) return []
+      const RelatedModel = relationField.relation.reverseRelation.modelType
 
-    const query = {
-      $or: [{name: {$search: input}}],
-    }
+      const query = {
+        $or: [{name: {$search: input}}],
+      }
 
-    RelatedModel.cursor(query).toJSON((err, relatedModels) => {
-      if (err) return console.log(err)
+      const relatedModels = await RelatedModel.cursor(query).toJSON()
 
       const options = _.map(relatedModels, relatedModel => ({
         relatedModel,
         value: relatedModel.id,
         label: relationField.modelAdmin.display(relatedModel),
       }))
-      callback(null, {options, complete: true})
-    })
+      return options
+    }
+    catch (err) {
+      console.log(err)
+      return []
+    }
   }
 
   handleLinkRelation = option => {
@@ -56,14 +60,11 @@ export default class ManyToMany extends React.PureComponent {
         <label>{label}</label>
         {model.id ? (
           <React.Fragment>
-            <Async
+            <AsyncSelect
               placeholder="Name"
               loadOptions={this.loadOptions}
               value={this.state.selectedRelation}
               onChange={this.handleLinkRelation}
-              onBlurResetsInput={false}
-              onCloseResetsInput={false}
-              autoload={false}
             />
 
             <div className="list-group mt-2">
