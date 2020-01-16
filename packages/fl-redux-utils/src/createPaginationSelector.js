@@ -30,8 +30,8 @@ export default function createPaginationSelector(paginateOn, selectState, _optio
       let pState = paginationState(state, paginateOn)
       if (!pState) return null
 
-      if (options.cacheKeyFromProps && props) {
-        const cacheKey = options.cacheKeyFromProps(props)
+      if (options.cacheKey || (options.cacheKeyFromProps && props)) {
+        const cacheKey = options.cacheKey || options.cacheKeyFromProps(props)
         const cachedState = pState.get(cacheKey)
         if (cachedState) pState = cachedState
         cached = true
