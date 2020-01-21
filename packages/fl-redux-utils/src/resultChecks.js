@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 
 
 export function hasResults(state, paginationName='pagination', page=1) {
-  return state.get(paginationName) && state.get(paginationName).get('pages') && state.get(paginationName).get('cache').get(page.toString())
+  return state.get(paginationName) && state.get(paginationName).get('pages') && state.get(paginationName).get('pages').get(page.toString())
 }
 
 export function hasCachedResults(state, cacheKey, paginationName='pagination') {
