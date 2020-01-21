@@ -1,37 +1,29 @@
 import _ from 'lodash' // eslint-disable-line
 import { fromJS } from 'immutable'
 
+
 export default function createPaginationReducer(actionType, options={}) {
 
   const defaultState = fromJS({
-    visible: [],
     total: 0,
     currentPage: 0,
+    pages: {},
     cache: {},
   })
 
   return function pagination(_state=defaultState, action={}) {
     let state = _state
+    if (options.append && !state.get('append')) {
+      state = state.set('append', true)
+    }
 
     if (action.type === actionType + '_COUNT_SUCCESS') {
       state = state.merge({total: +action.res})
     }
 
-    else if (action.type === actionType + '_DEL_SUCCESS') {
-      const visible = state.get('visible').toJSON()
-      state = state.merge({visible: _.without(visible, action.deletedId), cache: {}})
-    }
-
-    else if (action.type === actionType + '_LOAD_SUCCESS' && action.page) {
-      if (options.append && action.page > +state.get('currentPage')) {
-        // Only append if the page being loaded is higher than the current page
-        // If a lower number assume it's a refresh and behave as if append was not set
-        const current = state.get('visible').toJSON()
-        state = state.merge({visible: current.concat(action.ids), currentPage: action.page})
-      }
-      else {
-        state = state.merge({visible: action.ids, currentPage: action.page})
-      }
+    else if (action.type === actionType + '_LOAD_SUCCESS' && !_.isNil(action.page)) {
+      state = state.setIn(['pages', action.page.toString()], fromJS(action.ids))
+      state = state.set('currentPage', action.page)
     }
 
     else if (action.type === actionType + '_CACHE_RESTORE' && action.cacheKey) {
@@ -45,11 +37,21 @@ export default function createPaginationReducer(actionType, options={}) {
       return state.merge({cache: {}})
     }
 
+    else if (action.type === actionType + '_DEL_SUCCESS') {
+      const pages = state.get('pages').toJSON()
+
+      _.forEach(pages, (pageIds, page) => {
+        pages[page] = _.without(pageIds, action.deletedId)
+      })
+
+      state = state.merge({pages, cache: {}})
+    }
+
     if (action.cacheKey) {
       const cachedState = {
-        visible: state.get('visible').toJSON(),
-        currentPage: state.get('currentPage'),
+        pages: state.get('pages').toJSON(),
         total: state.get('total'),
+        currentPage: state.get('currentPage'),
       }
       state = state.setIn(['cache', action.cacheKey], fromJS(cachedState))
     }

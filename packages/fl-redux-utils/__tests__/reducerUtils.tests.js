@@ -17,7 +17,7 @@ const mockProfile = {
 let mockProfileReducer
 
 
-describe('RestController', () => {
+describe('reducerUtils', () => {
 
   beforeEach(async () => {
     mockProfileReducer = fromJS({

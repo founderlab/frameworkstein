@@ -43,18 +43,32 @@ export default function createPaginationSelector(paginateOn, selectState, _optio
       }
     },
     (models, {pagination, cached}) => {
-      const visibleItems = []
+      const results = {
+        cached,
+        visibleItems: [],
+        visibleIds: [],
+        totalItems: 0,
+        currentPage: 1,
+      }
+      if (!pagination) return results
 
-      const visibleIds = pagination ? pagination.get('visible').toJSON() : []
-      const totalItems = pagination ? +pagination.get('total') : 0
-      const currentPage = pagination ? +pagination.get('currentPage') : 1
+      results.totalItems = +pagination.get('total')
+      results.currentPage = +pagination.get('currentPage')
 
-      _.forEach(visibleIds, id => {
+      if (pagination.get('append')) {
+        results.visibleIds = _(pagination.get('pages').toJSON()).values().flatten().value()
+      }
+      else {
+        const pageIdsIm = pagination.get('pages').get(pagination.get('currentPage').toString())
+        if (pageIdsIm) results.visibleIds = pagination.get('pages').get(pagination.get('currentPage').toString()).toJSON()
+      }
+
+      _.forEach(results.visibleIds, id => {
         const m = models.get(id)
-        m && visibleItems.push(m.toJSON())
+        m && results.visibleItems.push(m.toJSON())
       })
 
-      return {visibleItems, totalItems, currentPage, cached}
+      return results
     },
   )
 

@@ -22,7 +22,8 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
-    "jest": "^22.4.4"
+    "babel-jest": "^24.0.0",
+    "jest": "^24.0.0"
   },
   "dependencies": {
     "classnames": "^2.0.0",
@@ -35,6 +36,15 @@
     "warning": "^2.0.0"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "verbose": true,
+    "bail": true,
+    "modulePathIgnorePatterns": [
+      "checkfiles",
+      "data"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
   }
 }
