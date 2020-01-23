@@ -27,7 +27,7 @@ export default function createPaginationReducer(actionType, options={}) {
     }
 
     else if (action.type === actionType + '_CACHE_RESTORE' && action.cacheKey) {
-      const cachedState = state.get('cache').get(action.cacheKey) && state.get('cache').get(action.cacheKey).toJSON()
+      const cachedState = state.get('cache').get(action.cacheKey) && state.get('cache').get(action.cacheKey).toJS()
       // Return here so we don't cached the cached result again
       return state.merge(cachedState)
     }
@@ -38,7 +38,7 @@ export default function createPaginationReducer(actionType, options={}) {
     }
 
     else if (action.type === actionType + '_DEL_SUCCESS') {
-      const pages = state.get('pages').toJSON()
+      const pages = state.get('pages').toJS()
 
       _.forEach(pages, (pageIds, page) => {
         pages[page] = _.without(pageIds, action.deletedId)
@@ -47,9 +47,13 @@ export default function createPaginationReducer(actionType, options={}) {
       state = state.merge({pages, cache: {}})
     }
 
+    else if (action.type === actionType + '_CLEAR') {
+      state = state.merge(defaultState.toJS())
+    }
+
     if (action.cacheKey) {
       const cachedState = {
-        pages: state.get('pages').toJSON(),
+        pages: state.get('pages').toJS(),
         total: state.get('total'),
         currentPage: state.get('currentPage'),
       }
