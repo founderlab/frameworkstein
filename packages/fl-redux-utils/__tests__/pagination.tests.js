@@ -128,4 +128,46 @@ describe('createPaginationReducer', () => {
     expect(_.map(results.visibleItems, 'id')).toEqual([...page1Ids, ...page2Ids])
   })
 
+  it('clears pagination on save', () => {
+    const files = [{
+      id: '1',
+    }, {
+      id: '2',
+    }, {
+      id: '3',
+    }]
+    const ids = _.map(files, 'id')
+    const pagination = createPaginationReducer('FILE')
+
+    let state = pagination()
+    const checkState = state => {
+      expect(state.get('total')).toEqual(0)
+      expect(state.get('currentPage')).toEqual(0)
+      expect(state.get('pages').toJS()).toEqual({})
+      expect(state.get('cache').toJS()).toEqual({})
+    }
+
+    state = pagination(state, {
+      ids,
+      type: 'FILE_LOAD_SUCCESS',
+      models: files,
+      page: 1,
+    })
+    state = pagination(state, {
+      type: 'FILE_SAVE_SUCCESS',
+    })
+    checkState(state)
+
+    state = pagination(state, {
+      ids,
+      type: 'FILE_LOAD_SUCCESS',
+      models: files,
+      page: 1,
+    })
+    state = pagination(state, {
+      type: 'FILE_CLEAR',
+    })
+    checkState(state)
+  })
+
 })

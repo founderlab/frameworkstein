@@ -13,6 +13,8 @@ export default function createPaginationReducer(actionType, options={}) {
 
   return function pagination(_state=defaultState, action={}) {
     let state = _state
+
+    // Store the append option so selectors can see it
     if (options.append && !state.get('append')) {
       state = state.set('append', true)
     }
@@ -26,17 +28,7 @@ export default function createPaginationReducer(actionType, options={}) {
       state = state.set('currentPage', action.page)
     }
 
-    else if (action.type === actionType + '_CACHE_RESTORE' && action.cacheKey) {
-      const cachedState = state.get('cache').get(action.cacheKey) && state.get('cache').get(action.cacheKey).toJS()
-      // Return here so we don't cached the cached result again
-      return state.merge(cachedState)
-    }
-
-    else if (action.type === actionType + '_SAVE_SUCCESS' || action.type === actionType + '_CACHE_CLEAR') {
-      // Clear cache on save
-      return state.merge({cache: {}})
-    }
-
+    // Remove deleted items without clearing everything
     else if (action.type === actionType + '_DEL_SUCCESS') {
       const pages = state.get('pages').toJS()
 
@@ -47,8 +39,21 @@ export default function createPaginationReducer(actionType, options={}) {
       state = state.merge({pages, cache: {}})
     }
 
-    else if (action.type === actionType + '_CLEAR') {
-      state = state.merge(defaultState.toJS())
+    // Clear all pagination and bail
+    else if (action.type === actionType + '_SAVE_SUCCESS' || action.type === actionType + '_CLEAR') {
+      return state.merge(defaultState.toJS())
+    }
+
+    // Restore state from cache key and bail
+    else if (action.type === actionType + '_CACHE_RESTORE' && action.cacheKey) {
+      const cachedState = state.get('cache').get(action.cacheKey) && state.get('cache').get(action.cacheKey).toJS()
+      // Return here so we don't cached the cached result again
+      return state.merge(cachedState)
+    }
+
+    // Clear cache and bail
+    else if (action.type === actionType + '_CACHE_CLEAR') {
+      return state.merge({cache: {}})
     }
 
     if (action.cacheKey) {
