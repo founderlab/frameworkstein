@@ -52,7 +52,7 @@ async function checkRedirect({ req, store, branch }) {
 
 export default function createServerRenderer(_options) {
   const options = _.extend({}, defaults, _options)
-  const { createStore, getRoutes, gaId, config={} } = options
+  const { createStore, getRoutes, gaId } = options
   const sendError = options.sendError || sendTextError
   const sendNotFound = options.sendNotFound || sendTextNotFound
   let alwaysFetch = options.alwaysFetch || []
@@ -75,7 +75,9 @@ export default function createServerRenderer(_options) {
         auth: req.user ? {user: _.omit(req.user, 'password', '_rev')} : {},
       }
       if (options.loadInitialState) _.merge(serverState, await options.loadInitialState(req))
-      serverState.config = _.isFunction(config) ? await config(req) : config
+
+      // deprecated, to be removed in favour of loadInitialState
+      if (options.config) serverState.config = _.isFunction(options.config) ? await options.config(req) : options.config
 
       const history = createMemoryHistory({initialEntries: [req.originalUrl]})
       const store = createStore({history, getRoutes, initialState: serverState})
