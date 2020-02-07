@@ -14,6 +14,7 @@ export default function SmartInput(_props) {
   props.inputProps = {
     ...context,
     ...(props.inputProps || {}),
+    autocomplete: 'off',
   }
 
   // Type of text input specified
