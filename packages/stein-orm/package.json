@@ -16,29 +16,15 @@
     "prepublish": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
     "build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
     "watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
-    "test": "eval $(cat __tests__/.env) jest --runInBand",
     "docs": "../../node_modules/.bin/esdoc -c ../../.esdoc.json"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "jest": "^22.0.0"
+    "@babel/core": "^7.0.0"
   },
   "dependencies": {
     "inflection": "^1.0.0",
     "lodash": "^4.0.0",
     "queue-async": "^1.0.0"
-  },
-  "jest": {
-    "verbose": true,
-    "bail": true,
-    "testURL": "http://localhost/",
-    "modulePathIgnorePatterns": [
-      "hasOneModels",
-      "m2mModels"
-    ],
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
   }
 }

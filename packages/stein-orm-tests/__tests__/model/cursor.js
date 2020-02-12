@@ -3,15 +3,15 @@
     no-unused-vars,
 */
 import _ from 'lodash'
-import { createModel, Model } from '../../src/'
-import Fabricator from '../../src/lib/Fabricator'
+import { createModel, Model } from 'stein-orm'
+import Fabricator from '../../src/Fabricator'
 
 
 const DATABASE_URL = process.env.DATABASE_URL
 if (!DATABASE_URL) console.log('Missing DATABASE_URL')
 
 const options = {
-  Store: require('stein-orm-sql').default,
+  Store: require('stein-orm-sql'),
   url: `${DATABASE_URL}/flats`,
   schema: {
     name: 'Text',
@@ -146,7 +146,7 @@ describe('Class methods', () => {
 
   it('can select values', async () => {
     const values = ['id', 'name']
-    const results = await Flat.cursor().values(values).toJSON()
+    const results = await Flat.cursor().sort('id').values(values).toJSON()
     _.forEach(results, res => {
       expect(res.length).toBe(values.length)
       expect(res[0]).toBeTruthy()
@@ -352,7 +352,7 @@ describe('Class methods', () => {
   // TODO: test more edge cases
   it('(unique) handles a find unique query with count on empty collection', async () => {
     const Empty = createModel({
-      Store: require('stein-orm-sql').default,
+      Store: require('stein-orm-sql'),
       url: `${DATABASE_URL}/empties`,
       schema: {name: 'Text'},
     })(class Empty extends Model {})

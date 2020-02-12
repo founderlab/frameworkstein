@@ -9,6 +9,7 @@ module.exports = function(api) {
       '@babel/plugin-transform-runtime',
       '@babel/plugin-proposal-object-rest-spread',
       'add-module-exports',
+      'transform-require-default'
     ]
   }
 }

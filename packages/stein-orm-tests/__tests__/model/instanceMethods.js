@@ -1,12 +1,12 @@
 import _ from 'lodash'
-import { createModel, Model } from '../../src/'
+import { createModel, Model } from 'stein-orm'
 
 
 const DATABASE_URL = process.env.DATABASE_URL
 if (!DATABASE_URL) console.log('Missing DATABASE_URL')
 
 const options = {
-  Store: require('stein-orm-sql').default,
+  Store: require('stein-orm-sql'),
   url: `${DATABASE_URL}/flats`,
   schema: {
     boolean: 'Boolean',

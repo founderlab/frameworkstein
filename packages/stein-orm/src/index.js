@@ -3,6 +3,8 @@ import Cursor from './Cursor'
 import DatabaseUrl from './lib/DatabaseUrl'
 import Model from './Model'
 import Schema from './Schema'
+import Utils from './lib/utils'
+
 
 export {
   createModel,
@@ -10,4 +12,5 @@ export {
   DatabaseUrl,
   Model,
   Schema,
+  Utils,
 }

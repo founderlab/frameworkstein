@@ -3,9 +3,9 @@
     no-unused-vars,
 */
 import _ from 'lodash'
-import { createModel, Model } from '../../src/'
-import Fabricator from '../../src/lib/Fabricator'
-import SelfOwner from './m2mModels/SelfOwner'
+import { createModel, Model } from 'stein-orm'
+import Fabricator from '../../src/Fabricator'
+import SelfOwner from '../../src/m2mModels/SelfOwner'
 
 
 const DATABASE_URL = process.env.DATABASE_URL
@@ -30,7 +30,7 @@ describe('ManyToMany', () => {
 
   beforeEach(async () => {
     Reverse = createModel({
-      Store: require('stein-orm-sql').default,
+      Store: require('stein-orm-sql'),
       url: `${DATABASE_URL}/reverses`,
       schema: _.defaults({}, schema, {
         owners() { return ['hasMany', Owner, {through: THROUGH_TABLE}] },
@@ -38,7 +38,7 @@ describe('ManyToMany', () => {
     })(class Reverse extends Model {})
 
     Owner = createModel({
-      Store: require('stein-orm-sql').default,
+      Store: require('stein-orm-sql'),
       url: `${DATABASE_URL}/owners`,
       schema: _.defaults({}, schema, {
         reverses() { return ['hasMany', Reverse] },

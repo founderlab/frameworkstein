@@ -1,5 +1,6 @@
 import _ from 'lodash'
 
+
 const COMPARATORS = {
   $lt: '<',
   $lte: '<=',
@@ -9,6 +10,7 @@ const COMPARATORS = {
   $eq: '=',
 }
 const COMPARATOR_KEYS = _.keys(COMPARATORS)
+const MULTI_OPERATORS = ['$and', '$or', '$ids']
 
 function parseSortField(sort) {
   if (_.isObject(sort)) {
@@ -16,6 +18,7 @@ function parseSortField(sort) {
   }
   return sort[0] === '-' ? [sort.substr(1), 'desc'] : [sort, 'asc']
 }
+
 
 export default class SqlAst {
 
@@ -54,9 +57,21 @@ export default class SqlAst {
     return this.setSelectedColumns()
   }
 
+  // A nested query is as an object that does not contain single value $ operators ($in, $eq, etc)
+  isNestedQuery(query) {
+    if (!_.isObject(query)) return false
+    let isNestedQuery = true
+    for (const key in query) {
+      if (key[0] === '$' && !_.includes(MULTI_OPERATORS, key)) {
+        isNestedQuery = false
+        break
+      }
+    }
+    return isNestedQuery
+  }
+
   // Internal parse method that recursively parses the query
-  parseQuery(query, options) {
-    if (options == null) { options = {} }
+  parseQuery(query, options={}) {
     const { table } = options
     if (!options.method) options.method = 'where'
     const conditions = []
@@ -64,12 +79,28 @@ export default class SqlAst {
     for (const key in query) {
       const value = query[key]
       if (key[0] !== '$') {
+        if (_.isUndefined(value)) throw new Error(`Unexpected undefined for query key '${key}'`)
+
+        const relation = this.modelType.relation(key)
         const reverseRelation = this.modelType.reverseRelation(key)
 
-        if (_.isUndefined(value)) { throw new Error(`Unexpected undefined for query key '${key}'`) }
-
+        // check if this is a related field and we're given a nested query for a value
+        // if we have one create another ast for the nested query
+        if (relation && this.isNestedQuery(value)) {
+          const fk = relation.foreignKey
+          const relatedAst = new SqlAst({
+            query: {...value, $select: fk},
+            modelType: relation.reverseModelType,
+          })
+          conditions.push({
+            relation,
+            modelType: relation.reverseModelType,
+            ast: relatedAst,
+            method: 'whereIn',
+          })
+        }
         // A dot indicates a condition on a relation model
-        if (key.indexOf('.') > 0) {
+        else if (key.indexOf('.') > 0) {
           let cond = this.parseJsonField(key, value, options)
           if (cond) {
             conditions.push(cond)
@@ -82,10 +113,9 @@ export default class SqlAst {
         // Many to Many relationships may be queried on the foreign key of the join table
         }
         else if (reverseRelation && reverseRelation.joinTable) {
-          const [cond, relationKey, relation] = Array.from(this.parseManyToManyRelation(key, value, reverseRelation))
+          const [cond, relationKey, relation] = this.parseManyToManyRelation(key, value, reverseRelation)
           this.join(relationKey, relation, {pivotOnly: true})
           conditions.push(cond)
-
         }
         else {
           const cond = this.parseCondition(key, value, {table, method: options.method})

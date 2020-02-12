@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm"
+    "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm-sql"
   },
   "scripts": {
     "prepublish": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
@@ -21,7 +21,8 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
-    "jest": "^22.0.0",
+    "babel-jest": "^24.0.0",
+    "jest": "^24.0.0",
     "stein-orm": "^7.0.22"
   },
   "peerDependencies": {
@@ -36,11 +37,14 @@
     "queue-async": "^1.0.0"
   },
   "jest": {
+    "testEnvironment": "node",
     "verbose": true,
     "bail": true,
-    "testURL": "http://localhost/",
-    "testPathIgnorePatterns": [
+    "modulePathIgnorePatterns": [
       "node_modules/!(stein-orm)/*"
-    ]
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
   }
 }

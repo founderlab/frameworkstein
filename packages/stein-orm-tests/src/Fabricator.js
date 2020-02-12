@@ -44,11 +44,18 @@ export default class Fabricator {
     return () => value
   }
 
-  // Return the same fixed value for each fabricated model
+  // Return an increasing value for each fabricated model
   //
   static increment(value) {
     if (arguments.length === 0) { return undefined }
     return () => value++
+  }
+
+  // Return a decreasing value for each fabricated model
+  //
+  static decrement(value) {
+    if (arguments.length === 0) { return undefined }
+    return () => value--
   }
 
   // Return a unique string value for each fabricated model

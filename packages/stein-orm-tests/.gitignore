@@ -1,0 +1,10 @@
+.DS_Store
+.idea/
+.tmp/
+___tmp/
+bower_components/
+node_modules/
+coverage/
+npm-debug.log
+lib/
+!*/**/lib

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { createModel, Model, Schema } from '../../src/'
+import { createModel, Model, Schema } from 'stein-orm'
 
 
 class MockStore {

@@ -1,18 +1,16 @@
 /* eslint-disable
-    prefer-const,
     no-unused-vars,
 */
 import _ from 'lodash'
-import { createModel, Model } from '../../src/'
-import Fabricator from '../../src/lib/Fabricator'
-import Flat from './hasOneModels/Flat'
-import Reverse from './hasOneModels/Reverse'
-import ForeignReverse from './hasOneModels/ForeignReverse'
-import Owner from './hasOneModels/Owner'
+import { createModel, Model } from 'stein-orm'
+import Fabricator from '../../src/Fabricator'
+import Flat from '../../src/hasOneModels/Flat'
+import Reverse from '../../src/hasOneModels/Reverse'
+import ForeignReverse from '../../src/hasOneModels/ForeignReverse'
+import Owner from '../../src/hasOneModels/Owner'
 
 
 const BASE_COUNT = 5
-const PICK_KEYS = ['id', 'name']
 
 describe('HasOne', () => {
   const createdModels = {}
@@ -27,6 +25,8 @@ describe('HasOne', () => {
     // make some models
     createdModels.flats = await Fabricator.create(Flat, BASE_COUNT, {
       name: Fabricator.uniqueId('flat_'),
+      tenPlus: Fabricator.increment(10),
+      tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
@@ -47,6 +47,8 @@ describe('HasOne', () => {
 
     createdModels.owners = await Fabricator.create(Owner, BASE_COUNT, {
       name: Fabricator.uniqueId('owner_'),
+      tenPlus: Fabricator.increment(10),
+      tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
@@ -73,6 +75,7 @@ describe('HasOne', () => {
     await Owner.store.disconnect()
   })
 
+
   it('can create a model and load a related model by id (belongsTo)', async () => {
     const flat = await Flat.findOne()
     expect(flat).toBeTruthy()
@@ -84,7 +87,20 @@ describe('HasOne', () => {
     const o2 = await Owner.findOne({flat_id})
     expect(o2).toBeTruthy()
     expect(o2.data.flat_id).toBe(flat_id)
-    expect(_.size(o2.data)).toBe(5)
+    expect(_.size(o2.data)).toBe(7)
+  })
+
+  it('can create a model and load a related model by id $in (belongsTo)', async () => {
+    const flat = await Flat.findOne()
+    expect(flat).toBeTruthy()
+
+    const flat_id = flat.id
+    const owner = new Owner({flat_id})
+    await owner.save()
+
+    const o2 = await Owner.findOne({flat_id: {$in: [flat_id]}})
+    expect(o2).toBeTruthy()
+    expect(o2.data.flat_id).toBe(flat_id)
   })
 
   it('Has an id column for a belongsTo and not for a hasOne relation', async () => {
@@ -96,6 +112,42 @@ describe('HasOne', () => {
     const r = await Reverse.findOne({owner_id: owner.id})
     expect(r).toBeTruthy()
     expect(r.data.owner_id).toBe(owner.id)
+  })
+
+  it('Can nest a related query (belongsTo -> hasOne)', async () => {
+    const flatQuery = {
+      tenPlus: 10,
+      tenMinus: 10,
+    }
+    const flat = await Flat.cursor({...flatQuery, $one: true}).toJSON()
+
+    const owner = await Owner.cursor({
+      flat: flatQuery,
+      $verbose: true,
+      $one: true,
+      $include: 'flat',
+    }).toJSON()
+
+    expect(flat).toBeTruthy()
+    expect(owner.flat_id).toBe(flat.id)
+  })
+
+  it('Can nest a related query (hasOne -> belongsTo)', async () => {
+    const ownerQuery = {
+      tenPlus: 10,
+      tenMinus: 10,
+    }
+    const owner = await Owner.cursor({...ownerQuery, $one: true}).toJSON()
+
+    const flat = await Flat.cursor({
+      owner: ownerQuery,
+      $verbose: true,
+      $one: true,
+      $include: 'owner',
+    }).toJSON()
+
+    expect(flat).toBeTruthy()
+    expect(owner.flat_id).toBe(flat.id)
   })
 
   it('can include a related (belongsTo) model', async () => {

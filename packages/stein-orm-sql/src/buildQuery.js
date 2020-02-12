@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import _ from 'lodash'
 
 
@@ -90,11 +91,38 @@ function appendRelatedWhere(query, condition, options={}) {
     }
     return builder.select(select).from(table)[condition.method](condition.key)
   })
+}
 
+function appendNestedRelatedWhere(query, condition, options={}) {
+  let idKey
+  let selectKey
+  const sourceTable = condition.relation.modelType.tableName
+  const relatedTable = condition.modelType.tableName
+
+  if (condition.relation.type === 'belongsTo') {
+    idKey = `${sourceTable}.${condition.relation.foreignKey}`
+    selectKey = 'id'
+  }
+  else {
+    idKey = `${sourceTable}.id`
+    selectKey = condition.relation.foreignKey
+  }
+
+  // console.log('condition.ast.where', condition.ast.where)
+  return query.whereIn(idKey, builder => {
+    builder.select(selectKey).from(relatedTable)
+    appendWhere(builder, condition.ast.where)
+    return builder
+  })
 }
 
 function appendWhere(query, condition, options={}) {
-  if (!_.isUndefined(condition.key) || condition.dotWhere) {
+
+  // console.log('condition', condition)
+  if (condition.ast) {
+    appendNestedRelatedWhere(query, condition, options)
+  }
+  else if (!_.isUndefined(condition.key) || condition.dotWhere) {
 
     if (condition.relation) {
       if ((condition.relation.type === 'hasMany') && (condition.relation.reverseRelation.type === 'hasMany')) {
@@ -130,7 +158,6 @@ function appendWhere(query, condition, options={}) {
       else {
         appendRelatedWhere(query, condition, options)
       }
-
     }
     else if (condition.operator) {
       query[condition.method](condition.key, condition.operator, condition.value)
@@ -165,8 +192,7 @@ function appendLimits(query, limit, offset) {
   return query
 }
 
-export default function buildQueryFromAst(query, ast, options) {
-  if (options == null) { options = {} }
+export default function buildQueryFromAst(query, ast, options={}) {
   appendWhere(query, ast.where)
 
   let hasInclude = false

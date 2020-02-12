@@ -3,8 +3,8 @@
     no-unused-vars,
 */
 import _ from 'lodash'
-import { createModel, Model } from '../../src/'
-import Fabricator from '../../src/lib/Fabricator'
+import { createModel, Model } from 'stein-orm'
+import Fabricator from '../../src/Fabricator'
 
 
 const DATABASE_URL = process.env.DATABASE_URL
@@ -12,12 +12,13 @@ if (!DATABASE_URL) console.log('Missing DATABASE_URL')
 
 const schema = {
   name: 'Text',
+  tenPlus: 'Integer',
+  tenMinus: 'Integer',
   createdDate: 'DateTime',
   updatedDate: 'DateTime',
 }
 
 const BASE_COUNT = 5
-const PICK_KEYS = ['id', 'name']
 
 describe('HasMany', () => {
   let Flat = null
@@ -29,7 +30,7 @@ describe('HasMany', () => {
   beforeEach(async () => {
 
     Flat = createModel({
-      Store: require('stein-orm-sql').default,
+      Store: require('stein-orm-sql'),
       url: `${DATABASE_URL}/flats`,
       schema: _.defaults({}, schema, {
         owner() { return ['belongsTo', Owner] },
@@ -37,7 +38,7 @@ describe('HasMany', () => {
     })(class Flat extends Model {})
 
     Reverse = createModel({
-      Store: require('stein-orm-sql').default,
+      Store: require('stein-orm-sql'),
       url: `${DATABASE_URL}/reverses`,
       schema: _.defaults({}, schema, {
         owner() { return ['belongsTo', Owner] },
@@ -46,7 +47,7 @@ describe('HasMany', () => {
     })(class Reverse extends Model {})
 
     Owner = createModel({
-      Store: require('stein-orm-sql').default,
+      Store: require('stein-orm-sql'),
       url: `${DATABASE_URL}/owners`,
       schema: _.defaults({}, schema, {
         flats() { return ['hasMany', Flat] },
@@ -62,21 +63,29 @@ describe('HasMany', () => {
     // make some models
     createdModels.flats = await Fabricator.create(Flat, 2*BASE_COUNT, {
       name: Fabricator.uniqueId('flat_'),
+      tenPlus: Fabricator.increment(10),
+      tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
     createdModels.reverses = await Fabricator.create(Reverse, 2*BASE_COUNT, {
       name: Fabricator.uniqueId('reverse_'),
+      tenPlus: Fabricator.increment(10),
+      tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
     createdModels.moreReverses = await Fabricator.create(Reverse, 2*BASE_COUNT, {
       name: Fabricator.uniqueId('reverse_'),
+      tenPlus: Fabricator.increment(10),
+      tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
     createdModels.owners = await Fabricator.create(Owner, BASE_COUNT, {
       name: Fabricator.uniqueId('owner_'),
+      tenPlus: Fabricator.increment(10),
+      tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
@@ -99,8 +108,44 @@ describe('HasMany', () => {
   afterAll(async () => {
     await Flat.store.disconnect()
     await Reverse.store.disconnect()
-    // await ForeignReverse.store.disconnect()
+    await ForeignReverse.store.disconnect()
     await Owner.store.disconnect()
+  })
+
+  it('Can nest a related query (hasMany -> belongsTo)', async () => {
+    const flatQuery = {
+      tenPlus: 10,
+      tenMinus: 10,
+    }
+    const flat = await Flat.cursor({...flatQuery, $one: true}).toJSON()
+
+    const owner = await Owner.cursor({
+      flats: flatQuery,
+      $verbose: true,
+      $one: true,
+      $include: 'flats',
+    }).toJSON()
+
+    expect(owner).toBeTruthy()
+    expect(owner.id).toBe(flat.owner_id)
+  })
+
+  it('Can nest a related query (belongsTo -> hasMany)', async () => {
+    const ownerQuery = {
+      tenPlus: 10,
+      tenMinus: 10,
+    }
+    const owner = await Owner.cursor({...ownerQuery, $one: true}).toJSON()
+
+    const flat = await Flat.cursor({
+      owner: ownerQuery,
+      $verbose: true,
+      $one: true,
+      $include: 'owner',
+    }).toJSON()
+
+    expect(owner).toBeTruthy()
+    expect(owner.id).toBe(flat.owner_id)
   })
 
   it('Can include related (one-way hasMany) models', async () => {

@@ -3,16 +3,15 @@
     no-unused-vars,
 */
 import _ from 'lodash'
-import { createModel, Model } from '../../src/'
-import Fabricator from '../../src/lib/Fabricator'
-import Utils from '../../src/lib/utils'
+import { createModel, Model, Utils } from 'stein-orm'
+import Fabricator from '../../src/Fabricator'
 
 
 const DATABASE_URL = process.env.DATABASE_URL
 if (!DATABASE_URL) console.log('Missing DATABASE_URL')
 
 const options = {
-  Store: require('stein-orm-sql').default,
+  Store: require('stein-orm-sql'),
   url: `${DATABASE_URL}/flats`,
   schema: {
     name: 'Text',

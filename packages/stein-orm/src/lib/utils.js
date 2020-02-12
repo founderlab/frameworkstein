@@ -21,20 +21,20 @@ export default class Utils {
   }
 
   // @nodoc
-  static dataToModel(data, modelType) {
+  static dataToModel(data, ModelType) {
     let model
     if (!data) { return null }
-    if (_.isArray(data)) { return data.map(item => Utils.dataToModel(item, modelType)) }
+    if (_.isArray(data)) { return data.map(item => Utils.dataToModel(item, ModelType)) }
     if (Utils.isModel(data)) {
       model = data
     }
     else if (Utils.dataId(data) !== data) {
-      model = new modelType(modelType.prototype.parse(data))
+      model = new ModelType(ModelType.prototype.parse(data))
     }
     else {
       let attributes;
-      (attributes = {})[modelType.prototype.idAttribute] = data
-      model = new modelType(attributes)
+      (attributes = {})[ModelType.prototype.idAttribute] = data
+      model = new ModelType(attributes)
     }
 
     return model

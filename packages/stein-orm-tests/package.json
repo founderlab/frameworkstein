@@ -1,0 +1,37 @@
+{
+  "name": "stein-orm-tests",
+  "version": "7.0.22",
+  "description": "",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Gwilym Humphreys",
+    "url": "https://github.com/gwilymhumphreys"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm-tests"
+  },
+  "scripts": {
+    "test": "eval $(cat __tests__/.env) jest --runInBand"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "babel-jest": "^24.0.0",
+    "jest": "^24.0.0",
+    "stein-orm": "^7.0.22",
+    "stein-orm-sql": "^7.0.22"
+  },
+  "dependencies": {
+    "lodash": "^4.0.0"
+  },
+  "jest": {
+    "verbose": true,
+    "bail": true,
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  }
+}
