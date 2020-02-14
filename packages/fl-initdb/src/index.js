@@ -1,16 +1,17 @@
 import _ from 'lodash'
 import pg from 'pg'
 import Queue from 'queue-async'
+import { promisify } from 'util'
 import { directoryFunctionModules } from 'fl-server-utils'
 
 
-export default (options, callback) => {
-  const { User, databaseUrl, modelsDir, scaffold } = options
+function initdb(options, callback) {
+  const { User, databaseUrl, modelsDir, scaffold, scaffoldAsync, quiet } = options
 
   if (!User) return console.error('[fl-initdb] Missing User from options')
   if (!databaseUrl) return console.error('[fl-initdb] Missing databaseUrl from options')
   if (!modelsDir) return console.error('[fl-initdb] Missing modelsDir from options')
-  if (!scaffold) return console.error('[fl-initdb] Missing scaffold from options')
+  if (!scaffold && !scaffoldAsync) return console.error('[fl-initdb] Missing scaffold or scaffoldAsync from options')
 
   const queue = new Queue(1)
   let models
@@ -30,7 +31,7 @@ export default (options, callback) => {
         client.query(`SELECT datname FROM pg_catalog.pg_database WHERE lower(datname) = lower('${databaseName}')`, (err, result) => {
           if (err || result && result.rowCount > 0) return callback(err)
 
-          console.log('[fl-initdb] Database doesn\'t, exist, creating', databaseName)
+          !quiet && console.log('[fl-initdb] Database doesn\'t, exist, creating', databaseName)
           const query = `CREATE DATABASE "${databaseName}"`
           client.query(query, err => {
             done()
@@ -48,9 +49,9 @@ export default (options, callback) => {
 
     // Clear any existing data (!)
     if (options.__dangerouslyWipeTheEntireDatabase) {
-      console.log('[fl-initdb] Resetting database. All data is going boom, I hope you meant to do this!')
+      !quiet && console.log('[fl-initdb] Resetting database. All data is going boom, I hope you meant to do this!')
       _.forEach(modelTypes, Model => queue.defer(callback => {
-        console.log('[fl-initdb] Resetting', Model.name)
+        !quiet && console.log('[fl-initdb] Resetting', Model.name)
         Model.store.db().resetSchema(callback)
       }))
     }
@@ -65,12 +66,15 @@ export default (options, callback) => {
 
   // If we don't have an admin user run the scaffold script for this environment
   queue.defer(callback => {
-    User.exists({admin: true}, (err, exists) => {
+    User.exists({admin: true}, async (err, exists) => {
       if (err || exists) return callback(err)
 
-      console.log(`[fl-initdb] No admin user exists. Running scaffold script for env ${process.env.NODE_ENV}`)
+      const _scaffold = scaffoldAsync ? scaffoldAsync : promisify(scaffold)
+
+      !quiet && console.log(`[fl-initdb] No admin user exists. Running scaffold script for env ${process.env.NODE_ENV}`)
       try {
-        scaffold((err, _models) => callback(err, models = _models))
+        models = await _scaffold()
+        callback()
       }
       catch (err) {
         console.log('Error scaffolding:', err)
@@ -83,3 +87,6 @@ export default (options, callback) => {
     callback(err, models)
   })
 }
+
+export default initdb
+export const initdbAsync = promisify(initdb)
