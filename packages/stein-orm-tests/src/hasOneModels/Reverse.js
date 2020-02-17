@@ -11,6 +11,8 @@ export default class Reverse extends Model {
 
   static schema = () => ({
     name: 'Text',
+    tenPlus: 'Integer',
+    tenMinus: 'Integer',
     createdDate: 'DateTime',
     updatedDate: 'DateTime',
     owner() { return ['belongsTo', require('./Owner')] },

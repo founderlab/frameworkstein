@@ -21,62 +21,72 @@ const schema = {
 const BASE_COUNT = 5
 
 describe('HasMany', () => {
-  let Flat = null
-  let Reverse = null
-  let ForeignReverse = null
+  let Single = null
+  let Double = null
   let Owner = null
+  let Parent = null
   let createdModels = {}
 
   beforeEach(async () => {
 
-    Flat = createModel({
+    Single = createModel({
       Store: require('stein-orm-sql'),
-      url: `${DATABASE_URL}/flats`,
+      url: `${DATABASE_URL}/singles`,
       schema: _.defaults({}, schema, {
         owner() { return ['belongsTo', Owner] },
       }),
-    })(class Flat extends Model {})
+    })(class Single extends Model {})
 
-    Reverse = createModel({
+    Double = createModel({
       Store: require('stein-orm-sql'),
-      url: `${DATABASE_URL}/reverses`,
+      url: `${DATABASE_URL}/doubles`,
       schema: _.defaults({}, schema, {
         owner() { return ['belongsTo', Owner] },
-        anotherOwner() { return ['belongsTo', Owner, {as: 'moreReverses'}] },
+        anotherOwner() { return ['belongsTo', Owner, {as: 'moreDoubles'}] },
       }),
-    })(class Reverse extends Model {})
+    })(class Double extends Model {})
 
     Owner = createModel({
       Store: require('stein-orm-sql'),
       url: `${DATABASE_URL}/owners`,
       schema: _.defaults({}, schema, {
-        flats() { return ['hasMany', Flat] },
-        reverses() { return ['hasMany', Reverse] },
-        moreReverses() { return ['hasMany', Reverse, {as: 'anotherOwner'}] },
+        singles() { return ['hasMany', Single] },
+        doubles() { return ['hasMany', Double] },
+        moreDoubles() { return ['hasMany', Double, {as: 'anotherOwner'}] },
+        parent() { return ['belongsTo', Parent] },
       }),
     })(class Owner extends Model {})
 
-    await Flat.store.resetSchema({verbose: process.env.VERBOSE})
-    await Reverse.store.resetSchema({verbose: process.env.VERBOSE})
+    Parent = createModel({
+      Store: require('stein-orm-sql'),
+      url: `${DATABASE_URL}/parents`,
+      schema: _.defaults({}, schema, {
+        owner() { return ['hasMany', Owner] },
+      }),
+    })(class Parent extends Model {})
+
+    await Single.store.resetSchema({verbose: process.env.VERBOSE})
+    await Double.store.resetSchema({verbose: process.env.VERBOSE})
     await Owner.store.resetSchema({verbose: process.env.VERBOSE})
+    await Parent.store.resetSchema({verbose: process.env.VERBOSE})
 
     // make some models
-    createdModels.flats = await Fabricator.create(Flat, 2*BASE_COUNT, {
-      name: Fabricator.uniqueId('flat_'),
+    createdModels.singles = await Fabricator.create(Single, 2*BASE_COUNT, {
+      name: Fabricator.uniqueId('single_'),
       tenPlus: Fabricator.increment(10),
       tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
-    createdModels.reverses = await Fabricator.create(Reverse, 2*BASE_COUNT, {
-      name: Fabricator.uniqueId('reverse_'),
+    createdModels.doubles = await Fabricator.create(Double, 2*BASE_COUNT, {
+      name: Fabricator.uniqueId('double_'),
       tenPlus: Fabricator.increment(10),
       tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
-    createdModels.moreReverses = await Fabricator.create(Reverse, 2*BASE_COUNT, {
-      name: Fabricator.uniqueId('reverse_'),
+    createdModels.moreDoubles = await Fabricator.create(Double, 2*BASE_COUNT, {
+      name: Fabricator.uniqueId('double_'),
       tenPlus: Fabricator.increment(10),
       tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
@@ -89,45 +99,54 @@ describe('HasMany', () => {
       createdDate: Fabricator.date,
     })
 
+    createdModels.parents = await Fabricator.create(Parent, BASE_COUNT, {
+      name: Fabricator.uniqueId('owner_'),
+      tenPlus: Fabricator.increment(10),
+      tenMinus: Fabricator.decrement(10),
+      createdDate: Fabricator.date,
+    })
+
     // link and save all
     for (const owner of createdModels.owners) {
-      const [flat1, flat2] = [createdModels.flats.pop(), createdModels.flats.pop()]
-      await flat1.save({owner_id: owner.id})
-      await flat2.save({owner_id: owner.id})
+      const [single1, single2] = [createdModels.singles.pop(), createdModels.singles.pop()]
+      await single1.save({owner_id: owner.id})
+      await single2.save({owner_id: owner.id})
 
-      const [reverse1, reverse2] = [createdModels.reverses.pop(), createdModels.reverses.pop()]
-      await reverse1.save({owner_id: owner.id})
-      await reverse2.save({owner_id: owner.id})
+      const [double1, double2] = [createdModels.doubles.pop(), createdModels.doubles.pop()]
+      await double1.save({owner_id: owner.id})
+      await double2.save({owner_id: owner.id})
 
-      const [moreReverse1, moreReverse2] = [createdModels.moreReverses.pop(), createdModels.moreReverses.pop()]
-      await moreReverse1.save({anotherOwner_id: owner.id})
-      await moreReverse2.save({anotherOwner_id: owner.id})
+      const [moreDouble1, moreDouble2] = [createdModels.moreDoubles.pop(), createdModels.moreDoubles.pop()]
+      await moreDouble1.save({anotherOwner_id: owner.id})
+      await moreDouble2.save({anotherOwner_id: owner.id})
+
+      const parent = createdModels.parents.pop()
+      await owner.save({parent_id: parent.id})
     }
   })
 
   afterAll(async () => {
-    await Flat.store.disconnect()
-    await Reverse.store.disconnect()
-    await ForeignReverse.store.disconnect()
+    await Single.store.disconnect()
+    await Double.store.disconnect()
     await Owner.store.disconnect()
+    await Parent.store.disconnect()
   })
 
   it('Can nest a related query (hasMany -> belongsTo)', async () => {
-    const flatQuery = {
+    const singleQuery = {
       tenPlus: 10,
       tenMinus: 10,
     }
-    const flat = await Flat.cursor({...flatQuery, $one: true}).toJSON()
+    const single = await Single.cursor({...singleQuery, $one: true}).toJSON()
 
     const owner = await Owner.cursor({
-      flats: flatQuery,
-      $verbose: true,
+      singles: singleQuery,
       $one: true,
-      $include: 'flats',
+      $include: 'singles',
     }).toJSON()
 
     expect(owner).toBeTruthy()
-    expect(owner.id).toBe(flat.owner_id)
+    expect(owner.id).toBe(single.owner_id)
   })
 
   it('Can nest a related query (belongsTo -> hasMany)', async () => {
@@ -137,74 +156,113 @@ describe('HasMany', () => {
     }
     const owner = await Owner.cursor({...ownerQuery, $one: true}).toJSON()
 
-    const flat = await Flat.cursor({
+    const single = await Single.cursor({
       owner: ownerQuery,
-      $verbose: true,
       $one: true,
       $include: 'owner',
     }).toJSON()
 
     expect(owner).toBeTruthy()
-    expect(owner.id).toBe(flat.owner_id)
+    expect(owner.id).toBe(single.owner_id)
+  })
+
+  it('Can nest a related query (belongsTo -> hasMany -> belongsTo)', async () => {
+    const singleQuery = {
+      tenPlus: 10,
+      tenMinus: 10,
+    }
+    const single = await Single.cursor({...singleQuery, $one: true}).toJSON()
+
+    const double = await Double.cursor({
+      'owner.singles': singleQuery,
+      $verbose: true,
+      $one: true,
+    }).toJSON()
+
+    expect(double).toBeTruthy()
+    expect(double.owner_id).toBe(single.owner_id)
+  })
+
+  it('Can nest a related query (belongsTo -> hasMany -> hasMany)', async () => {
+    const parentQuery = {
+      tenPlus: 10,
+      tenMinus: 10,
+    }
+    const parent = await Parent.cursor({...parentQuery, $one: true}).toJSON()
+
+    const double = await Double.cursor({
+      'owner.parent': parentQuery,
+      $verbose: true,
+      $one: true,
+    }).toJSON()
+
+    expect(double).toBeTruthy()
+
+    const doubleOwner = await Owner.cursor({
+      id: double.owner_id,
+      $one: true,
+    }).toJSON()
+
+    expect(doubleOwner.parent_id).toBe(parent.id)
   })
 
   it('Can include related (one-way hasMany) models', async () => {
-    const testModel = await Owner.cursor({$one: true}).include('flats').toJSON()
+    const testModel = await Owner.cursor({$one: true}).include('singles').toJSON()
     expect(testModel).toBeTruthy()
-    expect(testModel.flats).toBeTruthy()
-    expect(testModel.flats.length).toBe(2)
+    expect(testModel.singles).toBeTruthy()
+    expect(testModel.singles.length).toBe(2)
   })
 
   it('Can include multiple related (one-way hasMany) models', async () => {
-    const testModel = await Owner.cursor({$one: true}).include('flats', 'reverses').toJSON()
+    const testModel = await Owner.cursor({$one: true}).include('singles', 'doubles').toJSON()
 
     expect(testModel).toBeTruthy()
 
-    expect(testModel.flats).toBeTruthy()
-    expect(testModel.reverses).toBeTruthy()
-    expect(testModel.flats.length).toBe(2)
-    expect(testModel.reverses.length).toBe(2)
+    expect(testModel.singles).toBeTruthy()
+    expect(testModel.doubles).toBeTruthy()
+    expect(testModel.singles.length).toBe(2)
+    expect(testModel.doubles.length).toBe(2)
 
-    for (const flat of testModel.flats) {
-      expect(testModel.id).toBe(flat.owner_id)
+    for (const single of testModel.singles) {
+      expect(testModel.id).toBe(single.owner_id)
     }
-    for (const reverse of testModel.reverses) {
-      expect(testModel.id).toBe(reverse.owner_id)
+    for (const double of testModel.doubles) {
+      expect(testModel.id).toBe(double.owner_id)
     }
   })
 
   it('Can query on related (one-way hasMany) models', async () => {
-    const reverse = await Reverse.findOne({owner_id: {$ne: null}})
+    const double = await Double.findOne({owner_id: {$ne: null}})
 
-    expect(reverse).toBeTruthy()
-    const json = await Owner.find({'reverses.name': reverse.data.name})
+    expect(double).toBeTruthy()
+    const json = await Owner.find({'doubles.name': double.data.name})
     const testModel = json[0]
 
     expect(testModel).toBeTruthy()
-    expect(testModel.id).toBe(reverse.data.owner_id)
+    expect(testModel.id).toBe(double.data.owner_id)
   })
 
   it('Can query on related (one-way hasMany) models with included relations', async () => {
-    const reverse = await Reverse.findOne({owner_id: {$ne: null}})
+    const double = await Double.findOne({owner_id: {$ne: null}})
 
-    expect(reverse).toBeTruthy()
+    expect(double).toBeTruthy()
 
-    const json = await Owner.cursor({'reverses.name': reverse.data.name}).include('flats', 'reverses').toJSON()
+    const json = await Owner.cursor({'doubles.name': double.data.name}).include('singles', 'doubles').toJSON()
     const testModel = json[0]
 
     expect(testModel).toBeTruthy()
 
-    expect(testModel.flats).toBeTruthy()
-    expect(testModel.reverses).toBeTruthy()
+    expect(testModel.singles).toBeTruthy()
+    expect(testModel.doubles).toBeTruthy()
 
-    expect(testModel.flats.length).toBe(2)
-    expect(testModel.reverses.length).toBe(2)
+    expect(testModel.singles.length).toBe(2)
+    expect(testModel.doubles.length).toBe(2)
 
-    for (const flat of testModel.flats) {
-      expect(testModel.id).toBe(flat.owner_id)
+    for (const single of testModel.singles) {
+      expect(testModel.id).toBe(single.owner_id)
     }
-    for (const reverse of testModel.reverses) {
-      expect(testModel.id).toBe(reverse.owner_id)
+    for (const double of testModel.doubles) {
+      expect(testModel.id).toBe(double.owner_id)
     }
   })
 
@@ -212,7 +270,7 @@ describe('HasMany', () => {
     const owner = await Owner.findOne()
     expect(owner).toBeTruthy()
 
-    const count = await Reverse.count({owner_id: owner.id})
+    const count = await Double.count({owner_id: owner.id})
 
     expect(count).toBe(2)
   })
@@ -222,7 +280,7 @@ describe('HasMany', () => {
 
     expect(owner).toBeTruthy()
 
-    const pagingInfo = await Reverse.cursor({owner_id: owner.id, $page: true}).toJSON()
+    const pagingInfo = await Double.cursor({owner_id: owner.id, $page: true}).toJSON()
 
     expect(pagingInfo.offset).toBe(0)
     expect(pagingInfo.totalRows).toBe(2)
@@ -232,43 +290,43 @@ describe('HasMany', () => {
     const owner = await Owner.findOne()
     expect(owner).toBeTruthy()
 
-    const res = await Reverse.destroy({'owner.name': owner.data.name})
+    const res = await Double.destroy({'owner.name': owner.data.name})
     expect(res).toBe(2)
 
-    const count = await Reverse.count({owner_id: owner.id})
+    const count = await Double.count({owner_id: owner.id})
     expect(count).toBe(0)
   })
 
   it('can query on a related (hasOne) model spanning a relationship', async () => {
     const NAME = 'newname'
-    const reverse = await Reverse.findOne({owner_id: {$exists: true}})
-    expect(reverse).toBeTruthy()
-    await reverse.save({name: null})
+    const double = await Double.findOne({owner_id: {$exists: true}})
+    expect(double).toBeTruthy()
+    await double.save({name: null})
 
-    const flats = await Flat.find({'owner.reverses.name': reverse.data.name})
-    expect(flats.length).toBeTruthy()
+    const singles = await Single.find({'owner.doubles.name': double.data.name})
+    expect(singles.length).toBeTruthy()
 
-    for (const f of flats) {
-      expect(f.data.owner_id).toBe(reverse.data.owner_id)
+    for (const f of singles) {
+      expect(f.data.owner_id).toBe(double.data.owner_id)
     }
   })
 
   it('can query on a related (hasOne) model spanning a relationship with $exists and $ne', async () => {
     const NAME = 'newname'
-    const reverse = await Reverse.findOne({owner_id: {$exists: true}})
-    expect(reverse).toBeTruthy()
-    await reverse.save({name: null})
+    const double = await Double.findOne({owner_id: {$exists: true}})
+    expect(double).toBeTruthy()
+    await double.save({name: null})
 
-    const flats = await Flat.find({'owner.reverses.name': {$exists: false}})
-    expect(flats.length).toBeTruthy()
+    const singles = await Single.find({'owner.doubles.name': {$exists: false}})
+    expect(singles.length).toBeTruthy()
 
-    for (const f of flats) {
-      expect(f.data.owner_id).toBe(reverse.data.owner_id)
+    for (const f of singles) {
+      expect(f.data.owner_id).toBe(double.data.owner_id)
     }
 
-    const namedFlats = await Flat.find({'owner.reverses.name': {$ne: null}})
-    for (const flat of flats) {
-      expect(_.find(namedFlats, f => f.id === flat.id)).toBeFalsy
+    const namedSingles = await Single.find({'owner.doubles.name': {$ne: null}})
+    for (const single of singles) {
+      expect(_.find(namedSingles, f => f.id === single.id)).toBeFalsy
     }
   })
 

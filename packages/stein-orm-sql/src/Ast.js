@@ -48,7 +48,7 @@ export default class SqlAst {
     if (this.query.$include) {
       if (!_.isArray(this.query.$include)) { this.query.$include = [this.query.$include] }
       this.prefixColumns = true
-      for (const key of Array.from(this.query.$include)) { this.join(key, this.getRelation(key), {include: true}) }
+      for (const key of Array.from(this.query.$include)) this.join(key, this.getRelation(key), {include: true})
     }
 
     this.where.conditions = this.parseQuery(this.query, {table: this.modelType.tableName})
@@ -87,17 +87,7 @@ export default class SqlAst {
         // check if this is a related field and we're given a nested query for a value
         // if we have one create another ast for the nested query
         if (relation && this.isNestedQuery(value)) {
-          const fk = relation.foreignKey
-          const relatedAst = new SqlAst({
-            query: {...value, $select: fk},
-            modelType: relation.reverseModelType,
-          })
-          conditions.push({
-            relation,
-            modelType: relation.reverseModelType,
-            ast: relatedAst,
-            method: 'whereIn',
-          })
+          conditions.push(this.createRelatedAstCondition(relation, value))
         }
         // A dot indicates a condition on a relation model
         else if (key.indexOf('.') > 0) {
@@ -149,6 +139,20 @@ export default class SqlAst {
     return conditions
   }
 
+  createRelatedAstCondition(relation, query) {
+    const fk = relation.foreignKey
+    const relatedAst = new SqlAst({
+      query: {...query, $select: fk},
+      modelType: relation.reverseModelType,
+    })
+    return {
+      relation,
+      modelType: relation.reverseModelType,
+      ast: relatedAst,
+      method: 'whereIn',
+    }
+  }
+
   // Take a list of relation keys and create conditions for them
   // The final key is the field of the final model to query on
   //
@@ -177,15 +181,24 @@ export default class SqlAst {
     }
     else {
       const key = keys.pop()
-      options = _.extend(options, {
-        relation,
-        modelType,
-        table: modelType.tableName,
-        method: options.method,
-      })
-      condition = this.parseCondition(key, value, options)
+      const dotRelation = relation.reverseModelType.relation(key)
+      // check if this is a related field and we're given a nested query for a value
+      // if we have one create another ast for the nested query
+      // join the intermediate table
+      if (dotRelation && this.isNestedQuery(value)) {
+        condition = this.createRelatedAstCondition(dotRelation, value)
+        this.join(relationKey, relation)
+      }
+      else {
+        options = _.extend(options, {
+          relation,
+          modelType,
+          table: modelType.tableName,
+          method: options.method,
+        })
+        condition = this.parseCondition(key, value, options)
+      }
     }
-
     return condition
   }
 
@@ -193,8 +206,7 @@ export default class SqlAst {
     return this.relatedCondition(key.split('.'), value, this.modelType, options)
   }
 
-  join(relationKey, relation, options) {
-    if (options == null) { options = {} }
+  join(relationKey, relation, options={}) {
     this.prefixColumns = true
     if (!relation) relation = this.getRelation(relationKey)
     const modelType = relation.reverseModelType
@@ -223,8 +235,7 @@ export default class SqlAst {
     }
   }
 
-  parseJsonField(key, value, options) {
-    if (options == null) { options = {} }
+  parseJsonField(key, value, options={}) {
     const [jsonField, attr] = Array.from(key.split('.'))
     const field = this.isJsonField(jsonField)
     if (field) {
@@ -434,66 +445,64 @@ export default class SqlAst {
   }
 
   joinedIncludesWithConditions() {
-    return (() => {
-      const result = []
-      for (const key in this.joins) {
-        const join = this.joins[key]
-        if (join.include && join.condition) {
-          result.push(join)
-        }
+    const result = []
+    for (const key in this.joins) {
+      const join = this.joins[key]
+      if (join.include && join.condition) {
+        result.push(join)
       }
-      return result
-    })()
+    }
+    return result
   }
 
   print() {
-    console.log('********************** AST ******************************')
+    let s = '********************** AST ******************************'
 
-    console.log('---- Input ----')
-    console.log('> query:', this.query)
+    s += '---- Input ----\n'
+    s += '> query: ' + JSON.stringify(this.query) + '\n\n'
 
-    console.log()
+    s += '----  AST  ----\n'
+    s += '> select:\n' + this.select + '\n'
+    s += '> where:\n'
+    s += this.printCondition(this.where)
+    console.log('this.where', this.where)
 
-    console.log('----  AST  ----')
-    console.log('> select:', this.select)
-    console.log('> where:')
-    this.printCondition(this.where)
-    console.log('> joins:', ((() => {
-      const result = []
-      for (const key in this.joins) {
-        const join = this.joins[key]
-        result.push([key, `include: ${join.include}`, join.columns])
-      }
-      return result
-    })()))
-    console.log('> count:', this.count)
-    console.log('> exists:', this.exists)
-    console.log('> sort:', this.sort)
-    console.log('> limit:', this.limit)
+    s += '> joins:\n'
+    for (const key in this.joins) {
+      const join = this.joins[key]
+      s += key + ` include: ${join.include} ` + join.columns.join(', ') + '\n'
+    }
 
-    return console.log('---------------------------------------------------------')
+    s += '> count: ' + this.count + '\n'
+    s += '> exists: ' + this.exists + '\n'
+    s += '> sort: ' + this.sort + '\n'
+    s += '> limit: ' + this.limit + '\n'
+
+    console.log(s + '\n---------------------------------------------------------\n')
   }
 
-  printCondition(cond, indent) {
-    if (indent == null) { indent = '' }
-    process.stdout.write(indent)
-    const to_print = _.omit(cond, 'relation', 'modelType', 'previousModelType', 'conditions', 'dotWhere')
-    // console.dir(cond)
+  printCondition(cond, indent='') {
+    let s = ''
+
+    const toPrint = _.omit(cond, 'relation', 'modelType', 'previousModelType', 'conditions', 'dotWhere')
 
     const modelName = cond.modelType != null ? cond.modelType.modelName : undefined
-    if (modelName) { to_print.modelName = modelName }
-
     const previousModelName = cond.relation && cond.relation.modelType && cond.relation.modelType.modelName
-    if (previousModelName) { to_print.previousModelName = previousModelName }
+    if (modelName) toPrint.modelName = modelName
+    if (previousModelName) toPrint.previousModelName = previousModelName
 
-    console.dir(to_print, {depth: null, colors: true})
+    s += indent + JSON.stringify(toPrint) + '\n'
+    // process.env.NODE_ENV ==='test' ? console.log(toPrint) : console.dir(toPrint, {depth: null, colors: true})
+
     if (cond.conditions != null ? cond.conditions.length : undefined) {
-      console.log(indent + '[')
-      for (const c of Array.from(cond.conditions)) { this.printCondition(c, indent + '  ') }
-      console.log(indent + ']')
+      s += indent + '[\n'
+      for (const c of Array.from(cond.conditions)) s += this.printCondition(c, indent + '  ')
+      s += indent + ']\n'
     }
     if (cond.dotWhere) {
-      return this.printCondition(cond.dotWhere, indent + '  ')
+      s += this.printCondition(cond.dotWhere, indent + '  ')
     }
+
+    return s
   }
 }

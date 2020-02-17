@@ -105,13 +105,13 @@ function appendNestedRelatedWhere(query, condition, options={}) {
   }
   else {
     idKey = `${sourceTable}.id`
-    selectKey = condition.relation.foreignKey
+    selectKey = condition.relation.reverseRelation.foreignKey
   }
 
   // console.log('condition.ast.where', condition.ast.where)
   return query.whereIn(idKey, builder => {
     builder.select(selectKey).from(relatedTable)
-    appendWhere(builder, condition.ast.where)
+    appendWhere(builder, condition.ast.where, options)
     return builder
   })
 }
@@ -202,17 +202,17 @@ export default function buildQueryFromAst(query, ast, options={}) {
       pivotOnly: join.pivotOnly && !(join.include || join.condition),
       asTableName: join.asTableName,
     }
+    joinToRelation(query, join.relation, joinOptions)
     if (join.include) {
-      joinToRelation(query, join.relation, joinOptions)
       hasInclude = true
     }
   })
 
-  if (ast.count || options.count) { return query.count('*') }
-  if (ast.exists || options.exists) { return query.count('*').limit(1) }
+  if (ast.count || options.count) return query.count('*')
+  if (ast.exists || options.exists) return query.count('*').limit(1)
 
-  if (!hasInclude) { appendLimits(query, ast.limit, ast.offset) } //does not apply limit and offset clauses for queries with $include
-  if (!options.skipSelect) { appendSelect(query, ast) }
+  if (!hasInclude) appendLimits(query, ast.limit, ast.offset) //does not apply limit and offset clauses for queries with $include
+  if (!options.skipSelect) appendSelect(query, ast)
   appendSort(query, ast)
 
   return query

@@ -32,16 +32,22 @@ describe('HasOne', () => {
 
     createdModels.reverses = await Fabricator.create(Reverse, BASE_COUNT, {
       name: Fabricator.uniqueId('reverse_'),
+      tenPlus: Fabricator.increment(10),
+      tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
     createdModels.moreReverses = await Fabricator.create(Reverse, BASE_COUNT, {
       name: Fabricator.uniqueId('reverse_'),
+      tenPlus: Fabricator.increment(10),
+      tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
     createdModels.foreignReverses = await Fabricator.create(ForeignReverse, BASE_COUNT, {
       name: Fabricator.uniqueId('foreignReverse_'),
+      tenPlus: Fabricator.increment(10),
+      tenMinus: Fabricator.decrement(10),
       createdDate: Fabricator.date,
     })
 
@@ -115,15 +121,14 @@ describe('HasOne', () => {
   })
 
   it('Can nest a related query (belongsTo -> hasOne)', async () => {
-    const flatQuery = {
+    const frQuery = {
       tenPlus: 10,
       tenMinus: 10,
     }
-    const flat = await Flat.cursor({...flatQuery, $one: true}).toJSON()
+    const flat = await Flat.cursor({...frQuery, $one: true}).toJSON()
 
     const owner = await Owner.cursor({
-      flat: flatQuery,
-      $verbose: true,
+      flat: frQuery,
       $one: true,
       $include: 'flat',
     }).toJSON()
@@ -141,13 +146,52 @@ describe('HasOne', () => {
 
     const flat = await Flat.cursor({
       owner: ownerQuery,
-      $verbose: true,
       $one: true,
       $include: 'owner',
     }).toJSON()
 
     expect(flat).toBeTruthy()
     expect(owner.flat_id).toBe(flat.id)
+  })
+
+  it('Can nest a related query (belongsTo -> hasOne -> hasOne)', async () => {
+    const frQuery = {
+      tenPlus: 10,
+      tenMinus: 10,
+    }
+    const fr = await ForeignReverse.cursor({...frQuery, $one: true}).toJSON()
+
+    const reverse = await Reverse.cursor({
+      'owner.foreignReverse': frQuery,
+      $verbose: true,
+      $one: true,
+    }).toJSON()
+
+    expect(reverse).toBeTruthy()
+    expect(reverse.owner_id).toBe(fr.ownerish_id)
+  })
+
+  it('Can nest a related query (belongsTo -> hasOne -> belongsTo)', async () => {
+    const flatQuery = {
+      tenPlus: 10,
+      tenMinus: 10,
+    }
+    const flat = await Flat.cursor({...flatQuery, $one: true}).toJSON()
+
+    const reverse = await Reverse.cursor({
+      'owner.flat': flatQuery,
+      $verbose: true,
+      $one: true,
+    }).toJSON()
+
+    expect(reverse).toBeTruthy()
+
+    const reverseOwner = await Owner.cursor({
+      id: reverse.owner_id,
+      $one: true,
+    }).toJSON()
+
+    expect(reverseOwner.id).toBe(reverse.owner_id)
   })
 
   it('can include a related (belongsTo) model', async () => {
