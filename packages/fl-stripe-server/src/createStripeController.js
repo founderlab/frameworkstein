@@ -1,144 +1,166 @@
 import _ from 'lodash'
 import createStripe from 'stripe'
 import { createAuthMiddleware } from 'fl-auth-server'
-import createStripeCustomer from './models/createStripeCustomer'
 import {
-  createCard,
-  listCards,
-  deleteCard,
-  setDefaultCard,
+  createSource,
+  listSources,
+  deleteSource,
+  setDefaultSource,
   chargeCustomer,
   listPlans,
   getCoupon,
-  showSubscription,
+  getSubscription,
   subscribeToPlan,
 } from './interface'
 
 const defaults = {
   route: '/api/stripe',
   manualAuthorisation: false,
-  cardWhitelist: ['id', 'country', 'brand', 'last4'],
+  sourceWhitelist: ['id', 'country', 'brand', 'last4', 'default'],
   currency: 'aud',
   maxAmount: 500 * 100, // $500
 }
 
-function sendError(res, err, msg) {
+async function sendError(res, err, msg) {
   console.log('[fl-stripe-server] error:', err)
   res.status(500).send({error: msg || err && err.toString()})
 }
 
 export default function createStripeController(_options) {
   const options = _.defaults(_options, defaults)
-  const { app, User } = options
+  const { app, User, StripeCustomer } = options
   if (!app) return console.error('createStripeController requires an `app` option, got', _options)
-  if (!User) return console.error('createStripeController requires a `User` option, got', _options)
+  if (!User) return console.error('createStripeController requires a `User` model in options, got', _options)
+  if (!StripeCustomer) return console.error('createStripeController requires a `StripeCustomer` model in options, got', _options)
 
-  const StripeCustomer = options.StripeCustomer || createStripeCustomer(User)
   const stripe = createStripe(options.apiKey || process.env.STRIPE_API_KEY)
 
-  // Authorisation check. Make sure we can only work with cards (StripeCustomer models) belonging to the logged in user
-  function canAccess(options, callback) {
-    const { user } = options
-    if (!user) return callback(null, false)
-    if (user.admin) return callback(null, true)
-    // No additional options; use the logged in user id as the context for all interactions wth Stripe
-    callback(null, true)
+  // Authorisation check. Make sure we can only work with sources (StripeCustomer models) belonging to the logged in user
+  let canAccessAsync = options.canAccessAsync
+  if (!canAccessAsync) {
+    canAccessAsync = async options => {
+      if (!options.user) return false
+      // No additional options; use the logged in user id as the context for all interactions wth Stripe
+      return true
+    }
   }
 
-  function handleCreateCard(req, res) {
-    const token = req.body.token // obtained with Stripe.js
-    const userId = req.user.id
-
-    createCard({stripe, userId, source: token, description: `User ${req.user.email}`, StripeCustomer}, (err, card) => {
-      if (err) return sendError(res, err)
-      res.json(_.pick(card, options.cardWhitelist))
-    })
+  async function handleCreateSource(req, res) {
+    try {
+      const token = req.body.token // obtained with Stripe.js
+      const userId = req.user.id
+      const source = await createSource({stripe, userId, token, description: `User ${req.user.email}`, StripeCustomer})
+      res.json(_.pick(source, options.sourceWhitelist))
+    }
+    catch (err) {
+      sendError(res, err)
+    }
   }
 
-  function handleListCards(req, res) {
-    const userId = req.user.id
-
-    listCards({stripe, userId, StripeCustomer}, (err, cards) => {
-      if (err) return sendError(res, err)
-      res.json(cards)
-    })
+  async function handleListSources(req, res) {
+    try {
+      const userId = req.user.id
+      const sources = await listSources({stripe, userId, StripeCustomer})
+      res.json(_.map(sources, source => _.pick(source, options.sourceWhitelist)))
+    }
+    catch (err) {
+      sendError(res, err)
+    }
   }
 
-  function handleSetDefaultCard(req, res) {
-    const userId = req.user.id
-    const cardId = req.params.cardId
-
-    setDefaultCard({stripe, userId, cardId, StripeCustomer}, (err, status) => {
-      if (err) return sendError(res, err)
+  async function handleSetDefaultSource(req, res) {
+    try {
+      const userId = req.user.id
+      const sourceId = req.body.sourceId
+      const status = await setDefaultSource({stripe, userId, sourceId, StripeCustomer})
       res.json(status)
-    })
+    }
+    catch (err) {
+      sendError(res, err)
+    }
   }
 
-  function handleDeleteCard(req, res) {
-    const userId = req.user.id
-    const cardId = req.params.cardId
-
-    deleteCard({stripe, userId, cardId, StripeCustomer}, (err, status) => {
-      if (err) return sendError(res, err)
+  async function handleDeleteSource(req, res) {
+    try {
+      const userId = req.user.id
+      const sourceId = req.params.sourceId
+      const status = await deleteSource({stripe, userId, sourceId, StripeCustomer})
       res.json(status)
-    })
+    }
+    catch (err) {
+      sendError(res, err)
+    }
   }
 
-  function handleChargeCustomer(req, res) {
-    const userId = req.user.id
-    const amount = +req.body.amount
-    if (!amount) return res.status(400).send('[fl-stripe-server] Missing an amount to charge')
-    if (amount > options.maxAmount) return res.status(401).send('[fl-stripe-server] Charge exceeds the configured maximum amount')
+  async function handleChargeCustomer(req, res) {
+    try {
+      const userId = req.user.id
+      const amount = +req.body.amount
+      if (!amount) return res.status(400).send('[fl-stripe-server] Missing an amount to charge')
+      if (amount > options.maxAmount) return res.status(401).send('[fl-stripe-server] Charge exceeds the configured maximum amount')
 
-    chargeCustomer({stripe, userId, amount, currency: options.currency, StripeCustomer}, (err, status) => {
-      if (err) return sendError(res, err)
+      const status = await chargeCustomer({stripe, userId, amount, currency: options.currency, StripeCustomer})
       if (!status) return res.status(404).send('[fl-stripe-server] Customer not found')
       res.json(status)
-    })
+    }
+    catch (err) {
+      sendError(res, err)
+    }
   }
 
-  function handleListPlans(req, res) {
-    listPlans({stripe}, (err, plans) => {
-      if (err) return sendError(res, err)
+  async function handleListPlans(req, res) {
+    try {
+      const plans = await listPlans({stripe})
       res.json(plans)
-    })
+    }
+    catch (err) {
+      sendError(res, err)
+    }
   }
 
-  function handleGetCoupon(req, res) {
-    getCoupon({stripe, coupon: req.params.id}, (err, coupon) => {
-      if (err) return sendError(res, err)
+  async function handleGetCoupon(req, res) {
+    try {
+      const coupon = await getCoupon({stripe, coupon: req.params.id})
       res.json(coupon)
-    })
+    }
+    catch (err) {
+      sendError(res, err)
+    }
   }
 
-  function handleShowSubscription(req, res) {
-    const userId = req.user.id
-
-    showSubscription({stripe, userId, StripeCustomer}, (err, subscription) => {
-      if (err) return sendError(res, err)
+  async function handleShowSubscription(req, res) {
+    try {
+      const userId = req.user.id
+      const subscription = await getSubscription({stripe, userId, StripeCustomer})
       if (!subscription) return res.status(404).send('[fl-stripe-server] Subscription not found for current user')
       res.json(subscription)
-    })
+    }
+    catch (err) {
+      sendError(res, err)
+    }
   }
 
-  function handleSubscribeToPlan(req, res) {
-    const { planId } = req.params
-    const { coupon } = req.body
-    const userId = req.user.id
+  async function handleSubscribeToPlan(req, res) {
+    try {
+      const { planId } = req.params
+      const { coupon } = req.body
+      const userId = req.user.id
 
-    subscribeToPlan({stripe, userId, planId, coupon, StripeCustomer, onSubscribe: options.onSubscribe}, (err, subscription) => {
-      if (err) return sendError(res, err)
+      const subscription = await subscribeToPlan({stripe, userId, planId, coupon, StripeCustomer, onSubscribe: options.onSubscribe})
       if (!subscription) return res.status(404).send('[fl-stripe-server] Subscription not found for current user')
       res.json(subscription)
-    })
+    }
+    catch (err) {
+      sendError(res, err)
+    }
   }
 
-  const auth = options.manualAuthorisation ? options.auth : [...options.auth, createAuthMiddleware({canAccess})]
+  const auth = options.manualAuthorisation ? options.auth : [...(options.auth || []), createAuthMiddleware({canAccessAsync})]
 
-  app.post(`${options.route}/cards`, auth, handleCreateCard)
-  app.get(`${options.route}/cards`, auth, handleListCards)
-  app.put(`${options.route}/cards/default`, auth, handleSetDefaultCard)
-  app.delete(`${options.route}/cards/:id`, auth, handleDeleteCard)
+  app.post(`${options.route}/sources`, auth, handleCreateSource)
+  app.get(`${options.route}/sources`, auth, handleListSources)
+  app.put(`${options.route}/sources/default`, auth, handleSetDefaultSource)
+  app.delete(`${options.route}/sources/:sourceId`, auth, handleDeleteSource)
 
   app.post(`${options.route}/charge`, auth, handleChargeCustomer)
 
@@ -150,16 +172,15 @@ export default function createStripeController(_options) {
   app.put(`${options.route}/subscribe/:planId`, auth, handleSubscribeToPlan)
 
   return {
-    canAccess,
-    handleCreateCard,
-    handleListCards,
-    handleDeleteCard,
-    handleSetDefaultCard,
-    handleChargeCustomer,
-    handleListPlans,
-    handleGetCoupon,
-    handleShowSubscription,
-    handleSubscribeToPlan,
-    StripeCustomer,
+    canAccessAsync,
+    createSource: handleCreateSource,
+    listSources: handleListSources,
+    deleteSource: handleDeleteSource,
+    setDefaultSource: handleSetDefaultSource,
+    chargeCustomer: handleChargeCustomer,
+    listPlans: handleListPlans,
+    getCoupon: handleGetCoupon,
+    getSubscription: handleShowSubscription,
+    subscribeToPlan: handleSubscribeToPlan,
   }
 }

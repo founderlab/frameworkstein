@@ -1,4 +1,6 @@
-import request from 'superagent'
+import fetch from 'cross-fetch'
+import qs from 'qs'
+
 
 export const TYPES = {
   CARD_CREATE: 'FL_STRIPE_CARD_CREATE',
@@ -7,8 +9,8 @@ export const TYPES = {
   CUSTOMER_CHARGE: 'FL_CUSTOMER_CHARGE',
 }
 
-export function createCard(url, apiKey, userId, cardData, callback) {
-  const cardString = `card[name]=${'test'}&` +
+export function createCard(url, apiKey, userId, cardData) {
+  const cardString = `card[name]=${cardData.name}&` +
     `card[number]=${cardData.number}&` +
     `card[exp_month]=${cardData.exp_month}&` +
     `card[exp_year]=${cardData.exp_year}&` +
@@ -16,54 +18,62 @@ export function createCard(url, apiKey, userId, cardData, callback) {
 
   return {
     type: TYPES.CARD_CREATE,
-    request: callback => {
-      request.post('https://api.stripe.com/v1/tokens')
-        .set('Authorization', `Bearer ${apiKey}`)
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .send(cardString)
-        .end((err, res) => {
-          if (err) return callback(err)
-          if (res.status !== 200) {
-            return callback('There was a problem validating your card. Please check that all fields are entered correctly')
-          }
-          const tokenData = {user_id: userId, token: res.body.id}
-          request.post(`${url}/api/stripe/cards`).send(tokenData).end(callback)
-        })
+    request: async () => {
+      const res = await fetch('https://api.stripe.com/v1/tokens', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: cardString,
+      })
+      if (res.status !== 200) {
+        throw new Error('There was a problem validating your card. Please check that all fields are entered correctly')
+      }
+      const tokenData = {user_id: userId, token: res.body.id}
+      return fetch(`${url}/api/stripe/cards`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(tokenData),
+      })
     },
-    callback,
   }
 }
 
-export function loadCards(url, userId, callback) {
+export function loadCards(url, userId) {
   return {
     type: TYPES.CARD_LOAD,
-    request: request.get(`${url}/api/stripe/cards`).query({user_id: userId}),
-    callback,
+    request: fetch(`${url}/api/stripe/cards?${qs.stringify({query: JSON.stringify({user_id: userId})})}`),
   }
 }
 
-export function setDefaultCard(url, userId, cardId, callback) {
+export function setDefaultCard(url, userId, cardId) {
   return {
     type: TYPES.CARD_DEFAULT,
     defaultId: cardId,
-    request: request.put(`${url}/api/stripe/cards/default`).send({user_id: userId, id: cardId}),
-    callback,
+    request: fetch(`${url}/api/stripe/cards/default`, {
+      method: 'PUT',
+      body: JSON.stringify({user_id: userId, id: cardId}),
+    }),
   }
 }
 
-export function deleteCard(url, cardId, callback) {
+export function deleteCard(url, cardId) {
   return {
     type: TYPES.CARD_DELETE,
     deletedId: cardId,
-    request: request.del(`${url}/api/stripe/cards/${cardId}`),
-    callback,
+    request: fetch(`${url}/api/stripe/cards/${cardId}`, {method: 'DELETE'}),
   }
 }
 
-export function chargeCustomer(url, userId, amount, callback) {
+export function chargeCustomer(url, userId, amount) {
   return {
     type: TYPES.CUSTOMER_CHARGE,
-    request: request.put(`${url}/api/stripe/cards/default`).send({amount, user_id: userId}),
-    callback,
+    request: fetch(`${url}/api/stripe/cards/default`, {
+      method: 'PUT',
+      body: JSON.stringify({amount, user_id: userId}),
+    }),
   }
 }
