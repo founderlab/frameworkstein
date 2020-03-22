@@ -1,6 +1,6 @@
 {
   "name": "fl-stripe-server",
-  "version": "7.3.0",
+  "version": "7.3.1",
   "description": "Stripe controller for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -40,6 +40,9 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
-    "testPathIgnorePatterns": ["node_modules", "models"]
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "models"
+    ]
   }
 }
