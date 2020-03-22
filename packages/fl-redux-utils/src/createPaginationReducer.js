@@ -29,13 +29,12 @@ export default function createPaginationReducer(actionType, options={}) {
     }
 
     // Remove deleted items without clearing everything
-    else if (action.type === actionType + '_DEL_SUCCESS') {
+    else if (action.type === actionType + '_DEL_SUCCESS' || action.type === actionType + '_DELETE_SUCCESS') {
       const pages = state.get('pages').toJS()
-
+      const deletedId = action.deletedId || (action.model && action.model.id)
       _.forEach(pages, (pageIds, page) => {
-        pages[page] = _.without(pageIds, action.deletedId)
+        pages[page] = _.without(pageIds, deletedId)
       })
-
       state = state.merge({pages, cache: {}})
     }
 

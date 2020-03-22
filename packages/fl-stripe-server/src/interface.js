@@ -105,9 +105,17 @@ export async function getCoupon(options) {
   return stripe.coupons.retrieve(coupon)
 }
 
+export async function getToken(options) {
+  const { stripe, token } = options
+  return stripe.oauth.token({
+    grant_type: 'authorization_code',
+    code: token,
+  })
+}
+
 // Set a users plan, changing the current one if it exists
 export async function subscribeToPlan(options) {
-  const { stripe, userId, planId, coupon, StripeCustomer } = options
+  const { stripe, userId, planId, coupon, applicationFeePercent, StripeCustomer } = options
 
   const customer = await StripeCustomer.cursor({user_id: userId, $one: true}).toJSON()
   if (!customer) return {exists: false}
@@ -116,6 +124,7 @@ export async function subscribeToPlan(options) {
   const currentSubscriptionId = customer.subscriptionId
   const subscriptionOptions = {plan: planId}
   if (!_.isUndefined(coupon)) subscriptionOptions.coupon = coupon
+  if (!_.isUndefined(applicationFeePercent)) subscriptionOptions.application_fee_percent = options.applicationFeePercent
 
   // If a subscription exists update it to the new plan
   if (currentSubscriptionId) {

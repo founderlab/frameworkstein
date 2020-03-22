@@ -22,7 +22,7 @@ const defaults = {
   maxAmount: 500 * 100, // $500
 }
 
-async function sendError(res, err, msg) {
+function sendError(res, err, msg) {
   console.log('[fl-stripe-server] error:', err)
   res.status(500).send({error: msg || err && err.toString()})
 }
@@ -36,7 +36,7 @@ export default function createStripeController(_options) {
   if (!StripeCustomer) return console.error('createStripeController requires a `StripeCustomer` model in options, got', _options)
 
   const globalStripeKey = options.apiKey || process.env.STRIPE_API_KEY
-  const globalStripe = globalStripeKey ? createStripe(globalStripeKey) : null
+  const globalStripe = options.stripe || (globalStripeKey ? createStripe(globalStripeKey) : null)
 
   function getStripe(req) {
     if (globalStripe) return globalStripe
@@ -118,7 +118,7 @@ export default function createStripeController(_options) {
 
   async function handleListPlans(req, res) {
     try {
-      const plans = await listPlans({stripe})
+      const plans = await listPlans({stripe: getStripe(req)})
       res.json(plans)
     }
     catch (err) {
