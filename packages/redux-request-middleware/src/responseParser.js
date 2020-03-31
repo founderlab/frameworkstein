@@ -7,7 +7,7 @@ export function isModel(action) { return action.res && _.isFunction(action.res.t
 export function parseJSON(action, {mutate, force}) {
   if (!force && !action.res) return action
 
-  let modelList = action.modelList || action.res ? action.res.body || action.res : null
+  let modelList = action.modelList || (action.res ? action.res.body || action.res : null)
   let single = false
   if (!_.isArray(modelList)) {
     single = true
