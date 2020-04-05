@@ -227,9 +227,10 @@ export default class SqlAst {
     return this.joins[relationKey] = join
   }
 
-  isJsonField(jsonField, modelType) {
-    if (!modelType) { ({ modelType } = this) }
+  isJsonField(jsonField, _modelType) {
+    const modelType = _modelType || this.modelType
     const field = modelType.schema.fields[jsonField]
+
     if (field && ['json', 'jsonb'].includes(field.type.toLowerCase())) {
       return field
     }
@@ -238,6 +239,7 @@ export default class SqlAst {
   parseJsonField(key, value, options={}) {
     const [jsonField, attr] = Array.from(key.split('.'))
     const field = this.isJsonField(jsonField)
+
     if (field) {
       const valueString = JSON.stringify(value)
       const queryString = `{"${attr}": ${valueString}}`

@@ -15,12 +15,13 @@ const options = {
   url: `${DATABASE_URL}/flats`,
   schema: {
     name: 'Text',
-    createdDate: 'DateTime',
-    updatedDate: 'DateTime',
-    jsonObject: 'json',
-    jsonList: 'json',
-    jsonObjectList: 'json',
-    boolean: 'Boolean',
+    // createdDate: 'DateTime',
+    // updatedDate: 'DateTime',
+    // jsonObject: 'json',
+    // jsonList: 'json',
+    // jsonListOfObjects: 'json',
+    jsonObjectList: {type: 'json', jsonType: 'object'},
+    // boolean: 'Boolean',
   },
 }
 
@@ -37,7 +38,7 @@ describe('Class methods', () => {
       name: Fabricator.uniqueId('flat_'),
       jsonObject: {foo: {bar: 'baz'}, fizz: 'buzz'},
       jsonList: ['aaa', 'bbb', 'ccc'],
-      jsonObjectList: [{foo: 'bar'}, {fizzbuzz: {fizz: true, buzz: 'zz'}}],
+      jsonListOfObjects: [{foo: 'bar'}, {fizzbuzz: {fizz: true, buzz: 'zz'}}],
       createdDate: Fabricator.date,
       updatedDate: Fabricator.date,
       boolean: true,
@@ -64,6 +65,7 @@ describe('Class methods', () => {
     })
   })
 
+
   it('counts with toJSON', async () => {
     const count = await Flat.cursor({$count: true}).toJSON()
     expect(count).toBe(BASE_COUNT)
@@ -76,8 +78,8 @@ describe('Class methods', () => {
     expect(model.data.jsonObject.foo.bar).toBe('baz')
     expect(model.data.jsonList.length).toBe(3)
     expect(model.data.jsonList[0]).toBe('aaa')
-    expect(model.data.jsonObjectList.length).toBe(2)
-    expect(model.data.jsonObjectList[1].fizzbuzz.buzz).toBe('zz')
+    expect(model.data.jsonListOfObjects.length).toBe(2)
+    expect(model.data.jsonListOfObjects[1].fizzbuzz.buzz).toBe('zz')
     expect(typeof model.data.boolean).toBe('boolean')
 
     const json = await Flat.cursor({id: model.id}).toJSON()
@@ -202,14 +204,36 @@ describe('Class methods', () => {
   })
 
   it('can perform a query on a json object array', async () => {
-    const newModel = new Flat({jsonObjectList: [{testo: 'auto'}, {another: 'yep'}]})
+    const newModel = new Flat({jsonListOfObjects: [{testo: 'auto'}, {another: 'yep'}]})
     await newModel.save()
 
-    const models = await Flat.cursor({'jsonObjectList.testo': 'auto'}).toJSON()
+    const models = await Flat.cursor({'jsonListOfObjects.testo': 'auto'}).toJSON()
     expect(models.length).toBe(1)
     const model2 = models[0]
     expect(model2.id).toBe(newModel.id)
-    expect(_.size(model2.jsonObjectList)).toBe(2)
+    expect(_.size(model2.jsonListOfObjects)).toBe(2)
+  })
+
+  it('can perform a query on a json object containing arrays as values', async () => {
+    const newModel = new Flat({jsonObjectList: {first: ['one', 'two'], second: ['two'], third: ['three']}})
+    await newModel.save()
+
+    const newModel2 = new Flat({jsonObjectList: {first: ['xxx', 'yyy'], second: ['two'], third: ['three']}})
+    await newModel2.save()
+
+    const models = await Flat.cursor({'jsonObjectList.first': ['one'], $verbose: true}).toJSON()
+    expect(models.length).toBe(1)
+
+    const model2 = models[0]
+    expect(model2.id).toBe(newModel.id)
+    expect(_.size(model2.jsonObjectList)).toBe(3)
+
+    const models3 = await Flat.cursor({'jsonObjectList.first': ['one', 'three'], $verbose: true}).toJSON()
+    expect(models3.length).toBe(0)
+
+    const models4 = await Flat.cursor({'jsonObjectList.first': ['one'], 'jsonObjectList.second': ['two'], $sort: 'id', $verbose: true}).toJSON()
+    expect(models4.length).toBe(1)
+    expect(models4[0].id).toBe(newModel.id)
   })
 
   it('can chain limit with paging', async () => {
