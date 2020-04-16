@@ -30,7 +30,7 @@ export default function createPaginationSelector(paginateOn, selectState, _optio
       return pState && pState.get(options.paginationName)
     },
     (state, props) => {
-      let pState = paginationState(state, paginateOn)
+      const pState = paginationState(state, paginateOn)
       if (!pState) return null
 
       if (options.cacheKey || (options.cacheKeyFromProps && props)) {
@@ -43,6 +43,7 @@ export default function createPaginationSelector(paginateOn, selectState, _optio
     },
     (models, _pagination, cachedPagination) => {
       const results = {
+        cached: !!cachedPagination,
         visibleItems: [],
         visibleIds: [],
         totalItems: 0,
