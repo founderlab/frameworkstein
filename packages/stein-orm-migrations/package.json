@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-migrations",
-  "version": "7.3.0",
+  "version": "7.3.3",
   "description": "Automatic migrations for stein-orm",
   "main": "lib/index.js",
   "scripts": {
@@ -34,7 +34,7 @@
   "dependencies": {
     "fl-server-utils": "^7.0.0",
     "stein-orm": "^7.2.7",
-    "stein-orm-sql": "^7.3.0"
+    "stein-orm-sql": "^7.3.3"
   },
   "jest": {
     "verbose": true,
