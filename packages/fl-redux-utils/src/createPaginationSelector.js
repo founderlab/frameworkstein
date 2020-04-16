@@ -25,31 +25,30 @@ export default function createPaginationSelector(paginateOn, selectState, _optio
       const pState = paginationState(state, paginateOn)
       return pState && pState.get(options.modelsName)
     },
+    state => {
+      const pState = paginationState(state, paginateOn)
+      return pState && pState.get(options.paginationName)
+    },
     (state, props) => {
-      let cached = false
       let pState = paginationState(state, paginateOn)
       if (!pState) return null
 
       if (options.cacheKey || (options.cacheKeyFromProps && props)) {
         const cacheKey = options.cacheKey || options.cacheKeyFromProps(props)
         const cachedState = pState.get(cacheKey)
-        if (cachedState) pState = cachedState
-        cached = true
+        return cachedState
       }
 
-      return {
-        cached,
-        pagination: pState.get(options.paginationName),
-      }
+      return null
     },
-    (models, {pagination, cached}) => {
+    (models, _pagination, cachedPagination) => {
       const results = {
-        cached,
         visibleItems: [],
         visibleIds: [],
         totalItems: 0,
         currentPage: 1,
       }
+      const pagination = cachedPagination || _pagination
       if (!pagination) return results
 
       results.totalItems = +pagination.get('total')
