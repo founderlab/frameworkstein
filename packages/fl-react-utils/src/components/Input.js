@@ -57,6 +57,8 @@ export default class FLInput extends React.Component {
     autoScrollWidth: 576,
   }
 
+  focus = () => this._input && this._input.focus && this._input.focus()
+
   render() {
     const { label, input, meta, helpMd, helpTop, type, className, bsProps, validationState, prepend, append, options } = this.props
 
@@ -65,6 +67,7 @@ export default class FLInput extends React.Component {
       autoComplete: 'on',
       valid: validation === 'success',
       invalid: validation === 'error',
+      ref: c => this._input = c,
     }, input, this.props.inputProps)
 
     let help = this.props.help
@@ -123,22 +126,12 @@ export default class FLInput extends React.Component {
           return null
         }
         const { onBlur, ...props } = inputProps
-        control = (
-          <Select options={options} {...props} />
-        )
+        control = <Select options={options} {...props} />
         break
 
       case 'image':
       case 'file':
-        control = (
-          <S3Uploader type={type} {...inputProps} />
-        )
-        break
-
-      case 'static':
-        control = (
-          <Input plaintext value={inputProps.value} {...bsProps} {...inputProps} />
-        )
+        control = <S3Uploader type={type} {...inputProps} />
         break
 
       case 'checkbox':
@@ -170,24 +163,27 @@ export default class FLInput extends React.Component {
         )
         break
 
+      case 'static':
+        inputProps.innerRef = inputProps.ref
+        inputProps.ref = null
+        control = <Input plaintext value={inputProps.value} {...bsProps} {...inputProps} />
+        break
+
       case 'rich':
       case 'rich-text':
       case 'quill':
-        warning(false, 'Rich text editor (quill) has been removed from fl-react-utils/Input. Textarea will be used instead.')
-        control = (
-          <Input type="textarea" {...bsProps} {...inputProps} />
-        )
-        break
       case 'textarea':
-        control = (
-          <Input type="textarea" {...bsProps} {...inputProps} />
-        )
+        inputProps.innerRef = inputProps.ref
+        inputProps.ref = null
+        control = <Input type="textarea" {...bsProps} {...inputProps} />
         break
 
       // case 'text':
       // case 'email':
       // case 'password':
       default:
+        inputProps.innerRef = inputProps.ref
+        inputProps.ref = null
         control = (
           <Input type={type} {...bsProps} {...inputProps} />
         )
