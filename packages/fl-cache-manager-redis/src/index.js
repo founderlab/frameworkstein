@@ -104,9 +104,9 @@ class RedisStore {
     if (_.isArray(values)) return _.map(values, this.parse)
     if (_.isObject(values)) {
       const result = {}
-      _.forEach(values, (value, key) => {
-        result[key] = this.parse(value, key)
-      })
+      for (const key of Object.getOwnPropertyNames(values)) {
+        result[key] = this.parse(values[key], key)
+      }
       return result
     }
     else if (_.isString(values)) {
@@ -118,7 +118,7 @@ class RedisStore {
           if (isValidDate) return date
         }
         // Stringified JSON
-        let parsedValues = JSON.parse(values)
+        const parsedValues = JSON.parse(values)
         if (this.stringifyKey && this.stringifyKey(key) && _.isNumber(parsedValues)) {
           return parsedValues.toString()
         }
