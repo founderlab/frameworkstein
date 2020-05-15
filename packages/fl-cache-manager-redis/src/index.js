@@ -119,9 +119,15 @@ class RedisStore {
         }
         // Stringified JSON
         const parsedValues = JSON.parse(values)
-        if (this.stringifyKey && this.stringifyKey(key) && _.isNumber(parsedValues)) {
-          return parsedValues.toString()
+
+        // If the parse result is a number values is a number or a string containing a number, either way just return it
+        if (_.isNumber(parsedValues)) {
+          if (this.stringifyKey && this.stringifyKey(key)) {
+            return parsedValues.toString()
+          }
+          return values
         }
+
         return this.parse(parsedValues, key)
       }
       catch (err) {
