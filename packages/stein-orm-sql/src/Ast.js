@@ -135,6 +135,7 @@ export default class SqlAst {
       const andWhere = {method: options.method, conditions: []}
       for (const q of Array.from(query.$and)) {
         andWhere.conditions.push({
+          method: 'where',
           conditions: this.parseQuery(q, {table}),
         })
       }
