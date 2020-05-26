@@ -15,13 +15,13 @@ const options = {
   url: `${DATABASE_URL}/flats`,
   schema: {
     name: 'Text',
-    // createdDate: 'DateTime',
-    // updatedDate: 'DateTime',
-    // jsonObject: 'json',
-    // jsonList: 'json',
-    // jsonListOfObjects: 'json',
+    createdDate: 'DateTime',
+    updatedDate: 'DateTime',
+    jsonObject: 'json',
+    jsonList: 'json',
+    jsonListOfObjects: 'json',
     jsonObjectList: {type: 'json', jsonType: 'object'},
-    // boolean: 'Boolean',
+    boolean: 'Boolean',
   },
 }
 

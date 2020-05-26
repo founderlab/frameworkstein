@@ -123,7 +123,10 @@ export default class SqlAst {
     if (query.$or) {
       const orWhere = {method: options.method, conditions: []}
       for (const q of Array.from(query.$or)) {
-        orWhere.conditions = orWhere.conditions.concat(this.parseQuery(q, {table, method: 'orWhere'}))
+        orWhere.conditions.push({
+          method: 'orWhere',
+          conditions: this.parseQuery(q, {table}),
+        })
       }
       conditions.push(orWhere)
     }
@@ -131,7 +134,9 @@ export default class SqlAst {
     if (query.$and) {
       const andWhere = {method: options.method, conditions: []}
       for (const q of Array.from(query.$and)) {
-        andWhere.conditions = andWhere.conditions.concat(this.parseQuery(q, {table}))
+        andWhere.conditions.push({
+          conditions: this.parseQuery(q, {table}),
+        })
       }
       conditions.push(andWhere)
     }
