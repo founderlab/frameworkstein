@@ -24,22 +24,34 @@ function relatedQuery(modelIds, modelStore, relationField) {
     return query
   }
 
-  return _.extend(query, {[relationField.relation.reverseRelation.virtualIdAccessor]: {$in: modelIds}})
+  return {
+    ...query,
+    [relationField.relation.reverseRelation.virtualIdAccessor]: {$in: modelIds},
+  }
+}
+
+async function fetchOneManyToMany(relationField, modelId, options) {
+  const { store, modelAdmin } = options
+  const { auth } = store.getState()
+
+  const query = {
+    [relationField.relation.foreignKey]: modelId,
+    $user_id: auth.get('user').get('id'),
+  }
+
+  const relatedAction = await store.dispatch(relationField.modelAdmin.actions.loadModels(query))
+  return store.dispatch(modelAdmin.actions.setRelationIds(modelId, relationField.relation.virtualIdAccessor, relatedAction.ids))
 }
 
 async function fetchManyToMany(relationField, options) {
-  const { store, modelAdmin, modelIds } = options
-  const { auth } = store.getState()
+  const { modelIds } = options
+  const promises = []
 
   for (const id of modelIds) {
-    const query = {
-      [relationField.relation.foreignKey]: id,
-      $user_id: auth.get('user').get('id'),
-    }
-
-    const relatedAction = await store.dispatch(relationField.modelAdmin.actions.loadModels(query))
-    store.dispatch(modelAdmin.actions.setRelationIds(id, relationField.relation.virtualIdAccessor, relatedAction.ids))
+    promises.push(fetchOneManyToMany(relationField, id, options))
   }
+
+  return Promise.all(promises)
 }
 
 // dispatch actions to load related models
@@ -66,6 +78,5 @@ export default async function fetchRelated(options) {
       promises.push(store.dispatch(relationField.modelAdmin.actions.loadModels(query)))
     }
   }
-
   return Promise.all(promises)
 }

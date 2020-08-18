@@ -47,7 +47,7 @@ export default class ModelListForm extends React.Component {
             const value = model[modelField.virtualIdAccessor || modelField.key || key]
             let displayValue = value
             if (modelField.display) displayValue = modelField.display(value)
-            else if (modelField.type === 'Boolean') displayValue = value ? (<i className="fa fa-check" />) : (<i className="fa fa-times" />)
+            else if (modelField.type === 'Boolean') displayValue = value ? (<i className="fal fa-check" />) : (<i className="fal fa-times" />)
             return (
               <td key={key} className="fla-list-display-td">
                 {displayValue}
@@ -59,12 +59,12 @@ export default class ModelListForm extends React.Component {
 
         {showSave ? (
           <td className="fla-save-td">
-            <Button color="primary" onClick={handleSubmit}><i className="fa fa-check" /></Button>
+            <Button color="primary" onClick={handleSubmit}><i className="fal fa-check" /></Button>
           </td>
         ) : null}
         {modelAdmin.listDelete && (
           <td className="fla-delete-td">
-            <Button bsSize="xsmall" onClick={onDelete}><i className="fa fa-times" /></Button>
+            <Button bsSize="xsmall" onClick={onDelete}><i className="fal fa-times" /></Button>
           </td>
         )}
       </tr>

@@ -13,8 +13,8 @@ export default function InlineRelation(props) {
 
   return (
     <FormGroup>
-      {label ? (<Label>{label}</Label>) : null}
-      <Button color="primary" className="pull-right" onClick={onAdd}><i className="fa fa-plus" /></Button>
+      {label ? <Label>{label}</Label> : null}
+      <Button color="primary" className="pull-right" onClick={onAdd}><i className="fal fa-plus" /></Button>
       <ModelListTable {...tableProps} />
     </FormGroup>
   )

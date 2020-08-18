@@ -17,7 +17,7 @@ export default function ModelDetail(props) {
       <Container fluid>
         <Row>
           <Col xs={12}>
-            <p className="fla-back"><Link to={modelAdmin.link()}><i className="fa fa-chevron-left" /> {modelAdmin.plural}</Link></p>
+            <p className="fla-back"><Link to={modelAdmin.link()}><i className="fal fa-chevron-left" /> {modelAdmin.plural}</Link></p>
           </Col>
         </Row>
         <Row>

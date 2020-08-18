@@ -75,7 +75,7 @@ export default class ManyToMany extends React.PureComponent {
                       <Link to={modelAdmin.link(relatedModel)} target="_blank">{modelAdmin.display(relatedModel)}</Link>
                     </Col>
                     <Col xs="auto">
-                      <Button color="danger" size="sm" onClick={this.handleUnlinkRelationFn(relatedModel)}><i className="fa fa-times" /></Button>
+                      <Button color="danger" size="sm" onClick={this.handleUnlinkRelationFn(relatedModel)}><i className="fal fa-times" /></Button>
                     </Col>
                   </Row>
                 </div>

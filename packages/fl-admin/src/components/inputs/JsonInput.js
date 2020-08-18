@@ -38,11 +38,11 @@ export default function JsonInput(props) {
             <Row>
               <Col xs={12} className="text-right">
                 <Button bsSize="small" onClick={() => fields.remove(i)}>
-                  <i className="fa fa-times" /> Remove
+                  <i className="fal fa-times" /> Remove
                 </Button>
                 {i === fields.length-1 && (
                   <Button bsSize="small" onClick={() => fields.push({})} style={{marginLeft: '10px'}}>
-                    <i className="fa fa-plus" /> Add another
+                    <i className="fal fa-plus" /> Add another
                   </Button>
                 )}
               </Col>
@@ -54,7 +54,7 @@ export default function JsonInput(props) {
           <Row>
             <Col xs={12} className="text-right">
               <Button bsSize="small" onClick={() => fields.push({})} style={{marginLeft: '10px'}}>
-                <i className="fa fa-plus" /> Add
+                <i className="fal fa-plus" /> Add
               </Button>
             </Col>
           </Row>

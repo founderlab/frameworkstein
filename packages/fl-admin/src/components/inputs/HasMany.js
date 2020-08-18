@@ -25,7 +25,7 @@ export default function HasMany(props) {
 
   return (
     <FormGroup>
-      {label ? (<Label>{label}</Label>) : null}
+      {label ? <Label>{label}</Label> : null}
       <div className="list-group">
         {links}
       </div>

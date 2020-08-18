@@ -21,7 +21,7 @@ export default function ModelList(props) {
       <Container fluid>
         <Row>
           <Col xs={12}>
-            <p className="fla-back"><Link to={modelAdmin.rootPath} className="fla-back"><i className="fa fa-chevron-left" /> Admin home</Link></p>
+            <p className="fla-back"><Link to={modelAdmin.rootPath} className="fla-back"><i className="fal fa-chevron-left" /> Admin home</Link></p>
           </Col>
         </Row>
         <Row>
@@ -32,7 +32,7 @@ export default function ModelList(props) {
         <Row className="fla-controls mb-3">
           <Col xs="auto">
             <Button tag={Link} to={modelAdmin.createLink()} color="primary">
-              <i className="fa fa-plus" /> Add a new {modelAdmin.name}
+              <i className="fal fa-plus" /> Add a new {modelAdmin.name}
             </Button>
           </Col>
           <Col xs="auto" className="fla-search ml-auto d-flex">

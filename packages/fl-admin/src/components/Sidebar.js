@@ -14,7 +14,7 @@ export default function Sidebar() {
   return (
     <div>
       <Link to="/admin" className="fla-sidebar-header">
-        <i className="fa fa-rocket" />
+        <i className="fal fa-rocket" />
       </Link>
       <Nav pills vertical>
         {links}
