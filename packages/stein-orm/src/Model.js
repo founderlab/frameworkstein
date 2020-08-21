@@ -298,8 +298,7 @@ export default class SteinModel {
     const JoinTableModel = this.joinTable(relationName)
     if (!JoinTableModel) throw new Error(`[stein-orm::link] relation or join table not found for model ${this.name} and relation ${relationName}`)
 
-    const entry = new JoinTableModel(data)
-    return entry.save(callback)
+    return JoinTableModel.findOrCreate(data, callback)
   }
   static link(...args) {
     return this.promiseOrCallbackFn(this._link)(...args)
