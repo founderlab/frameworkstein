@@ -1,24 +1,12 @@
 import _ from 'lodash'
 import warning from 'warning'
 import { Set, List, fromJS } from 'immutable'
+import actionTypes from './actionTypes'
 
-export default function createGroupByReducer(actionTypes, groupingKey, options={}) {
+
+export default function createGroupByReducer(_actionTypes, groupingKey, options={}) {
   const defaultState = fromJS({})
-  let load
-  let del
-  let loadActions
-  let deleteActions
-
-  if (_.isArray(actionTypes)) {
-    load = actionTypes[0]
-    del = actionTypes[1]
-  }
-  else if (_.isObject(actionTypes)) {
-    load = actionTypes.load
-    del = actionTypes.del
-  }
-  if (load) loadActions = _.isArray(load) ? load : [load]
-  if (del) deleteActions = _.isArray(del) ? del : [del]
+  const { loadActions, deleteActions } = actionTypes(_actionTypes)
 
   const keyFn = options.keyFn || (val => val ? val.toString() : null)
 

@@ -9,7 +9,9 @@ import classNames from 'classnames'
 
 export default class Pagination extends React.Component {
   static propTypes = {
-    location: PropTypes.object.isRequired,
+    location: PropTypes.object,
+    query: PropTypes.object,
+    path: PropTypes.object,
     itemsPerPage: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     className: PropTypes.string,
@@ -29,8 +31,8 @@ export default class Pagination extends React.Component {
     next: '→',
   }
 
-  query = () => qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
-  link = page => `${this.props.location.pathname}?${qs.stringify(_.extend({}, this.query(), {page}))}`
+  query = () => this.props.query || qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
+  link = page => `${this.props.path || this.props.location.pathname}?${qs.stringify({...this.query(), page})}`
 
   render() {
     const { itemsPerPage, currentPage, totalItems, next, prev, first, last } = this.props
