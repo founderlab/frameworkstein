@@ -4,7 +4,7 @@ import actionTypes from './actionTypes'
 
 
 export default function createPaginationReducer(_actionTypes, options={}) {
-  const { loadActions, deleteActions, countActions, clearActions, cacheRestoreActions, cacheClearActions } = actionTypes(_actionTypes)
+  const { loadActions, deleteActions, saveActions, countActions, clearActions, cacheRestoreActions, cacheClearActions } = actionTypes(_actionTypes)
 
   const defaultState = fromJS({
     total: 0,
@@ -41,7 +41,7 @@ export default function createPaginationReducer(_actionTypes, options={}) {
     }
 
     // Clear all pagination and bail
-    else if (_.includes(clearActions, action.type)) {
+    else if (_.includes([...saveActions, ...clearActions], action.type)) {
       return state.merge(defaultState.toJS())
     }
 

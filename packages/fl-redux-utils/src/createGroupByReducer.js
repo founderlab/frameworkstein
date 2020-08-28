@@ -6,14 +6,14 @@ import actionTypes from './actionTypes'
 
 export default function createGroupByReducer(_actionTypes, groupingKey, options={}) {
   const defaultState = fromJS({})
-  const { loadActions, deleteActions } = actionTypes(_actionTypes)
+  const { loadActions, deleteActions, saveActions } = actionTypes(_actionTypes)
 
   const keyFn = options.keyFn || (val => val ? val.toString() : null)
 
   return function groupBy(_state=defaultState, action={}) {
     let state = _state
 
-    if (deleteActions && _.includes(deleteActions, action.type)) {
+    if (_.includes(deleteActions, action.type)) {
       const id = action.deletedModel.id.toString()
       const _key = groupingKey(action.deletedModel)
       const key = keyFn(_key)
@@ -34,7 +34,7 @@ export default function createGroupByReducer(_actionTypes, groupingKey, options=
       }
     }
 
-    else if (loadActions && _.includes(loadActions, action.type)) {
+    else if (_.includes([...loadActions, ...saveActions], action.type)) {
       const byGroup = _.groupBy(action.models, model => groupingKey(model))
       if (options.keyFromAction) {
         state = state.merge({[options.keyFromAction(action)]: new Set()})
