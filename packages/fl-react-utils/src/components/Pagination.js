@@ -46,13 +46,16 @@ export default class Pagination extends React.Component {
     if (start < 1) start = 1
     const end = Math.min(start+maxLinks, totalPages)
 
-    if (currentPage > 1) {
-      links.push(
-        <Button tag={Link} key="first" to={this.link(1)}>{first}</Button>
-      )
-      links.push(
-        <Button tag={Link} key="prev" to={this.link(currentPage-1)}>{prev}</Button>
-      )
+    if (currentPage === 4 || currentPage === 5) {
+      links.push(<Button tag={Link} key={1} to={this.link(1)}>1</Button>)
+
+      if (currentPage === 5) {
+        links.push(<Button tag={Link} key={2} to={this.link(2)}>2</Button>)
+      }
+    }
+    else if (currentPage > 3) {
+      links.push(<Button tag={Link} key="first" to={this.link(1)}>{first}</Button>)
+      links.push(<Button tag={Link} key="prev" to={this.link(currentPage-1)}>{prev}</Button>)
     }
 
     for (let i=start; i<=end; i++) {
@@ -61,17 +64,23 @@ export default class Pagination extends React.Component {
           <div key={i} className="btn btn-primary disabled" style={{cursor: 'default'}}>{i}</div>
         ) : (
           <Button tag={Link} key={i} to={this.link(i)}>{i}</Button>
-        )
+        ),
       )
     }
 
-    if (currentPage < totalPages) {
-      links.push(
-        <Button tag={Link} key="next" to={this.link(currentPage+1)}>{next}</Button>
-      )
-      links.push(
-        <Button tag={Link} key="last" to={this.link(totalPages)}>{last}</Button>
-      )
+    if (totalPages > 3) {
+      const p1 = totalPages-3
+      const p2 = totalPages-4
+      if (currentPage === p1 || currentPage === p2) {
+        if (currentPage === p2) {
+          links.push(<Button tag={Link} key={totalPages-1} to={this.link(totalPages-1)}>{totalPages-1}</Button>)
+        }
+        links.push(<Button tag={Link} key={totalPages} to={this.link(totalPages)}>{totalPages}</Button>)
+      }
+      else if (currentPage < totalPages-2) {
+        links.push(<Button tag={Link} key="next" to={this.link(currentPage+1)}>{next}</Button>)
+        links.push(<Button tag={Link} key="last" to={this.link(totalPages)}>{last}</Button>)
+      }
     }
 
     return (
