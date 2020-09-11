@@ -9,6 +9,7 @@ export default function actionTypes(actionTypes) {
   let clear
   let cacheRestore
   let cacheClear
+  let setPage
   const actions = {
     loadActions: [],
     deleteActions: [],
@@ -17,6 +18,7 @@ export default function actionTypes(actionTypes) {
     clearActions: [],
     cacheRestoreActions: [],
     cacheClearActions: [],
+    setPageActions: [],
   }
 
   if (_.isString(actionTypes)) {
@@ -27,6 +29,7 @@ export default function actionTypes(actionTypes) {
     clear = [actionTypes + '_CLEAR']
     cacheRestore = [actionTypes + '_CACHE_RESTORE']
     cacheClear = [actionTypes + '_CACHE_CLEAR']
+    setPage = [actionTypes + '_PAGE']
   }
   else if (_.isArray(actionTypes)) {
     load = actionTypes[0]
@@ -41,6 +44,7 @@ export default function actionTypes(actionTypes) {
     clear = actionTypes.clear || [actionTypes.baseType + '_CLEAR']
     cacheRestore = actionTypes.cacheRestore || [actionTypes.baseType + '_CACHE_RESTORE']
     cacheClear = actionTypes.cacheClear || [actionTypes.baseType + '_CACHE_CLEAR']
+    setPage = actionTypes.setPage || [actionTypes.baseType + '_PAGE']
   }
 
   if (load) actions.loadActions = _.isArray(load) ? load : [load]
@@ -50,6 +54,7 @@ export default function actionTypes(actionTypes) {
   if (clear) actions.clearActions = _.isArray(clear) ? clear : [clear]
   if (cacheRestore) actions.cacheRestoreActions = _.isArray(cacheRestore) ? cacheRestore : [cacheRestore]
   if (cacheClear) actions.cacheClearActions = _.isArray(cacheClear) ? cacheClear : [cacheClear]
+  if (setPage) actions.setPageActions = _.isArray(setPage) ? setPage : [setPage]
 
   return actions
 }

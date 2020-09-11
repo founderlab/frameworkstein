@@ -4,11 +4,12 @@ import actionTypes from './actionTypes'
 
 
 export default function createPaginationReducer(_actionTypes, options={}) {
-  const { loadActions, deleteActions, saveActions, countActions, clearActions, cacheRestoreActions, cacheClearActions } = actionTypes(_actionTypes)
+  const { loadActions, deleteActions, saveActions, countActions, clearActions, cacheRestoreActions, cacheClearActions, setPageActions } = actionTypes(_actionTypes)
 
   const defaultState = fromJS({
     total: 0,
     currentPage: 0,
+    ids: [],
     pages: {},
     cache: {},
   })
@@ -27,6 +28,7 @@ export default function createPaginationReducer(_actionTypes, options={}) {
 
     else if (_.includes(loadActions, action.type) && !_.isNil(action.page)) {
       state = state.setIn(['pages', action.page.toString()], fromJS(action.ids))
+      state = state.set('ids', fromJS(_.uniq([...state.get('ids'), ...action.ids])))
       state = state.set('currentPage', action.page)
     }
 
@@ -55,6 +57,11 @@ export default function createPaginationReducer(_actionTypes, options={}) {
     // Clear cache and bail
     else if (_.includes(cacheClearActions, action.type)) {
       return state.merge({cache: {}})
+    }
+
+    // Clear cache and bail
+    else if (_.includes(setPageActions, action.type)) {
+      return state.set('currentPage', action.page)
     }
 
     if (action.cacheKey) {
