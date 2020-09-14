@@ -43,44 +43,38 @@ export default function createPaginationSelector(paginateOn, selectState, _optio
     },
     (_, props) => props && (props.itemsPerPage || props.itemsPerChunk),
   ],
-    (models, _pagination, cachedPagination, _itemsPerPage) => {
-      const results = {
-        cached: !!cachedPagination,
-        visibleItems: [],
-        visibleIds: [],
-        totalItems: 0,
-        currentPage: 1,
-      }
-      const pagination = cachedPagination || _pagination
-      if (!pagination) return results
+  (models, _pagination, cachedPagination, _itemsPerPage) => {
+    const results = {
+      cached: !!cachedPagination,
+      visibleItems: [],
+      visibleIds: [],
+      totalItems: 0,
+      currentPage: 1,
+    }
+    const pagination = cachedPagination || _pagination
+    if (!pagination) return results
 
-      results.totalItems = +pagination.get('total')
-      results.currentPage = +pagination.get('currentPage')
-      const itemsPerPage = _itemsPerPage || options.perPage
+    results.totalItems = +pagination.get('total')
+    results.currentPage = +pagination.get('currentPage')
+    const itemsPerPage = _itemsPerPage || options.perPage
 
-console.log('paginateOn', paginateOn, options.paginationName)
-console.log('itemsPerPage', itemsPerPage)
-console.log('itemsPerPage * results.currentPage', itemsPerPage * results.currentPage)
+    if (pagination.get('append')) {
+      results.visibleIds = pagination.get('ids').toJSON()
+      if (itemsPerPage) results.visibleIds = results.visibleIds.slice(0, itemsPerPage * results.currentPage)
+      console.log('results.visibleIds', results.visibleIds.length, results.visibleIds)
+    }
+    else {
+      const pageIdsIm = pagination.get('pages').get(pagination.get('currentPage').toString())
+      if (pageIdsIm) results.visibleIds = pagination.get('pages').get(pagination.get('currentPage').toString()).toJSON()
+    }
 
-      if (pagination.get('append')) {
-        results.visibleIds = pagination.get('ids').toJSON()
-        if (itemsPerPage) results.visibleIds = results.visibleIds.slice(0, itemsPerPage * results.currentPage)
-        console.log('results.visibleIds', results.visibleIds.length, results.visibleIds)
-      }
-      else {
-        const pageIdsIm = pagination.get('pages').get(pagination.get('currentPage').toString())
-        if (pageIdsIm) results.visibleIds = pagination.get('pages').get(pagination.get('currentPage').toString()).toJSON()
-      }
+    _.forEach(results.visibleIds, id => {
+      const m = models.get(id)
+      m && results.visibleItems.push(m.toJSON())
+    })
 
-      _.forEach(results.visibleIds, id => {
-        const m = models.get(id)
-        m && results.visibleItems.push(m.toJSON())
-      })
-console.log('---')
-
-      return results
-    },
-  )
+    return results
+  })
 
   return (state, props) => {
     const selectedState = selector(state, props)
