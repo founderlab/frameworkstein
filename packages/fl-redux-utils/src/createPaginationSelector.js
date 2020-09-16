@@ -61,7 +61,6 @@ export default function createPaginationSelector(paginateOn, selectState, _optio
     if (pagination.get('append')) {
       results.visibleIds = pagination.get('ids').toJSON()
       if (itemsPerPage) results.visibleIds = results.visibleIds.slice(0, itemsPerPage * results.currentPage)
-      console.log('results.visibleIds', results.visibleIds.length, results.visibleIds)
     }
     else {
       const pageIdsIm = pagination.get('pages').get(pagination.get('currentPage').toString())
