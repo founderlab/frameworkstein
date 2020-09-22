@@ -41,18 +41,21 @@ export default class SqlCursor extends Cursor {
       }
       else {
         const rankField = this._cursor.$unique[0]
-        let rawQuery = `${ast.select.map(s => `"${s}"`).join(', ')}, rank() over (partition by "${rankField}"`
+        let rawQuery = `${ast.select.map(s => `"${s}"`).join(', ')}, rank() over (partition by ??`
+        const params = [rankField]
         if (ast.sort && ast.sort.length) {
           let sort = ast.sort.shift()
           if (sort) {
-            rawQuery += ` order by "${sort.column}" ${sort.direction}`
+            rawQuery += ` order by ?? ${sort.direction}`
+            params.push(sort.column)
           }
           for (sort of ast.sort) {
-            rawQuery += ` , "${sort.column}" ${sort.direction}`
+            rawQuery += ` , ?? ${sort.direction}`
+            params.push(sort.column)
           }
         }
         rawQuery += ')'
-        const subquery = this.connection.select(this.connection.raw(rawQuery))
+        const subquery = this.connection.select(this.connection.raw(rawQuery, params))
         subquery.from(this.modelType.tableName).as('subquery')
         query.select(ast.select).from(subquery).where('rank', 1)
       }
