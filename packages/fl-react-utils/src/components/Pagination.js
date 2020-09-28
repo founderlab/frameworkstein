@@ -11,7 +11,7 @@ export default class Pagination extends React.Component {
   static propTypes = {
     location: PropTypes.object,
     query: PropTypes.object,
-    path: PropTypes.object,
+    path: PropTypes.string,
     itemsPerPage: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     className: PropTypes.string,
@@ -21,6 +21,7 @@ export default class Pagination extends React.Component {
     next: PropTypes.node,
     first: PropTypes.node,
     last: PropTypes.node,
+    onSetPage: PropTypes.func,
   }
 
   static defaultProps = {
@@ -32,7 +33,16 @@ export default class Pagination extends React.Component {
   }
 
   query = () => this.props.query || qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
-  link = page => `${this.props.path || this.props.location.pathname}?${qs.stringify({...this.query(), page})}`
+
+  link = page => {
+    if (this.props.link) return this.props.link(page)
+    return `${this.props.path || this.props.location.pathname}?${qs.stringify({...this.query(), page})}`
+  }
+
+  toPageProps = page => {
+    if (this.props.onSetPage) return {onClick: () => this.props.onSetPage(page)}
+    return {to: this.link(page), tag: Link}
+  }
 
   render() {
     const { itemsPerPage, currentPage, totalItems, next, prev, first, last } = this.props
@@ -47,15 +57,15 @@ export default class Pagination extends React.Component {
     const end = Math.min(start+maxLinks, totalPages)
 
     if (currentPage === 4 || currentPage === 5) {
-      links.push(<Button tag={Link} key={1} to={this.link(1)}>1</Button>)
+      links.push(<Button key={1} {...this.toPageProps(1)}>1</Button>)
 
       if (currentPage === 5) {
-        links.push(<Button tag={Link} key={2} to={this.link(2)}>2</Button>)
+        links.push(<Button key={2} {...this.toPageProps(2)}>2</Button>)
       }
     }
     else if (currentPage > 3) {
-      links.push(<Button tag={Link} key="first" to={this.link(1)}>{first}</Button>)
-      links.push(<Button tag={Link} key="prev" to={this.link(currentPage-1)}>{prev}</Button>)
+      links.push(<Button key="first" {...this.toPageProps(1)}>{first}</Button>)
+      links.push(<Button key="prev" {...this.toPageProps(currentPage-1)}>{prev}</Button>)
     }
 
     for (let i=start; i<=end; i++) {
@@ -63,7 +73,7 @@ export default class Pagination extends React.Component {
         currentPage === i ? (
           <div key={i} className="btn btn-primary disabled" style={{cursor: 'default'}}>{i}</div>
         ) : (
-          <Button tag={Link} key={i} to={this.link(i)}>{i}</Button>
+          <Button key={i} {...this.toPageProps(i)}>{i}</Button>
         ),
       )
     }
@@ -73,13 +83,13 @@ export default class Pagination extends React.Component {
       const p2 = totalPages-4
       if (currentPage === p1 || currentPage === p2) {
         if (currentPage === p2) {
-          links.push(<Button tag={Link} key={totalPages-1} to={this.link(totalPages-1)}>{totalPages-1}</Button>)
+          links.push(<Button key={totalPages-1} {...this.toPageProps(totalPages-1)}>{totalPages-1}</Button>)
         }
-        links.push(<Button tag={Link} key={totalPages} to={this.link(totalPages)}>{totalPages}</Button>)
+        links.push(<Button key={totalPages} {...this.toPageProps(totalPages)}>{totalPages}</Button>)
       }
       else if (currentPage < totalPages-2) {
-        links.push(<Button tag={Link} key="next" to={this.link(currentPage+1)}>{next}</Button>)
-        links.push(<Button tag={Link} key="last" to={this.link(totalPages)}>{last}</Button>)
+        links.push(<Button key="next" {...this.toPageProps(currentPage+1)}>{next}</Button>)
+        links.push(<Button key="last" {...this.toPageProps(totalPages)}>{last}</Button>)
       }
     }
 
