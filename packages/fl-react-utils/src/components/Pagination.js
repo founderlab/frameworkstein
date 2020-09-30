@@ -2,10 +2,12 @@ import _ from 'lodash' // eslint-disable-line
 import qs from 'qs'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ButtonToolbar, ButtonGroup, Button } from 'reactstrap'
+import { Pagination as RSPagination, PaginationItem, PaginationLink } from 'reactstrap'
 import { Link } from 'react-router-dom'
-import classNames from 'classnames'
 
+
+const LEFT_PAGE = 'LEFT'
+const RIGHT_PAGE = 'RIGHT'
 
 export default class Pagination extends React.Component {
   static propTypes = {
@@ -17,19 +19,13 @@ export default class Pagination extends React.Component {
     className: PropTypes.string,
     totalItems: PropTypes.number,
     maxLinks: PropTypes.number,
-    prev: PropTypes.node,
-    next: PropTypes.node,
-    first: PropTypes.node,
-    last: PropTypes.node,
     onSetPage: PropTypes.func,
+    link: PropTypes.func,
+    pageNeighbours: PropTypes.number,
   }
 
   static defaultProps = {
-    maxLinks: 5,
-    first: '⇤',
-    last: '⇥',
-    prev: '←',
-    next: '→',
+    pageNeighbours: 2,
   }
 
   query = () => this.props.query || qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
@@ -44,61 +40,87 @@ export default class Pagination extends React.Component {
     return {to: this.link(page), tag: Link}
   }
 
-  render() {
-    const { itemsPerPage, currentPage, totalItems, next, prev, first, last } = this.props
-    if (!totalItems) return null
-    const maxLinks = this.props.maxLinks - 1
-    const links = []
+  // courtesy of https://www.digitalocean.com/community/tutorials/how-to-build-custom-pagination-with-react
+  fetchPageNumbers = () => {
+    const { itemsPerPage, currentPage, totalItems, pageNeighbours } = this.props
     const totalPages = Math.ceil(totalItems / itemsPerPage)
     if (!totalPages) return null
 
-    let start = Math.min(Math.floor(currentPage - maxLinks/2), totalPages-maxLinks)
-    if (start < 1) start = 1
-    const end = Math.min(start+maxLinks, totalPages)
+    /**
+     * totalNumbers: the total page numbers to show on the control
+     * totalBlocks: totalNumbers + 2 to cover for the left(<) and right(>) controls
+     */
+    const totalNumbers = (pageNeighbours * 2) + 3
+    const totalBlocks = totalNumbers + 2
 
-    if (currentPage === 4 || currentPage === 5) {
-      links.push(<Button key={1} {...this.toPageProps(1)}>1</Button>)
+    if (totalPages > totalBlocks) {
+      const startPage = Math.max(2, currentPage - pageNeighbours)
+      const endPage = Math.min(totalPages - 1, currentPage + pageNeighbours)
+      let pages = _.range(startPage, endPage)
 
-      if (currentPage === 5) {
-        links.push(<Button key={2} {...this.toPageProps(2)}>2</Button>)
-      }
-    }
-    else if (currentPage > 3) {
-      links.push(<Button key="first" {...this.toPageProps(1)}>{first}</Button>)
-      links.push(<Button key="prev" {...this.toPageProps(currentPage-1)}>{prev}</Button>)
-    }
+      /**
+       * hasLeftSpill: has hidden pages to the left
+       * hasRightSpill: has hidden pages to the right
+       * spillOffset: number of hidden pages either to the left or to the right
+       */
+      const hasLeftSpill = startPage > 2
+      const hasRightSpill = (totalPages - endPage) > 1
+      const spillOffset = totalNumbers - (pages.length + 1)
 
-    for (let i=start; i<=end; i++) {
-      links.push(
-        currentPage === i ? (
-          <div key={i} className="btn btn-primary disabled" style={{cursor: 'default'}}>{i}</div>
-        ) : (
-          <Button key={i} {...this.toPageProps(i)}>{i}</Button>
-        ),
-      )
-    }
-
-    if (totalPages > 3) {
-      const p1 = totalPages-3
-      const p2 = totalPages-4
-      if (currentPage === p1 || currentPage === p2) {
-        if (currentPage === p2) {
-          links.push(<Button key={totalPages-1} {...this.toPageProps(totalPages-1)}>{totalPages-1}</Button>)
+      switch (true) {
+        // handle: (1) < {5 6} [7] {8 9} (10)
+        case (hasLeftSpill && !hasRightSpill): {
+          const extraPages = _.range(startPage - spillOffset, startPage - 1)
+          pages = [LEFT_PAGE, ...extraPages, ...pages]
+          break
         }
-        links.push(<Button key={totalPages} {...this.toPageProps(totalPages)}>{totalPages}</Button>)
+
+        // handle: (1) {2 3} [4] {5 6} > (10)
+        case (!hasLeftSpill && hasRightSpill): {
+          const extraPages = _.range(endPage + 1, endPage + spillOffset)
+          pages = [...pages, ...extraPages, RIGHT_PAGE]
+          break
+        }
+
+        // handle: (1) < {4 5} [6] {7 8} > (10)
+        case (hasLeftSpill && hasRightSpill):
+        default: {
+          pages = [LEFT_PAGE, ...pages, RIGHT_PAGE]
+          break
+        }
       }
-      else if (currentPage < totalPages-2) {
-        links.push(<Button key="next" {...this.toPageProps(currentPage+1)}>{next}</Button>)
-        links.push(<Button key="last" {...this.toPageProps(totalPages)}>{last}</Button>)
-      }
+
+      return [1, ...pages, totalPages]
     }
+
+    return _.range(1, totalPages)
+  }
+
+  renderPageNumber = page => {
+    const { currentPage } = this.props
+
+    if (page === LEFT_PAGE) return (
+      <PaginationItem key={page}><PaginationLink {...this.toPageProps(currentPage-1)} previous /></PaginationItem>
+    )
+
+    if (page === RIGHT_PAGE) return (
+      <PaginationItem key={page}><PaginationLink {...this.toPageProps(currentPage+1)} next /></PaginationItem>
+    )
+
+    return page === currentPage ? (
+      <PaginationItem key={page} active><PaginationLink>{page}</PaginationLink></PaginationItem>
+    ) : (
+      <PaginationItem key={page}><PaginationLink {...this.toPageProps(page)}>{page}</PaginationLink></PaginationItem>
+    )
+  }
+
+  render() {
+    const pageNumbers = this.fetchPageNumbers()
 
     return (
-      <ButtonToolbar className={classNames(this.props.className, 'pagination-buttons')}>
-        <ButtonGroup size="sm">
-          {links}
-        </ButtonGroup>
-      </ButtonToolbar>
+      <RSPagination className={this.props.className}>
+        {pageNumbers.map(this.renderPageNumber)}
+      </RSPagination>
     )
   }
 }
