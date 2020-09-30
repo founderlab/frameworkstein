@@ -99,13 +99,17 @@ export default class Pagination extends React.Component {
   renderPageNumber = page => {
     const { currentPage } = this.props
 
-    if (page === LEFT_PAGE) return (
-      <PaginationItem key={page}><PaginationLink {...this.toPageProps(currentPage-1)} previous /></PaginationItem>
-    )
+    if (page === LEFT_PAGE) {
+      return (
+        <PaginationItem key={page}><PaginationLink {...this.toPageProps(currentPage-1)} previous /></PaginationItem>
+      )
+    }
 
-    if (page === RIGHT_PAGE) return (
-      <PaginationItem key={page}><PaginationLink {...this.toPageProps(currentPage+1)} next /></PaginationItem>
-    )
+    if (page === RIGHT_PAGE) {
+      return (
+        <PaginationItem key={page}><PaginationLink {...this.toPageProps(currentPage+1)} next /></PaginationItem>
+      )
+    }
 
     return page === currentPage ? (
       <PaginationItem key={page} active><PaginationLink>{page}</PaginationLink></PaginationItem>
@@ -116,6 +120,7 @@ export default class Pagination extends React.Component {
 
   render() {
     const pageNumbers = this.fetchPageNumbers()
+    if (!pageNumbers) return null
 
     return (
       <RSPagination className={this.props.className}>
