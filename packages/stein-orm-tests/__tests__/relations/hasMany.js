@@ -3,7 +3,7 @@
     no-unused-vars,
 */
 import _ from 'lodash'
-import { createModel, Model } from 'stein-orm'
+import { createModel, Model, Utils } from 'stein-orm'
 import Fabricator from '../../src/Fabricator'
 
 
@@ -328,6 +328,22 @@ describe('HasMany', () => {
     for (const single of singles) {
       expect(_.find(namedSingles, f => f.id === single.id)).toBeFalsy
     }
+  })
+
+  it('Can sort on a related field (belongsTo -> hasMany)', async () => {
+    const singles = await Single.find({$sort: 'owner.name'})
+    const singlesInc = await Single.find({$sort: 'owner.name', $include: 'owner'})
+    const owners = _.map(singlesInc, f => f.data.owner)
+    expect(Utils.isSorted(owners, ['name'])).toBeTruthy()
+
+    // ensure same sort when using $include
+    for (const owner of owners) {
+      expect(owner.id).toEqual(singles.shift().data.owner_id)
+    }
+
+    const singlesInc2 = await Single.find({$sort: '-owner.name', $include: 'owner'})
+    const owners2 = _.map(singlesInc2, f => f.data.owner)
+    expect(Utils.isSorted(owners2, ['-name'])).toBeTruthy()
   })
 
 })

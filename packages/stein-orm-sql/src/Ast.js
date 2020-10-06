@@ -387,7 +387,16 @@ export default class SqlAst {
     for (const sortKey of toSort) {
       const [column, direction] = parseSortField(sortKey)
 
-      if (this.prefixColumns && !column.includes('.')) {
+      if (column.includes('.')) {
+        const split = column.split('.')
+        if (split.length > 2) throw new Error(`Sort key '${column}' contains too many relations (max one)`)
+        const [relationKey, key] = split
+        const relation = this.getRelation(relationKey)
+        this.join(relationKey, relation)
+        this.sort.push({column: this.columnName(key, relation.reverseModelType.tableName), direction})
+      }
+
+      else if (this.prefixColumns && !column.includes('.')) {
         this.sort.push({column: this.columnName(column, this.modelType.tableName), direction})
       }
       else {
@@ -421,22 +430,21 @@ export default class SqlAst {
       this.select.push(this.prefixColumns ? this.prefixColumn(col, this.modelType.tableName) : col)
     }
 
-    if (this.query.$include) {
-      return Array.from(this.query.$include).map((key) =>
-        (this.select = this.select.concat(this.joins[key].columns)))
+    if (this.query.$include && this.query.$include.length) {
+      this.query.$include.forEach(key => {
+        this.select.push.apply(this.select, this.joins[key].columns)
+      })
     }
   }
 
   jsonColumnName = (attr, col, table) => `${table}->'${col}'->>'${attr}'`
 
-  columnName = (col, table) => `${table}.${col}` //if table and @prefixColumns then "#{table}.#{col}" else col
+  columnName = (col, table) => `${table}.${col}`
 
   prefixColumn(col, table) {
     if (Array.from(col).includes('.')) return col
     return `${table}.${col} as ${this.tablePrefix(table)}${col}`
   }
-
-  prefixColumns = (cols, table) => Array.from(cols).map((col) => this.prefixColumn(col, table))
 
   tablePrefix = table => `${table}_`
 

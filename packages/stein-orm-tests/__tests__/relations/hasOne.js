@@ -2,7 +2,7 @@
     no-unused-vars,
 */
 import _ from 'lodash'
-import { createModel, Model } from 'stein-orm'
+import { createModel, Model, Utils } from 'stein-orm'
 import Fabricator from '../../src/Fabricator'
 import Flat from '../../src/hasOneModels/Flat'
 import Reverse from '../../src/hasOneModels/Reverse'
@@ -360,6 +360,38 @@ describe('HasOne', () => {
 
     const namedFlats = await Flat.find({'owner.reverse.name': {$ne: null}})
     expect(_.find(namedFlats, f => f.id === flat.id)).toBeFalsy()
+  })
+
+  it('Can sort on a related field (hasOne -> belongsTo)', async () => {
+    const flats = await Flat.find({$sort: 'owner.name'})
+    const flatsInc = await Flat.find({$sort: 'owner.name', $include: 'owner'})
+    const owners = _.map(flatsInc, f => f.data.owner)
+    expect(Utils.isSorted(owners, ['name'])).toBeTruthy()
+
+    // ensure same sort when using $include
+    for (const owner of owners) {
+      expect(owner.data.flat_id).toEqual(flats.shift().id)
+    }
+
+    const flatsInc2 = await Flat.find({$sort: '-owner.name', $include: 'owner'})
+    const owners2 = _.map(flatsInc2, f => f.data.owner)
+    expect(Utils.isSorted(owners2, ['-name'])).toBeTruthy()
+  })
+
+  it('Can sort on a related field (belongsTo -> hasOne)', async () => {
+    const owners = await Owner.find({$sort: 'flat.name'})
+    const ownersInc = await Owner.find({$sort: 'flat.name', $include: 'flat'})
+    const flats = _.map(ownersInc, f => f.data.flat)
+    expect(Utils.isSorted(flats, ['name'])).toBeTruthy()
+
+    // ensure same sort when using $include
+    for (const flat of flats) {
+      expect(flat.id).toEqual(owners.shift().data.flat_id)
+    }
+
+    const ownersInc2 = await Owner.find({$sort: '-flat.name', $include: 'flat'})
+    const flats2 = _.map(ownersInc2, f => f.data.flat)
+    expect(Utils.isSorted(flats2, ['-name'])).toBeTruthy()
   })
 
 })
