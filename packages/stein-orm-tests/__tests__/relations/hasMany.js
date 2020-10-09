@@ -61,7 +61,7 @@ describe('HasMany', () => {
       Store: require('stein-orm-sql'),
       url: `${DATABASE_URL}/parents`,
       schema: _.defaults({}, schema, {
-        owner() { return ['hasMany', Owner] },
+        owners() { return ['hasMany', Owner] },
       }),
     })(class Parent extends Model {})
 
@@ -332,7 +332,8 @@ describe('HasMany', () => {
 
   it('Can sort on a related field (belongsTo -> hasMany)', async () => {
     const singles = await Single.find({$sort: 'owner.name'})
-    const singlesInc = await Single.find({$sort: 'owner.name', $include: 'owner'})
+    const singlesInc = await Single.find({$sort: 'owner.name', $include: 'owner', $verbose: true})
+    console.log(singlesInc)
     const owners = _.map(singlesInc, f => f.data.owner)
     expect(Utils.isSorted(owners, ['name'])).toBeTruthy()
 
@@ -344,6 +345,12 @@ describe('HasMany', () => {
     const singlesInc2 = await Single.find({$sort: '-owner.name', $include: 'owner'})
     const owners2 = _.map(singlesInc2, f => f.data.owner)
     expect(Utils.isSorted(owners2, ['-name'])).toBeTruthy()
+  })
+
+  it('Can sort on a related field (belongsTo -> hasMany) with a nested related query', async () => {
+    const single = await Single.findOne()
+    const doubles = await Double.find({'anotherOwner.singles': {name: single.data.name}, $sort: ['owner.name'], $verbose: true})
+    expect(doubles).toBeTruthy()
   })
 
 })

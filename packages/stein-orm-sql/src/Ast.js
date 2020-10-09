@@ -216,8 +216,11 @@ export default class SqlAst {
     this.prefixColumns = true
     if (!relation) relation = this.getRelation(relationKey)
     const modelType = relation.reverseModelType
+    const joinKey = modelType.tableName
 
-    const join = this.joins[relationKey] || {}
+    if (options.skipIfExists && this.joins[joinKey]) return
+
+    const join = this.joins[joinKey] || {}
     const tableName = modelType.tableName
 
     const asTableName = relation.isManyToMany() && relation.self ? `_join_${tableName}` : null
@@ -230,7 +233,7 @@ export default class SqlAst {
 
     if (asTableName) join.asTableName = asTableName
 
-    return this.joins[relationKey] = join
+    return this.joins[joinKey] = join
   }
 
   isJsonField(jsonField, _modelType) {
@@ -392,7 +395,7 @@ export default class SqlAst {
         if (split.length > 2) throw new Error(`Sort key '${column}' contains too many relations (max one)`)
         const [relationKey, key] = split
         const relation = this.getRelation(relationKey)
-        this.join(relationKey, relation)
+        this.join(relationKey, relation, {skipIfExists: true})
         this.sort.push({column: this.columnName(key, relation.reverseModelType.tableName), direction})
       }
 
@@ -432,7 +435,8 @@ export default class SqlAst {
 
     if (this.query.$include && this.query.$include.length) {
       this.query.$include.forEach(key => {
-        this.select.push.apply(this.select, this.joins[key].columns)
+        const join = _.find(_.values(this.joins), j => j.key === key)
+        if (join) this.select.push.apply(this.select, join.columns)
       })
     }
   }

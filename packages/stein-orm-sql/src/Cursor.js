@@ -237,10 +237,11 @@ export default class SqlCursor extends Cursor {
         }
         else {
           // No match means we check joined models
-          for (const relationKey in ast.joins) {
-            const join = ast.joins[relationKey]
+          for (const table in ast.joins) {
+            const join = ast.joins[table]
 
-            if (join.include) {
+            if (join && join.include) {
+              const relationKey = join.key
               const relatedJson = (rowRelationJson[relationKey] || (rowRelationJson[relationKey] = {}))
               const includeMatch = ast.prefixRegex(join.asTableName || join.relation.reverseModelType.tableName).exec(key)
               if (includeMatch) {
