@@ -58,13 +58,15 @@ export default class RestController extends JsonController {
 
   index(req, res) {
     const cache = this.cache ? this.cache.cache : null
-    if (req.method === 'HEAD') { return this.headByQuery.apply(this, arguments) } // Express4
+
+    if (this.requireXhr && !req.xhr) return this.sendStatus(res, 400)
+    if (req.method === 'HEAD') return this.headByQuery.apply(this, arguments)
 
     const done = (err, result) => {
       if (this.verbose) { console.timeEnd(`index_${this.route}`) }
       if (err) return this.sendError(res, err)
       const { json, status } = result
-      if (status) { return this.sendStatus(res, status) }
+      if (status) return this.sendStatus(res, status)
 
       if (req.query.$csv) return this.sendCSV(req, res, json)
       return res.json(json)
@@ -86,7 +88,7 @@ export default class RestController extends JsonController {
       if (this.verbose) { console.timeEnd(`show_${this.route}`) }
       if (err) return this.sendError(res, err)
       const { json, status } = result
-      if (status) { return this.sendStatus(res, status) }
+      if (status) return this.sendStatus(res, status)
       return res.json(json)
     }
 
@@ -215,7 +217,11 @@ export default class RestController extends JsonController {
     const key = `fetchJSON_${this.route}`
     if (this.verbose) { console.time(key) }
 
-    const query = this.parseSearchQuery(parseQuery(req.query))
+    let query = this.parseSearchQuery(parseQuery(req.query))
+    if (this.preprocessQuery) {
+      query = this.preprocessQuery(req, query)
+    }
+
     let cursor = this.modelType.cursor(query)
     if (whitelist) { cursor = cursor.whiteList(whitelist) }
 
