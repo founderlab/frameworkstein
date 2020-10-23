@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-rest",
-  "version": "7.4.15",
+  "version": "7.4.16",
   "description": "",
   "main": "lib/index.js",
   "author": {
