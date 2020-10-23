@@ -44,6 +44,15 @@ class JoinTableControllerSingleton {
         delete joinTableOptions[_key]
       }
 
+      try {
+        if (joinTableOptions.cache && joinTableOptions.cache.createHash) {
+          joinTableOptions.cache.cascade = _.uniq([...(joinTableOptions.cache.cascade || []), joinTableOptions.cache.createHash(options)])
+        }
+      }
+      catch (err) {
+        console.log(`JoinTableControllerSingleton.generateControllers: failed to assign cache dependencies. Error: ${err}`)
+      }
+
       joinTableOptions.modelType = relation.joinTable
       const joinTableAuth = options.auth ? options.auth.relations && options.auth.relations[key] : null
       if (joinTableAuth) joinTableOptions.auth = joinTableAuth
