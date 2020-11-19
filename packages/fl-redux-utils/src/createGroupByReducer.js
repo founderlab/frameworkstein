@@ -15,7 +15,7 @@ export default function createGroupByReducer(_actionTypes, groupingKey, options=
 
     if (_.includes(deleteActions, action.type)) {
       const id = action.deletedModel.id.toString()
-      const _key = groupingKey(action.deletedModel)
+      const _key = groupingKey(action.deletedModel, action)
       const key = keyFn(_key)
       const current = state.get(key)
 
@@ -35,7 +35,7 @@ export default function createGroupByReducer(_actionTypes, groupingKey, options=
     }
 
     else if (_.includes([...loadActions, ...saveActions], action.type)) {
-      const byGroup = _.groupBy(action.models, model => groupingKey(model))
+      const byGroup = _.groupBy(action.models, model => groupingKey(model, action))
       if (options.keyFromAction) {
         state = state.merge({[options.keyFromAction(action)]: new Set()})
       }
