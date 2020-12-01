@@ -44,8 +44,8 @@ export default class FLInput extends React.Component {
     dateFormat: PropTypes.string,
     className: PropTypes.string,
     localeDateFormat: PropTypes.string,
-    prepend: PropTypes.string,
-    append: PropTypes.string,
+    prepend: PropTypes.node,
+    append: PropTypes.node,
   }
 
   static defaultProps = {
