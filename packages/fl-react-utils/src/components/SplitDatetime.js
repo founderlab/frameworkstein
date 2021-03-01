@@ -35,6 +35,7 @@ export default class SplitDatetime extends React.Component {
     defaultTime: PropTypes.object,
     readOnly: PropTypes.bool,
     inline: PropTypes.bool,
+    className: PropTypes.string,
   }
 
   static defaultProps = {
@@ -108,7 +109,7 @@ export default class SplitDatetime extends React.Component {
   }
 
   render() {
-    const { label, dateLabel, timeLabel, meta, helpMd, helpTop, readOnly, inline } = this.props
+    const { label, dateLabel, timeLabel, meta, helpMd, helpTop, readOnly, inline, className } = this.props
     const inputProps = _.extend({}, this.props.input, this.props.inputProps)
 
     let help = this.props.help
@@ -191,7 +192,7 @@ export default class SplitDatetime extends React.Component {
     }
 
     return (
-      <FormGroup className="form-group split-datetime">
+      <FormGroup className={className || 'form-group split-datetime'}>
         {label && (<Label>{label}</Label>)}
         {help && helpTop && (<FormText color="muted">{help}</FormText>)}
         {controls}
