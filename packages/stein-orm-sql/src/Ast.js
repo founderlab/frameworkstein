@@ -98,6 +98,7 @@ export default class SqlAst {
           else {
             cond = this.parseDotRelation(key, value, options)
             conditions.push(cond)
+            // this.join(cond.relation.key, cond.relation)
           }
 
         // Many to Many relationships may be queried on the foreign key of the join table
@@ -182,12 +183,12 @@ export default class SqlAst {
         method: options.method === 'orWhere' ? 'orWhereIn' : 'whereIn',
         dotWhere: this.relatedCondition(keys, value, modelType, options),
       }
-
-    // No further relations to process -  the remaining key is the field to query against
     }
     else {
+      // No further relations to process -  the remaining key is the field to query against
       const key = keys.pop()
       const dotRelation = relation.reverseModelType.relation(key)
+
       // check if this is a related field and we're given a nested query for a value
       // if we have one create another ast for the nested query
       // join the intermediate table
@@ -330,7 +331,7 @@ export default class SqlAst {
 
           if (mongoOp === '$ne') {
             if (_.isNull(mongoVal)) {
-              condition.conditions.push({key, method: `${method}NotNull`}, {relation: options.relation, modelType: options.modelType})
+              condition.conditions.push({key, method: `${method}NotNull`, relation: options.relation, modelType: options.modelType})
             }
             else {
               condition.conditions.push({
@@ -476,7 +477,7 @@ export default class SqlAst {
   }
 
   print() {
-    let s = '********************** AST ******************************'
+    let s = '\n\n********************** AST ******************************\n\n'
 
     s += '---- Input ----\n'
     s += '> query: ' + JSON.stringify(this.query) + '\n\n'
@@ -485,7 +486,6 @@ export default class SqlAst {
     s += '> select:\n' + this.select + '\n'
     s += '> where:\n'
     s += this.printCondition(this.where)
-    console.log('this.where', this.where)
 
     s += '> joins:\n'
     for (const key in this.joins) {
@@ -520,7 +520,7 @@ export default class SqlAst {
       s += indent + ']\n'
     }
     if (cond.dotWhere) {
-      s += this.printCondition(cond.dotWhere, indent + '  ')
+      s += this.printCondition(cond.dotWhere, indent + '  .')
     }
 
     return s

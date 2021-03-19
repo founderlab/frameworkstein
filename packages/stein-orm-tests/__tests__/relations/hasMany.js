@@ -175,7 +175,6 @@ describe('HasMany', () => {
 
     const double = await Double.cursor({
       'owner.singles': singleQuery,
-      $verbose: true,
       $one: true,
     }).toJSON()
 
@@ -192,7 +191,6 @@ describe('HasMany', () => {
 
     const double = await Double.cursor({
       'owner.parent': parentQuery,
-      $verbose: true,
       $one: true,
     }).toJSON()
 
@@ -236,6 +234,17 @@ describe('HasMany', () => {
 
     expect(double).toBeTruthy()
     const json = await Owner.find({'doubles.name': double.data.name})
+    const testModel = json[0]
+
+    expect(testModel).toBeTruthy()
+    expect(testModel.id).toBe(double.data.owner_id)
+  })
+
+  it('Can query on related (one-way hasMany) models with $ne', async () => {
+    const double = await Double.findOne({owner_id: {$ne: null}})
+
+    expect(double).toBeTruthy()
+    const json = await Owner.find({'doubles.name': {$ne: 'John'}})
     const testModel = json[0]
 
     expect(testModel).toBeTruthy()
@@ -332,8 +341,7 @@ describe('HasMany', () => {
 
   it('Can sort on a related field (belongsTo -> hasMany)', async () => {
     const singles = await Single.find({$sort: 'owner.name'})
-    const singlesInc = await Single.find({$sort: 'owner.name', $include: 'owner', $verbose: true})
-    console.log(singlesInc)
+    const singlesInc = await Single.find({$sort: 'owner.name', $include: 'owner'})
     const owners = _.map(singlesInc, f => f.data.owner)
     expect(Utils.isSorted(owners, ['name'])).toBeTruthy()
 
@@ -349,7 +357,7 @@ describe('HasMany', () => {
 
   it('Can sort on a related field (belongsTo -> hasMany) with a nested related query', async () => {
     const single = await Single.findOne()
-    const doubles = await Double.find({'anotherOwner.singles': {name: single.data.name}, $sort: ['owner.name'], $verbose: true})
+    const doubles = await Double.find({'anotherOwner.singles': {name: single.data.name}, $sort: ['owner.name']})
     expect(doubles).toBeTruthy()
   })
 

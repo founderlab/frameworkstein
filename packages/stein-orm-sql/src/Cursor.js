@@ -109,6 +109,7 @@ export default class SqlCursor extends Cursor {
       this.query_ready_time = new Date().getTime()
 
       console.log('\n----------')
+      console.log('> starting runQuery')
       ast.print()
       console.dir(query.toString(), {depth: null, colors: true})
       console.log('Built in', this.query_ready_time-this.start_time, 'ms')

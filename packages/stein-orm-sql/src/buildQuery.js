@@ -45,12 +45,42 @@ function joinToRelation(query, relation, options={}) {
   }
 }
 
+function appendJoinedWhere(query, condition, options={}) {
+  const fromModelType = condition.relation.modelType
+  const relationModelType = condition.relation.reverseModelType
+
+  const fromTable = fromModelType.tableName
+  const toTable = relationModelType.tableName
+  const pivotTable = condition.relation.joinTable.tableName
+
+  const fromKey = `${fromTable}.id`
+  const pivotToKey = `${pivotTable}.${condition.relation.foreignKey}`
+  const pivotFromKey = `${pivotTable}.${condition.relation.reverseRelation.foreignKey}`
+
+  query.whereIn(fromKey, builder => {
+    return builder.select(pivotToKey).from(pivotTable).whereIn(pivotFromKey, builder2 => {
+
+      if (condition.operator) {
+        return builder2.select('id').from(toTable)[condition.method](condition.key, condition.operator, condition.value)
+      }
+      return builder2.select('id').from(toTable)[condition.method](condition.key, condition.value)
+
+    })
+  })
+
+  return query
+}
+
 function appendRelatedWhere(query, condition, options={}) {
   let fromKey
   let select
 
   const fromModelType = condition.relation.modelType
   const table = condition.modelType.tableName
+
+  if ((condition.relation.type === 'hasMany') && (condition.relation.reverseRelation.type === 'hasMany')) {
+    return appendJoinedWhere(query, condition, options)
+  }
 
   if (condition.relation.type === 'belongsTo') {
     fromKey = `${fromModelType.tableName}.${condition.relation.reverseRelation.foreignKey}`
@@ -86,7 +116,7 @@ function appendRelatedWhere(query, condition, options={}) {
     }
     else if (condition.conditions && condition.conditions.length) {
       builder.select(select).from(table)
-      appendWhere(builder, condition)
+      condition.conditions.forEach(c => appendWhere(builder, c))
       return builder
     }
     return builder.select(select).from(table)[condition.method](condition.key)
@@ -108,7 +138,6 @@ function appendNestedRelatedWhere(query, condition, options={}) {
     selectKey = condition.relation.reverseRelation.foreignKey
   }
 
-  // console.log('condition.ast.where', condition.ast.where)
   return query.whereIn(idKey, builder => {
     builder.select(selectKey).from(relatedTable)
     appendWhere(builder, condition.ast.where, options)
@@ -117,49 +146,14 @@ function appendNestedRelatedWhere(query, condition, options={}) {
 }
 
 function appendWhere(query, condition, options={}) {
-
-  // console.log('condition', condition)
   if (condition.ast) {
     appendNestedRelatedWhere(query, condition, options)
   }
+  else if (condition.relation) {
+    appendRelatedWhere(query, condition, options)
+  }
   else if (!_.isUndefined(condition.key) || condition.dotWhere) {
-
-    if (condition.relation) {
-      if ((condition.relation.type === 'hasMany') && (condition.relation.reverseRelation.type === 'hasMany')) {
-
-        const fromModelType = condition.relation.modelType
-        const relationModelType = condition.relation.reverseModelType
-
-        const fromTable = fromModelType.tableName
-        const toTable = relationModelType.tableName
-        const pivotTable = condition.relation.joinTable.tableName
-
-        const fromKey = `${fromTable}.id`
-        const pivotToKey = `${pivotTable}.${condition.relation.foreignKey}`
-
-        const pivotFromKey = `${pivotTable}.${condition.relation.reverseRelation.foreignKey}`
-
-        if (condition.operator) {
-          query.whereIn(fromKey, builder => {
-            return builder.select(pivotToKey).from(pivotTable).whereIn(pivotFromKey, builder2 => {
-              return builder2.select('id').from(toTable)[condition.method](condition.key, condition.operator, condition.value)
-            })
-          })
-        }
-        else {
-          query.whereIn(fromKey, builder => {
-            return builder.select(pivotToKey).from(pivotTable).whereIn(pivotFromKey, builder2 => {
-              return builder2.select('id').from(toTable)[condition.method](condition.key, condition.value)
-            })
-          })
-        }
-
-      }
-      else {
-        appendRelatedWhere(query, condition, options)
-      }
-    }
-    else if (condition.operator) {
+    if (condition.operator) {
       query[condition.method](condition.key, condition.operator, condition.value)
     }
     else {
