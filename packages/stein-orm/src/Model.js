@@ -172,7 +172,7 @@ export default class SteinModel {
       if (relation && relation.type === 'belongsTo') {
         json[relation.foreignKey] = (value && value.id) || value
       }
-      else if (_.isArray(value)) {
+      if (_.isArray(value)) {
         json[key] = _.map(value, v => v instanceof SteinModel ? v.toJSON(options) : v)
       }
       else if (value instanceof SteinModel) {
