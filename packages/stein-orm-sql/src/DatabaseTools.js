@@ -10,6 +10,7 @@ const KNEX_TYPES = {
   biginteger: 'bigInteger',
 }
 
+
 export default class DatabaseTools {
 
   constructor(connection, tableName, schema) {
