@@ -5,12 +5,6 @@ import Queue from 'queue-async'
 
 const KNEX_COLUMN_OPTIONS = ['textType', 'length', 'precision', 'scale', 'value', 'values']
 
-// TODO: when knex fixes join operator, remove this deprecation warning
-const knexHelpers = require('knex/lib/helpers')
-const KNEX_SKIP = ['The five argument join']
-const _deprecate = knexHelpers.deprecate
-knexHelpers.deprecate = (msg) => { if (msg.indexOf(KNEX_SKIP) !== 0) { return _deprecate.apply(this, _.toArray(arguments)) } }
-
 const KNEX_TYPES = {
   datetime: 'dateTime',
   biginteger: 'bigInteger',
