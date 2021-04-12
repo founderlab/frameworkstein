@@ -22,9 +22,6 @@
     "url": "https://github.com/founderlab/frameworkstein/issues"
   },
   "homepage": "https://github.com/founderlab/packages/stein-orm-migrations#readme",
-  "engines": {
-    "node": "8.3.0"
-  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
