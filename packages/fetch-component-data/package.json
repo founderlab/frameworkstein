@@ -16,8 +16,7 @@
     "prepublish": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
     "build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
     "watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
-    "test": "eval $(cat test/.env) mocha test/**/*.tests.js",
-    "cover": "eval $(cat test/.env) istanbul cover _mocha -- test/**/*.tests.js"
+    "test": "eval $(cat __tests__/.env) jest --runInBand"
   },
   "dependencies": {
     "lodash": "^4.0.0",
@@ -28,6 +27,16 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0"
+    "@babel/core": "^7.0.0",
+    "babel-jest": "^24.0.0",
+    "jest": "^24.0.0"
+  },
+  "jest": {
+    "verbose": true,
+    "bail": true,
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
   }
 }

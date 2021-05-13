@@ -157,7 +157,6 @@ export async function processAction(next, _action, options) {
   return finalAction
 }
 
-
 const defaults = {
   unpackAction,
   executeRequest,

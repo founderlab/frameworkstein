@@ -6,21 +6,18 @@ fetchComponentDataMiddleware
 ------------------
 
 Redux middleware to ensure container components get a chance to load their data when they're mounted.
-Detects `redux-router` or `react-router-redux` route change actions and calls `fetchComponentData` on the component of the route that is being navigated to.
+Detects `connected-react-router` route change actions and calls `fetchData` on the component of each matching route.
 
-This middleware is much the same as adding a call to `fetchData` in each component's `componentDidMount` function.
 
 
 fetchComponentData
 ------------------
 
-Calls Component.fetchData on a list of React Components. Used to tie in the data loading story for Frameworkstein.
+Expects a `branch` option, an array of matching routes provided by react-router. Calls `fetchData` on each route's component. Used to tie in the data loading story for Frameworkstein.
 
 Best used in conjunction with [redux-request-middleware](https://github.com/frameworkstein/redux-request-middleware) or another method of returning a promise from dispatched actions. See there for more detailed docs.
 
-Used internally by `fl-react-server`. 
-
-There's no magic here, just a convenience function that enforces the `fetchData` convention.
+Used internally by `fl-react-server` to ensure data is loaded before doing a server side render.
 
 
 

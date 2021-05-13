@@ -1,5 +1,32 @@
 
-async function _fetchComponentData(options) {
+// Executes fetchdata on a component, handles async or callback formats
+function executeFetch(Component, executeFetchOpts) {
+  return new Promise((resolve, reject) => {
+    let done = false
+    const p = Component.fetchData(executeFetchOpts, (err, res) => {
+      if (done) return
+      done = true
+      if (err && res && !err.status) {
+        err.status = res.status
+      }
+      if (err) return reject(err)
+      resolve(res)
+    })
+    if (p && p.then) {
+      p.then(res => {
+        if (done) return
+        done = true
+        resolve(res)
+      }).catch(err => {
+        if (done) return
+        done = true
+        reject(err)
+      })
+    }
+  })
+}
+
+async function _executeFetchComponentData(options) {
   const { store, action, location } = options
   const promises = []
   let result = {}
@@ -14,16 +41,14 @@ async function _fetchComponentData(options) {
       const componentModule = await Component.load()
       Component = componentModule.default
     }
-
     while (Component.WrappedComponent) {
       Component = Component.WrappedComponent
     }
 
-    if (!Component.fetchData) continue
-
-    promises.push(Component.fetchData({store, action, match, location}))
+    if (Component.fetchData) {
+      promises.push(executeFetch(Component, {store, action, match, location}))
+    }
   }
-
   const results = await Promise.all(promises)
   for (const res of results) {
     if (res) result = {...result, ...res}
@@ -35,12 +60,12 @@ async function _fetchComponentData(options) {
 /*
  *  @param store the current redux store
  *  @param branch the matching react-router routes
- *  @param action the action that has triggered this fetch
+ *  @param action the action that has triggered this executeFetch
  *  @param callback an optional callback, will return a promise if not provided
  */
 export default async function fetchComponentData(options, callback) {
   try {
-    const res = await _fetchComponentData(options)
+    const res = await _executeFetchComponentData(options)
     if (callback) return callback(null, res)
     return res
   }

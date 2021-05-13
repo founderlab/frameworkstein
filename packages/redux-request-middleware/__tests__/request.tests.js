@@ -187,8 +187,6 @@ describe('requestMiddleware', () => {
       type: TYPE,
       request: req,
       callback: err => {
-        console.log('cb', err)
-        console.log('req.end.callCount', req.end.callCount)
         expect(err).toBeTruthy()
         expect(next.calledTwice).toBeTruthy()
         expect(req.end.callCount).toEqual(times)
