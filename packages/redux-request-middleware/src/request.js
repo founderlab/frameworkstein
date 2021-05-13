@@ -1,50 +1,17 @@
-import _ from 'lodash'
-import retry from 'retry-unless'
+import isUndefined from 'lodash/isUndefined'
+import isFunction from 'lodash/isFunction'
+import isObject from 'lodash/isObject'
+import retry from 'async-retry'
 
 
-export function extractRequest(action) {
+export function unpackAction(action) {
   const { request, callback, parseResponse, ...rest } = action
   return {request, callback, parseResponse, action: rest}
 }
 
-export function getEndFn(request) {
-  if (!request) return null
-
-  // Known api - superagent or orm
-  for (const methodName of ['toJSON', 'end']) {
-    const end = request[methodName]
-    if (_.isFunction(end)) return end.bind(request)
-  }
-
-  // Promise
-  if (_.isFunction(request.then)) {
-    return callback => request.then(res => callback(null, res)).catch(callback)
-  }
-
-  // Callback function
-  if (_.isFunction(request)) {
-    return request
-  }
-
-  return null
-}
-
 // Try a bunch of stuff to extract an error message
-export async function getError(err, res) {
-  if (err) {
-    if (err.text) {
-      let json
-      try {
-        json = JSON.parse(err.text)
-      }
-      catch (e) {
-        // noop
-      }
-      if (json && json.error) return json.error
-    }
-    return err
-  }
-  if (_.isUndefined(res)) return '[redux-request-middleware] No response received'
+export async function getErrorFromResponse(res) {
+  if (isUndefined(res)) return '[redux-request-middleware] No response received'
   if (!res) return null
   if (res.body && res.body.error) return res.body.error
   if (res.error) return res.error
@@ -63,20 +30,147 @@ export async function getError(err, res) {
   return null
 }
 
+export async function executeRequestWithRetries(request, options) {
+  let res
+  if (options.retry) {
+    options.retry.retries = options.retry.times ? (options.retry.times-1) : options.retry.retries // legacy api
+    await retry(async bail => {
+      try {
+        res = await options.executeRequest(request)
+      }
+      catch (err) {
+        if (!options.shouldRetry(err)) return bail(err)
+        throw new Error(err)
+      }
+    }, options.retry)
+  }
+  else {
+    res = await options.executeRequest(request)
+  }
+  return res
+}
+
+export function promisifyRequest(request) {
+  return new Promise((resolve, reject) => {
+    let done = false
+
+    const p = request((err, res) => {
+      if (done) return
+      done = true
+      if (err && res && !err.status) {
+        err.status = res.status
+      }
+      if (err) return reject(err)
+      resolve(res)
+    })
+
+    if (p && p.then) {
+      p.then(res => {
+        if (done) return
+        done = true
+        resolve(res)
+      }).catch(err => {
+        if (done) return
+        done = true
+        reject(err)
+      })
+    }
+  })
+}
+
+export async function executeRequest(request) {
+  let res
+  try {
+    // Known api - orm
+    if (request.toJSON) {
+      res = await request.toJSON()
+    }
+    // End function
+    else if (isFunction(request.end)) {
+      res = await promisifyRequest(request.end.bind(request))
+    }
+    // Callback function
+    else if (isFunction(request)) {
+      res = await promisifyRequest(request)
+    }
+
+    const errorText = await getErrorFromResponse(res)
+    if (errorText) {
+      const err = new Error(errorText)
+      err.status = res && res.status
+      throw err
+    }
+
+    return res
+  }
+  catch (err) {
+    if (err.text) {
+      let json
+      try {
+        json = JSON.parse(err.text)
+      }
+      catch (e) {
+        // noop
+      }
+      if (json && json.error) throw new Error(json.error)
+    }
+    throw err
+  }
+}
+
+export async function processAction(next, _action, options) {
+  const { request, callback, parseResponse, action } = options.unpackAction(_action)
+  if (!request || !(isFunction(request) || isObject(request))) return next(action)
+
+  const { type, ...rest } = action
+  const START = type + options.suffixes.START
+  const ERROR = type + options.suffixes.ERROR
+  const SUCCESS = type + options.suffixes.SUCCESS
+
+  next({type: START, ...rest})
+
+  let finalAction = {}
+  let error
+  try {
+    const res = await executeRequestWithRetries(request, options)
+    finalAction = {res, type: SUCCESS, ...rest}
+    if (parseResponse) finalAction = parseResponse(finalAction)
+  }
+  catch (err) {
+    error = err
+    finalAction = {error: err, type: ERROR, ...rest}
+  }
+
+  try {
+    await next(finalAction)
+  }
+  catch (err) {
+    console.log('[redux-request-middleware] Error from a callback or reducer processing the requested action', action)
+    console.log(err)
+  }
+
+  // Return the final action for the benefit of components dispatching the action
+  if (callback && isFunction(callback))  {
+    return callback(error, finalAction)
+  }
+  if (error) throw error
+  return finalAction
+}
+
+
 const defaults = {
-  extractRequest,
-  getEndFn,
-  getError,
+  unpackAction,
+  executeRequest,
+  getErrorFromResponse,
   suffixes: {
     START: '_START',
     ERROR: '_ERROR',
     SUCCESS: '_SUCCESS',
   },
   retry: {
-    times: 20,
-    interval: retryCount => Math.min(50 * (2**retryCount), 1000),
+    retries: 10,
   },
-  check: err => {
+  shouldRetry: err => {
     const status = err.status
     if (status && status.toString()[0] === '4' || status === 500) return true
     if (err.toString().match(/status (4|500)/)) return true
@@ -84,85 +178,13 @@ const defaults = {
   },
 }
 
-// Wrap the end function to place the error status code on it if not present
-const wrapEnd = endFn => callback => {
-  let done = false
-
-  const p = endFn((err, res) => {
-    if (done) return
-    done = true
-    if (err && res && !err.status) {
-      err.status = res.status
-    }
-    callback(err, res)
-  })
-
-  if (p && p.then) {
-    p.then(res => {
-      if (done) return
-      done = true
-      callback(null, res)
-    }).catch(err => {
-      if (done) return
-      done = true
-      callback(err)
-    })
-  }
-}
-
 export default function createRequestMiddleware(_options={}) {
-  const options = _.merge({}, defaults, _options)
+  const options = {...defaults, ..._options}
 
   return function requestMiddleware() {
-    return next => _action => {
+    return next => async _action => {
 
-      const { request, callback, parseResponse, action } = options.extractRequest(_action)
-      const end = options.getEndFn(request)
-      if (!end) return next(action)
-
-      const { type, ...rest } = action
-      const START = type + options.suffixes.START
-      const ERROR = type + options.suffixes.ERROR
-      const SUCCESS = type + options.suffixes.SUCCESS
-
-      next({type: START, ...rest})
-
-      return new Promise((resolve, reject) => {
-
-        const wrappedEnd = wrapEnd(end, type)
-
-        const done = async (err, res) => {
-          const error = await options.getError(err, res)
-          let finalAction = {}
-          if (error) {
-            finalAction = {res, error, type: ERROR, ...rest}
-          }
-          else {
-            finalAction = {res, type: SUCCESS, ...rest}
-            if (parseResponse) finalAction = parseResponse(finalAction)
-          }
-
-          try {
-            await next(finalAction)
-
-            if (callback && _.isFunction(callback))  {
-              return callback(error, finalAction)
-            }
-
-            if (error) reject(error)
-            else resolve(finalAction)
-          }
-          catch (err) {
-            console.log('[redux-request-middleware] Error from a callback or reducer processing the requested action', action)
-            console.log(err)
-          }
-        }
-
-        if (options.retry) {
-          return retry(options.retry, wrappedEnd, options.check, done)
-        }
-        return wrappedEnd(done)
-      })
+      return processAction(next, _action, options)
     }
   }
 }

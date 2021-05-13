@@ -24,6 +24,7 @@
     "@babel/core": "^7.0.0"
   },
   "dependencies": {
+    "@loadable/server": "^5.15.0",
     "connected-react-router": "^6.0.0",
     "fetch-component-data": "^7.0.17",
     "history": "^4.0.0",

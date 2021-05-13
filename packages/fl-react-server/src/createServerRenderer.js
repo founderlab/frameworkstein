@@ -10,6 +10,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { matchRoutes, renderRoutes } from 'react-router-config'
 import { fetchComponentData } from 'fetch-component-data'
 import serialize from 'serialize-javascript'
+import { ChunkExtractor } from '@loadable/server'
 import { jsAssets, cssAssets } from './assets'
 
 
@@ -27,6 +28,7 @@ const evalSource = (req, source) => _.isFunction(source) ? source(req) : source 
 const defaults = {
   entries: ['shared', 'app'],
   webpackAssetsPath: path.resolve(__dirname, '../../../webpack-assets.json'),
+  loadableStatsPath: './public/dist/loadable-stats.json',
 }
 
 async function checkRedirect({ req, store, branch }) {
@@ -51,7 +53,7 @@ async function checkRedirect({ req, store, branch }) {
 }
 
 export default function createServerRenderer(_options) {
-  const options = _.extend({}, defaults, _options)
+  const options = {...defaults, ..._options}
   const { createStore, getRoutes, gaId } = options
   const sendError = options.sendError || sendTextError
   const sendNotFound = options.sendNotFound || sendTextNotFound
@@ -62,15 +64,10 @@ export default function createServerRenderer(_options) {
 
   return async function app(req, res) {
     let scriptTags = ''
-    let cssTags = ''
+    let styleTags = ''
+    let linkTags = ''
 
     try {
-      const js = jsAssets(options.entries, options.webpackAssetsPath)
-      scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
-
-      const css = cssAssets(options.entries, options.webpackAssetsPath)
-      cssTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
-
       const serverState = {
         auth: req.user ? {user: _.omit(req.user, 'password', '_rev')} : {},
       }
@@ -96,7 +93,7 @@ export default function createServerRenderer(_options) {
         if (fetchResult.logout) req.logout()
         if (fetchResult.redirect) return res.redirect(fetchResult.redirect)
         if (fetchResult.status) {
-          if (fetchResult.status.toString() === '404') return sendNotFound(res, cssTags)
+          if (fetchResult.status.toString() === '404') return sendNotFound(res, styleTags)
           if (fetchResult.status.toString() !== '200') {
             const msg = fetchResult.message || `Sorry, we couldn't complete that request. Status: ${fetchResult.status}`
             return res.status(fetchResult.status).send(msg)
@@ -104,7 +101,7 @@ export default function createServerRenderer(_options) {
         }
       }
       catch (err) {
-        return sendError(res, err, cssTags)
+        return sendError(res, err, styleTags)
       }
 
       // Initial state now includes data fetched by components
@@ -122,7 +119,31 @@ export default function createServerRenderer(_options) {
         </Provider>
       )
 
-      const rendered = renderToString(component)
+      let renderedHtml
+
+      if (options.enableLoadable) {
+        const statsFile = path.resolve(options.loadableStatsPath)
+        const extractor = new ChunkExtractor({statsFile, entrypoints: options.entries})
+        const collectedComponent = extractor.collectChunks(component)
+
+        renderedHtml = renderToString(collectedComponent)
+
+        scriptTags = extractor.getScriptTags()
+        linkTags = extractor.getLinkTags()
+        styleTags = extractor.getStyleTags()
+      }
+      else {
+        console.log('legacy')
+        const js = jsAssets(options.entries, options.webpackAssetsPath)
+        scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
+
+        const css = cssAssets(options.entries, options.webpackAssetsPath)
+        styleTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
+
+        renderedHtml = renderToString(component)
+      }
+
+
       const head = Helmet.rewind()
 
       // Google analytics tag
@@ -151,14 +172,15 @@ export default function createServerRenderer(_options) {
             ${head.link}
             ${head.script}
 
-            ${cssTags}
+            ${styleTags}
+            ${linkTags}
             ${headerTags}
             <script type="application/javascript">
               window.__INITIAL_STATE__ = ${serialize(initialState, {isJSON: true})}
             </script>
           </head>
           <body id="app">
-            <div id="react-view">${rendered}</div>
+            <div id="react-view">${renderedHtml}</div>
             ${preScriptTags}
             ${scriptTags}
             ${gaTag}
@@ -169,7 +191,7 @@ export default function createServerRenderer(_options) {
       res.type('html').send(html)
     }
     catch (err) {
-      return sendError(res, err, cssTags)
+      return sendError(res, err, styleTags)
     }
   }
 }

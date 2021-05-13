@@ -78,20 +78,21 @@ describe('responseParserMiddleware', () => {
     expect(next.calledOnce).toBeTruthy()
   })
 
-  it('Parses a fetch response', () => {
+  it('Parses a fetch response', async () => {
+    const comparisonModel = {
+      id: 'model1id',
+      name: 'model1',
+    }
     const action = {
       res: {
-        json: () => {
-          return new Model({
-            id: 'model1id',
-            name: 'model1',
-          })
-        },
+        json: () => ({
+          ...comparisonModel,
+        }),
       },
     }
-    const next = createModelSpy(action.res)
+    const next = createJSONSpy(comparisonModel)
     const middleware = createResponseParserMiddleware()
-    middleware()(next)(action)
+    await middleware()(next)(action)
     expect(next.calledOnce).toBeTruthy()
   })
 

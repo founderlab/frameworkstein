@@ -2,7 +2,6 @@
     prefer-const,
     no-unused-vars,
 */
-import assert from 'assert'
 import { spy } from 'sinon'
 import { createRequestMiddleware } from '../src'
 
@@ -16,7 +15,6 @@ const TYPE = 'ACTIONTYPE'
 function createSpy() {
   return spy(action => {
     expect(action).toBeTruthy()
-    assert.ok(action.type === TYPE)
   })
 }
 
@@ -42,219 +40,225 @@ function createMiddlewareSpy() {
 
 describe('requestMiddleware', () => {
 
-  it('Passes through an action without a request', () => {
+  it('Passes through an action without a request', async () => {
     const next = createSpy()
     const action = {type: TYPE}
     const middleware = createRequestMiddleware({retry: false})
-    middleware()(next)(action)
+    await middleware()(next)(action)
     expect(next.calledOnce).toBeTruthy()
   })
 
-  it('Passes through an action with a request field that isnt a function', () => {
+  it('Passes through an action with a request field that isnt a function', async () => {
     const next = createSpy()
     const action = {type: TYPE, request: 'lol'}
     const middleware = createRequestMiddleware({retry: false})
-    middleware()(next)(action)
+    await middleware()(next)(action)
     expect(next.calledOnce).toBeTruthy()
   })
 
-  it('Passes through an action with a custom extractRequest method that isnt a function', () => {
+  it('Runs an action with a custom executeRequest method', async () => {
     const next = createSpy()
     const action = {type: TYPE, req: 'lol', request: () => {}}
     const middleware = createRequestMiddleware({
-      extractRequest: action => {
-        const { req, callback, ...rest } = action
-        return {request: req, callback, action: rest}
-      },
+      executeRequest: request => request(),
       retry: false,
     })
-    middleware()(next)(action)
-    expect(next.calledOnce).toBeTruthy()
+    await middleware()(next)(action)
+    expect(next.calledTwice).toBeTruthy()
   })
 
-  it('Calls a request', () => {
+  it('Calls a request', async () => {
     const req = {end: spy(callback => callback(null, {ok: true}))}
     const next = createMiddlewareSpy()
     const action = {type: TYPE, request: req}
 
     const middleware = createRequestMiddleware({retry: false})
-    middleware()(next)(action)
+    await middleware()(next)(action)
 
     expect(next.calledTwice).toBeTruthy()
     expect(req.end.calledOnce).toBeTruthy()
   })
 
-  it('Calls a request with retries', () => {
-    const times = 4
+  it('Calls a request with retries', async () => {
+    const retries = 4
     let called = 0
-    const req = {end: spy(callback => called++ < times-2 ? callback('Err') : callback(null, {ok: true}))}
+    const req = {end: spy(callback => ++called < retries-2 ? callback({status: 500}) : callback(null, {ok: true}))}
     const next = createMiddlewareSpy()
 
-    const action = {type: TYPE, request: req, callback: err => {
-      expect(!err).toBeTruthy()
-      expect(next.calledTwice).toBeTruthy()
-      assert.equal(req.end.callCount, times-2)
-    }}
+    const action = {
+      type: TYPE,
+      request: req,
+    }
 
-    const middleware = createRequestMiddleware({retry: {times}})
-    middleware()(next)(action)
+    const middleware = createRequestMiddleware({retry: {retries, minTimeout: 0, maxTimeout: 0}})
+    const a = await middleware()(next)(action)
+    expect(next.calledTwice).toBeTruthy()
+    expect(req.end.callCount).toEqual(retries-2)
   })
 
-  it('Succeeds when res.ok isnt false', () => {
+  it('Succeeds when res.ok isnt false', async () => {
     const req = {end: spy(callback => callback(null, [{json: 'yep'}]))}
     const next = createMiddlewareSpy()
     const action = {type: TYPE, request: req}
 
     const middleware = createRequestMiddleware({retry: false})
-    middleware()(next)(action)
+    await middleware()(next)(action)
 
     expect(next.calledTwice).toBeTruthy()
     expect(req.end.calledOnce).toBeTruthy()
   })
 
-  it('Calls a pure function request', () => {
+  it('Calls a pure function request', async () => {
     const req = spy(callback => callback(null, {ok: true}))
     const next = createMiddlewareSpy()
     const action = {type: TYPE, request: req}
 
     const middleware = createRequestMiddleware({retry: false})
-    middleware()(next)(action)
+    await middleware()(next)(action)
 
     expect(next.calledTwice).toBeTruthy()
     expect(req.calledOnce).toBeTruthy()
   })
 
-  it('Calls an async function request', () => {
+  it('Calls an async function request', async () => {
     const req = spy(async () => ({ok: true}))
     const next = createMiddlewareSpy()
     const action = {type: TYPE, request: req}
 
     const middleware = createRequestMiddleware({retry: false})
-    middleware()(next)(action)
+    await middleware()(next)(action)
 
-    expect(next.calledOnce).toBeTruthy()
+    expect(next.calledTwice).toBeTruthy()
     expect(req.calledOnce).toBeTruthy()
   })
 
-  it('Custom parses a response', () => {
+  it('Custom parses a response', async () => {
     const req = {end: spy(callback => callback(null, {ok: true}))}
     const next = createMiddlewareSpy()
     const wrapper = action => {
-      if (action.type === TYPE + suffixes.SUCCESS) assert.equal(action.changed, 'yup')
+      if (action.type === TYPE + suffixes.SUCCESS) expect(action.changed).toEqual('yup')
       next(action)
     }
     const action = {type: TYPE, request: req, parseResponse: action => ({changed: 'yup', ...action})}
 
     const middleware = createRequestMiddleware({retry: false})
-    middleware()(wrapper)(action)
+    await middleware()(wrapper)(action)
 
     expect(next.calledTwice).toBeTruthy()
     expect(req.end.calledOnce).toBeTruthy()
   })
 
-  it('Calls a request then calls a callback', () => {
+  it('Calls a request then calls a callback', async () => {
     const req = {end: spy(callback => callback(null, {ok: true}))}
     const next = createMiddlewareSpy()
     const callback = spy(err => {expect(!err).toBeTruthy()})
     const action = {callback, type: TYPE, request: req}
 
     const middleware = createRequestMiddleware({retry: false})
-    middleware()(next)(action)
+    await middleware()(next)(action)
 
     expect(next.calledTwice).toBeTruthy()
     expect(callback.calledOnce).toBeTruthy()
     expect(req.end.calledOnce).toBeTruthy()
   })
 
-  it('Calls a request with config', () => {
-    const req = {next: spy(callback => callback(null, {ok: true}))}
-    const next = createMiddlewareSpy()
-    const action = {type: TYPE, aRequest: req}
-
-    const extractRequest = (action) => {
-      const { aRequest, ...rest } = action
-      return {request: aRequest, action: rest}
-    }
-    const getEndFn = request => request.next.bind(request)
-
-    const middleware = createRequestMiddleware({extractRequest, getEndFn, retry: false})
-    middleware()(next)(action)
-
-    expect(next.calledTwice).toBeTruthy()
-    expect(req.next.calledOnce).toBeTruthy()
-  })
-
-  it('Errors from an error callback', () => {
+  it('Errors from an error callback', async () => {
     const req = {end: spy(callback => callback(new Error('failed')))}
     const next = createMiddlewareSpy()
     const action = {type: TYPE, request: req}
 
-    const middleware = createRequestMiddleware({retry: false})
-    middleware()(next)(action)
-
-    expect(next.calledTwice).toBeTruthy()
-    expect(req.end.calledOnce).toBeTruthy()
+    try {
+      const middleware = createRequestMiddleware({retry: false})
+      await middleware()(next)(action)
+    }
+    catch (err) {
+      expect(next.calledTwice).toBeTruthy()
+      expect(req.end.calledOnce).toBeTruthy()
+      expect(err).toBeTruthy()
+    }
   })
 
-  it('Errors from an error callback after retries', () => {
+  it('Errors from an error callback after retries', async () => {
     const times = 4
-    const req = {end: spy(callback => callback(new Error('failed')))}
+    const req = {end: spy(callback => callback({error: 'failed', status: 500}))}
     const next = createMiddlewareSpy()
 
-    const action = {type: TYPE, request: req, callback: err => {
-      expect(err).toBeTruthy()
-      expect(next.calledTwice).toBeTruthy()
-      assert.equal(req.end.callCount, times-1)
-    }}
+    const action = {
+      type: TYPE,
+      request: req,
+      callback: err => {
+        console.log('cb', err)
+        console.log('req.end.callCount', req.end.callCount)
+        expect(err).toBeTruthy()
+        expect(next.calledTwice).toBeTruthy()
+        expect(req.end.callCount).toEqual(times)
+      },
+    }
 
-    const middleware = createRequestMiddleware({retry: {times, interval: 1}})
-    middleware()(next)(action)
+    const middleware = createRequestMiddleware({retry: {times, minTimeout: 0, maxTimeout: 0}})
+    await middleware()(next)(action)
   })
 
-  it('Errors from an error body property', () => {
+  it('Errors from an error body property', async () => {
     const req = {end: spy(callback => callback(null, {body: {error: 'failed'}}))}
     const next = createMiddlewareSpy()
     const action = {type: TYPE, request: req}
 
-    const middleware = createRequestMiddleware()
-    middleware()(next)(action)
-
+    try {
+      const middleware = createRequestMiddleware({retry: {retries: 2, minTimeout: 0, maxTimeout: 0}})
+      await middleware()(next)(action)
+    }
+    catch (err) {
+      expect(err).toBeTruthy()
+    }
     expect(next.calledTwice).toBeTruthy()
     expect(req.end.calledOnce).toBeTruthy()
   })
 
-  it('Errors from a bad status', () => {
+  it('Errors from a bad status', async () => {
     const req = {end: spy(callback => callback(null, {ok: false, body: 'some stack trace'}))}
     const next = createMiddlewareSpy()
     const action = {type: TYPE, request: req}
 
-    const middleware = createRequestMiddleware()
-    middleware()(next)(action)
-
+    try {
+      const middleware = createRequestMiddleware({retry: {retries: 2, minTimeout: 0, maxTimeout: 0}})
+      await middleware()(next)(action)
+    }
+    catch (err) {
+      expect(err).toBeTruthy()
+    }
     expect(next.calledTwice).toBeTruthy()
     expect(req.end.calledOnce).toBeTruthy()
   })
 
-  it('Errors from a bad status without a body', () => {
+  it('Errors from a bad status without a body', async () => {
     const req = {end: spy(callback => callback(null, {ok: false, body: null, status: 500}))}
     const next = createMiddlewareSpy()
     const action = {type: TYPE, request: req}
 
-    const middleware = createRequestMiddleware()
-    middleware()(next)(action)
-
+    try {
+      const middleware = createRequestMiddleware({retry: {retries: 2, minTimeout: 0, maxTimeout: 0}})
+      await middleware()(next)(action)
+    }
+    catch (err) {
+      expect(err).toBeTruthy()
+    }
     expect(next.calledTwice).toBeTruthy()
-    expect(req.end.calledOnce).toBeTruthy()
+    expect(req.end.callCount).toEqual(3)
   })
 
-  it('Errors from a bad status without a body or status', () => {
+  it('Errors from a bad status without a body or status', async () => {
     const req = {end: spy(callback => callback(null, {ok: false, body: null, status: null}))}
     const next = createMiddlewareSpy()
     const action = {type: TYPE, request: req}
 
-    const middleware = createRequestMiddleware()
-    middleware()(next)(action)
-
+    try {
+      const middleware = createRequestMiddleware({retry: {retries: 2, minTimeout: 0, maxTimeout: 0}})
+      await middleware()(next)(action)
+    }
+    catch (err) {
+      expect(err).toBeTruthy()
+    }
     expect(next.calledTwice).toBeTruthy()
     expect(req.end.calledOnce).toBeTruthy()
   })
