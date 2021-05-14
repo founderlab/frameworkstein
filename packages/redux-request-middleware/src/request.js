@@ -53,7 +53,6 @@ export async function executeRequestWithRetries(request, options) {
 export function promisifyRequest(request) {
   return new Promise((resolve, reject) => {
     let done = false
-
     const p = request((err, res) => {
       if (done) return
       done = true
@@ -63,7 +62,6 @@ export function promisifyRequest(request) {
       if (err) return reject(err)
       resolve(res)
     })
-
     if (p && p.then) {
       p.then(res => {
         if (done) return
@@ -89,11 +87,14 @@ export async function executeRequest(request) {
     else if (isFunction(request.end)) {
       res = await promisifyRequest(request.end.bind(request))
     }
-    // Callback function
+    // Async or callback function
     else if (isFunction(request)) {
       res = await promisifyRequest(request)
     }
-
+    // Promise object
+    else if (request.then) {
+      res = await request
+    }
     const errorText = await getErrorFromResponse(res)
     if (errorText) {
       const err = new Error(errorText)
