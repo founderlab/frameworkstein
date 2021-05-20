@@ -27,7 +27,7 @@ function executeFetch(Component, executeFetchOpts) {
 }
 
 async function _executeFetchComponentData(options) {
-  const { store, action, location } = options
+  const { store, action, parallel, ...rest } = options
   const promises = []
   let result = {}
 
@@ -46,8 +46,8 @@ async function _executeFetchComponentData(options) {
     }
 
     if (Component.fetchData) {
-      const p = executeFetch(Component, {store, action, match, location})
-      if (options.parallel) {
+      const p = executeFetch(Component, {...rest, store, action, match})
+      if (parallel) {
         promises.push(p)
       }
       else {
@@ -57,7 +57,7 @@ async function _executeFetchComponentData(options) {
     }
   }
 
-  if (options.parallel) {
+  if (parallel) {
     const results = await Promise.all(promises)
     for (const res of results) {
       if (res) result = {...result, ...res}
