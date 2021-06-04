@@ -26,6 +26,7 @@ const sendTextNotFound = res => {
 const evalSource = (req, source) => _.isFunction(source) ? source(req) : source || ''
 
 const defaults = {
+  lang: 'en',
   entries: ['shared', 'app'],
   webpackAssetsPath: path.resolve(__dirname, '../../../webpack-assets.json'),
   loadableStatsPath: './public/dist/loadable-stats.json',
@@ -164,7 +165,7 @@ export default function createServerRenderer(_options) {
 
       const html = `
         <!DOCTYPE html>
-        <html>
+        <html lang="${options.lang}">
           <head>
             ${head.title}
             ${head.base}
