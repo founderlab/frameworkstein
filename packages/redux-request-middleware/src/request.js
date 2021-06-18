@@ -19,7 +19,7 @@ export async function getErrorFromResponse(res) {
     let json = ''
     try {
       json = await res.json()
-      // Replace the json functionto avoid the fetch response throwing an error when calling res.json() more than once
+      // Replace the json function to avoid the fetch response throwing an error when calling res.json() more than once
       res.json = () => json
     }
     catch (err) {
@@ -172,8 +172,8 @@ const defaults = {
   },
   shouldRetry: err => {
     const status = err.status
-    if (status && status.toString()[0] === '4' || status === 500) return true
-    if (err.toString().match(/status (4|500)/)) return true
+    if (status && status.toString()[0] === '5') return true
+    if (err.toString().match(/status 5*/)) return true
     return false
   },
 }
