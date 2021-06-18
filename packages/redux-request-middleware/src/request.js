@@ -172,6 +172,7 @@ const defaults = {
   },
   shouldRetry: err => {
     const status = err.status
+    // retry 5xx statuses
     if (status && status.toString()[0] === '5') return true
     if (err.toString().match(/status 5*/)) return true
     return false
