@@ -28,5 +28,5 @@ export default function HasManyInput(props) {
 HasManyInput.propTypes = {
   path: PropTypes.string.isRequired,
   models: PropTypes.array.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.node.isRequired,
 }

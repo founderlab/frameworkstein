@@ -17,7 +17,7 @@ export default class RadioField extends React.Component {
 
   static propTypes = {
     name: PropTypes.string,
-    label: PropTypes.string,
+    label: PropTypes.node,
     helpTop: PropTypes.bool,
     help: PropTypes.string,
     helpMd: PropTypes.string,

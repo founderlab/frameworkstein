@@ -11,7 +11,7 @@ import { validationError } from '../utils/validation'
 export default class SplitDatetime extends React.Component {
 
   static propTypes = {
-    label: PropTypes.string,
+    label: PropTypes.node,
     dateLabel: PropTypes.string,
     timeLabel: PropTypes.string,
     helpTop: PropTypes.bool,

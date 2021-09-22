@@ -44,5 +44,5 @@ BelongsTo.propTypes = {
   relationField: PropTypes.object.isRequired,
   modelStore: PropTypes.object.isRequired,
   input: PropTypes.object.isRequired,
-  label: PropTypes.string,
+  label: PropTypes.node,
 }

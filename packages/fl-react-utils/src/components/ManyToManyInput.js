@@ -13,7 +13,7 @@ export default class ManyToManyInput extends React.PureComponent {
     model: PropTypes.object,
     models: PropTypes.array,
     relation: PropTypes.object.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.node.isRequired,
     onLinkRelation: PropTypes.func.isRequired,
     onUnlinkRelation: PropTypes.func.isRequired,
     path: PropTypes.string.isRequired,

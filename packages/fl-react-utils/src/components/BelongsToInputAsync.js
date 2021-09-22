@@ -14,7 +14,7 @@ const createOption = relatedModel => ({
 
 export default class BelongsToInputAsync extends React.PureComponent {
   static propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.node.isRequired,
     RelatedModel: PropTypes.func.isRequired,
     input: PropTypes.object.isRequired,
     model: PropTypes.object,

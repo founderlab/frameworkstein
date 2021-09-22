@@ -21,7 +21,7 @@ export default function InlineRelation(props) {
 }
 
 InlineRelation.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.node.isRequired,
   relationField: PropTypes.object.isRequired,
 
   models: PropTypes.array.isRequired,

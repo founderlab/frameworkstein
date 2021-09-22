@@ -37,5 +37,5 @@ HasMany.propTypes = {
   model: PropTypes.object.isRequired,
   models: PropTypes.array.isRequired,
   relationField: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.node.isRequired,
 }

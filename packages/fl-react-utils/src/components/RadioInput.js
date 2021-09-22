@@ -11,7 +11,7 @@ export default class RadioInput extends React.PureComponent {
 
   static propTypes = {
     input: PropTypes.object,
-    label: PropTypes.string,
+    label: PropTypes.node,
     meta: PropTypes.object,
     help: PropTypes.string,
     helpMd: PropTypes.string,

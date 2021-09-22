@@ -8,7 +8,7 @@ import { Progress, FormFeedback } from 'reactstrap'
 export default class S3Uploader extends React.Component {
 
   static propTypes = {
-    label: PropTypes.string,
+    label: PropTypes.node,
     size: PropTypes.string,
     style: PropTypes.object,
     onChange: PropTypes.func.isRequired,

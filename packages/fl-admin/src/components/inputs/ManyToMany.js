@@ -11,7 +11,7 @@ export default class ManyToMany extends React.PureComponent {
     models: PropTypes.array,
     model: PropTypes.object.isRequired,
     relationField: PropTypes.object.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.node.isRequired,
     onLinkRelation: PropTypes.func.isRequired,
     onUnlinkRelation: PropTypes.func.isRequired,
   }
