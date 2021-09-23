@@ -1,6 +1,6 @@
 {
   "name": "frameworkstein",
-  "version": "7.6.10",
+  "version": "7.6.11",
   "description": "FounderLab Frameworkstein command line interface and amalgamation of packages",
   "preferGlobal": true,
   "bin": {
@@ -26,6 +26,7 @@
     "create-app": "lib/index.js"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0",
     "chalk": "^4.1.2",
     "commander": "^8.2.0",
     "graphql": "^14.0.0",
@@ -34,8 +35,7 @@
     "mkdirp": "^1.0.4",
     "queue-async": "^1.0.0",
     "rimraf": "^3.0.0",
-    "unzipper": "^0.10.11",
-    "@babel/runtime": "^7.0.0"
+    "unzipper": "^0.10.11"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
