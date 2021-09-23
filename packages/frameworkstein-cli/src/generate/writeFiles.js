@@ -5,7 +5,6 @@ import chalk from 'chalk'
 import { promisify } from 'util'
 
 
-const mkdirpAsync = promisify(mkdirp)
 const writeFileAsync = promisify(fs.writeFile)
 
 
@@ -13,7 +12,7 @@ export async function writeFile(out, options) {
   if (!options.force && fs.existsSync(out.path)) {
     throw new Error(`File already exists at ${out.path}. Use --force to overwrite`)
   }
-  await mkdirpAsync(path.dirname(out.path))
+  await mkdirp(path.dirname(out.path))
 
   console.log(' ', chalk.green('Creating file:'), out.path)
   if (options.verbose) {
