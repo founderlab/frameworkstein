@@ -1,6 +1,6 @@
 import fs from 'fs'
 import https from 'https'
-import unzip from 'unzip'
+import unzipper from 'unzipper'
 import rimraf from 'rimraf'
 import Queue from 'queue-async'
 import { promisify } from 'util'
@@ -76,13 +76,13 @@ export function generateFolderStructure(_options, _callback) {
     queue.await(_callback)
   }
 
-  // download, unzip, rename
+  // download, unzipper, rename
   https.get(repoZipUrl, res => {
     res.on('data', d => writer.write(d))
 
     res.on('end', () => {
       if (options.verbose) console.log('--Zip downloaded.')
-      const stream = fs.createReadStream(zipFilename).pipe(unzip.Extract({path: './'}))
+      const stream = fs.createReadStream(zipFilename).pipe(unzipper.Extract({path: './'}))
 
       stream.on('close', () => {
         if (options.verbose) console.log('--Zip extracted to folder '+ oldFolder + '.')

@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import '@babel/polyfill'
 import program from 'commander'
 import chalk from 'chalk'
 import fs from 'fs'
