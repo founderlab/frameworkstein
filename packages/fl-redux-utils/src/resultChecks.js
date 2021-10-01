@@ -1,15 +1,23 @@
 
-export function hasResults(state, paginationName='pagination', options={}) {
+export function hasResults(state, getPagination='pagination', options={}) {
   const { itemsPerPage } = options
   const page = options.page || 1
 
+  let pagination
+  if (_.isFunction(getPagination)) pagination = getPagination(state)
+  else pagination =  state.get(getPagination)
+
   if (itemsPerPage) {
-    return state.get(paginationName) && state.get(paginationName).get('ids') && state.get(paginationName).get('ids').length >= page*itemsPerPage
+    return pagination && pagination.get('ids') && pagination.get('ids').length >= page*itemsPerPage
   }
 
-  return state.get(paginationName) && state.get(paginationName).get('pages') && state.get(paginationName).get('pages').get(page.toString())
+  return pagination && pagination.get('pages') && pagination.get('pages').get(page.toString())
 }
 
-export function hasCachedResults(state, cacheKey, paginationName='pagination') {
-  return state.get(paginationName) && state.get(paginationName).get('cache') && state.get(paginationName).get('cache').get(cacheKey)
+export function hasCachedResults(state, cacheKey, getPagination='pagination') {
+  let pagination
+  if (_.isFunction(getPagination)) pagination = getPagination(state)
+  else pagination =  state.get(getPagination)
+
+  return pagination && pagination.get('cache') && pagination.get('cache').get(cacheKey)
 }
