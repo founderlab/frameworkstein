@@ -1,5 +1,6 @@
 import _ from 'lodash'
 
+
 export function hasResults(state, getPagination='pagination', options={}) {
   const { itemsPerPage } = options
   const page = options.page || 1
