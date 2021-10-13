@@ -1,6 +1,6 @@
 {
   "name": "fl-auth-server",
-  "version": "7.5.2",
+  "version": "7.6.17",
   "description": "Auth server package for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -31,6 +31,6 @@
     "passport-linkedin-oauth2": "^1.0.0",
     "passport-local": "^1.0.0",
     "queue-async": "^1.0.0",
-    "stein-orm-sql": "^7.5.2"
+    "stein-orm-sql": "^7.6.17"
   }
 }
