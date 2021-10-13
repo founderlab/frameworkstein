@@ -267,34 +267,34 @@ export default class SqlCursor extends Cursor {
         json.push(modelJson)
       }
 
+
       // Add relations to the modelJson if included
       for (const relationKey in rowRelationJson) {
+        const hasMany = modelType.schema.relation(relationKey).type === 'hasMany'
 
         let relatedJson = rowRelationJson[relationKey]
-        if (_.isNull(relatedJson.id)) {
-          if (modelType.schema.relation(relationKey).type === 'hasMany') {
+        if (_.isNil(relatedJson.id) || _.isEmpty(relatedJson)) {
+          if (_.isUndefined(modelJson[relationKey])) modelJson[relationKey] = hasMany ? [] : null
+          continue
+        }
+
+        const reverseRelationSchema = modelType.schema.relation(relationKey).reverseModelType.schema
+        relatedJson = parseJson(relatedJson, reverseRelationSchema)
+
+        if (hasMany) {
+          if (!modelJson[relationKey]) {
             modelJson[relationKey] = []
           }
-          else {
-            modelJson[relationKey] = null
-          }
 
+          if (!_.find(modelJson[relationKey], test => test.id === relatedJson.id)) {
+            modelJson[relationKey].push(relatedJson)
+          }
         }
-        else if (!_.isEmpty(relatedJson)) {
-          const reverseRelationSchema = modelType.schema.relation(relationKey).reverseModelType.schema
-          relatedJson = parseJson(relatedJson, reverseRelationSchema)
-
-          if (modelType.schema.relation(relationKey).type === 'hasMany') {
-            if (!modelJson[relationKey]) { modelJson[relationKey] = [] }
-            if (!_.find(modelJson[relationKey], test => test.id === relatedJson.id)) { modelJson[relationKey].push(relatedJson) }
-          }
-          else {
-            modelJson[relationKey] = relatedJson
-          }
+        else {
+          modelJson[relationKey] = relatedJson
         }
       }
     }
-
     return json
   }
 
