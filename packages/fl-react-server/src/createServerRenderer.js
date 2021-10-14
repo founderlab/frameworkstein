@@ -53,6 +53,25 @@ async function checkRedirect({ req, store, branch }) {
   return redirectUrl
 }
 
+function extractAssets(options) {
+  const assets = {}
+  if (options.enableLoadable) {
+    const statsFile = path.resolve(options.loadableStatsPath)
+    const extractor = new ChunkExtractor({statsFile, entrypoints: options.entries})
+    assets.extractor = extractor
+    assets.scriptTags = extractor.getScriptTags()
+    assets.linkTags = extractor.getLinkTags()
+    assets.styleTags = extractor.getStyleTags()
+  }
+  else {
+    const js = jsAssets(options.entries, options.webpackAssetsPath)
+    assets.scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
+    const css = cssAssets(options.entries, options.webpackAssetsPath)
+    assets.styleTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
+  }
+  return assets
+}
+
 export default function createServerRenderer(_options) {
   const options = {...defaults, ..._options}
   const { createStore, getRoutes, gaId } = options
@@ -64,11 +83,9 @@ export default function createServerRenderer(_options) {
   if (!getRoutes) throw new Error('[fl-react-server] createServerRenderer: Missing getRoutes from options')
 
   return async function app(req, res) {
-    let scriptTags = ''
-    let styleTags = ''
-    let linkTags = ''
-
     try {
+      const { scriptTags, styleTags, linkTags, extractor } = extractAssets(options)
+
       const serverState = {
         auth: req.user ? {user: _.omit(req.user, 'password', '_rev')} : {},
       }
@@ -122,28 +139,15 @@ export default function createServerRenderer(_options) {
 
       let renderedHtml
 
-      if (options.enableLoadable) {
-        const statsFile = path.resolve(options.loadableStatsPath)
-        const extractor = new ChunkExtractor({statsFile, entrypoints: options.entries})
+      if (extractor) {
+        // using loadable components
         const collectedComponent = extractor.collectChunks(component)
-
         renderedHtml = renderToString(collectedComponent)
-
-        scriptTags = extractor.getScriptTags()
-        linkTags = extractor.getLinkTags()
-        styleTags = extractor.getStyleTags()
       }
       else {
-        console.log('legacy')
-        const js = jsAssets(options.entries, options.webpackAssetsPath)
-        scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
-
-        const css = cssAssets(options.entries, options.webpackAssetsPath)
-        styleTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
-
+        // legacy
         renderedHtml = renderToString(component)
       }
-
 
       const head = Helmet.rewind()
 
