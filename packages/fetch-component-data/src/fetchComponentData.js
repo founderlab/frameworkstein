@@ -32,8 +32,8 @@ async function _executeFetchComponentData(options) {
   let result = {}
 
   for (const branch of options.branch) {
-    const match = branch.match
-    let Component = branch.route.component
+    const { match, route } = branch
+    let Component = route.component
     if (!Component) continue
 
     // load the component from @loadable/component if the module has a load method
@@ -46,7 +46,7 @@ async function _executeFetchComponentData(options) {
     }
 
     if (Component.fetchData) {
-      const p = executeFetch(Component, {...rest, store, action, match})
+      const p = executeFetch(Component, {...rest, store, action, match, route})
       if (parallel) {
         promises.push(p)
       }
