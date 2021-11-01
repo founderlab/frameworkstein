@@ -77,7 +77,10 @@ export default class SqlCursor extends Cursor {
       this.start_time = new Date().getTime()
     }
 
-    if (this.hasCursorQuery('$count')) { this._cursor.$count = true }
+    if (this.hasCursorQuery('$count')) {
+      this._cursor.$count = true
+      this._cursor.$include = null
+    }
     if (this.hasCursorQuery('$exists')) { this._cursor.$exists = true }
 
     // Unique

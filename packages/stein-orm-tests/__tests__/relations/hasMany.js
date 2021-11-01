@@ -132,6 +132,21 @@ describe('HasMany', () => {
     await Parent.store.disconnect()
   })
 
+  it('Ignores $include with $count', async () => {
+    const countQuery = {
+      $count: true,
+    }
+    const count = await Owner.cursor(countQuery).toJSON()
+
+    const countIncludeQuery = {
+      $count: true,
+      $include: 'singles',
+    }
+    const countWithInclude = await Owner.cursor(countIncludeQuery).toJSON()
+
+    expect(count).toBe(countWithInclude)
+  })
+
   it('Can nest a related query (hasMany -> belongsTo)', async () => {
     const singleQuery = {
       tenPlus: 10,
