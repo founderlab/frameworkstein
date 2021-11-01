@@ -1,6 +1,6 @@
 {
   "name": "fl-stripe-server",
-  "version": "7.6.17",
+  "version": "7.6.21",
   "description": "Stripe controller for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -24,10 +24,10 @@
     "babel-jest": "^24.0.0",
     "jest": "^24.0.0",
     "stein-orm": "^7.4.21",
-    "stein-orm-sql": "^7.6.17"
+    "stein-orm-sql": "^7.6.21"
   },
   "dependencies": {
-    "fl-auth-server": "^7.6.17",
+    "fl-auth-server": "^7.6.21",
     "fl-server-utils": "^7.0.0",
     "lodash": "^4.0.0",
     "moment": "^2.0.0",
