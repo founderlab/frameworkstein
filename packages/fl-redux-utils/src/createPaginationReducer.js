@@ -25,7 +25,6 @@ export default function createPaginationReducer(_actionTypes, options={}) {
     if (_.includes(countActions, action.type)) {
       state = state.merge({total: +action.res})
     }
-
     else if (_.includes(loadActions, action.type) && !_.isNil(action.page)) {
       state = state.setIn(['pages', action.page.toString()], fromJS(action.ids))
       state = state.set('ids', fromJS(_.uniq([...state.get('ids'), ...action.ids])))

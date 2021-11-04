@@ -32,21 +32,12 @@ export default function createPaginationSelector(paginateOn, selectState, _optio
       if (options.getPagination) return options.getPagination(pState)
       return pState.get(options.paginationName)
     },
-    (state, props) => {
-      const pState = paginationState(state, paginateOn)
-      if (!pState) return null
-
-      if (options.cacheKey || (options.cacheKeyFromProps && props)) {
-        const cacheKey = options.cacheKey || options.cacheKeyFromProps(props)
-        const cachedState = pState.get(cacheKey)
-        return cachedState
-      }
-
-      return null
-    },
+    (state, props) => options.cacheKey || (options.cacheKeyFromProps && options.cacheKeyFromProps(props)),
     (_, props) => props && (props.itemsPerPage || props.itemsPerChunk),
   ],
-  (models, _pagination, cachedPagination, _itemsPerPage) => {
+  (models, _pagination, cacheKey, _itemsPerPage) => {
+    const cachedPagination = _pagination && _pagination.get('cache') && _pagination.get('cache').get(cacheKey)
+
     const results = {
       cached: !!cachedPagination,
       visibleItems: [],
