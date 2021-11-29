@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-sql",
-  "version": "7.6.21",
+  "version": "7.6.23",
   "description": "",
   "main": "lib/index.js",
   "author": {
