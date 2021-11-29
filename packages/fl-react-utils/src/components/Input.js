@@ -140,7 +140,7 @@ export default class FLInput extends React.Component {
         const oc = e => inputProps.onChange(e.target.value !== 'true')
 
         control = (
-          <Label check>
+          <Label check className="p-2">
             <Input type="checkbox" {...bsProps} {...inputProps} onChange={oc} /> {label}
           </Label>
         )
@@ -224,15 +224,13 @@ export default class FLInput extends React.Component {
     }
     else {
       content = (
-        <Row>
-          <Col>
-            {label && !check && <Label>{label}</Label>}
-            {help && helpTop && <FormText color="muted">{help}</FormText>}
-            {control}
-            {error && <FormFeedback>{error}</FormFeedback>}
-            {help && !helpTop && <FormText color="muted">{help}</FormText>}
-          </Col>
-        </Row>
+        <>
+          {label && !check && <Label>{label}</Label>}
+          {help && helpTop && <FormText color="muted">{help}</FormText>}
+          {control}
+          {error && <FormFeedback>{error}</FormFeedback>}
+          {help && !helpTop && <FormText color="muted">{help}</FormText>}
+        </>
       )
     }
 

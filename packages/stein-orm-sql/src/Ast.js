@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 import _ from 'lodash'
 
 
@@ -446,12 +447,23 @@ export default class SqlAst {
 
   columnName = (col, table) => `${table}.${col}`
 
+  hashCode(s) {
+    let hash = 0
+    if (s === 0) return hash
+    for (let i = 0; i < s.length; i++) {
+      const chr = s.charCodeAt(i)
+      hash = ((hash << 5) - hash) + chr
+      hash |= 0
+    }
+    return hash >>> 0
+  }
+
+  tablePrefix = table => `${this.hashCode(table)}_`
+
   prefixColumn(col, table) {
     if (Array.from(col).includes('.')) return col
     return `${table}.${col} as ${this.tablePrefix(table)}${col}`
   }
-
-  tablePrefix = table => `${table}_`
 
   prefixRegex(table) {
     if (!table) table = this.modelType.tableName
