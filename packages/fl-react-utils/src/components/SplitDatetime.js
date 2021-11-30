@@ -12,12 +12,11 @@ export default class SplitDatetime extends React.Component {
 
   static propTypes = {
     label: PropTypes.node,
-    dateLabel: PropTypes.string,
-    timeLabel: PropTypes.string,
+    dateLabel: PropTypes.node,
+    timeLabel: PropTypes.node,
     helpTop: PropTypes.bool,
     helpMd: PropTypes.string,
-    help: PropTypes.string,
-    defaultHelp: PropTypes.string,
+    help: PropTypes.node,
     meta: PropTypes.object,
     input: PropTypes.object,
     inputProps: PropTypes.object,
@@ -114,7 +113,7 @@ export default class SplitDatetime extends React.Component {
 
     let help = this.props.help
     if (_.isUndefined(help) && helpMd) {
-      help = (<ReactMarkdown source={helpMd} {...this.props.markdownProps} />)
+      help = <ReactMarkdown source={helpMd} {...this.props.markdownProps} />
     }
     const error = validationError(meta)
     const dateFormat = this.getDateFormat()
