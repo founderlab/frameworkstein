@@ -1,6 +1,6 @@
 {
   "name": "fl-initdb",
-  "version": "7.4.22",
+  "version": "7.7.0",
   "description": "Auto create and populate a database",
   "main": "lib/index.js",
   "author": {
