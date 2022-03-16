@@ -13,7 +13,7 @@ export default class RadioInput extends React.PureComponent {
     input: PropTypes.object,
     label: PropTypes.node,
     meta: PropTypes.object,
-    help: PropTypes.string,
+    help: PropTypes.node,
     helpMd: PropTypes.string,
     inline: PropTypes.bool,
     options: PropTypes.array,

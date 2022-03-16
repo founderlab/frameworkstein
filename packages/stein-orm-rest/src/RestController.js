@@ -65,8 +65,8 @@ export default class RestController extends JsonController {
     const done = (err, result) => {
       if (this.verbose) { console.timeEnd(`index_${this.route}`) }
       if (err) return this.sendError(res, err)
-      const { json, status } = result
-      if (status) return this.sendStatus(res, status)
+      const { json, status, message } = result
+      if (status) return this.sendStatus(res, status, message)
 
       if (req.query.$csv) return this.sendCSV(req, res, json)
       return res.json(json)
@@ -87,8 +87,8 @@ export default class RestController extends JsonController {
     const done = (err, result) => {
       if (this.verbose) { console.timeEnd(`show_${this.route}`) }
       if (err) return this.sendError(res, err)
-      const { json, status } = result
-      if (status) return this.sendStatus(res, status)
+      const { json, status, message } = result
+      if (status) return this.sendStatus(res, status, message)
       return res.json(json)
     }
 
@@ -213,45 +213,51 @@ export default class RestController extends JsonController {
   fetchIndexJSON(req, callback) { this.fetchJSON(req, this.whitelist.index, callback) }
   fetchShowJSON(req, callback) { this.fetchJSON(req, this.whitelist.show, callback) }
 
-  fetchJSON(req, whitelist, callback) {
-    const key = `fetchJSON_${this.route}`
-    if (this.verbose) { console.time(key) }
+  async fetchJSON(req, whitelist, callback) {
+    try {
+      const key = `fetchJSON_${this.route}`
+      if (this.verbose) console.time(key)
 
-    let query = this.parseSearchQuery(parseQuery(req.query))
-    if (this.preprocessQuery) {
-      query = this.preprocessQuery(req, query)
-    }
+      let query = this.parseSearchQuery(parseQuery(req.query))
+      if (this.preprocessQuery) {
+        query = this.preprocessQuery(req, query)
+      }
 
-    let cursor = this.modelType.cursor(query)
-    if (whitelist) { cursor = cursor.whiteList(whitelist) }
+      let cursor = this.modelType.cursor(query)
+      if (whitelist) cursor = cursor.whiteList(whitelist)
 
-    return cursor.toJSON((err, json) => {
-      if (this.verbose) { console.timeEnd(key) }
-      if (err) { return callback(err) }
+      const json = await cursor.toJSON()
+      if (this.verbose) console.timeEnd(key)
 
-      if (cursor.hasCursorQuery('$count') || cursor.hasCursorQuery('$exists')) { return callback(null, {json: {result: json}}) }
+      if (cursor.hasCursorQuery('$count') || cursor.hasCursorQuery('$exists')) return callback(null, {json: {result: json}})
+
+      if (this.modelType.canViewJSON) {
+        const authResult = await this.modelType.canViewJSON({...req, query, json})
+        if (authResult === false || (_.isObject(authResult) && !authResult.authorised)) return callback(null, {status: 401, message: (authResult && authResult.message) || 'Unauthorised'})
+      }
 
       if (!json) {
         if (cursor.hasCursorQuery('$one')) {
           return callback(null, {status: 404})
         }
         return callback(null, {json})
-
       }
 
       if (cursor.hasCursorQuery('$page')) {
-        return this.render(req, json.rows, (err, renderedJson) => {
-          if (err) return callback(err)
-          json.rows = renderedJson
-          return callback(null, {json})
-        })
+        const renderedJson = await this.render(req, json.rows)
+        json.rows = renderedJson
+        return callback(null, {json})
       }
       else if (cursor.hasCursorQuery('$values')) {
         return callback(null, {json})
       }
 
-      return this.render(req, json, (err, renderedJson) => callback(err, {json: renderedJson}))
-    })
+      const renderedJson = await this.render(req, json)
+      return callback(null, {json: renderedJson})
+    }
+    catch (err) {
+      callback(err)
+    }
   }
 
   _render(req, json, callback) {

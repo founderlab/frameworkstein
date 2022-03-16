@@ -45,15 +45,23 @@ function initdb(options, callback) {
 
     // Ensure each model has columns according to its schema
     const modelTypes = directoryFunctionModules(modelsDir)
+    const deferredModelTypes = []
     _.forEach(options.modelTypes || options.Models || [], (Model, name) => modelTypes[name] = Model)
 
     // Clear any existing data (!)
     if (options.__dangerouslyWipeTheEntireDatabase) {
       !quiet && console.log('[fl-initdb] Resetting database. All data is going boom, I hope you meant to do this!')
-      _.forEach(modelTypes, Model => queue.defer(callback => {
-        !quiet && console.log('[fl-initdb] Resetting', Model.name)
-        Model.store.db().resetSchema(callback)
-      }))
+      const reset = Model => {
+        queue.defer(callback => {
+          !quiet && console.log('[fl-initdb] Resetting', Model.name)
+          Model.store.db().resetSchema(callback)
+        })
+      }
+      _.forEach(modelTypes, Model => {
+        if (Model.deferReset) deferredModelTypes.push(Model)
+        else reset(Model)
+      })
+      _.forEach(deferredModelTypes, Model => reset(Model))
     }
     else {
       _.forEach(modelTypes, Model => queue.defer(callback => {
