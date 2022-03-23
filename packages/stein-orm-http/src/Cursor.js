@@ -8,6 +8,7 @@ import querify from './querify'
 export default class HttpCursor extends Cursor {
   constructor(...args) {
     super(...args)
+    this._headers = {}
     this.verbose = false
   }
 
@@ -17,7 +18,8 @@ export default class HttpCursor extends Cursor {
     let json
 
     try {
-      const res = await fetch(`${this.modelType.store.urlRoot()}?${qs.stringify(query)}`, this.modelType.store.fetchOptions())
+      const fetchOptions = this.modelType.store.fetchOptions({headers: this._headers})
+      const res = await fetch(`${this.modelType.store.urlRoot()}?${qs.stringify(query)}`, fetchOptions)
       if (res.status.toString() === '404' && query.$one) {
         return callback(null, null)
       }

@@ -2,6 +2,7 @@ import renderRelations from '../../../templateHelpers/renderRelations'
 
 export default model =>
 `import { createModel, Model } from 'stein-orm-http'
+import schema from './schemas/${model.variableName}'
 
 
 @createModel({
@@ -11,7 +12,7 @@ export default class ${model.className} extends Model {
 
   static schema = () => ({
 ${renderRelations(model.relations)}
-    ...require('./schemas/${model.variableName}'),
+    ...schema,
   })
 
 }

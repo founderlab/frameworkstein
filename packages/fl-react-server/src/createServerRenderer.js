@@ -76,8 +76,6 @@ export default function createServerRenderer(_options) {
   const { createStore, getRoutes, gaId } = options
   const sendError = options.sendError || sendTextError
   const sendNotFound = options.sendNotFound || sendTextNotFound
-  let alwaysFetch = options.alwaysFetch || []
-  if (!_.isArray(alwaysFetch)) alwaysFetch = [alwaysFetch]
   if (!createStore) throw new Error('[fl-react-server] createServerRenderer: Missing createStore from options')
   if (!getRoutes) throw new Error('[fl-react-server] createServerRenderer: Missing getRoutes from options')
 
@@ -91,11 +89,8 @@ export default function createServerRenderer(_options) {
         }
         if (options.loadInitialState) _.merge(serverState, await options.loadInitialState(req))
 
-        // deprecated, to be removed in favour of loadInitialState
-        if (options.config) serverState.config = _.isFunction(options.config) ? await options.config(req) : options.config
-
         const history = createMemoryHistory({initialEntries: [req.originalUrl]})
-        const store = createStore({history, getRoutes, initialState: serverState})
+        const store = createStore({history, getRoutes, initialState: serverState, server: true})
         const routes = getRoutes(store)
 
         const branch = matchRoutes(routes, req.path)
