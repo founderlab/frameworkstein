@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import qs from 'qs'
 import fetch from 'cross-fetch'
 import { Cursor } from 'stein-orm'
@@ -12,13 +11,18 @@ export default class HttpCursor extends Cursor {
     this.verbose = false
   }
 
+  addHeaders = headers => {
+    this._headers = {...this._headers, ...headers}
+  }
+
   queryToJSON = async callback => {
     if (this.hasCursorQuery('$zero')) return callback(null, this.hasCursorQuery('$one') ? null : [])
-    const query = querify(_.extend({}, this._find, this._cursor))
+    const query = querify({...this._find, ...this._cursor})
     let json
 
     try {
-      const fetchOptions = this.modelType.store.fetchOptions({headers: this._headers})
+      const fetchOptions = {...this.modelType.store.fetchOptions}
+      fetchOptions.headers = {...(fetchOptions.headers || {}), ...this._headers}
       const res = await fetch(`${this.modelType.store.urlRoot()}?${qs.stringify(query)}`, fetchOptions)
       if (res.status.toString() === '404' && query.$one) {
         return callback(null, null)
