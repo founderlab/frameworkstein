@@ -11,9 +11,7 @@ export default class HttpCursor extends Cursor {
     this.verbose = false
   }
 
-  addHeaders = headers => {
-    this._headers = {...this._headers, ...headers}
-  }
+  setHeaders = headers => this._headers = headers
 
   queryToJSON = async callback => {
     if (this.hasCursorQuery('$zero')) return callback(null, this.hasCursorQuery('$one') ? null : [])
