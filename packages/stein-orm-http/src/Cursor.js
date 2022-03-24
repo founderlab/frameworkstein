@@ -15,6 +15,7 @@ export default class HttpCursor extends Cursor {
 
   queryToJSON = async callback => {
     if (this.hasCursorQuery('$zero')) return callback(null, this.hasCursorQuery('$one') ? null : [])
+
     const query = querify({...this._find, ...this._cursor})
     let json
 
