@@ -93,29 +93,6 @@ export default class HttpStore {
   update = (model, callback) => callback ? this._update(model, callback) : promisify(this._update)(model)
 
   /*
-   * DELETE a single model
-   */
-  _delete = async (model, callback) => {
-
-    try {
-      const res = await fetch(this.modelUrl(model), this.fetchOptions({
-        method: 'DELETE',
-      }))
-      const json = await res.json()
-      if (res.status !== 200) {
-        const err = new Error(json.error || `Error deleting model (${res.status}): ${json.error}`)
-        err.status = res.status
-        return callback(err)
-      }
-      return callback(null, json)
-    }
-    catch (err) {
-      callback(err)
-    }
-  }
-  delete = (model, callback) => callback ? this._delete(model, callback) : promisify(this._delete)(model)
-
-  /*
    * DELETE by query
    */
   _destroy = async (query, callback) => {
