@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import fetch from 'cross-fetch'
 import qs from 'qs'
-import { promisify } from 'util'
 import HttpCursor from './Cursor'
 import { config } from './config'
 
@@ -11,6 +10,7 @@ export default class HttpStore {
   constructor(modelType, options={}) {
     this.modelType = modelType
     this.url = options.url
+    this.maxErrorMessageLength = options.maxErrorMessageLength || 100
     if (!this.url) throw new Error(`Missing url for model ${this.modelType.name}`)
   }
 
@@ -33,87 +33,65 @@ export default class HttpStore {
    * Return a http cursor for query building
    */
   cursor = (query={}) => {
-    return new HttpCursor(query, {modelType: this.modelType})
+    return new HttpCursor(query, {modelType: this.modelType, handleError: this.handleError})
   }
 
   /*
    * POST this model
    */
-  _create = async (model, callback) => {
+  create = async model => {
     const saveJson = model.toJSON()
-
-    try {
-      const res = await fetch(this.url, this.fetchOptions({
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(saveJson),
-      }))
-      const json = await res.json()
-      if (res.status !== 200) {
-        const err = new Error(json.error || `Error creating model (${res.status}): ${json.error}`)
-        err.status = res.status
-        return callback(err)
-      }
-      return callback(null, json)
-    }
-    catch (err) {
-      callback(err)
-    }
+    const res = await fetch(this.url, this.fetchOptions({
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(saveJson),
+    }))
+    if (!res.ok) return this.handleError(res, 'creating')
+    return res.json()
   }
-  create = (model, callback) => callback ? this._create(model, callback) : promisify(this._create)(model)
 
   /*
    * PUT this model
    */
-  _update = async (model, callback) => {
+  update = async model => {
     const saveJson = model.toJSON()
-
-    try {
-      const res = await fetch(this.modelUrl(model), this.fetchOptions({
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(saveJson),
-      }))
-      const json = await res.json()
-      if (res.status !== 200) {
-        const err = new Error(json.error || `Error updating model (${res.status}): ${json.error}`)
-        err.status = res.status
-        return callback(err)
-      }
-      return callback(null, json)
-    }
-    catch (err) {
-      callback(err)
-    }
+    const res = await fetch(this.modelUrl(model), this.fetchOptions({
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(saveJson),
+    }))
+    if (!res.ok) return this.handleError(res, 'updating')
+    return res.json()
   }
-  update = (model, callback) => callback ? this._update(model, callback) : promisify(this._update)(model)
 
   /*
    * DELETE by query
    */
-  _destroy = async (query, callback) => {
+  destroy = async query => {
+    const url = query.id ? `${this.modelType.url}/${query.id}` : `${this.modelType.url}?${qs.stringify(query)}`
+    const res = await fetch(url, this.fetchOptions({
+      method: 'DELETE',
+    }))
+    if (!res.ok) return this.handleError(res, 'deleting')
+    return res.json()
+  }
 
+  handleError = async (res, action) => {
+    let errorMessage = ''
     try {
-      const url = query.id ? `${this.modelType.url}/${query.id}` : `${this.modelType.url}?${qs.stringify(query)}`
-      const res = await fetch(url, this.fetchOptions({
-        method: 'DELETE',
-      }))
       const json = await res.json()
-      if (res.status !== 200) {
-        const err = new Error(json.error || `Error deleting model (${res.status}): ${json.error}`)
-        err.status = res.status
-        return callback(err)
-      }
-      return callback(null, json)
+      errorMessage = json.error
     }
     catch (err) {
-      callback(err)
+      errorMessage = await res.text().slice(0, this.maxErrorMessageLength)
     }
+    const err = new Error(`Error ${action} ${this.modelType.name} (${res.status}): ${errorMessage}`)
+    err.status = res.status
+    throw err
   }
-  destroy = (query, callback) => callback ? this._destroy(query, callback) : promisify(this._destroy)(query)
 
 }

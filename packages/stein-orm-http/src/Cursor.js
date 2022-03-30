@@ -13,24 +13,23 @@ export default class HttpCursor extends Cursor {
 
   setHeaders = headers => this._headers = headers
 
-  queryToJSON = async callback => {
-    if (this.hasCursorQuery('$zero')) return callback(null, this.hasCursorQuery('$one') ? null : [])
+  toJSON = async () => {
+    if (this.hasCursorQuery('$zero')) return this.hasCursorQuery('$one') ? null : []
 
     const query = querify({...this._find, ...this._cursor})
-    let json
 
-    try {
-      const fetchOptions = this.modelType.store.fetchOptions()
-      fetchOptions.headers = {...(fetchOptions.headers || {}), ...this._headers}
-      const res = await fetch(`${this.modelType.store.urlRoot()}?${qs.stringify(query)}`, fetchOptions)
-      if (res.status.toString() === '404' && query.$one) {
-        return callback(null, null)
+    const fetchOptions = this.modelType.store.fetchOptions()
+    fetchOptions.headers = {...(fetchOptions.headers || {}), ...this._headers}
+    const res = await fetch(`${this.modelType.store.urlRoot()}?${qs.stringify(query)}`, fetchOptions)
+
+    if (!res.ok) {
+      if (res.status.toString() === '404') {
+        if (query.$one) return null
       }
-      json = await res.json()
+      return this.handleError(res, 'fetching')
     }
-    catch (err) {
-      return callback(err)
-    }
-    return callback(null, this.hasCursorQuery('$count') || this.hasCursorQuery('$exists') ? json.result : json)
+
+    const json = await res.json()
+    return this.hasCursorQuery('$count') || this.hasCursorQuery('$exists') ? json.result : json
   }
 }
