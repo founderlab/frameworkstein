@@ -6,7 +6,7 @@ Middleware for redux that provides a convention for working with async requests.
 requestMiddleware, responseParserMiddleware
 -------------------------------------------
 
-`requestMiddleware` looks for a `request` property on redux actions and attempts to resolve it. `request` can be a promise, callback function, superagent request or BackboneORM cursor object.
+`requestMiddleware` looks for a `request` property on redux actions and attempts to resolve it. `request` can be a promise, fetch request or BackboneORM cursor object.
 
 When a request is found the middleware will terminate the current action and dispatch the following (with `<TYPE>` being the original type property of the action)
 `<TYPE>_START` is sent before resolving the request.
