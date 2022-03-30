@@ -5,7 +5,7 @@ import retry from 'async-retry'
 
 export function unpackAction(action) {
   const { request, callback, parseResponse, ...rest } = action
-  return {request, callback, parseResponse, action: rest}
+  return { request, callback, parseResponse, action: rest }
 }
 
 function shouldRetry(err) {
