@@ -36,7 +36,7 @@ export async function executeRequest(request) {
   }
 
   // Promise object, could be fetch or a custom async function
-  const res = await request
+  const res = await request()
 
   // assume fetch result if a json() method is present
   if (isFunction(res.json)) {
