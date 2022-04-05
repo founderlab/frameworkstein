@@ -1,6 +1,6 @@
-import isFunction from 'lodash/isFunction'
-import isObject from 'lodash/isObject'
+import _ from 'lodash'
 import retry from 'async-retry'
+import { handleFetchError } from 'stein-fetch'
 
 
 export function unpackAction(action) {
@@ -14,33 +14,19 @@ function shouldRetry(err) {
   return (status && status.toString()[0] === '5')
 }
 
-// Generate an error from a failed fetch request
-async function handleFetchError(res) {
-  let errorMessage = ''
-  try {
-    const json = await res.json()
-    errorMessage = json.error
-  }
-  catch (err) {
-    errorMessage = await res.text().slice(0, this.maxErrorMessageLength)
-  }
-  const err = new Error(`Error ${res.url} (${res.status}): ${errorMessage}`)
-  err.status = res.status
-  throw err
-}
-
 export async function executeRequest(request) {
-  // Known api - orm
-  if (request.toJSON) {
-    return request.toJSON()
-  }
+  // Known api - orm or fetchCursor
+  if (request.toJSON) return request.toJSON()
+  if (request.toJS) return request.toJS()
 
   // Promise object, could be fetch or a custom async function
-  const res = await request()
+  let res
+  if (_.isFunction(request)) res = await request()
+  else res = await request
 
   // assume fetch result if a json() method is present
-  if (isFunction(res.json)) {
-    if (!res.ok) return handleFetchError(res)
+  if (_.isFunction(res.json)) {
+    if (!res.ok) return handleFetchError(res, {maxErrorMessageLength: 100, method: request.method})
     return res.json()
   }
   // otherwise just pass the result on
@@ -68,7 +54,7 @@ export async function executeRequestWithRetries(request, options) {
 
 export async function processAction(next, _action, options) {
   const { request, callback, parseResponse, action } = options.unpackAction(_action)
-  if (!request || !(isFunction(request) || isObject(request))) return next(action)
+  if (!request || !(_.isFunction(request) || _.isObject(request))) return next(action)
 
   const { type, ...rest } = action
   const START = type + options.suffixes.START
@@ -87,18 +73,20 @@ export async function processAction(next, _action, options) {
   catch (err) {
     error = err
     finalAction = {error: err, type: ERROR, ...rest}
+    console.log('finalAction', finalAction)
   }
 
   try {
     await next(finalAction)
   }
   catch (err) {
-    console.log('[redux-request-middleware] Error from a callback or reducer processing the requested action', action)
+    console.log('[redux-request-middleware] Error from a reducer processing the requested action', action)
+    if (error) console.log(error)
     console.log(err)
   }
 
   // Return the final action for the benefit of components dispatching the action
-  if (callback && isFunction(callback))  {
+  if (callback && _.isFunction(callback))  {
     return callback(error, finalAction)
   }
   if (error) throw error

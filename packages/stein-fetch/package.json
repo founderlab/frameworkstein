@@ -1,7 +1,7 @@
 {
-  "name": "redux-request-middleware",
+  "name": "stein-fetch",
   "version": "8.0.2",
-  "description": "Redux middleware to dispatch stein-orm or stein-fetch requests",
+  "description": "Fetch wrapper that allows requests to be built via chaining functions",
   "main": "lib/index.js",
   "author": {
     "name": "Gwilym Humphreys",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/redux-request-middleware"
+    "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/stein-fetch"
   },
   "scripts": {
     "prepublish": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
@@ -19,8 +19,8 @@
     "test": "eval $(cat __tests__/.env) jest --runInBand"
   },
   "dependencies": {
-    "async-retry": "^1.0.0",
-    "stein-fetch": "^8.0.0",
+    "cross-fetch": "^3.0.0",
+    "qs": "^6.0.0",
     "lodash": "^4.0.0"
   },
   "devDependencies": {

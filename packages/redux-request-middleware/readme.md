@@ -46,25 +46,14 @@ const store = createStore(
 
 ```javascript
 
-// Promise
+// stein-fetch or any function returning a promise
 dispatch({
   type: 'GET_TASKS',
   request: fetch('/api/tasks'),
 })
 
-
-// Superagent
-import request from superagent
-
-dispatch({
-  type: 'GET_SOMETHING',
-  request: request.get('/something'),
-  callback: (err, action) => console.log('This will be called when the request completes. Useful for navigating after a request returns (login, etc). Errors should not be handled here - an error action is sent, work with that.'),
-})
-
-
-// BackboneORM
-import Task from './models/task'
+// stein-orm
+import Task from './models/Task'
 
 dispatch({
   type: 'GET_TASKS',
@@ -72,20 +61,10 @@ dispatch({
 })
 
 
-// Callback
-import Task from './models/task'
-
-dispatch({
-  type: 'GET_TASKS',
-  request: callback => loadSomeThingsManually(callback),
-})
-```
-
-
 requestModifierMiddleware
 -------------------------
 
-Appends a user id to any superagent request or BackboneORM cursor function it finds on an action.
+Functions to modify request actions before sending them.
 
 Designed to work alongside `requestMiddleware` which will perform the request and dispatch the relevant (sub)-actions.
 
@@ -102,11 +81,8 @@ It must be included *before* `requestMiddleware` when combining middleware, othe
 
 ```javascript
 export function setValue(request, value) {
-  if (_.isObject(request._cursor)) {
-    _.merge(request._cursor, value)
-  }
-  if (_.isFunction(request.query)) {
-    request.query(value)
+  if (_.isFunction(request.setHeaders)) {
+    request.setHeaders(value.headers)
   }
   return request
 }
@@ -115,21 +91,20 @@ export function setValue(request, value) {
 
 ##### Usage
 
-This example creates middleware that adds a $user_id param with the current user's id to requests
+This example creates middleware that adds a header with the current organisation id to requests
 
 ```javascript
 const requestModifierMiddleware = createRequestModifierMiddleware({
   getValue: store => {
     const { auth } = store.getState()
-    const value = {}
-    if (auth.get('user')) value.$user_id = auth.get('user').get('id')
+    const value = {
+      headers: {},
+    }
+    if (auth.get('organisation')) value.headers['x-organisation-id'] = auth.get('organisation').get('id')
     return value
   },
 })
 ```
-
-i.e. if you have a user with id `1234`, all modified requests will now look like `/api/some_model/?$user_id=1234`
-
 
 requestLoggerMiddleware
 -----------------------

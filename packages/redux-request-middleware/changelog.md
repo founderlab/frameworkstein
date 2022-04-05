@@ -1,11 +1,14 @@
 
 ## [Unreleased]
  
+## [8.0.0]
+  - Callback support removed
+  - Error handling simplified
+
 ## [5.0.0]
   - Added to Frameworkstein
   - Updated for react-router v4
   - Supports promises / async
-
 
 ## [0.13.5]
   - Bug fixes

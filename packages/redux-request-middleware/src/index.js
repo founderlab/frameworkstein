@@ -1,4 +1,4 @@
-import createRequestMiddleware from './request'
+import createRequestMiddleware from './requestMiddleware'
 import createRequestLoggerMiddleware from './requestLogger'
 import createResponseParserMiddleware from './responseParser'
 import createRequestModifierMiddleware from './requestModifier'
