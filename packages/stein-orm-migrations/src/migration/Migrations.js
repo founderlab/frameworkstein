@@ -5,7 +5,7 @@ import MigrationModel from '../models/Migration'
 
 async function executeMigration(path) {
   const migration = require(path)
-  return migration.up(err => console.log('[Migrations.executeMigration] error:', path, err))
+  return migration.up(err => err && console.log('[Migrations.executeMigration] error:', path, err))
 }
 
 export default class Migrations {
@@ -17,12 +17,11 @@ export default class Migrations {
 
   migrate = async (directory, filename) => {
     try {
-
        // ensure that the table has been created
       await MigrationModel.store.db().ensureSchema()
 
       // check to see if this migration has already been run
-      const existingModel = MigrationModel.findOne({name: filename})
+      const existingModel = await MigrationModel.findOne({name: filename})
       if (existingModel) {
         // this migration has already been run
         return existingModel
