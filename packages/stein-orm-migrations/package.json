@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-migrations",
-  "version": "8.0.9",
+  "version": "8.0.10",
   "description": "Automatic migrations for stein-orm",
   "main": "lib/index.js",
   "scripts": {
