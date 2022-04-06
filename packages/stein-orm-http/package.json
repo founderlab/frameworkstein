@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-http",
-  "version": "8.0.6",
+  "version": "8.0.7",
   "description": "",
   "main": "lib/index.js",
   "author": {
@@ -22,7 +22,7 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "jest": "^27.0.0",
-    "stein-orm": "^7.4.21",
+    "stein-orm": "^8.0.7",
     "util.promisify": "^1.0.0"
   },
   "peerDependencies": {

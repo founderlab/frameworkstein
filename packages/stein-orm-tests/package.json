@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-tests",
-  "version": "7.8.0",
+  "version": "8.0.7",
   "description": "",
   "main": "lib/index.js",
   "author": {
@@ -20,8 +20,8 @@
     "@babel/core": "^7.0.0",
     "babel-jest": "^24.0.0",
     "jest": "^27.0.0",
-    "stein-orm": "^7.4.21",
-    "stein-orm-sql": "^7.8.0"
+    "stein-orm": "^8.0.7",
+    "stein-orm-sql": "^8.0.7"
   },
   "dependencies": {
     "lodash": "^4.0.0"
