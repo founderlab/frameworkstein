@@ -56,7 +56,7 @@ export default class RestController extends JsonController {
 
   requestId = (req) => parseField(req.params.id, this.modelType, 'id')
 
-  index = async (req, res) => {
+  async index(req, res) {
     try {
       const cache = this.cache ? this.cache.cache : null
 
@@ -85,7 +85,7 @@ export default class RestController extends JsonController {
     }
   }
 
-  show = async (req, res) => {
+  async show(req, res) {
     try {
       const cache = this.cache ? this.cache.cache : null
 
@@ -153,7 +153,7 @@ export default class RestController extends JsonController {
     return {json: renderedJson}
   }
 
-  create = async (req, res) => {
+  async create(req, res) {
     try {
       let json = parseDates(this.whitelist.create ? _.pick(req.body, this.whitelist.create) : req.body)
       const model = new this.modelType(this.parse(json))
@@ -170,7 +170,7 @@ export default class RestController extends JsonController {
     }
   }
 
-  update = async (req, res) => {
+  async update(req, res) {
     try {
       let json = parseDates(this.whitelist.update ? _.pick(req.body, this.whitelist.update) : req.body)
       const model = await this.modelType.find(this.requestId(req))
@@ -188,7 +188,7 @@ export default class RestController extends JsonController {
     }
   }
 
-  destroy = async (req, res) => {
+  async destroy(req, res) {
     try {
       const id = this.requestId(req)
 
@@ -205,7 +205,7 @@ export default class RestController extends JsonController {
     }
   }
 
-  destroyByQuery = async (req, res) => {
+  async destroyByQuery(req, res) {
     try {
       await this.modelType.destroy(parseQuery(req.query))
       this.clearCache()
@@ -217,7 +217,7 @@ export default class RestController extends JsonController {
     }
   }
 
-  head = async (req, res) => {
+  async head(req, res) {
     try {
       const exists = await this.modelType.exists(this.requestId(req))
       return this.sendStatus(res, exists ? 200 : 404)
@@ -227,7 +227,7 @@ export default class RestController extends JsonController {
     }
   }
 
-  headByQuery = async (req, res) => {
+  async headByQuery(req, res) {
     try {
       const exists = await this.modelType.exists(parseQuery(req.query))
       return this.sendStatus(res, exists ? 200 : 404)
@@ -263,7 +263,7 @@ export default class RestController extends JsonController {
     return this._promiseOrCallbackFn(this._clearCache)(...args)
   }
 
-  render = async (req, json) => {
+  async render(req, json) {
     let templateName = req.query.$render || req.query.$template || this.defaultTemplate
     const key = `render_${templateName}_${this.route}`
     let single = false
