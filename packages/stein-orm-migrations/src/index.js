@@ -1,5 +1,3 @@
 import Migrations from './migration/Migrations'
 
-module.exports = {
-  Migrations,
-}
+export default Migrations
