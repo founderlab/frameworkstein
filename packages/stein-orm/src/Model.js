@@ -127,36 +127,21 @@ export default class SteinModel {
     }
   }
 
-  _link = async (relationName, _data) => {
+  link = async (relationName, _data) => {
     const data = await this._linkData(relationName, _data)
     return this.constructor.link(relationName, data)
   }
 
-  link = (relationName, data, callback) => {
-    if (_.isFunction(callback)) {
-      return this._link(relationName, data).then(() => callback(null, this)).catch(callback)
-    }
-    return this._link(relationName, data)
-  }
-
-  _unlink = async (relationName, _data) => {
+  unlink = async (relationName, _data) => {
     const data = await this._linkData(relationName, _data)
     return this.constructor.unlink(relationName, data)
   }
 
-  unlink = (relationName, data, callback) => {
-    if (_.isFunction(callback)) {
-      return this._unlink(relationName, data).then(() => callback(null, this)).catch(callback)
-    }
-    return this._unlink(relationName, data)
-  }
-
-  destroy = (callback) => {
+  destroy = () => {
     if (!this.id) {
-      if (callback) return callback()
       return
     }
-    return callback ? this.store.destroy({id: this.id}, callback) : this.store.destroy({id: this.id})
+    return this.store.destroy({id: this.id})
   }
 
   /*
@@ -272,19 +257,12 @@ export default class SteinModel {
     return this.promiseOrCallbackFn(this._findOne)(...args)
   }
 
-  static _findOrCreate(data, callback) {
-    const query = _.extend({$one: true}, data)
-
-    this.findOne(query, (err, model) => {
-      if (err) return callback(err)
-      if (model) return callback(null, model)
-
-      const m = new this(data)
-      m.save(callback)
-    })
-  }
-  static findOrCreate(...args) {
-    return this.promiseOrCallbackFn(this._findOrCreate)(...args)
+  static async findOrCreate(data) {
+    const query = {$one: true, ...data}
+    const model = await this.findOne(query)
+    if (model) return model
+    const m = new this(data)
+    return m.save()
   }
 
   /*
@@ -292,16 +270,13 @@ export default class SteinModel {
    * @param {string} relationName the name of the relation
    * @param {object} linkData an object containing the foreign keys of the link to create, e.g. {modelOne_id: 1, modelTwo_id: 2}
    */
-  static async _link(relationName, data, callback) {
+  static async link(relationName, data) {
     if (!_.isString(relationName) || !_.isObject(data)) throw new Error(`[stein-orm::link] arguments should be relationName::string, linkData::object - got ${relationName} ${data}`)
 
     const JoinTableModel = this.joinTable(relationName)
     if (!JoinTableModel) throw new Error(`[stein-orm::link] relation or join table not found for model ${this.name} and relation ${relationName}`)
 
-    return JoinTableModel.findOrCreate(data, callback)
-  }
-  static link(...args) {
-    return this.promiseOrCallbackFn(this._link)(...args)
+    return JoinTableModel.findOrCreate(data)
   }
 
   /*
@@ -309,30 +284,25 @@ export default class SteinModel {
    * @param {string} relationName the name of the relation
    * @param {object} linkData an object containing the foreign keys of the link to remove, e.g. {modelOne_id: 1, modelTwo_id: 2}
    */
-  static async _unlink(relationName, data, callback) {
+  static async unlink(relationName, data) {
     if (!_.isString(relationName) || !_.isObject(data)) throw new Error(`[stein-orm::unlink] arguments should be relationName::string, linkData::object - got ${relationName} ${data}`)
 
     const JoinTableModel = this.joinTable(relationName)
     if (!JoinTableModel) throw new Error(`[stein-orm::unlink] relation or join table not found for model ${this.name} and relation ${relationName}`)
 
-    return JoinTableModel.destroy(data, callback)
-  }
-  static unlink(...args) {
-    return this.promiseOrCallbackFn(this._unlink)(...args)
+    return JoinTableModel.destroy(data)
   }
 
-  static _destroy(query, callback) {
-    if (!query || _.isFunction(query)) throw new Error(this.errorMsg('Missing query from destroy'))
+  static async destroy(query) {
+    if (!query) throw new Error(this.errorMsg('Missing query from destroy'))
     if (!_.isObject(query)) {
       query = {id: query}
     }
     else if (_.isEmpty(query)) {
       throw new Error(this.errorMsg(`Received empty query, not destroying everything: ${JSON.stringify(query)}`))
     }
-    return this.store.destroy(query, callback)
-  }
-  static destroy(...args) {
-    return this.promiseOrCallbackFn(this._destroy)(...args)
+    console.log('this.store.destroy', this.store.destroy)
+    return this.store.destroy(query)
   }
 
   static get url() { return this.store.url }

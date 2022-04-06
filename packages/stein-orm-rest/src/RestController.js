@@ -56,132 +56,185 @@ export default class RestController extends JsonController {
 
   requestId = (req) => parseField(req.params.id, this.modelType, 'id')
 
-  index(req, res) {
-    const cache = this.cache ? this.cache.cache : null
+  index = async (req, res) => {
+    try {
+      const cache = this.cache ? this.cache.cache : null
 
-    if (this.requireXhr && !req.xhr) return this.sendStatus(res, 400)
-    if (req.method === 'HEAD') return this.headByQuery.apply(this, arguments)
+      if (this.requireXhr && !req.xhr) return this.sendStatus(res, 400)
+      if (req.method === 'HEAD') return this.headByQuery(req, res)
 
-    const done = (err, result) => {
+      let result
+      if (this.verbose) { console.time(`index_${this.route}`) }
+      if (cache) {
+        const key = `${this.cache.hash}|index_${JSON.stringify(req.query)}`
+        result = await cache.wrap(key, (() => this.fetchJSON(req, this.whitelist.index)), this.cache)
+      }
+      else {
+        result = await this.fetchJSON(req, this.whitelist.index)
+      }
+
       if (this.verbose) { console.timeEnd(`index_${this.route}`) }
-      if (err) return this.sendError(res, err)
       const { json, status, message } = result
       if (status) return this.sendStatus(res, status, message)
 
       if (req.query.$csv) return this.sendCSV(req, res, json)
       return res.json(json)
     }
-
-    if (this.verbose) { console.time(`index_${this.route}`) }
-    if (cache) {
-      const key = `${this.cache.hash}|index_${JSON.stringify(req.query)}`
-      return cache.wrap(key, (callback => this.fetchIndexJSON(req, callback)), this.cache, done)
+    catch (err) {
+      this.sendError(res, err)
     }
-
-    return this.fetchIndexJSON(req, done)
   }
 
-  show(req, res) {
-    const cache = this.cache ? this.cache.cache : null
+  show = async (req, res) => {
+    try {
+      const cache = this.cache ? this.cache.cache : null
 
-    const done = (err, result) => {
+      req.query.id = this.requestId(req)
+      req.query.$one = true
+
+      let result
+      if (this.verbose) { console.time(`show_${this.route}`) }
+      if (cache) {
+        const key = `${this.cache.hash}|show_${JSON.stringify(req.query)}`
+        result = await cache.wrap(key, (() => this.fetchJSON(req, this.whitelist.show)), this.cache)
+      }
+
+      result = await this.fetchJSON(req, this.whitelist.show)
+
       if (this.verbose) { console.timeEnd(`show_${this.route}`) }
-      if (err) return this.sendError(res, err)
       const { json, status, message } = result
       if (status) return this.sendStatus(res, status, message)
       return res.json(json)
     }
-
-    req.query.id = this.requestId(req)
-    req.query.$one = true
-
-    if (this.verbose) { console.time(`show_${this.route}`) }
-    if (cache) {
-      const key = `${this.cache.hash}|show_${JSON.stringify(req.query)}`
-      return cache.wrap(key, (callback => this.fetchShowJSON(req, callback)), this.cache, done)
+    catch (err) {
+      this.sendError(res, err)
     }
-
-    return this.fetchShowJSON(req, done)
   }
 
-  create(req, res) {
-    let json = parseDates(this.whitelist.create ? _.pick(req.body, this.whitelist.create) : req.body)
-    const model = new this.modelType(this.parse(json))
+  async fetchJSON(req, whitelist) {
+    const key = `fetchJSON_${this.route}`
+    if (this.verbose) console.time(key)
 
-    return model.save(err => {
-      if (err) return this.sendError(res, err)
+    let query = this.parseSearchQuery(parseQuery(req.query))
+    if (this.preprocessQuery) {
+      query = this.preprocessQuery(req, query)
+    }
+
+    let cursor = this.modelType.cursor(query)
+    if (whitelist) cursor = cursor.whiteList(whitelist)
+
+    const json = await cursor.toJSON()
+    if (this.verbose) console.timeEnd(key)
+
+    if (cursor.hasCursorQuery('$count') || cursor.hasCursorQuery('$exists')) return {json: {result: json}}
+
+    if (this.modelType.canViewJSON) {
+      const authResult = await this.modelType.canViewJSON({...req, query, json})
+      if (authResult === false || (_.isObject(authResult) && !authResult.authorised)) return {status: 401, message: (authResult && authResult.message) || 'Unauthorised'}
+    }
+
+    if (!json) {
+      if (cursor.hasCursorQuery('$one')) {
+        return {status: 404}
+      }
+      return {json}
+    }
+
+    if (cursor.hasCursorQuery('$page')) {
+      const renderedJson = await this.render(req, json.rows)
+      json.rows = renderedJson
+      return {json}
+    }
+    else if (cursor.hasCursorQuery('$values')) {
+      return {json}
+    }
+
+    const renderedJson = await this.render(req, json)
+    return {json: renderedJson}
+  }
+
+  create = async (req, res) => {
+    try {
+      let json = parseDates(this.whitelist.create ? _.pick(req.body, this.whitelist.create) : req.body)
+      const model = new this.modelType(this.parse(json))
+      await model.save()
       this.clearCache()
 
       json = this.whitelist.create ? _.pick(model.toJSON(), this.whitelist.create) : model.toJSON()
-
-      return this.render(req, json, (err, json) => {
-        if (err) return this.sendError(res, err)
-
-        this.events.emit('create', {req, res, model, json})
-        return res.json(json)
-      })
-    })
+      const renderedJson = await this.render(req, json)
+      this.events.emit('create', {req, res, model, json: renderedJson})
+      return res.json(renderedJson)
+    }
+    catch (err) {
+      this.sendError(res, err)
+    }
   }
 
-  update(req, res) {
-    let json = parseDates(this.whitelist.update ? _.pick(req.body, this.whitelist.update) : req.body)
+  update = async (req, res) => {
+    try {
+      let json = parseDates(this.whitelist.update ? _.pick(req.body, this.whitelist.update) : req.body)
+      const model = await this.modelType.find(this.requestId(req))
+      if (!model) return this.sendStatus(res, 404)
+      await model.save(this.parse(json))
+      this.clearCache()
 
-    return this.modelType.find(this.requestId(req), (err, model) => {
-      if (err) return this.sendError(res, err)
-      if (!model) { return this.sendStatus(res, 404) }
-
-      return model.save(this.parse(json), err => {
-        if (err) return this.sendError(res, err)
-        this.clearCache()
-
-        json = this.whitelist.update ? _.pick(model.toJSON(), this.whitelist.update) : model.toJSON()
-
-        return this.render(req, json, (err, json) => {
-          if (err) return this.sendError(res, err)
-          this.events.emit('update', {req, res, model, json})
-          return res.json(json)
-        })
-      })
-    })
+      json = this.whitelist.update ? _.pick(model.toJSON(), this.whitelist.update) : model.toJSON()
+      const renderedJson = await this.render(req, json)
+      this.events.emit('update', {req, res, model, json: renderedJson})
+      return res.json(renderedJson)
+    }
+    catch (err) {
+      this.sendError(res, err)
+    }
   }
 
-  destroy(req, res) {
-    const id = this.requestId(req)
+  destroy = async (req, res) => {
+    try {
+      const id = this.requestId(req)
 
-    return this.modelType.exists(id, (err, exists) => {
-      if (err) return this.sendError(res, err)
-      if (!exists) { return this.sendStatus(res, 404) }
+      const exists = await this.modelType.exists(id)
+      if (!exists) return this.sendStatus(res, 404)
 
-      return this.modelType.destroy(id, err => {
-        if (err) return this.sendError(res, err)
-        this.clearCache()
-        this.events.emit('destroy', {req, res, id})
-        return res.json({})
-      })
-    })
+      await this.modelType.destroy(id)
+      this.clearCache()
+      this.events.emit('destroy', {req, res, id})
+      return res.json({})
+    }
+    catch (err) {
+      this.sendError(res, err)
+    }
   }
 
-  destroyByQuery(req, res) {
-    return this.modelType.destroy(parseQuery(req.query), err => {
-      if (err) return this.sendError(res, err)
+  destroyByQuery = async (req, res) => {
+    try {
+      await this.modelType.destroy(parseQuery(req.query))
       this.clearCache()
       this.events.emit('destroyByQuery', {req, res})
       return res.json({})
-    })
+    }
+    catch (err) {
+      this.sendError(res, err)
+    }
   }
 
-  head(req, res) {
-    return this.modelType.exists(this.requestId(req), (err, exists) => {
-      if (err) return this.sendError(res, err)
+  head = async (req, res) => {
+    try {
+      const exists = await this.modelType.exists(this.requestId(req))
       return this.sendStatus(res, exists ? 200 : 404)
-    })
+    }
+    catch (err) {
+      this.sendError(res, err)
+    }
   }
 
-  headByQuery(req, res) {
-    return this.modelType.exists(parseQuery(req.query), (err, exists) => {
-      if (err) return this.sendError(res, err)
+  headByQuery = async (req, res) => {
+    try {
+      const exists = await this.modelType.exists(parseQuery(req.query))
       return this.sendStatus(res, exists ? 200 : 404)
-    })
+    }
+    catch (err) {
+      this.sendError(res, err)
+    }
   }
 
   _clearCache(callback) {
@@ -202,7 +255,7 @@ export default class RestController extends JsonController {
     }
 
     return queue.await(err => {
-      if (err) { console.log(`[${this.modelType.name} controller] Error clearing cache: `, err) }
+      if (err) console.log(`[${this.modelType.name} controller] Error clearing cache: `, err)
       callback(err)
     })
   }
@@ -210,70 +263,19 @@ export default class RestController extends JsonController {
     return this._promiseOrCallbackFn(this._clearCache)(...args)
   }
 
-  fetchIndexJSON(req, callback) { this.fetchJSON(req, this.whitelist.index, callback) }
-  fetchShowJSON(req, callback) { this.fetchJSON(req, this.whitelist.show, callback) }
-
-  async fetchJSON(req, whitelist, callback) {
-    try {
-      const key = `fetchJSON_${this.route}`
-      if (this.verbose) console.time(key)
-
-      let query = this.parseSearchQuery(parseQuery(req.query))
-      if (this.preprocessQuery) {
-        query = this.preprocessQuery(req, query)
-      }
-
-      let cursor = this.modelType.cursor(query)
-      if (whitelist) cursor = cursor.whiteList(whitelist)
-
-      const json = await cursor.toJSON()
-      if (this.verbose) console.timeEnd(key)
-
-      if (cursor.hasCursorQuery('$count') || cursor.hasCursorQuery('$exists')) return callback(null, {json: {result: json}})
-
-      if (this.modelType.canViewJSON) {
-        const authResult = await this.modelType.canViewJSON({...req, query, json})
-        if (authResult === false || (_.isObject(authResult) && !authResult.authorised)) return callback(null, {status: 401, message: (authResult && authResult.message) || 'Unauthorised'})
-      }
-
-      if (!json) {
-        if (cursor.hasCursorQuery('$one')) {
-          return callback(null, {status: 404})
-        }
-        return callback(null, {json})
-      }
-
-      if (cursor.hasCursorQuery('$page')) {
-        const renderedJson = await this.render(req, json.rows)
-        json.rows = renderedJson
-        return callback(null, {json})
-      }
-      else if (cursor.hasCursorQuery('$values')) {
-        return callback(null, {json})
-      }
-
-      const renderedJson = await this.render(req, json)
-      return callback(null, {json: renderedJson})
-    }
-    catch (err) {
-      callback(err)
-    }
-  }
-
-  _render(req, json, callback) {
+  render = async (req, json) => {
     let templateName = req.query.$render || req.query.$template || this.defaultTemplate
     const key = `render_${templateName}_${this.route}`
     let single = false
 
-    const done = (err, renderedJson) => {
-      if (this.verbose) { console.timeEnd(key) }
-      if (err) return callback(err)
+    const done = renderedJson => {
+      if (this.verbose) console.timeEnd(key)
       const cleanedJson = this.clean(renderedJson)
-      return callback(null, single ? cleanedJson[0] : cleanedJson)
+      return single ? cleanedJson[0] : cleanedJson
     }
 
-    if (this.verbose) { console.time(key) }
-    if (!templateName) { return done(null, json) }
+    if (this.verbose) console.time(key)
+    if (!templateName) return done(json)
 
     if (!_.isArray(json)) {
       single = true
@@ -287,21 +289,21 @@ export default class RestController extends JsonController {
     catch (error) { }
 
     const template = this.templates[templateName]
-    if (!template) return callback(new Error(`Unrecognized template: ${this.name} ${templateName}`))
+    if (!template) throw new Error(`Unrecognized template: ${this.name} ${templateName}`)
 
     const options = (this.renderOptions ? this.renderOptions(req, templateName) : {})
 
-    if (_.isFunction(template)) return template(json, options, done)
-    else if (template.$select) {
-      return done(null, _.map(json, j => _.pick(j, template.$select)))
+    if (_.isFunction(template)) {
+      const result = await template(json, options)
+      return done(result)
     }
-    return callback(new Error(`Unrecognised template type: ${this.name} ${templateName} ${JSON.stringify(template)}`))
-  }
-  render(...args) {
-    return this._promiseOrCallbackFn(this._render)(...args)
+    else if (template.$select) {
+      return done(_.map(json, j => _.pick(j, template.$select)))
+    }
+    throw new Error(`Unrecognised template type: ${this.modelType.name} ${templateName} ${JSON.stringify(template)}`)
   }
 
-  parse(model) { return parse(model) }
+  parse = model => parse(model)
 
   parseSearchQuery(query) {
     const newQuery = {}
