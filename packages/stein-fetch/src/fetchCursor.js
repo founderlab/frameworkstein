@@ -64,7 +64,7 @@ export class FetchCursor {
       ...this.options,
       headers: this._headers,
     }
-    if (this._body) opts.body = JSON.stringify(this._body)
+    if (this._body) opts.body = _.isString(this._body) ? this._body : JSON.stringify(this._body)
     return opts
   }
 

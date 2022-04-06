@@ -13,7 +13,7 @@ export default class HttpCursor extends Cursor {
 
   setHeaders = headers => this._headers = headers
 
-  toJSON = async () => {
+  _toJSON = async () => {
     if (this.hasCursorQuery('$zero')) return this.hasCursorQuery('$one') ? null : []
 
     const query = querify({...this._find, ...this._cursor})
@@ -31,5 +31,16 @@ export default class HttpCursor extends Cursor {
 
     const json = await res.json()
     return this.hasCursorQuery('$count') || this.hasCursorQuery('$exists') ? json.result : json
+  }
+
+  toJSON = async callback => {
+    if (!callback) return this._toJSON()
+    try {
+      const res = await this.toJSON()
+      return callback(null, res)
+    }
+    catch (err) {
+      return callback(err)
+    }
   }
 }
