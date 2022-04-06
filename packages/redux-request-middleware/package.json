@@ -1,6 +1,6 @@
 {
   "name": "redux-request-middleware",
-  "version": "8.0.5",
+  "version": "8.0.6",
   "description": "Redux middleware to dispatch stein-orm or stein-fetch requests",
   "main": "lib/index.js",
   "author": {
@@ -21,7 +21,7 @@
   "dependencies": {
     "async-retry": "^1.0.0",
     "lodash": "^4.0.0",
-    "stein-fetch": "^8.0.5"
+    "stein-fetch": "^8.0.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
