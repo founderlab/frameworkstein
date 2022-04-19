@@ -301,7 +301,6 @@ export default class SteinModel {
     else if (_.isEmpty(query)) {
       throw new Error(this.errorMsg(`Received empty query, not destroying everything: ${JSON.stringify(query)}`))
     }
-    console.log('this.store.destroy', this.store.destroy)
     return this.store.destroy(query)
   }
 

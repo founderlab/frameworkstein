@@ -15,13 +15,13 @@ const defaults = {
 export class FetchCursor {
 
   constructor(path, options={}) {
-    this.options = {...defaults, ...options}
-    this._maxErrorMessageLength = options.maxErrorMessageLength || 100
-    this._query = options.query
-    this._urlRoot = options.urlRoot || ''
-    this._headers = options.headers || {}
-    this._body = options.body
     this._path = path
+    this.options = {...defaults, ...options}
+    this._maxErrorMessageLength = this.options.maxErrorMessageLength || 100
+    this._query = this.options.query
+    this._urlRoot = this.options.urlRoot || ''
+    this._headers = this.options.headers || {}
+    this._body = this.options.body
   }
 
   setHeaders = headers => {
