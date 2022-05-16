@@ -65,7 +65,7 @@ export default function createModelListEditor(modelAdmin) {
 
       const loadedAction = await store.dispatch(loadModelsPage(page, _.clone(query)))
       const modelIds = loadedAction.ids
-      await fetchRelated({store, modelAdmin, modelIds, loadAll: true})
+      await fetchRelated({store, modelAdmin, modelIds})
     }
 
     query = () => qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
