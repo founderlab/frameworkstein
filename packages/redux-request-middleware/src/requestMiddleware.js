@@ -73,7 +73,6 @@ export async function processAction(next, _action, options) {
   catch (err) {
     error = err
     finalAction = {error: err, type: ERROR, ...rest}
-    console.log('finalAction', finalAction)
   }
 
   try {

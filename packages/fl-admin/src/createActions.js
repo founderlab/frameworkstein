@@ -24,7 +24,7 @@ export default function createActions(modelAdmin) {
     countModels: query => {
       return {
         type: modelAdmin.actionType + '_COUNT',
-        request: Model.count(query),
+        request: Model.cursor({...query, $count: true}),
       }
     },
 
