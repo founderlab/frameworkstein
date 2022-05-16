@@ -145,4 +145,4 @@ export default function configure(_options) {
   reducer = combineReducers(reducers)
 }
 
-export {actions, reducer, modelAdmins, getRoutes}
+export { actions, reducer, modelAdmins, getRoutes }
