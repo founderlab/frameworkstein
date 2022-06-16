@@ -15,6 +15,7 @@ export default function BelongsTo(_props) {
 
   if (relationField.readOnly || relationField.linked) {
     const relatedModel = _.find(models, model => model.id === props.input.value)
+    if (!relatedModel) return null
     const value = modelAdmin.display(relatedModel)
 
     return (
