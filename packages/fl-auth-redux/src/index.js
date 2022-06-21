@@ -1,7 +1,7 @@
 import reducer from './reducer'
 import types from './action_types'
 import accessTokenMiddleware, { createAccessTokenMiddleware } from './middleware/accessToken'
-import { register, login, reset, resetRequest, logout, updateUser } from './actions'
+import { register, login, reset, resetRequest, confirmEmail, logout, updateUser } from './actions'
 
 export {
   reducer,
@@ -12,6 +12,7 @@ export {
   login,
   reset,
   resetRequest,
+  confirmEmail,
   logout,
   updateUser,
 }

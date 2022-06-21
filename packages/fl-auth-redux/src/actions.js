@@ -89,4 +89,4 @@ export function updateUser(user, callback) {
   }
 }
 
-export default {register, login, reset, resetRequest, logout, updateUser}
+export default {register, login, reset, resetRequest, confirmEmail, logout, updateUser}
