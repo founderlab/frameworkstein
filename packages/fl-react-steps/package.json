@@ -26,5 +26,6 @@
     "classnames": "^2.0.0",
     "prop-types": "*",
     "react": ">=16.0.0"
-  }
+  },
+  "gitHead": "191a60287152de6b5205b8d902327b9fe4bb8a84"
 }

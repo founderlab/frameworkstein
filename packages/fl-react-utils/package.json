@@ -44,5 +44,6 @@
     "redux": "^4.0.0",
     "redux-form": "^8.0.0",
     "warning": "^2.0.0"
-  }
+  },
+  "gitHead": "191a60287152de6b5205b8d902327b9fe4bb8a84"
 }

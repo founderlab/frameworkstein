@@ -33,5 +33,6 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     }
-  }
+  },
+  "gitHead": "191a60287152de6b5205b8d902327b9fe4bb8a84"
 }
