@@ -13,7 +13,7 @@
     "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/fl-admin"
   },
   "scripts": {
-    "prepublish": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
+    "prepare": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
     "build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
     "watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
     "test": "eval $(cat test/.env) mocha test/**/*.tests.js"

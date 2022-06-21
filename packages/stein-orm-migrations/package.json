@@ -4,7 +4,7 @@
   "description": "Automatic migrations for stein-orm",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
+    "prepare": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
     "build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
     "watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
     "test": "eval $(cat __tests__/.env) jest --runInBand"
