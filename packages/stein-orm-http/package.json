@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-http",
-  "version": "9.0.0-rc.3",
+  "version": "9.0.0-rc.4",
   "description": "",
   "main": "lib/index.js",
   "author": {
@@ -22,11 +22,11 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "jest": "^27.0.0",
-    "stein-orm": "^9.0.0-rc.2",
+    "stein-orm": "^9.0.0-rc.4",
     "util.promisify": "^1.0.0"
   },
   "peerDependencies": {
-    "stein-orm": ">=8.0.0"
+    "stein-orm": "9.0.0-rc.4"
   },
   "dependencies": {
     "cross-fetch": "^3.0.0",

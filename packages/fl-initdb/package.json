@@ -1,6 +1,6 @@
 {
   "name": "fl-initdb",
-  "version": "9.0.0-rc.2",
+  "version": "9.0.0-rc.4",
   "description": "Auto create and populate a database",
   "main": "lib/index.js",
   "author": {
@@ -23,7 +23,7 @@
     "@babel/core": "^7.0.0"
   },
   "dependencies": {
-    "fl-server-utils": "^9.0.0-rc.2",
+    "fl-server-utils": "^9.0.0-rc.4",
     "lodash": "^4.0.0",
     "pg": "^8.0.0",
     "queue-async": "^1.0.0"
