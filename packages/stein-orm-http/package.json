@@ -26,7 +26,7 @@
     "util.promisify": "^1.0.0"
   },
   "peerDependencies": {
-    "stein-orm": "^8.0.0"
+    "stein-orm": ">=8.0.0"
   },
   "dependencies": {
     "cross-fetch": "^3.0.0",
