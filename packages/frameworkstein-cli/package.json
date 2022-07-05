@@ -1,6 +1,6 @@
 {
   "name": "frameworkstein",
-  "version": "9.0.0-rc.4",
+  "version": "9.0.0-rc.5",
   "description": "FounderLab Frameworkstein command line interface and amalgamation of packages",
   "preferGlobal": true,
   "bin": {

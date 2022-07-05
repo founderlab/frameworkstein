@@ -1,6 +1,6 @@
 {
   "name": "fl-stripe-server",
-  "version": "9.0.0-rc.4",
+  "version": "9.0.0-rc.5",
   "description": "Stripe controller for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -23,12 +23,12 @@
     "@babel/core": "^7.0.0",
     "babel-jest": "^24.0.0",
     "jest": "^27.0.0",
-    "stein-orm": "^9.0.0-rc.4",
-    "stein-orm-sql": "^9.0.0-rc.4"
+    "stein-orm": "^9.0.0-rc.5",
+    "stein-orm-sql": "^9.0.0-rc.5"
   },
   "dependencies": {
-    "fl-auth-server": "^9.0.0-rc.4",
-    "fl-server-utils": "^9.0.0-rc.4",
+    "fl-auth-server": "^9.0.0-rc.5",
+    "fl-server-utils": "^9.0.0-rc.5",
     "lodash": "^4.0.0",
     "moment": "^2.0.0",
     "stripe": "^8.24.0"
