@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-rest",
-  "version": "9.0.0-rc.5",
+  "version": "9.0.0-rc.6",
   "description": "",
   "main": "lib/index.js",
   "author": {
@@ -22,11 +22,11 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "jest": "^27.0.0",
-    "stein-orm": "^9.0.0-rc.5",
+    "stein-orm": "^9.0.0-rc.6",
     "supertest": "^4.0.2"
   },
   "peerDependencies": {
-    "stein-orm": "9.0.0-rc.5"
+    "stein-orm": "*"
   },
   "dependencies": {
     "json2csv": "^4.5.1",
