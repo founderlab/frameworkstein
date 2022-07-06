@@ -46,7 +46,6 @@ function joinToRelation(query, relation, options={}) {
 }
 
 function appendJoinedWhere(query, condition, options={}) {
-  console.log('appendJoinedWhere', query.toString())
   const fromModelType = condition.relation.modelType
   const relationModelType = condition.relation.reverseModelType
 
@@ -65,7 +64,6 @@ function appendJoinedWhere(query, condition, options={}) {
         builder2.select('id').from(toTable)
 
         condition.conditions.forEach(c => {
-          console.log('c', c)
           builder2[c.method](c.key, c.value)
         })
         return builder2
