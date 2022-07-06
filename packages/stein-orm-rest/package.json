@@ -26,7 +26,7 @@
     "supertest": "^4.0.2"
   },
   "peerDependencies": {
-    "stein-orm": "*"
+    "stein-orm": ">=8"
   },
   "dependencies": {
     "json2csv": "^4.5.1",

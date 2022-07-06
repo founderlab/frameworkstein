@@ -287,14 +287,11 @@ export default class SqlAst {
         if (this.isJsonField(_key) || (options.relation && this.isJsonField(_key, options.modelType))) {
           for (const inVal of Array.from(value.$in)) {
             condition.conditions.push({
-              method: 'orWhere',
-              conditions: [{
-                key: '?? \\? ?',
-                value: [key, inVal],
-                method: 'whereRaw',
-                relation: options.relation,
-                modelType: options.modelType,
-              }],
+              key: '?? \\? ?',
+              value: [key, inVal],
+              method: 'orWhereRaw',
+              relation: options.relation,
+              modelType: options.modelType,
             })
           }
           return condition
@@ -527,7 +524,7 @@ export default class SqlAst {
     // process.env.NODE_ENV ==='test' ? console.log(toPrint) : console.dir(toPrint, {depth: null, colors: true})
 
     if (cond.conditions != null ? cond.conditions.length : undefined) {
-      s += indent + '[\n'
+      s += indent + 'conditions: [\n'
       for (const c of Array.from(cond.conditions)) s += this.printCondition(c, indent + '  ')
       s += indent + ']\n'
     }

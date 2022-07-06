@@ -26,7 +26,7 @@
     "stein-orm": "^9.0.0-rc.6"
   },
   "peerDependencies": {
-    "stein-orm": "*"
+    "stein-orm": ">=8"
   },
   "dependencies": {
     "inflection": "^1.0.0",

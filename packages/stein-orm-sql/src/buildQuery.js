@@ -46,6 +46,7 @@ function joinToRelation(query, relation, options={}) {
 }
 
 function appendJoinedWhere(query, condition, options={}) {
+  console.log('appendJoinedWhere', query.toString())
   const fromModelType = condition.relation.modelType
   const relationModelType = condition.relation.reverseModelType
 
@@ -59,6 +60,16 @@ function appendJoinedWhere(query, condition, options={}) {
 
   query.whereIn(fromKey, builder => {
     return builder.select(pivotToKey).from(pivotTable).whereIn(pivotFromKey, builder2 => {
+
+      if (condition.conditions && condition.conditions.length) {
+        builder2.select('id').from(toTable)
+
+        condition.conditions.forEach(c => {
+          console.log('c', c)
+          builder2[c.method](c.key, c.value)
+        })
+        return builder2
+      }
 
       if (condition.operator) {
         return builder2.select('id').from(toTable)[condition.method](condition.key, condition.operator, condition.value)
