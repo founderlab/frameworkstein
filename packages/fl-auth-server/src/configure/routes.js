@@ -2,6 +2,7 @@ import moment from 'moment'
 import passport from 'passport'
 import { logout, sendError, createToken } from '../lib'
 
+
 export default function configureRoutes(options={}) {
   const app = options.app
   const User = options.User
@@ -114,8 +115,14 @@ export default function configureRoutes(options={}) {
   })
 
   // logout
-  app.all(options.paths.logout, (req, res) => {
-    logout(req, () => res.redirect(req.query.returnTo || '/'))
+  app.all(options.paths.logout, async (req, res) => {
+    try {
+      await logout(req)
+      res.redirect(req.query.returnTo || '/')
+    }
+    catch (err) {
+      sendError(res, err)
+    }
   })
 
   // status
