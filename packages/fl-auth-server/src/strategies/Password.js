@@ -3,10 +3,10 @@ import LocalStrategy from './Local'
 // Strategy to log a user in using their username/password
 export default class PasswordStrategy extends LocalStrategy {
 
-  verify(req, email, password, callback) {
-    const User = this.User
-    User.findOne(this.userQuery(email), (err, user) => {
-      if (err) return callback(err)
+  verify = async (req, email, password, callback) => {
+    try {
+      const User = this.User
+      const user = await User.findOne(this.userQuery(email))
       if (!user) {
         console.log('[fl-auth] email error: user not found', email)
         return callback(null, false, 'User not found')
@@ -17,8 +17,20 @@ export default class PasswordStrategy extends LocalStrategy {
       if (!user.passwordIsValid(password)) {
         return callback(null, false, 'Incorrect password')
       }
-      if (User.onLogin) return User.onLogin({req, user}, err => callback(err, user))
+      if (User.onLogin) {
+        try {
+          await User.onLogin({req, user})
+        }
+        catch (err) {
+          console.log('[fl-auth] User.onLogin error', err, user)
+          callback(err, user)
+        }
+      }
       callback(null, user)
-    })
+    }
+    catch (err) {
+      console.log(err)
+      callback(err)
+    }
   }
 }

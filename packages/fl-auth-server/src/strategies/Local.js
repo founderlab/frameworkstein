@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { Strategy } from 'passport'
 import { findOrCreateAccessToken } from '../lib'
 
+
 export default class LocalStrategy extends Strategy {
   constructor(options={}, verify) {
     super()
@@ -15,12 +16,12 @@ export default class LocalStrategy extends Strategy {
     const password = (req.body && req.body[this.passwordField]) || (req.query && req.query[this.passwordField])
     if (!this.isValidUsername(email) || !password) return this.fail(this.badRequestMessage)
 
-    this.verify(req, email.trim(), password, (err, user, info) => {
+    this.verify(req, email.trim(), password, async (err, user, info) => {
       if (err) return this.error(err)
       if (!user) return this.fail(info)
 
-      findOrCreateAccessToken({user_id: user.id}, {expires: true}, (err, token, refreshToken, info) => {
-        if (err) return this.error(err)
+      try {
+        const { token, refreshToken, info } = await findOrCreateAccessToken({user_id: user.id})
 
         if (!req.session) {
           const msg = '[fl-auth] LocalStrategy: Missing session from req. Is redis running?'
@@ -31,7 +32,10 @@ export default class LocalStrategy extends Strategy {
         req.session.accessToken = {token, expiresDate: info.expiresDate}
         req.session.save(err => {if (err) console.log('[fl-auth] Error saving session', err)})
         this.success(_.omit(user.toJSON(), 'password'), {accessToken: token})
-      })
+      }
+      catch (err) {
+        return this.error(err)
+      }
     })
   }
 }

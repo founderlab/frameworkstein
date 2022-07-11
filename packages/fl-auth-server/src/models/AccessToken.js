@@ -1,4 +1,3 @@
-import _ from 'lodash' // eslint-disable-line
 import moment from 'moment'
 import { createModel, Model } from 'stein-orm-sql'
 import { createToken } from '../lib'
