@@ -46,6 +46,8 @@ export default class FLInput extends React.Component {
     localeDateFormat: PropTypes.string,
     prepend: PropTypes.node,
     append: PropTypes.node,
+    fat: PropTypes.bool,
+    icon: PropTypes.string,
   }
 
   static defaultProps = {
@@ -135,15 +137,30 @@ export default class FLInput extends React.Component {
         break
 
       case 'checkbox':
+        const { fat, icon } = this.props
         inputProps.checked = !!inputProps.value
         check = true
         const oc = e => inputProps.onChange(e.target.value !== 'true')
 
-        control = (
-          <Label check className="p-2">
-            <Input type="checkbox" {...bsProps} {...inputProps} onChange={oc} /> {label}
-          </Label>
-        )
+        if (fat) {
+          control = (
+            <Label check className="radio-inline d-flex bg-light mb-4">
+              <Input type="checkbox" {...bsProps} {...inputProps} onChange={oc} />
+              <div className="ml-2">
+                <div><i className={`fad fa-fw fa-${icon} text-primary mr-2`} />{label}</div>
+                <div className="small text-muted">{help}</div>
+              </div>
+            </Label>
+          )
+          help = ''
+        }
+        else {
+          control = (
+            <Label check className="p-2">
+              <Input type="checkbox" {...bsProps} {...inputProps} onChange={oc} /> {label}
+            </Label>
+          )
+        }
         break
 
       case 'boolean':
