@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-http",
-  "version": "9.0.0",
+  "version": "9.0.5",
   "description": "",
   "main": "lib/index.js",
   "author": {
