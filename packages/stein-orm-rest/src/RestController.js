@@ -76,7 +76,6 @@ export default class RestController extends JsonController {
       if (this.verbose) { console.timeEnd(`index_${this.route}`) }
       const { json, status, message } = result
       if (status) return this.sendStatus(res, status, message)
-
       if (req.query.$csv) return this.sendCSV(req, res, json)
       return res.json(json)
     }
@@ -355,6 +354,9 @@ export default class RestController extends JsonController {
         options.fields = JSON.parse(req.query.$csv)
       }
       catch (err) { }
+      if (!_.isArray(options.fields) || !options.fields.length) {
+        if (json[0]) options.fields = _.keys(json[0])
+      }
       const csv = await parseAsync(json, options)
       res.send(csv)
     }
