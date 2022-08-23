@@ -35,7 +35,7 @@ async function fetchOneManyToMany(relationField, modelId, options) {
   const { auth } = store.getState()
 
   const query = {
-    [relationField.relation.foreignKey]: modelId,
+    [relationField.relation.reverseRelation.key + '.id']: modelId,
     $user_id: auth.get('user').get('id'),
   }
 
