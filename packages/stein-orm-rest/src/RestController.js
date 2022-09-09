@@ -353,9 +353,16 @@ export default class RestController extends JsonController {
       try {
         options.fields = JSON.parse(req.query.$csv)
       }
-      catch (err) { }
-      if (!_.isArray(options.fields) || !options.fields.length) {
-        if (json[0]) options.fields = _.keys(json[0])
+      catch (err) {
+        options.fields = []
+      }
+      if (!options.fields.length && json.length) {
+        options.fields = []
+        for (const row of json) {
+          for (const key in row) {
+            if (!options.fields.includes(key)) options.fields.push(key)
+          }
+        }
       }
       const csv = await parseAsync(json, options)
       res.send(csv)
