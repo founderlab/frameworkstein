@@ -34,7 +34,6 @@
     "prop-types": "*",
     "qs": "^6.0.0",
     "react": ">=16.0.0",
-    "react-datetime": "^2.0.0",
     "react-dom": ">=16.0.0",
     "react-dropzone-s3-uploader": "^1.0.0",
     "react-helmet": "^5.0.0",
