@@ -25,7 +25,6 @@ export default class SplitDatetime extends React.Component {
       PropTypes.object,
     ]),
     value: PropTypes.any,
-    onBlur: PropTypes.func,
     isValidDate: PropTypes.func,
     dateFormat: PropTypes.string,
     localeDateFormat: PropTypes.string,
