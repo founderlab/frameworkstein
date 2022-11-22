@@ -4,13 +4,17 @@ import moment from 'moment'
 import React from 'react'
 import PropTypes from 'prop-types'
 import warning from 'warning'
-import ReactDatetime from 'react-datetime'
 import { FormGroup, Label, Input, FormText, FormFeedback, Row, Col, InputGroup, InputGroupAddon } from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
-import Select from './Select'
-import S3Uploader from './S3Uploader'
-import { validationError, validationState } from '../utils/validation'
-import markdownProps from '../utils/markdownProps'
+import Select from '../Select'
+import S3Uploader from '../S3Uploader'
+import DateInput from './DateInput'
+import DatetimeInput from './DatetimeInput'
+import TimeInput from './TimeInput'
+import SelectInput from './SelectInput'
+import ReactSelectInput from './ReactSelectInput'
+import { validationError, validationState } from '../../utils/validation'
+import markdownProps from '../../utils/markdownProps'
 
 
 export default class FLInput extends React.Component {
@@ -62,6 +66,21 @@ export default class FLInput extends React.Component {
   focus = () => this._input && this._input.focus && this._input.focus()
 
   render() {
+    switch (this.props.type) {
+      case 'date':
+        return <DateInput {...this.props} />
+      case 'datetime':
+        return <DatetimeInput {...this.props} />
+      case 'time':
+        return <TimeInput {...this.props} />
+      case 'select':
+        return <SelectInput {...this.props} />
+      case 'react-select':
+        return <ReactSelectInput {...this.props} />
+      case 'image':
+      case 'file':
+        return <S3UploaderInput {...this.props} />
+
     const { label, input, meta, helpMd, helpTop, type, className, bsProps, validationState, prepend, append, options } = this.props
 
     const validation = validationState ? validationState(meta) : null
@@ -81,60 +100,39 @@ export default class FLInput extends React.Component {
     let control
 
     switch (type) {
-      case 'date':
-      case 'datetime':
-      case 'time':
-        let placeholder = 'DD/MM/YYYY 9:00 am'
-        inputProps.dateFormat = this.props.dateFormat || moment.localeData().longDateFormat(this.props.localeDateFormat)
-        if (type === 'date') {
-          placeholder = inputProps.dateFormat
-          inputProps.timeFormat = false
-          if (!meta.dirty && _.isString(inputProps.value)) inputProps.value = moment(inputProps.value)
-        }
-        else if (type === 'time') {
-          placeholder = '9:00 am'
-          inputProps.dateFormat = false
-          inputProps.timeFormat = 'hh:mm a'
-          if (!meta.dirty && _.isString(inputProps.value)) inputProps.value = moment(inputProps.value)
-        }
-        else if (!meta.dirty && _.isString(inputProps.value)) {
-          inputProps.value = moment(inputProps.value)
-        }
-        control = <ReactDatetime closeOnSelect inputProps={{placeholder}} {..._.omit(inputProps, 'onFocus', 'onBlur')} />
-        break
+      // case 'select':
+      //   if (!options) {
+      //     warning(false, 'select components require an options prop')
+      //     return null
+      //   }
+      //   console.log('inputProps', inputProps)
+      //   control = (
+      //     <Input type="select" {...inputProps}>
+      //       {this.props.includeEmpty && <option />}
+      //       {inputProps.placeholder && <option value="">{inputProps.placeholder}</option>}
+      //       {_.map(options, opt => {
+      //         const option = _.isObject(opt) ? opt : {label: opt, value: opt}
+      //         return (
+      //           <option key={option.value} value={option.value}>{option.label}</option>
+      //         )
+      //       })}
+      //     </Input>
+      //   )
+      //   break
 
-      case 'select':
-        if (!options) {
-          warning(false, 'select components require an options prop')
-          return null
-        }
-        control = (
-          <Input type="select" {...inputProps}>
-            {this.props.includeEmpty && <option />}
-            {inputProps.placeholder && <option value="">{inputProps.placeholder}</option>}
-            {_.map(options, opt => {
-              const option = _.isObject(opt) ? opt : {label: opt, value: opt}
-              return (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              )
-            })}
-          </Input>
-        )
-        break
+      // case 'react-select':
+      //   if (!options) {
+      //     warning(false, 'react-select components require an options prop')
+      //     return null
+      //   }
+      //   const { onBlur, ...props } = inputProps
+      //   control = <Select options={options} {...props} />
+      //   break
 
-      case 'react-select':
-        if (!options) {
-          warning(false, 'react-select components require an options prop')
-          return null
-        }
-        const { onBlur, ...props } = inputProps
-        control = <Select options={options} {...props} />
-        break
-
-      case 'image':
-      case 'file':
-        control = <S3Uploader type={type} {...inputProps} />
-        break
+      // case 'image':
+      // case 'file':
+      //   control = <S3Uploader type={type} {...inputProps} />
+      //   break
 
       case 'checkbox':
         const { fat, icon } = this.props

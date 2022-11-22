@@ -87,7 +87,7 @@ export default class HttpStore {
       errorMessage = json.error
     }
     catch (err) {
-      errorMessage = await (res.text()).slice(0, this.maxErrorMessageLength)
+      errorMessage = (await res.text() || res.status).slice(0, this.maxErrorMessageLength)
     }
     const err = new Error(`Error ${action} ${this.modelType.name} (${res.status}): ${errorMessage}`)
     err.status = res.status

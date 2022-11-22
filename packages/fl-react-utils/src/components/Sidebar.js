@@ -1,4 +1,3 @@
-import _ from 'lodash' // eslint-disable-line
 import React from 'react'
 import PropTypes from 'prop-types'
 import Sidebar from 'react-sidebar'
@@ -54,11 +53,12 @@ export default class FLSidebar extends React.Component {
   }
 
   render() {
-    const sidebarProps = _.extend({}, this.props, {
+    const sidebarProps = {
+      ...this.props,
       docked: this.state.docked,
       open: this.state.open,
       onSetOpen: this.onSetOpen,
-    })
+    }
 
     const disableSidebarToggle = this.props.disableToggle || this.state.docked
 
