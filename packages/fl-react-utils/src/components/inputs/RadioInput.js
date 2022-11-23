@@ -1,92 +1,97 @@
-import _ from 'lodash' // eslint-disable-line
+import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, FormGroup, Label, FormText, FormFeedback } from 'reactstrap'
-import ReactMarkdown from 'react-markdown'
-import { validationError } from '../../utils/validation'
-import markdownProps from '../../utils/markdownProps'
+import { Row, Col, Label, Input, Button } from 'reactstrap'
+import InputContainer from './InputContainer'
 
 
-export default class RadioInput extends React.PureComponent {
+export default function RadioInput(props) {
+  const { name, options, fat, inline } = props
 
-  static propTypes = {
-    input: PropTypes.object,
-    label: PropTypes.node,
-    meta: PropTypes.object,
-    help: PropTypes.node,
-    helpMd: PropTypes.string,
-    inline: PropTypes.bool,
-    options: PropTypes.array,
-    helpTop: PropTypes.bool,
-    markdownProps: PropTypes.object,
-  }
-
-  static defaultProps = {
-    markdownProps,
-    options: [],
-    helpTop: true,
-    inline: true,
-  }
-
-  renderOption = (opt, labelProps={}) => {
-    const { input, meta } = this.props
-
-    const oc2 = e => {
-      input.onChange(e.target.value)
-    }
+  function renderItemsInline(innerProps) {
     return (
-      <label key={opt.value} className="radio-inline" {...labelProps}>
-        <input
-          name={input.name}
-          value={opt.value}
-          type="radio"
-          defaultChecked={meta.initial === opt.value}
-          onChange={oc2}
-        />
-        {opt.label}
-      </label>
+      <div>
+        {options.map(opt => (
+          <Label key={opt.value} className="radio-inline">
+            <Input
+              {...innerProps}
+              name={name}
+              type="radio"
+              value={opt.value}
+              checked={opt.value === innerProps.value}
+              className="pos-relative ml-0"
+            />
+            {opt.label}
+          </Label>
+        ))}
+      </div>
     )
   }
 
-  renderOptionColumn = opt => (
-    <Col xs={6} key={opt.value} className="form-check form-check-inline mr-0">
-      {this.renderOption(opt, {className: 'radio-inline px-2 py-2', style: {width: '100%'}})}
-    </Col>
-  )
-
-  renderItems() {
-    const { inline, options } = this.props
-    if (inline) {
-      return (
-        <div>
-          {options.map(this.renderOption)}
-        </div>
-      )
-    }
+  function renderItemColumns(innerProps) {
     return (
-      <Row className="mt-3">
-        {options.map(this.renderOptionColumn)}
+      <Row>
+        {options.map(opt => (
+          <Col xs={6} key={opt.value}>
+            <Label className="radio-inline form-check mb-2">
+              <Input
+                {...innerProps}
+                name={name}
+                type="radio"
+                value={opt.value}
+                checked={opt.value === innerProps.value}
+                className="pos-relative ml-0"
+              />
+              {opt.label}
+            </Label>
+          </Col>
+        ))}
       </Row>
     )
   }
 
-  render() {
-    const { label, meta, helpTop } = this.props
-    const error = validationError(meta)
-
-    let help = this.props.help
-    if (_.isUndefined(help) && this.props.helpMd) {
-      help = (<ReactMarkdown source={this.props.helpMd} {...this.props.markdownProps} />)
-    }
-
+  function renderItemsFat(innerProps) {
     return (
-      <FormGroup>
-        {label && <Label>{label}</Label>}
-        {help && helpTop && <FormText color="muted">{help}</FormText>}
-        {this.renderItems()}
-        {help && !helpTop && <FormText color="muted">{help}</FormText>}
-        {error && <FormFeedback>{error}</FormFeedback>}
-      </FormGroup>
+      <div>
+        {options.map(opt => (
+          <div key={opt.value} className="form-check last-0">
+            <Label className="radio-inline d-flex bg-light">
+              <Input
+                {...innerProps}
+                name={name}
+                type="radio"
+                value={opt.value}
+                checked={opt.value === innerProps.value}
+                className="pos-relative ml-0"
+              />
+              <div className="ml-2">
+                <div><i className={`fad fa-fw fa-${opt.icon} text-primary mr-2`} />{opt.label}</div>
+                <div className="small text-muted">{opt.help}</div>
+              </div>
+            </Label>
+          </div>
+        ))}
+      </div>
     )
   }
+
+  return (
+    <InputContainer {...props}>
+      {innerProps => {
+        if (fat) return renderItemsFat(innerProps)
+        else if (inline) return renderItemsInline(innerProps)
+        return renderItemColumns(innerProps)
+      }}
+    </InputContainer>
+  )
 }
+
+RadioInput.propTypes = {
+  name: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired,
+}
+
+RadioInput.defaultProps = {
+  options: [],
+}
+

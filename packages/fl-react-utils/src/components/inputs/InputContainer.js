@@ -8,7 +8,7 @@ import markdownProps from '../../utils/markdownProps'
 
 
 export default function InputContainer(props) {
-  const { children, className, label, meta, input, helpTop } = props
+  const { children, className, label, meta, input, helpTop, check } = props
 
   const validation = props.validationState ? props.validationState(meta) : null
   const error = validationError(meta)
@@ -19,10 +19,10 @@ export default function InputContainer(props) {
   }
 
   return (
-    <FormGroup className={className}>
+    <FormGroup check={check} className={className}>
       {label && <Label>{label}</Label>}
 
-      {helpTop && help && <div className="small text-muted mb-2">{help}</div>}
+      {helpTop && help && <div className={`small text-muted ${check ? 'ml-2' : 'mb-2'}`}>{help}</div>}
 
       {children({
         ...input,
@@ -30,7 +30,7 @@ export default function InputContainer(props) {
         invalid: validation === 'error',
       })}
 
-      {!helpTop && help && <div className="small text-muted mt-2">{help}</div>}
+      {!helpTop && help && <div className={`small text-muted ${check ? 'ml-2' : 'mt-2'}`}>{help}</div>}
 
       {error && <FormFeedback>{error}</FormFeedback>}
     </FormGroup>
@@ -48,6 +48,7 @@ InputContainer.propTypes = {
   validationState: PropTypes.func,
   markdownProps: PropTypes.object,
   children: PropTypes.node,
+  check: PropTypes.bool,
 }
 
 InputContainer.defaultProps = {

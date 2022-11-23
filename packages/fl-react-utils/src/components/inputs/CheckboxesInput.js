@@ -21,22 +21,21 @@ export default function CheckboxesInput(props) {
           const newValues = isSelected(value, currentValues) ? _.without(currentValues, value) : currentValues.concat(value)
           innerProps.onChange(_.compact(_.uniq(newValues)).sort())
         }
-console.log('name',innerProps.name)
 
         return (
           <>
-            <Row className="mt-3">
+            <Row>
               {_.map(options, (option, i) => {
                 const hidden = !showAll && (i >= visibleItemCount)
                 return (
                   <Col xs={12} sm={6} key={option.value}>
-                    <div className={`form-check form-check-inline ${hidden ? 'd-none' : ''}`}>
+                    <div className={`form-check ${hidden ? 'd-none' : ''}`}>
                       <Label check className="p-2 w-100">
                         <Input
-                          name={innerProps.name}
                           type="checkbox"
                           onChange={onChangeFn(option.value)}
                           checked={isSelected(option.value, currentValues)}
+                          name={innerProps.name}
                           valid={innerProps.valid}
                           invalid={innerProps.invalid}
                         /> {option.label}

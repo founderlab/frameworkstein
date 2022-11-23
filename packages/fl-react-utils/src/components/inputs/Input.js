@@ -13,6 +13,9 @@ import DatetimeInput from './DatetimeInput'
 import TimeInput from './TimeInput'
 import SelectInput from './SelectInput'
 import ReactSelectInput from './ReactSelectInput'
+import RadioInput from './RadioInput'
+import CheckboxInput from './CheckboxInput'
+import S3UploaderInput from './S3UploaderInput'
 import { validationError, validationState } from '../../utils/validation'
 import markdownProps from '../../utils/markdownProps'
 
@@ -57,9 +60,7 @@ export default class FLInput extends React.Component {
   static defaultProps = {
     validationState,
     markdownProps,
-    localeDateFormat: 'L',
     type: 'text',
-    helpTop: true,
     autoScrollWidth: 576,
   }
 
@@ -77,9 +78,14 @@ export default class FLInput extends React.Component {
         return <SelectInput {...this.props} />
       case 'react-select':
         return <ReactSelectInput {...this.props} />
+      case 'checkbox':
+        return <CheckboxInput {...this.props} />
+      case 'radio-list':
+        return <RadioInput {...this.props} />
       case 'image':
       case 'file':
         return <S3UploaderInput {...this.props} />
+    }
 
     const { label, input, meta, helpMd, helpTop, type, className, bsProps, validationState, prepend, append, options } = this.props
 
@@ -100,67 +106,6 @@ export default class FLInput extends React.Component {
     let control
 
     switch (type) {
-      // case 'select':
-      //   if (!options) {
-      //     warning(false, 'select components require an options prop')
-      //     return null
-      //   }
-      //   console.log('inputProps', inputProps)
-      //   control = (
-      //     <Input type="select" {...inputProps}>
-      //       {this.props.includeEmpty && <option />}
-      //       {inputProps.placeholder && <option value="">{inputProps.placeholder}</option>}
-      //       {_.map(options, opt => {
-      //         const option = _.isObject(opt) ? opt : {label: opt, value: opt}
-      //         return (
-      //           <option key={option.value} value={option.value}>{option.label}</option>
-      //         )
-      //       })}
-      //     </Input>
-      //   )
-      //   break
-
-      // case 'react-select':
-      //   if (!options) {
-      //     warning(false, 'react-select components require an options prop')
-      //     return null
-      //   }
-      //   const { onBlur, ...props } = inputProps
-      //   control = <Select options={options} {...props} />
-      //   break
-
-      // case 'image':
-      // case 'file':
-      //   control = <S3Uploader type={type} {...inputProps} />
-      //   break
-
-      case 'checkbox':
-        const { fat, icon } = this.props
-        inputProps.checked = !!inputProps.value
-        check = true
-        const oc = e => inputProps.onChange(e.target.value !== 'true')
-
-        if (fat) {
-          control = (
-            <Label check className="radio-inline d-flex bg-light mb-4">
-              <Input type="checkbox" {...bsProps} {...inputProps} onChange={oc} />
-              <div className="ml-2">
-                <div><i className={`fad fa-fw fa-${icon} text-primary mr-2`} />{label}</div>
-                <div className="small text-muted">{help}</div>
-              </div>
-            </Label>
-          )
-          help = ''
-        }
-        else {
-          control = (
-            <Label check className="p-2">
-              <Input type="checkbox" {...bsProps} {...inputProps} onChange={oc} /> {label}
-            </Label>
-          )
-        }
-        break
-
       case 'boolean':
         if (_.isBoolean(inputProps.value)) inputProps.value = inputProps.value ? 'true' : 'false'
         const oc2 = e => inputProps.onChange(e.target.value === 'true')

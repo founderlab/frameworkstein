@@ -65,10 +65,10 @@ export default class RadioField extends React.Component {
     const { name, options, validate } = this.props
 
     return (
-      <Row className="mt-3">
+      <Row>
         {options.map(opt => (
-          <Col xs={6} key={opt.value} className="form-check form-check-inline mr-0">
-            <label className="radio-inline px-2 py-2" style={{width: '100%'}}>
+          <Col xs={6} key={opt.value}>
+            <label className="radio-inline form-check mb-2">
               <Field
                 name={name}
                 value={opt.value}
