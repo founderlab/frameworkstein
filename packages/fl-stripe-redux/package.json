@@ -1,6 +1,6 @@
 {
   "name": "fl-stripe-redux",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "description": "Redux actions and reducer for stripe card management with fl-stripe-server",
   "main": "lib/index.js",
   "author": {
