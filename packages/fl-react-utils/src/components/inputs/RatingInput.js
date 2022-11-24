@@ -11,29 +11,29 @@ export default function RatingInput(props) {
   const values = []
   for (let i=minValue; i <= maxValue; i++) values.push(i)
 
-
-  function renderItemsInline(innerProps) {
-    return (
-      <div className="d-flex align-items-center justify-content-between">
-        {values.map(v => (
-          <Button
-            key={v}
-            onClick={() => innerProps.onChange(v)}
-            outline={v !== innerProps.value}
-            {...buttonProps}
-          >
-            {v}
-          </Button>
-        ))}
-      </div>
-    )
-  }
-
   return (
     <InputContainer {...props}>
-      {innerProps => {
-        return renderItemsInline(innerProps)
-      }}
+      {innerProps => (
+        <>
+          <div className="d-flex align-items-center justify-content-between pt-1">
+            {values.map(v => (
+              <Button
+                key={v}
+                onClick={() => innerProps.onChange(v)}
+                outline={v !== innerProps.value}
+                {...buttonProps}
+              >
+                {v}
+              </Button>
+            ))}
+          </div>
+          <div className="mt-2 small text-muted pos-relative text-center">
+            <div style={{position: 'absolute', left: 0}}>{lowLabel}</div>
+            <div style={{position: 'absolute', right: 0}}>{highLabel}</div>
+            {midLabel}
+          </div>
+        </>
+      )}
     </InputContainer>
   )
 }
@@ -49,7 +49,7 @@ RatingInput.propTypes = {
 }
 
 RatingInput.defaultProps = {
-  minValue: 1,
+  minValue: 0,
   maxValue: 10,
   lowLabel: '',
   midLabel: '',
