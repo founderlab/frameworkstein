@@ -12,7 +12,7 @@ export default function RadioInput(props) {
     return (
       <div>
         {options.map(opt => (
-          <Label key={opt.value} className="radio-inline">
+          <Label key={opt.value} className="radio-inline mr-3">
             <Input
               {...innerProps}
               name={name}
@@ -33,7 +33,7 @@ export default function RadioInput(props) {
       <Row>
         {options.map(opt => (
           <Col xs={6} key={opt.value}>
-            <Label className="radio-inline form-check mb-2">
+            <Label className="radio-inline form-check">
               <Input
                 {...innerProps}
                 name={name}
@@ -94,4 +94,3 @@ RadioInput.propTypes = {
 RadioInput.defaultProps = {
   options: [],
 }
-

@@ -2,6 +2,7 @@ import AsyncSelect from './components/AsyncSelect'
 import BelongsToInput from './components/relationInputs/BelongsToInput'
 import BelongsToInputAsync from './components/relationInputs/BelongsToInputAsync'
 import Button from './components/LoaderButton'
+import BooleanInput from './components/inputs/BooleanInput'
 import CheckboxesInput from './components/inputs/CheckboxesInput'
 import DateInput from './components/inputs/DateInput'
 import DatetimeInput from './components/inputs/DatetimeInput'
@@ -29,6 +30,7 @@ export {
   BelongsToInput,
   BelongsToInputAsync,
   Button,
+  BooleanInput,
   CheckboxesInput,
   DateInput,
   DatetimeInput,
