@@ -14,7 +14,7 @@ export default function BooleanInput(props) {
         // convert to bool for onChange
         onChange: e => input.onChange(e.target.value === 'true'),
         // convert from bool when receving value
-        value: input.value ? 'true' : 'false',
+        value: typeof input.value === 'boolean' ? (input.value ? 'true' : 'false') : undefined,
       }}
       options={[
         {
@@ -33,6 +33,7 @@ export default function BooleanInput(props) {
 BooleanInput.propTypes = {
   trueLabel: PropTypes.string,
   falseLabel: PropTypes.string,
+  input: PropTypes.object.isRequired,
 }
 
 BooleanInput.defaultProps = {
