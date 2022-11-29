@@ -3,10 +3,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, Label, Input, Button } from 'reactstrap'
 import InputContainer from './InputContainer'
+import FatLabel from '../FatLabel'
 
 
 export default function RadioInput(props) {
-  const { name, options, fat, inline } = props
+  const { name, options, fat, inline, colProps } = props
 
   function renderItemsInline(innerProps) {
     return (
@@ -32,7 +33,7 @@ export default function RadioInput(props) {
     return (
       <Row>
         {options.map(opt => (
-          <Col xs={6} key={opt.value}>
+          <Col {...colProps} key={opt.value}>
             <Label className="radio-inline form-check">
               <Input
                 {...innerProps}
@@ -55,20 +56,20 @@ export default function RadioInput(props) {
       <div>
         {options.map(opt => (
           <div key={opt.value} className="form-check last-0">
-            <Label className="radio-inline d-flex bg-light">
-              <Input
-                {...innerProps}
-                name={name}
-                type="radio"
-                value={opt.value}
-                checked={opt.value === innerProps.value}
-                className="pos-relative ml-0"
-              />
-              <div className="ml-2">
-                <div><i className={`fad fa-fw fa-${opt.icon} text-primary mr-2`} />{opt.label}</div>
-                <div className="small text-muted">{opt.help}</div>
-              </div>
-            </Label>
+            <FatLabel
+              input={
+                <Input
+                  {...innerProps}
+                  name={name}
+                  type="radio"
+                  value={opt.value}
+                  checked={opt.value === innerProps.value}
+                  className="pos-relative ml-0"
+                />
+              }
+              {...opt}
+              active={opt.value === innerProps.value}
+            />
           </div>
         ))}
       </div>
@@ -88,9 +89,13 @@ export default function RadioInput(props) {
 
 RadioInput.propTypes = {
   name: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
+  options: PropTypes.array,
+  colProps: PropTypes.object,
 }
 
 RadioInput.defaultProps = {
   options: [],
+  colProps: {
+    xs: 6,
+  },
 }
