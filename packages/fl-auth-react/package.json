@@ -1,6 +1,6 @@
 {
   "name": "fl-auth-react",
-  "version": "10.0.1",
+  "version": "10.0.2",
   "description": "React/redux-form login+register forms for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -23,7 +23,7 @@
     "@babel/core": "^7.0.0"
   },
   "dependencies": {
-    "fl-react-utils": "^10.0.1",
+    "fl-react-utils": "^10.0.2",
     "prop-types": "*",
     "react": ">=16.0.0",
     "reactstrap": "^8.0.0",
