@@ -5,11 +5,11 @@ import { Label } from 'reactstrap'
 
 
 export default function FatLabel(props) {
-  const { input, icon, label, help, active } = props
+  const { inputComponent, icon, label, help, active } = props
 
   return (
     <Label check className={`radio-inline d-flex bg-light ${active ? 'active' : ''}`}>
-      {input}
+      {inputComponent}
       <div className="ml-2">
         <div>{icon && <i className={`fad fa-fw fa-${icon} text-primary mr-2`} />}{label}</div>
         {help && <div className="small text-muted">{help}</div>}
@@ -22,6 +22,6 @@ FatLabel.propTypes = {
   active: PropTypes.bool,
   help: PropTypes.node,
   icon: PropTypes.string,
-  input: PropTypes.node.isRequired,
+  inputComponent: PropTypes.node.isRequired,
   label: PropTypes.node,
 }

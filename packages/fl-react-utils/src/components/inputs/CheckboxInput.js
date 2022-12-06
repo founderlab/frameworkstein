@@ -12,11 +12,11 @@ export default function CheckboxInput(props) {
   return (
     <InputContainer {...props} check label={false} help={fat ? '' : help}>
       {innerProps => {
-        const input = <Input type="checkbox" {...innerProps} />
+        const inputComponent = <Input type="checkbox" {...innerProps} />
 
         return fat ? (
           <FatLabel
-            input={input}
+            inputComponent={inputComponent}
             label={label}
             icon={icon}
             help={help}
@@ -24,7 +24,7 @@ export default function CheckboxInput(props) {
           />
         ) : (
           <Label check className="p-2">
-            {input} {label}
+            {inputComponent} {label}
           </Label>
         )
       }}
@@ -33,16 +33,13 @@ export default function CheckboxInput(props) {
 }
 
 CheckboxInput.propTypes = {
-  name: PropTypes.string.isRequired,
-  visibleItemCount: PropTypes.number,
-  lessLabel: PropTypes.node,
-  moreLabel: PropTypes.node,
   helpTop: PropTypes.bool,
+  help: PropTypes.node,
+  fat: PropTypes.bool,
+  icon: PropTypes.string,
+  label: PropTypes.node,
 }
 
 CheckboxInput.defaultProps = {
-  visibleItemCount: 50,
-  lessLabel: 'Less',
-  moreLabel: 'More',
   helpTop: false,
 }

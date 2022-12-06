@@ -47,7 +47,7 @@ InputContainer.propTypes = {
   helpTop: PropTypes.bool,
   validationState: PropTypes.func,
   markdownProps: PropTypes.object,
-  children: PropTypes.node,
+  children: PropTypes.func,
   check: PropTypes.bool,
 }
 

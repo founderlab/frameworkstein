@@ -57,7 +57,7 @@ export default function RadioInput(props) {
         {options.map(opt => (
           <div key={opt.value} className="form-check last-0">
             <FatLabel
-              input={
+              inputComponent={
                 <Input
                   {...innerProps}
                   name={name}
