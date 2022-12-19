@@ -10,6 +10,7 @@ import { table, plural, upper, label } from './utils/naming'
 import createActions from './createActions'
 import createReducer from './createReducer'
 import getRoutes from './routes'
+import settings from './settings'
 
 
 const ACTION_PREFIX = 'FL_ADMIN_'
@@ -143,6 +144,8 @@ export default function configure(_options) {
   })
 
   reducer = combineReducers(reducers)
+
+  settings.rootPath = options.rootPath
 }
 
 export { actions, reducer, modelAdmins, getRoutes }

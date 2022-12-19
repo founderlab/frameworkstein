@@ -3,6 +3,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Nav, NavItem, NavLink } from 'reactstrap'
 import { modelAdmins } from '../index'
+import settings from '../settings'
 
 
 // Links to all model index pages for the sidebar
@@ -13,7 +14,7 @@ export default function Sidebar() {
 
   return (
     <div>
-      <Link to="/admin" className="fla-sidebar-header">
+      <Link to={settings.rootPath} className="fla-sidebar-header">
         <i className="fal fa-rocket" />
       </Link>
       <Nav pills vertical>

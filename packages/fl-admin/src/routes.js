@@ -5,7 +5,7 @@ import ModelTypeList from './containers/ModelTypeList'
 import createModelDetailEditor from './containers/create/ModelDetailEditor'
 import createModelListEditor from './containers/create/ModelListEditor'
 import createModelCreate from './containers/create/ModelCreate'
-
+import settings from './settings'
 
 const loginUrl = path => `/login?returnTo=${path}`
 const registerUrl = path => `/register?returnTo=${path}`
@@ -28,26 +28,26 @@ const requireAdmin = requireUserFn(user => user.get('admin'))
 
 
 export default function getRoutes() {
-
+console.log('getRoutes, settings.rootPath', settings.rootPath)
   const routes = [{
-    path: '/admin',
+    path: settings.rootPath,
     exact: true,
     component: withAuth(ModelTypeList),
   }]
 
   modelAdmins.forEach(modelAdmin => {
     routes.push(modelAdmin.listRoute || {
-      path: `/admin/${modelAdmin.path}`,
+      path: `${settings.rootPath}/${modelAdmin.path}`,
       exact: true,
       component: withAuth(modelAdmin.ListComponent || createModelListEditor(modelAdmin)),
     })
     routes.push(modelAdmin.createRoute || {
-      path: `/admin/${modelAdmin.path}/create`,
+      path: `${settings.rootPath}/${modelAdmin.path}/create`,
       exact: true,
       component: withAuth(modelAdmin.CreateComponent || createModelCreate(modelAdmin)),
     })
     routes.push(modelAdmin.detailRoute || {
-      path: `/admin/${modelAdmin.path}/:id`,
+      path: `${settings.rootPath}/${modelAdmin.path}/:id`,
       exact: true,
       component: withAuth(modelAdmin.DetailComponent || createModelDetailEditor(modelAdmin)),
     })
@@ -56,7 +56,7 @@ export default function getRoutes() {
   return [
     {
       component: withAuth(Admin),
-      path: '/admin',
+      path: settings.rootPath,
       authenticate: requireAdmin,
       redirectUrl: loginUrl,
       routes,
