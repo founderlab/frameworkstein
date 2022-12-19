@@ -1,2 +1,2 @@
 
-export default const settings = {}
+export default {}
