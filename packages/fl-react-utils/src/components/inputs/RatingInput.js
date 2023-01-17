@@ -6,7 +6,7 @@ import InputContainer from './InputContainer'
 
 
 export default function RatingInput(props) {
-  const { name, minValue, maxValue, lowLabel, midLabel, highLabel, buttonProps } = props
+  const { name, minValue, maxValue, lowLabel, midLabel, highLabel, buttonProps, disabled } = props
 
   const values = []
   for (let i=minValue; i <= maxValue; i++) values.push(i)
@@ -19,8 +19,9 @@ export default function RatingInput(props) {
             {values.map(v => (
               <Button
                 key={v}
-                onClick={() => innerProps.onChange(v)}
+                onClick={() => !disabled && innerProps.onChange(v)}
                 outline={v !== innerProps.value}
+                disabled={disabled}
                 {...buttonProps}
               >
                 {v}
@@ -39,7 +40,7 @@ export default function RatingInput(props) {
 }
 
 RatingInput.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   minValue: PropTypes.number,
   maxValue: PropTypes.number,
   lowLabel: PropTypes.node,
