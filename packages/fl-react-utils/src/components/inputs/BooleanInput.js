@@ -4,7 +4,7 @@ import RadioInput from './RadioInput'
 
 
 export default function BooleanInput(props) {
-  const { trueLabel, falseLabel, trueHelp, falseHelp, input, ...rest } = props
+  const { trueLabel, falseLabel, trueHelp, falseHelp, trueIcon, falseIcon, input, ...rest } = props
 
   return (
     <RadioInput
@@ -21,11 +21,13 @@ export default function BooleanInput(props) {
           label: trueLabel,
           value: 'true',
           help: trueHelp,
+          icon: trueIcon,
         },
         {
           label: falseLabel,
           value: 'false',
           help: falseHelp,
+          icon: falseIcon,
         },
       ]}
     />
@@ -37,10 +39,14 @@ BooleanInput.propTypes = {
   falseLabel: PropTypes.node,
   trueHelp: PropTypes.node,
   falseHelp: PropTypes.node,
+  trueIcon: PropTypes.node,
+  falseIcon: PropTypes.node,
   input: PropTypes.object.isRequired,
 }
 
 BooleanInput.defaultProps = {
   trueLabel: 'Yes',
   falseLabel: 'No',
+  trueIcon: '',
+  falseIcon: '',
 }

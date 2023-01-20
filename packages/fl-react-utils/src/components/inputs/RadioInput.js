@@ -80,7 +80,7 @@ export default function RadioInput(props) {
 }
 
 RadioInput.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   options: PropTypes.array,
   colProps: PropTypes.object,
 }
