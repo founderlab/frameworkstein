@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import BooleanInput from './BooleanInput'
+import CheckboxesInput from './CheckboxesInput'
 import CheckboxInput from './CheckboxInput'
 import DateInput from './DateInput'
 import DatetimeInput from './DatetimeInput'
@@ -27,6 +28,8 @@ export default function FLInput(props) {
       return <ReactSelectInput {...props} />
     case 'checkbox':
       return <CheckboxInput {...props} />
+    case 'checkboxes':
+      return <CheckboxesInput {...props} />
     case 'radio-list':
       return <RadioInput {...props} />
     case 'boolean':

@@ -8,7 +8,7 @@ import InputContainer from './InputContainer'
 export default function CheckboxesInput(props) {
   const [showAll, setShowAll] = React.useState(false)
 
-  const { options, visibleItemCount } = props
+  const { options, visibleItemCount, colProps } = props
   const showMoreBtn = options.length > visibleItemCount
   const isSelected = (value, valueList) => _.includes(_.map(valueList, v => v.toString()), value)
 
@@ -28,7 +28,7 @@ export default function CheckboxesInput(props) {
               {_.map(options, (option, i) => {
                 const hidden = !showAll && (i >= visibleItemCount)
                 return (
-                  <Col xs={12} sm={6} key={option.value}>
+                  <Col {...colProps} key={option.value}>
                     <div className={`form-check ${hidden ? 'd-none' : ''}`}>
                       <Label check className="p-2 w-100">
                         <Input
@@ -66,4 +66,8 @@ CheckboxesInput.defaultProps = {
   options: [],
   lessLabel: 'Less',
   moreLabel: 'More',
+  colProps: {
+    xs: 12,
+    sm: 6,
+  },
 }
