@@ -6,7 +6,7 @@ import InputContainer from './InputContainer'
 
 
 export default function RatingInput(props) {
-  const { name, minValue, maxValue, lowLabel, midLabel, highLabel, buttonProps, disabled } = props
+  const { minValue, maxValue, lowLabel, midLabel, highLabel, buttonProps, disabled } = props
 
   const values = []
   for (let i=minValue; i <= maxValue; i++) values.push(i)
@@ -40,7 +40,6 @@ export default function RatingInput(props) {
 }
 
 RatingInput.propTypes = {
-  name: PropTypes.string,
   minValue: PropTypes.number,
   maxValue: PropTypes.number,
   lowLabel: PropTypes.node,

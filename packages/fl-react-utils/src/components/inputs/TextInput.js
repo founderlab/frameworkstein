@@ -17,15 +17,11 @@ export default function TextInput(props) {
           return (
             <InputGroup>
               {prepend && (
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupAddon addonType="prepend">{prepend}</InputGroupAddon>
-                </InputGroupAddon>
+                <InputGroupAddon addonType="prepend">{prepend}</InputGroupAddon>
               )}
               {input}
               {append && (
-                <InputGroupAddon addonType="append">
-                  <InputGroupAddon addonType="append">{append}</InputGroupAddon>
-                </InputGroupAddon>
+                <InputGroupAddon addonType="append">{append}</InputGroupAddon>
               )}
             </InputGroup>
           )

@@ -7,7 +7,6 @@ import InputContainer from './InputContainer'
 
 export default function CheckboxesInput(props) {
   const [showAll, setShowAll] = React.useState(false)
-
   const { options, visibleItemCount, colProps } = props
   const showMoreBtn = options.length > visibleItemCount
   const isSelected = (value, valueList) => _.includes(_.map(valueList, v => v.toString()), value)
@@ -54,11 +53,10 @@ export default function CheckboxesInput(props) {
 }
 
 CheckboxesInput.propTypes = {
-  name: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   visibleItemCount: PropTypes.number,
-  lessLabel: PropTypes.string,
-  moreLabel: PropTypes.string,
+  lessLabel: PropTypes.node,
+  moreLabel: PropTypes.node,
 }
 
 CheckboxesInput.defaultProps = {

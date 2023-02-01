@@ -8,13 +8,12 @@ import FatLabel from '../FatLabel'
 
 
 export default function RadioInput(props) {
-  const { name, options, fat, inline, colProps, disabled } = props
+  const { options, fat, inline, colProps, disabled } = props
 
   function renderInput({innerProps, opt}) {
     return (
       <Input
         {...innerProps}
-        name={name}
         type="radio"
         value={opt.value}
         checked={opt.value === innerProps.value}
