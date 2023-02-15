@@ -7,23 +7,24 @@ import InputContainer from './InputContainer'
 
 
 export default function DatetimeInput(props) {
-  const { input, meta, dateFormat, timeFormat, placeholder, localeDateFormat, inputProps } = props
+  const { meta, timeFormat, placeholder, localeDateFormat, inputProps } = props
 
-  const _dateFormat = props.dateFormat || moment.localeData().longDateFormat(localeDateFormat)
+  const dateFormat = props.dateFormat || moment.localeData().longDateFormat(localeDateFormat)
+  const input = {...props.input}
   if (!meta.dirty && _.isString(input.value)) input.value = moment(input.value)
 
   return (
     <InputContainer {...props}>
       {innerProps => (
         <ReactDatetime
+          {...innerProps}
           inputProps={{
             placeholder,
             ...inputProps,
           }}
           {..._.omit(input, 'onFocus', 'onBlur')}
-          dateFormat={_dateFormat}
+          dateFormat={dateFormat}
           timeFormat={timeFormat}
-          {...innerProps}
         />
       )}
     </InputContainer>
@@ -34,8 +35,9 @@ DatetimeInput.propTypes = {
   input: PropTypes.object,
   meta: PropTypes.object,
   inputProps: PropTypes.object,
-  dateFormat: PropTypes.string,
-  timeFormat: PropTypes.string,
+  placeholder: PropTypes.string,
+  dateFormat: PropTypes.oneOfType(PropTypes.string, PropTypes.bool),
+  timeFormat: PropTypes.oneOfType(PropTypes.string, PropTypes.bool),
   localeDateFormat: PropTypes.string,
   closeOnSelect: PropTypes.bool,
 }

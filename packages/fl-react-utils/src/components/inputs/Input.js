@@ -15,32 +15,35 @@ import TimeInput from './TimeInput'
 
 
 export default function FLInput(props) {
-  switch (props.type) {
+  const inputProps =  {...props}
+  if (!inputProps.type && props.input.type) inputProps.type = props.input.type
+
+  switch (inputProps.type) {
     case 'date':
-      return <DateInput {...props} />
+      return <DateInput {...inputProps} />
     case 'datetime':
-      return <DatetimeInput {...props} />
+      return <DatetimeInput {...inputProps} />
     case 'time':
-      return <TimeInput {...props} />
+      return <TimeInput {...inputProps} />
     case 'select':
-      return <SelectInput {...props} />
+      return <SelectInput {...inputProps} />
     case 'react-select':
-      return <ReactSelectInput {...props} />
+      return <ReactSelectInput {...inputProps} />
     case 'checkbox':
-      return <CheckboxInput {...props} />
+      return <CheckboxInput {...inputProps} />
     case 'checkboxes':
-      return <CheckboxesInput {...props} />
+      return <CheckboxesInput {...inputProps} />
     case 'radio-list':
-      return <RadioInput {...props} />
+      return <RadioInput {...inputProps} />
     case 'boolean':
-      return <BooleanInput {...props} />
+      return <BooleanInput {...inputProps} />
     case 'rating':
-      return <RatingInput {...props} />
+      return <RatingInput {...inputProps} />
     case 'image':
     case 'file':
-      return <S3UploaderInput {...props} />
+      return <S3UploaderInput {...inputProps} />
     default:
-      return <TextInput {...props} />
+      return <TextInput {...inputProps} />
   }
 }
 

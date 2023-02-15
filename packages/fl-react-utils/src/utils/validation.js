@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import moment from 'moment'
+import moment from 'moment-timezone'
+
 
 // Validation highlighting for react-bootstrap Input components
 export function validationState(field) {

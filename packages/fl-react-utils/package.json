@@ -27,7 +27,7 @@
     "classnames": "^2.0.0",
     "inflection": "^1.0.0",
     "lodash": "^4.0.0",
-    "moment": "^2.0.0",
+    "moment-timezone": "^0.5.26",
     "prop-types": "*",
     "qs": "^6.0.0",
     "react": ">=16.0.0",
