@@ -36,8 +36,8 @@ DatetimeInput.propTypes = {
   meta: PropTypes.object,
   inputProps: PropTypes.object,
   placeholder: PropTypes.string,
-  dateFormat: PropTypes.oneOfType(PropTypes.string, PropTypes.bool),
-  timeFormat: PropTypes.oneOfType(PropTypes.string, PropTypes.bool),
+  dateFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  timeFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   localeDateFormat: PropTypes.string,
   closeOnSelect: PropTypes.bool,
 }
