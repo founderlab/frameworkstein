@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { InputGroup, InputGroupAddon, Input } from 'reactstrap'
@@ -34,6 +33,9 @@ export default function TextInput(props) {
 
 TextInput.propTypes = {
   type: PropTypes.string,
+  prepend: PropTypes.node,
+  append: PropTypes.node,
+  inputProps: PropTypes.object,
 }
 
 TextInput.defaultProps = {

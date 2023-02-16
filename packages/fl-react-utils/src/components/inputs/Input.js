@@ -48,5 +48,6 @@ export default function FLInput(props) {
 }
 
 FLInput.propTypes = {
+  input: PropTypes.object.isRequired,
   type: PropTypes.string,
 }
