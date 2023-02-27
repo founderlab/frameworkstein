@@ -16,7 +16,7 @@ import TimeInput from './TimeInput'
 
 export default function FLInput(props) {
   const inputProps =  {...props}
-  if (!inputProps.type && props.input.type) inputProps.type = props.input.type
+  if (!inputProps.type && props.input && props.input.type) inputProps.type = props.input.type
 
   switch (inputProps.type) {
     case 'date':
@@ -48,6 +48,6 @@ export default function FLInput(props) {
 }
 
 FLInput.propTypes = {
-  input: PropTypes.object.isRequired,
+  input: PropTypes.object,
   type: PropTypes.string,
 }

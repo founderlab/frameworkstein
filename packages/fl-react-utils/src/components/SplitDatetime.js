@@ -18,7 +18,7 @@ export default class SplitDatetime extends React.Component {
     helpMd: PropTypes.string,
     help: PropTypes.node,
     meta: PropTypes.object,
-    input: PropTypes.object,
+    input: PropTypes.object.isRequired,
     inputProps: PropTypes.object,
     options: PropTypes.oneOfType([
       PropTypes.array,
