@@ -18,10 +18,11 @@ export default function DatetimeInput(props) {
       {innerProps => (
         <ReactDatetime
           {...innerProps}
+          {...inputProps}
           {...rest}
           inputProps={{
             placeholder,
-            ...inputProps,
+            ...inputProps.inputProps || {},
           }}
           {..._.omit(input, 'onFocus', 'onBlur')}
           dateFormat={dateFormat}
