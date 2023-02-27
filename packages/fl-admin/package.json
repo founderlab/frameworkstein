@@ -1,6 +1,6 @@
 {
   "name": "fl-admin",
-  "version": "10.0.13",
+  "version": "10.0.14",
   "description": "Admin panel for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -25,7 +25,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "classnames": "^2.0.0",
-    "fl-react-utils": "^10.0.13",
+    "fl-react-utils": "^10.0.14",
     "fl-redux-utils": "^10.0.0",
     "immutable": "^3.0.0",
     "inflection": "^1.0.0",
