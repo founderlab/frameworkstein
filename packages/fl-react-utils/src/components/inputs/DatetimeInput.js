@@ -7,7 +7,7 @@ import InputContainer from './InputContainer'
 
 
 export default function DatetimeInput(props) {
-  const { meta, timeFormat, placeholder, localeDateFormat, inputProps } = props
+  const { meta, timeFormat, placeholder, localeDateFormat, inputProps, ...rest } = props
 
   const dateFormat = props.dateFormat || moment.localeData().longDateFormat(localeDateFormat)
   const input = {...props.input}
@@ -18,6 +18,7 @@ export default function DatetimeInput(props) {
       {innerProps => (
         <ReactDatetime
           {...innerProps}
+          {...rest}
           inputProps={{
             placeholder,
             ...inputProps,

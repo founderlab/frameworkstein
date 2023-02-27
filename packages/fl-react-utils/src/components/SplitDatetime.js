@@ -1,5 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
-import moment from 'moment'
+import moment from 'moment-timezone'
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDatetime from 'react-datetime'
