@@ -1,4 +1,4 @@
-import _ from 'lodash' // eslint-disable-line
+import _ from 'lodash'
 import { createSelector } from 'reselect'
 
 
@@ -69,11 +69,5 @@ export default function createPaginationSelector(paginateOn, selectState, _optio
     return results
   })
 
-  return (state, props) => {
-    const selectedState = selector(state, props)
-    return {
-      ...selectState(state, props),
-      ...selectedState,
-    }
-  }
+  return selector
 }
