@@ -23,16 +23,8 @@ function parseFilterQuery(filters) {
 
 export default function createModelListEditor(modelAdmin) {
   const { loadModels, loadModelsPage, countModels, saveModel, deleteModel } = modelAdmin.actions
+  const paginationSelector = createPaginationSelector(state => state.admin[modelAdmin.path])
 
-  return @connect(
-    createPaginationSelector(
-      state => state.admin[modelAdmin.path],
-      state => ({
-        modelStore: state.admin[modelAdmin.path],
-      }),
-    ),
-    { loadModels, saveModel, deleteModel },
-  )
   class ModelListEditor extends Component {
 
     static propTypes = {
@@ -50,25 +42,25 @@ export default function createModelListEditor(modelAdmin) {
 
     static async fetchData({ store, location }) {
       const { auth } = store.getState()
-      const urlQuery = qs.parse(location.search, {ignoreQueryPrefix: true})
-      const query = _.extend({}, modelAdmin.query || {}, parseFilterQuery(urlQuery.filters), {$user_id: auth.get('user').get('id')})
+      const urlQuery = qs.parse(location.search, { ignoreQueryPrefix: true })
+      const query = _.extend({}, modelAdmin.query || {}, parseFilterQuery(urlQuery.filters), { $user_id: auth.get('user').get('id') })
 
       if (urlQuery.search && modelAdmin.searchFields && modelAdmin.searchFields.length) {
         const $search = urlQuery.search.trim()
-        query.$or = _.map(modelAdmin.searchFields, f => ({[f]: {$search}}))
+        query.$or = _.map(modelAdmin.searchFields, f => ({ [f]: { $search } }))
       }
       await store.dispatch(countModels(_.clone(query)))
 
       query.$limit = modelAdmin.perPage
       const page = +urlQuery.page || 1
-      if (page > 1) query.$offset = modelAdmin.perPage * (page-1)
+      if (page > 1) query.$offset = modelAdmin.perPage * (page - 1)
 
       const loadedAction = await store.dispatch(loadModelsPage(page, _.clone(query)))
       const modelIds = loadedAction.ids
-      await fetchRelated({store, modelAdmin, modelIds})
+      await fetchRelated({ store, modelAdmin, modelIds })
     }
 
-    query = () => qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
+    query = () => qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
 
     handleSearch = searchString => {
       const { location, history } = this.props
@@ -84,7 +76,7 @@ export default function createModelListEditor(modelAdmin) {
 
     handleFilter = filterQuery => {
       const { location, history } = this.props
-      const query = _.extend({}, this.query(), {filters: JSON.stringify(filterQuery)})
+      const query = _.extend({}, this.query(), { filters: JSON.stringify(filterQuery) })
       history.push(`${location.pathname}?${qs.stringify(query)}`)
     }
 
@@ -146,5 +138,14 @@ export default function createModelListEditor(modelAdmin) {
       )
     }
   }
+
+
+  return connect(
+    (state, props) => ({
+      ...paginationSelector(state, props),
+      modelStore: state.admin[modelAdmin.path],
+    }),
+    { loadModels, saveModel, deleteModel },
+  )(ModelListEditor)
 
 }
