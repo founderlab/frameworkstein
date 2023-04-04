@@ -1,6 +1,6 @@
 {
   "name": "fl-admin",
-  "version": "10.1.2",
+  "version": "10.1.3",
   "description": "Admin panel for FounderLab apps",
   "main": "lib/index.js",
   "author": {
