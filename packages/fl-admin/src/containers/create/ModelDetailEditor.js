@@ -12,16 +12,8 @@ import fetchRelated from '../../utils/fetchRelated'
 
 export default function createModelDetailEditor(modelAdmin) {
   const { loadModels, saveModel, deleteModel } = modelAdmin.actions
+  const paginationSelector = createPaginationSelector(state => state.admin[modelAdmin.path])
 
-  return @connect(
-    createPaginationSelector(
-      state => state.admin[modelAdmin.path],
-      state => ({
-        modelStore: state.admin[modelAdmin.path],
-      }),
-    ),
-    { loadModels, saveModel, deleteModel },
-  )
   class ModelDetailEditor extends Component {
 
     static propTypes = {
@@ -37,16 +29,16 @@ export default function createModelDetailEditor(modelAdmin) {
       currentPage: PropTypes.number,
     }
 
-    static async fetchData({store, match}) {
+    static async fetchData({ store, match }) {
       try {
         const { auth } = store.getState()
         const modelId = match.params.id
-        const query = _.extend({}, modelAdmin.query || {}, {$user_id: auth.get('user').get('id')})
+        const query = _.extend({}, modelAdmin.query || {}, { $user_id: auth.get('user').get('id') })
 
         if (modelId) {
           query.id = modelId
           await store.dispatch(loadModels(query))
-          await fetchRelated({store, modelAdmin, modelIds: [modelId], loadAll: true})
+          await fetchRelated({ store, modelAdmin, modelIds: [modelId], loadAll: true })
         }
       }
       catch (err) {
@@ -108,4 +100,13 @@ export default function createModelDetailEditor(modelAdmin) {
       )
     }
   }
+
+  return connect(
+    (state, props) => ({
+      ...paginationSelector(state, props),
+      modelStore: state.admin[modelAdmin.path],
+    }),
+    { loadModels, saveModel, deleteModel },
+  )(ModelDetailEditor)
+
 }
