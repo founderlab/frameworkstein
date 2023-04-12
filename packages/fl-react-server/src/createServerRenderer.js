@@ -22,7 +22,7 @@ const sendTextNotFound = res => {
   return res.status(404).send('404 not found')
 }
 
-const evalSource = (req, source) => _.isFunction(source) ? source(req) : source || ''
+const evalSource = (req, res, source) => _.isFunction(source) ? source(req, res) : source || ''
 
 const defaults = {
   lang: 'en',
@@ -36,7 +36,7 @@ async function checkRedirect({ req, store, branch }) {
 
   branch.forEach(branch => {
     const { route } = branch
-    branch.location = branch.location || {pathname: req.path, query: req.query}
+    branch.location = branch.location || { pathname: req.path, query: req.query }
     if (route.authenticate && !route.authenticate(store.getState(), branch)) {
       redirectUrl = route.redirectUrl ? route.redirectUrl(req.originalUrl) : '/'
     }
@@ -56,24 +56,25 @@ function extractAssets(options) {
   const assets = {}
   if (options.enableLoadable) {
     const statsFile = path.resolve(options.loadableStatsPath)
-    const extractor = new ChunkExtractor({statsFile, entrypoints: options.entries})
+    const extractor = new ChunkExtractor({ statsFile, entrypoints: options.entries })
     assets.extractor = extractor
-    assets.scriptTags = extractor.getScriptTags()
-    assets.linkTags = extractor.getLinkTags()
-    assets.styleTags = extractor.getStyleTags()
+    assets.scriptTags = extractor.getScriptTags({ nonce: options.cspNonce })
+    assets.linkTags = extractor.getLinkTags({ nonce: options.cspNonce })
+    assets.styleTags = extractor.getStyleTags({ nonce: options.cspNonce })
   }
   else {
+    const nonceAttr = options.cspNonce ? ` nonce="${options.cspNonce}"` : ''
     const js = jsAssets(options.entries, options.webpackAssetsPath)
-    assets.scriptTags = js.map(script => `<script type="application/javascript" src="${script}"></script>`).join('\n')
+    assets.scriptTags = js.map(script => `<script type="application/javascript" src="${script}"${nonceAttr}></script>`).join('\n')
     const css = cssAssets(options.entries, options.webpackAssetsPath)
-    assets.styleTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}">`).join('\n')
+    assets.styleTags = css.map(c => `<link rel="stylesheet" type="text/css" href="${c}"${nonceAttr}>`).join('\n')
   }
   return assets
 }
 
 export default function createServerRenderer(_options) {
-  const options = {...defaults, ..._options}
-  const { createStore, getRoutes, gaId } = options
+  const options = { ...defaults, ..._options }
+  const { createStore, getRoutes } = options
   const sendError = options.sendError || sendTextError
   const sendNotFound = options.sendNotFound || sendTextNotFound
   if (!createStore) throw new Error('[fl-react-server] createServerRenderer: Missing createStore from options')
@@ -81,27 +82,29 @@ export default function createServerRenderer(_options) {
 
   return async function app(req, res) {
     try {
-      const { scriptTags, styleTags, linkTags, extractor } = extractAssets(options)
+      const cspNonce = res.locals._cspNonce || res.locals.cspNonce || res.locals.nonce
+      const { scriptTags, styleTags, linkTags, extractor } = extractAssets({ ...options, cspNonce })
 
       try {
         const serverState = {
-          auth: req.user ? {user: _.omit(req.user, 'password', '_rev')} : {},
+          auth: req.user ? { user: _.omit(req.user, 'password', '_rev') } : {},
         }
-        if (options.loadInitialState) _.merge(serverState, await options.loadInitialState(req))
+        if (options.loadInitialState) _.merge(serverState, await options.loadInitialState(req, res))
+        console.log('serverState', serverState)
 
-        const history = createMemoryHistory({initialEntries: [req.originalUrl]})
-        const store = createStore({history, getRoutes, initialState: serverState, server: true})
+        const history = createMemoryHistory({ initialEntries: [req.originalUrl] })
+        const store = createStore({ history, getRoutes, initialState: serverState, server: true })
         const routes = getRoutes(store)
 
         const branch = matchRoutes(routes, req.path)
 
         // Check authentication on routes, redirect to login if required
-        const redirectUrl = await checkRedirect({req, store, branch})
+        const redirectUrl = await checkRedirect({ req, store, branch })
         if (redirectUrl) return res.redirect(redirectUrl)
 
         // Wait on fetching component's data before rendering
-        history.location.query = qs.parse(history.location.search, {ignoreQueryPrefix: true})
-        const fetchResult = await fetchComponentData({store, branch, location: history.location})
+        history.location.query = qs.parse(history.location.search, { ignoreQueryPrefix: true })
+        const fetchResult = await fetchComponentData({ store, branch, location: history.location })
         if (fetchResult.logout) req.logout()
         if (fetchResult.redirect) return res.redirect(fetchResult.redirect)
         if (fetchResult.status) {
@@ -140,22 +143,9 @@ export default function createServerRenderer(_options) {
         }
 
         const head = Helmet.rewind()
-
-        // Google analytics tag
-        const gaTag = gaId ? `
-          <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-            ga('create', '${gaId}', 'auto');
-            ga('send', 'pageview');
-          </script>` : ''
-
-        const headerTags = evalSource(req, options.headerTags)
-        const preScriptTags = evalSource(req, options.preScriptTags)
-        const postScriptTags = evalSource(req, options.postScriptTags)
+        const headerTags = evalSource(req, res, options.headerTags)
+        const preScriptTags = evalSource(req, res, options.preScriptTags)
+        const postScriptTags = evalSource(req, res, options.postScriptTags)
 
         const html = `
           <!DOCTYPE html>
@@ -170,15 +160,15 @@ export default function createServerRenderer(_options) {
               ${styleTags}
               ${linkTags}
               ${headerTags}
-              <script type="application/javascript">
-                window.__INITIAL_STATE__ = ${serialize(initialState, {isJSON: true})}
+              <script type="application/javascript" nonce=${cspNonce}>
+                window.__INITIAL_STATE__ = ${serialize(initialState, { isJSON: true })}
+                window.nonce = '${cspNonce}'
               </script>
             </head>
             <body id="app">
               <div id="react-view">${renderedHtml}</div>
               ${preScriptTags}
               ${scriptTags}
-              ${gaTag}
               ${postScriptTags}
             </body>
           </html>
