@@ -39,8 +39,8 @@ $step-height-xs: 130px !default;
       .dot {
         width: $dot-active-size;
         height: $dot-active-size;
-        margin-left: -$dot-active-size/2;
-        margin-top: -$dot-active-size/2;
+        margin-left: calc($dot-active-size / -2);
+        margin-top: calc($dot-active-size / -2);
       }
     }
 
@@ -60,9 +60,9 @@ $step-height-xs: 130px !default;
         border: solid 4px $complete-color;
 
         left: 50%;
-        top: $step-offset-top;;
-        margin-left: -$dot-active-size/2;
-        margin-top: -$dot-active-size/2;
+        top: $step-offset-top;
+        margin-left: calc($dot-active-size / -2);
+        margin-top: calc($dot-active-size / -2);
       }
     }
     &.complete {
@@ -107,9 +107,9 @@ $step-height-xs: 130px !default;
       height: $dot-size;
 
       left: 50%;
-      top: $step-offset-top;;
-      margin-left: -$dot-size/2;
-      margin-top: -$dot-size/2;
+      top: $step-offset-top;
+      margin-left: calc($dot-size / -2);
+      margin-top: calc($dot-size / -2);
 
       display: flex;
       align-items: center;
@@ -127,7 +127,7 @@ $step-height-xs: 130px !default;
       width: 50%;
       height: 6px;
 
-      top: $step-offset-top;;
+      top: $step-offset-top;
       margin-top: -3px;
 
       &.bar-left {
@@ -150,16 +150,16 @@ $step-height-xs: 130px !default;
       .dot {
         width: $dot-active-size-xs;
         height: $dot-active-size-xs;
-        margin-left: -$dot-active-size-xs/2;
-        margin-top: -$dot-active-size-xs/2;
+        margin-left: calc($dot-active-size-xs / -2);
+        margin-top: calc($dot-active-size-xs / -2);
       }
     }
 
     .dot {
       width: $dot-size-xs;
       height: $dot-size-xs;
-      margin-left: -$dot-size-xs/2;
-      margin-top: -$dot-size-xs/2;
+      margin-left: calc($dot-size-xs / -2);
+      margin-top: calc($dot-size-xs / -2);
     }
     .bar {
       height: 4px;

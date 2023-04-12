@@ -14,7 +14,7 @@ import { ChunkExtractor } from '@loadable/server'
 import { jsAssets, cssAssets } from './assets'
 
 
-const sendTextError = (res, err) => {
+const sendTextError = res => {
   return res.status(500).send('Error loading initial state')
 }
 
@@ -90,7 +90,6 @@ export default function createServerRenderer(_options) {
           auth: req.user ? { user: _.omit(req.user, 'password', '_rev') } : {},
         }
         if (options.loadInitialState) _.merge(serverState, await options.loadInitialState(req, res))
-        console.log('serverState', serverState)
 
         const history = createMemoryHistory({ initialEntries: [req.originalUrl] })
         const store = createStore({ history, getRoutes, initialState: serverState, server: true })
@@ -162,7 +161,6 @@ export default function createServerRenderer(_options) {
               ${headerTags}
               <script type="application/javascript" nonce=${cspNonce}>
                 window.__INITIAL_STATE__ = ${serialize(initialState, { isJSON: true })}
-                window.nonce = '${cspNonce}'
               </script>
             </head>
             <body id="app">
