@@ -20,6 +20,7 @@ export default function FLInput(props) {
   if (!inputProps.input) {
     inputProps.input = {}
     if (inputProps.onChange) inputProps.input.onChange = inputProps.onChange
+    if (inputProps.value) inputProps.input.value = inputProps.value
   }
 
   switch (inputProps.type) {

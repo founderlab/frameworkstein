@@ -9,9 +9,9 @@ export default function FatLabel(props) {
 
   return (
     <Label check className={`radio-inline d-flex bg-light ${active ? 'active' : ''}`}>
-      {inputComponent}
-      <div className="ml-2">
-        <div>{icon && <i className={`fad fa-fw fa-${icon} text-primary mr-2`} />}{label}</div>
+      <div className="d-flex align-items-center">{inputComponent}</div>
+      <div className="ms-2">
+        <div>{icon && <i className={`fad fa-fw fa-${icon} text-primary me-2`} />}{label}</div>
         {help && <div className="small text-muted">{help}</div>}
       </div>
     </Label>

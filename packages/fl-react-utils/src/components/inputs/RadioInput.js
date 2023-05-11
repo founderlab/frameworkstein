@@ -17,7 +17,7 @@ export default function RadioInput(props) {
         type="radio"
         value={opt.value}
         checked={opt.value === innerProps.value}
-        className="pos-relative ml-0"
+        className="pos-relative ms-0"
         disabled={disabled}
       />
     )
@@ -27,7 +27,7 @@ export default function RadioInput(props) {
     return (
       <div>
         {options.map(opt => (
-          <Label key={opt.value} className={classNames('radio-inline mr-3', {disabled})}>
+          <Label key={opt.value} className={classNames('radio-inline me-3', {disabled})}>
             {renderInput({innerProps, opt})}
             {opt.label}
           </Label>

@@ -22,7 +22,7 @@ export default function InputContainer(props) {
     <FormGroup check={check} className={className}>
       {label && <Label>{label}</Label>}
 
-      {helpTop && help && <div className={`small text-muted ${check ? 'ml-2' : 'mb-2'}`}>{help}</div>}
+      {helpTop && help && <div className={`small text-muted ${check ? 'ms-2' : 'mb-2'}`}>{help}</div>}
 
       {children({
         ...input,
@@ -30,7 +30,7 @@ export default function InputContainer(props) {
         invalid: validation === 'error',
       })}
 
-      {!helpTop && help && <div className={`small text-muted ${check ? 'ml-2' : 'mt-2'}`}>{help}</div>}
+      {!helpTop && help && <div className={`small text-muted ${check ? 'ms-2' : 'mt-2'}`}>{help}</div>}
 
       {error && <FormFeedback>{error}</FormFeedback>}
     </FormGroup>
