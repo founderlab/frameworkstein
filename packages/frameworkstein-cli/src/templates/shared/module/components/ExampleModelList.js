@@ -22,7 +22,7 @@ export default class ${options.className}List extends React.PureComponent {
             <Col>
               <p><Link to={\`/${options.variablePlural}/$\{${options.variableName}.id}\`}>${options.className} {${options.variableName}.id}</Link></p>
             </Col>
-            <Col xs="auto" className="ml-auto">
+            <Col xs="auto" className="ms-auto">
               <p><Button size="sm" color="link" tag={Link} to={\`/${options.variablePlural}/$\{${options.variableName}.id}/edit\`}><i className="fa fa-pencil" /> edit</Button></p>
             </Col>
           </Row>

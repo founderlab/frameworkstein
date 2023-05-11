@@ -35,10 +35,10 @@ export default function ModelList(props) {
               <i className="fal fa-plus" /> Add a new {modelAdmin.name}
             </Button>
           </Col>
-          <Col xs="auto" className="fla-search ml-auto d-flex">
+          <Col xs="auto" className="fla-search ms-auto d-flex">
             <SearchBox {...props} />
           </Col>
-          <Col xs="auto" className="fla-pagination ml-auto d-flex">
+          <Col xs="auto" className="fla-pagination ms-auto d-flex">
             {totalItems && <span className="fla-item-count">{startCount} - {endCount} of {totalItems}</span>}
             <Pagination itemsPerPage={modelAdmin.perPage} {...props} />
           </Col>

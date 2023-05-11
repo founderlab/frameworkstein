@@ -56,7 +56,7 @@ export default class ModelDetailForm extends React.Component {
 
         <Row className="mt-3">
           <Col xs={12} className="text-right">
-            <Button onClick={onDelete} className="mr-3"><i className="fal fa-times" /> Delete</Button>
+            <Button onClick={onDelete} className="me-3"><i className="fal fa-times" /> Delete</Button>
             <Button color="primary" onClick={handleSubmit}><i className="fal fa-save" /> Save</Button>
           </Col>
         </Row>
