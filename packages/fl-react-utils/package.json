@@ -40,10 +40,10 @@
     "react-router-dom": "^5.0.0",
     "react-select": "^3.0.0",
     "react-sidebar": "^2.0.0",
-    "reactstrap": "^8.0.0",
+    "reactstrap": "^9.1.9",
     "redux": "^4.0.0",
     "redux-form": "^8.0.0",
     "warning": "^2.0.0"
   },
-  "gitHead": "e1e1a50162bd4b054f52769c447e5abe76af1383"
+  "gitHead": "d2747da3c08698b97922c941aa18189f0211f49e"
 }

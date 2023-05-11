@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { InputGroup, InputGroupAddon, Input } from 'reactstrap'
+import { InputGroup, InputGroupText, Input } from 'reactstrap'
 import InputContainer from './InputContainer'
 
 
@@ -16,11 +16,11 @@ export default function TextInput(props) {
           return (
             <InputGroup>
               {prepend && (
-                <InputGroupAddon addonType="prepend">{prepend}</InputGroupAddon>
+                <InputGroupText>{prepend}</InputGroupText>
               )}
               {input}
               {append && (
-                <InputGroupAddon addonType="append">{append}</InputGroupAddon>
+                <InputGroupText>{append}</InputGroupText>
               )}
             </InputGroup>
           )

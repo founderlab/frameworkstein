@@ -26,7 +26,7 @@
     "fl-react-utils": "^11.0.0",
     "prop-types": "*",
     "react": ">=16.0.0",
-    "reactstrap": "^8.0.0",
+    "reactstrap": "^9.1.9",
     "redux-form": "^8.0.0"
   },
   "gitHead": "e1e1a50162bd4b054f52769c447e5abe76af1383"
