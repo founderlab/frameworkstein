@@ -1,6 +1,6 @@
 {
   "name": "stein-orm",
-  "version": "10.0.0",
+  "version": "11.0.0",
   "description": "",
   "main": "lib/index.js",
   "author": {
