@@ -43,11 +43,11 @@ export default class S3Uploader extends React.Component {
   }
 
   render() {
-    const { url, s3Url, value, accept, size } = this.props
+    const { url, s3Url, value, accept, size, height, width } = this.props
 
     const style = this.props.style || {
-      height: size === 'large' ? 200 : 100,
-      width: size === 'large' ? 200 : 100,
+      height: height || (size === 'large' ? 200 : 100),
+      width: width || (size === 'large' ? 200 : 100),
       border: 'dashed 2px #999',
       borderRadius: 5,
       position: 'relative',

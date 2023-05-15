@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import BooleanInput from './BooleanInput'
 import CheckboxesInput from './CheckboxesInput'
 import CheckboxInput from './CheckboxInput'
+import ColourInput from './ColourInput'
+import IconInput from './IconInput'
 import DateInput from './DateInput'
 import DatetimeInput from './DatetimeInput'
 import RadioInput from './RadioInput'
@@ -24,6 +26,11 @@ export default function FLInput(props) {
   }
 
   switch (inputProps.type) {
+    case 'color':
+    case 'colour':
+      return <ColourInput {...inputProps} />
+    case 'icon':
+      return <IconInput {...inputProps} />
     case 'date':
       return <DateInput {...inputProps} />
     case 'datetime':

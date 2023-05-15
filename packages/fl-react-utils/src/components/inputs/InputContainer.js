@@ -1,14 +1,14 @@
 import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormGroup, Label, FormText, FormFeedback } from 'reactstrap'
+import { FormGroup, Label, FormFeedback } from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
 import { validationError, validationState } from '../../utils/validation'
 import markdownProps from '../../utils/markdownProps'
 
 
 export default function InputContainer(props) {
-  const { children, className, label, meta, input, helpTop, check } = props
+  const { children, className, label, meta, input, placeholder, helpTop, check } = props
 
   const validation = props.validationState ? props.validationState(meta) : null
   const error = validationError(meta)
@@ -26,6 +26,7 @@ export default function InputContainer(props) {
 
       {children({
         ...input,
+        placeholder,
         valid: validation === 'success',
         invalid: validation === 'error',
       })}
@@ -49,12 +50,12 @@ InputContainer.propTypes = {
   markdownProps: PropTypes.object,
   children: PropTypes.func,
   check: PropTypes.bool,
+  placeholder: PropTypes.string,
 }
 
 InputContainer.defaultProps = {
   validationState,
   markdownProps,
   helpTop: true,
-  inline: true,
   input: {},
 }
