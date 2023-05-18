@@ -16,6 +16,8 @@ export default class S3Uploader extends React.Component {
     accept: PropTypes.string,
     value: PropTypes.string,
     type: PropTypes.string,
+    height: PropTypes.string,
+    width: PropTypes.string,
     url: PropTypes.string.isRequired,
     s3Url: PropTypes.string.isRequired,
   }

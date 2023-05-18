@@ -11,7 +11,7 @@ export default function ColourInput(props) {
     <InputContainer {...props}>
       {innerProps => {
         const input = <Input type="text" {...innerProps} {...inputProps} />
-console.log('innerProps', innerProps)
+
         return (
           <InputGroup>
             {showColourInput ? (
@@ -45,6 +45,7 @@ console.log('innerProps', innerProps)
 
 ColourInput.propTypes = {
   inputProps: PropTypes.object,
+  showColourInput: PropTypes.bool,
 }
 
 ColourInput.defaultProps = {

@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { FormGroup, Label, FormFeedback } from 'reactstrap'
 import ReactMarkdown from 'react-markdown'
 import { validationError, validationState } from '../../utils/validation'
@@ -19,7 +20,7 @@ export default function InputContainer(props) {
   }
 
   return (
-    <FormGroup check={check} className={className}>
+    <FormGroup check={check} className={classNames(className, 'mb-4')}>
       {label && <Label>{label}</Label>}
 
       {helpTop && help && <div className={`small text-muted ${check ? 'ms-2' : 'mb-2'}`}>{help}</div>}
