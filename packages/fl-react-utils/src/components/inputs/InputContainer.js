@@ -20,7 +20,7 @@ export default function InputContainer(props) {
   }
 
   return (
-    <FormGroup check={check} className={classNames(className, 'mb-4')}>
+    <FormGroup check={check} className={classNames(className, { 'mb-4': !check })}>
       {label && <Label>{label}</Label>}
 
       {helpTop && help && <div className={`small text-muted ${check ? 'ms-2' : 'mb-2'}`}>{help}</div>}
