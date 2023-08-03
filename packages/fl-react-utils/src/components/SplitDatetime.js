@@ -8,194 +8,178 @@ import { Row, Col, FormGroup, Label, FormFeedback, FormText } from 'reactstrap'
 import { validationError } from '../utils/validation'
 
 
-export default class SplitDatetime extends React.Component {
+export default function SplitDatetime(props) {
+  const { utc, input, meta, label, dateLabel, timeLabel, helpMd, helpTop, readOnly, inline, className, markdownProps, defaultTime, isValidDate, timeFormat } = props
+  const inputProps = { ...input, ...props.inputProps }
 
-  static propTypes = {
-    label: PropTypes.node,
-    dateLabel: PropTypes.node,
-    timeLabel: PropTypes.node,
-    helpTop: PropTypes.bool,
-    helpMd: PropTypes.string,
-    help: PropTypes.node,
-    meta: PropTypes.object,
-    input: PropTypes.object.isRequired,
-    inputProps: PropTypes.object,
-    options: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.object,
-    ]),
-    value: PropTypes.any,
-    isValidDate: PropTypes.func,
-    dateFormat: PropTypes.string,
-    localeDateFormat: PropTypes.string,
-    timeFormat: PropTypes.string,
-    markdownProps: PropTypes.object,
-    defaultTime: PropTypes.object,
-    readOnly: PropTypes.bool,
-    inline: PropTypes.bool,
-    className: PropTypes.string,
-  }
+  const [date, setDate] = React.useState(utc ? moment(input.value).utc() : moment(input.value))
+  const [time, setTime] = React.useState(utc ? moment(input.value).utc() : moment(input.value))
+  const dateFormat = props.dateFormat || moment.localeData().longDateFormat(props.localeDateFormat)
 
-  static defaultProps = {
-    isValidDate: current => current.isAfter(moment().subtract(1, 'day')),
-    localeDateFormat: 'L',
-    timeFormat: 'hh:mm a',
-    markdownProps: {
-      escapeHtml: true,
-    },
-    defaultTime: {
-      hours: 18,
-    },
-    readOnly: true,
-  }
-
-  constructor(props) {
-    super()
-    this.state = {
-      date: moment(props.input.value),
-      time: moment(props.input.value),
-    }
-  }
-
-  componentWillReceiveProps(props) {
-    this.setState({
-      date: moment(props.input.value),
-      time: moment(props.input.value),
-    })
-  }
-
-  getDateFormat = () => this.props.dateFormat ? this.props.dateFormat : moment.localeData().longDateFormat(this.props.localeDateFormat)
-
-  getDate = () => {
-    let currentDate = moment(this.state.date)
+  const handleChange = ({ date, time }) => {
+    setDate(date)
+    setTime(time)
+    let currentDate = moment(date)
     if (!currentDate.isValid()) currentDate = moment()
-    const newDate = currentDate.hours(this.state.time.hours()).minutes(this.state.time.minutes())
-    return newDate
+    const newValue = currentDate.hours(time.hours()).minutes(time.minutes())
+    input.onChange(newValue.toDate())
   }
 
-  handleChange = () => {
-    const newDate = this.getDate()
-    this.props.input.onChange(newDate)
-  }
-
-  handleDateChange = newDate => {
+  const handleDateChange = newDate => {
     if (moment.isMoment(newDate)) {
-      if (this.props.defaultTime) newDate.set(this.props.defaultTime)
-      this.setState({date: newDate}, this.handleChange)
+      if (defaultTime) newDate.set(defaultTime)
+      handleChange({ date: newDate, time })
       return
     }
     if (!_.isString(newDate)) return
     if (newDate.length !== 8) return
-    const m = moment(newDate, 'DD/MM/YYYY')
+    let m = moment(newDate, 'DD/MM/YYYY')
+    if (utc) m = m.utc()
     if (!m.isValid()) return
-    if (this.props.defaultTime) m.set(this.props.defaultTime)
+    if (defaultTime) m.set(defaultTime)
 
-    this.setState({date: m}, this.handleChange)
+    handleChange({ date: newDate, time })
   }
 
-  handleTimeChange = newTime => {
+  const handleTimeChange = newTime => {
     if (moment.isMoment(newTime)) {
-      this.setState({time: newTime}, this.handleChange)
+      handleChange({ date, time: newTime })
       return
     }
     if (!_.isString(newTime)) return
     if (newTime.length !== 8) return
-    const m = moment(newTime, 'hh:mm A')
+    let m = moment(newTime, 'hh:mm A')
+    if (utc) m = m.utc()
     if (!m.isValid()) return
 
-    this.setState({time: m}, this.handleChange)
+    handleChange({ date, time: newTime })
   }
 
-  render() {
-    const { label, dateLabel, timeLabel, meta, helpMd, helpTop, readOnly, inline, className } = this.props
-    const inputProps = _.extend({}, this.props.input, this.props.inputProps)
+  let help = props.help
+  if (_.isUndefined(help) && helpMd) {
+    help = <ReactMarkdown source={helpMd} {...markdownProps} />
+  }
+  const error = validationError(meta)
 
-    let help = this.props.help
-    if (_.isUndefined(help) && helpMd) {
-      help = <ReactMarkdown source={helpMd} {...this.props.markdownProps} />
-    }
-    const error = validationError(meta)
-    const dateFormat = this.getDateFormat()
+  const dateInputProps = {
+    utc,
+    dateFormat,
+    placeholder: dateFormat,
+    timeFormat: null,
+    className: 'date',
+    closeOnSelect: true,
+    onChange: handleDateChange,
+    isValidDate,
+    inputProps: {
+      readOnly,
+      className: error ? 'is-invalid form-control' : 'form-control',
+    },
+    ..._.omit(inputProps, 'onChange', 'onFocus'),
+    value: date,
+  }
 
-    const dateInputProps = {
-      ref: c => this._date = c,
-      dateFormat,
-      placeholder: dateFormat,
-      timeFormat: false,
-      className: 'date',
-      closeOnSelect: true,
-      onChange: this.handleDateChange,
-      isValidDate: this.props.isValidDate,
-      inputProps: {
-        readOnly,
-        className: error ? 'is-invalid form-control' : 'form-control',
-      },
-      ..._.omit(inputProps, 'onChange', 'onFocus'),
-      value: this.state.date,
-    }
+  const timeInputProps = {
+    utc,
+    timeFormat,
+    placeholder: '9:00 am',
+    dateFormat: null,
+    className: 'time',
+    closeOnSelect: true,
+    onChange: handleTimeChange,
+    inputProps: {
+      readOnly,
+    },
+    ..._.omit(inputProps, 'onChange', 'onFocus'),
+    value: time,
+  }
 
-    const timeInputProps = {
-      ref: c => this._time = c,
-      placeholder: '9:00 am',
-      dateFormat: false,
-      timeFormat: this.props.timeFormat,
-      className: 'time',
-      closeOnSelect: true,
-      onChange: this.handleTimeChange,
-      inputProps: {
-        readOnly,
-      },
-      ..._.omit(inputProps, 'onChange', 'onFocus'),
-      value: this.state.time,
-    }
+  if (!meta.dirty && _.isString(inputProps.value)) {
+    dateInputProps.value = moment(inputProps.value)
+    timeInputProps.value = moment(inputProps.value)
+  }
 
-    if (!this.props.meta.dirty && _.isString(inputProps.value)) {
-      dateInputProps.value = moment(inputProps.value)
-      timeInputProps.value = moment(inputProps.value)
-    }
+  const dateControl = <ReactDatetime {...dateInputProps} />
+  const timeControl = <ReactDatetime {...timeInputProps} />
 
-    const dateControl = (<ReactDatetime {...dateInputProps} />)
-    const timeControl = (<ReactDatetime {...timeInputProps} />)
-
-    let controls
-    if (inline) {
-      controls = (
-        <Row>
-          <Col xs={6}>
-            {dateLabel && (<Label>{dateLabel}</Label>)}
-            {dateControl}
-          </Col>
-          {error && (<FormFeedback>{error}</FormFeedback>)}
-          <Col xs={6}>
-            {timeLabel && (<Label>{timeLabel}</Label>)}
-            {timeControl}
-          </Col>
-        </Row>
-      )
-    }
-    else {
-      controls = (
-        <React.Fragment>
-          <div>
-            {dateLabel && (<Label>{dateLabel}</Label>)}
-            {dateControl}
-          </div>
-          {error && (<FormFeedback>{error}</FormFeedback>)}
-          <div className="mt-3">
-            {timeLabel && (<Label>{timeLabel}</Label>)}
-            {timeControl}
-          </div>
-        </React.Fragment>
-      )
-    }
-
-    return (
-      <FormGroup className={className || 'form-group split-datetime'}>
-        {label && (<Label>{label}</Label>)}
-        {help && helpTop && (<FormText color="muted">{help}</FormText>)}
-        {controls}
-        {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
-      </FormGroup>
+  let controls
+  if (inline) {
+    controls = (
+      <Row>
+        <Col xs={6}>
+          {dateLabel && (<Label>{dateLabel}</Label>)}
+          {dateControl}
+        </Col>
+        {error && (<FormFeedback>{error}</FormFeedback>)}
+        <Col xs={6}>
+          {timeLabel && (<Label>{timeLabel}</Label>)}
+          {timeControl}
+        </Col>
+      </Row>
     )
   }
+  else {
+    controls = (
+      <React.Fragment>
+        <div>
+          {dateLabel && (<Label>{dateLabel}</Label>)}
+          {dateControl}
+        </div>
+        {error && (<FormFeedback>{error}</FormFeedback>)}
+        <div className="mt-3">
+          {timeLabel && (<Label>{timeLabel}</Label>)}
+          {timeControl}
+        </div>
+      </React.Fragment>
+    )
+  }
+
+  return (
+    <FormGroup className={className || 'split-datetime'}>
+      {label && (<Label>{label}</Label>)}
+      {help && helpTop && (<FormText color="muted">{help}</FormText>)}
+      {controls}
+      {help && !helpTop && (<FormText color="muted">{help}</FormText>)}
+    </FormGroup>
+  )
+}
+
+SplitDatetime.propTypes = {
+  utc: PropTypes.bool,
+  label: PropTypes.node,
+  dateLabel: PropTypes.node,
+  timeLabel: PropTypes.node,
+  helpTop: PropTypes.bool,
+  helpMd: PropTypes.string,
+  help: PropTypes.node,
+  meta: PropTypes.object,
+  input: PropTypes.object.isRequired,
+  inputProps: PropTypes.object,
+  options: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+  ]),
+  value: PropTypes.any,
+  isValidDate: PropTypes.func,
+  dateFormat: PropTypes.string,
+  localeDateFormat: PropTypes.string,
+  timeFormat: PropTypes.string,
+  markdownProps: PropTypes.object,
+  defaultTime: PropTypes.object,
+  readOnly: PropTypes.bool,
+  inline: PropTypes.bool,
+  className: PropTypes.string,
+}
+
+SplitDatetime.defaultProps = {
+  isValidDate: current => current.isAfter(moment().subtract(1, 'day')),
+  localeDateFormat: 'L',
+  timeFormat: 'hh:mm a',
+  markdownProps: {
+    escapeHtml: true,
+  },
+  defaultTime: {
+    hours: 18,
+  },
+  readOnly: true,
+  inputProps: {},
 }
