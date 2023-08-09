@@ -28,8 +28,7 @@ export default function SplitDatetime(props) {
   }
 
   React.useEffect(() => {
-    setDate(date.tz(timezone, true))
-    handleChange({ date, time })
+    handleChange({ date: date.tz(timezone), time })
   }, [timezone])
 
   const handleDateChange = newDate => {
