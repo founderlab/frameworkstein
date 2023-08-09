@@ -9,11 +9,12 @@ import { validationError } from '../utils/validation'
 
 
 export default function SplitDatetime(props) {
-  const { utc, input, meta, label, dateLabel, timeLabel, helpMd, helpTop, readOnly, inline, className, markdownProps, defaultTime, isValidDate, timeFormat } = props
+  const { timezone, input, meta, label, dateLabel, timeLabel, helpMd, helpTop, readOnly, inline, className, markdownProps, defaultTime, isValidDate, timeFormat } = props
   const inputProps = { ...input, ...props.inputProps }
 
-  const [date, setDate] = React.useState(utc ? moment(input.value).utc() : moment(input.value))
-  const [time, setTime] = React.useState(utc ? moment(input.value).utc() : moment(input.value))
+  const momentDate = timezone ? moment(input.value).tz(timezone) : moment(input.value)
+  const [date, setDate] = React.useState(momentDate)
+  const [time, setTime] = React.useState(moment().utc().hours(momentDate.hours()).minutes(momentDate.minutes()))
   const dateFormat = props.dateFormat || moment.localeData().longDateFormat(props.localeDateFormat)
 
   const handleChange = ({ date, time }) => {
@@ -21,9 +22,15 @@ export default function SplitDatetime(props) {
     setTime(time)
     let currentDate = moment(date)
     if (!currentDate.isValid()) currentDate = moment()
-    const newValue = currentDate.hours(time.hours()).minutes(time.minutes())
+    let newValue = currentDate.hours(time.hours()).minutes(time.minutes())
+    if (timezone) newValue = newValue.tz(timezone, true)
     input.onChange(newValue.toDate())
   }
+
+  React.useEffect(() => {
+    setDate(date.tz(timezone, true))
+    handleChange({ date, time })
+  }, [timezone])
 
   const handleDateChange = newDate => {
     if (moment.isMoment(newDate)) {
@@ -34,7 +41,7 @@ export default function SplitDatetime(props) {
     if (!_.isString(newDate)) return
     if (newDate.length !== 8) return
     let m = moment(newDate, 'DD/MM/YYYY')
-    if (utc) m = m.utc()
+    if (timezone) m = m.tz(timezone)
     if (!m.isValid()) return
     if (defaultTime) m.set(defaultTime)
 
@@ -48,8 +55,7 @@ export default function SplitDatetime(props) {
     }
     if (!_.isString(newTime)) return
     if (newTime.length !== 8) return
-    let m = moment(newTime, 'hh:mm A')
-    if (utc) m = m.utc()
+    const m = moment(newTime, 'hh:mm A').utc()
     if (!m.isValid()) return
 
     handleChange({ date, time: newTime })
@@ -62,7 +68,7 @@ export default function SplitDatetime(props) {
   const error = validationError(meta)
 
   const dateInputProps = {
-    utc,
+    utc: true,
     dateFormat,
     placeholder: dateFormat,
     timeFormat: null,
@@ -79,7 +85,7 @@ export default function SplitDatetime(props) {
   }
 
   const timeInputProps = {
-    utc,
+    utc: true,
     timeFormat,
     placeholder: '9:00 am',
     dateFormat: null,
@@ -144,7 +150,7 @@ export default function SplitDatetime(props) {
 }
 
 SplitDatetime.propTypes = {
-  utc: PropTypes.bool,
+  timezone: PropTypes.string,
   label: PropTypes.node,
   dateLabel: PropTypes.node,
   timeLabel: PropTypes.node,
