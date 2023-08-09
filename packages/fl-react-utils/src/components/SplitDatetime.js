@@ -12,53 +12,58 @@ export default function SplitDatetime(props) {
   const { timezone, input, meta, label, dateLabel, timeLabel, helpMd, helpTop, readOnly, inline, className, markdownProps, defaultTime, isValidDate, timeFormat } = props
   const inputProps = { ...input, ...props.inputProps }
 
-  const momentDate = timezone ? moment(input.value).tz(timezone) : moment(input.value)
-  const [date, setDate] = React.useState(momentDate)
-  const [time, setTime] = React.useState(moment().utc().hours(momentDate.hours()).minutes(momentDate.minutes()))
+  const momentDateFromDate = date => {
+    let m = moment(date || new Date())
+    console.log('m', m.format())
+    if (timezone) m = m.tz(timezone)
+    // set default time if no initial value
+    if (!date && defaultTime) m.set(defaultTime)
+    return m
+  }
+  const [date, setDate] = React.useState(momentDateFromDate(input.value))
   const dateFormat = props.dateFormat || moment.localeData().longDateFormat(props.localeDateFormat)
 
-  const handleChange = ({ date, time }) => {
-    setDate(date)
-    setTime(time)
-    let currentDate = moment(date)
-    if (!currentDate.isValid()) currentDate = moment()
-    let newValue = currentDate.hours(time.hours()).minutes(time.minutes())
-    if (timezone) newValue = newValue.tz(timezone, true)
-    input.onChange(newValue.toDate())
+  const handleChange = (value, triggerInputChange) => {
+    const newDate = momentDateFromDate(value)
+    setDate(newDate)
+    if (triggerInputChange) input.onChange(newDate.toDate())
   }
-
-  React.useEffect(() => {
-    handleChange({ date: date.tz(timezone), time })
-  }, [timezone])
 
   const handleDateChange = newDate => {
     if (moment.isMoment(newDate)) {
-      if (defaultTime) newDate.set(defaultTime)
-      handleChange({ date: newDate, time })
-      return
+      return handleChange(newDate, true)
     }
     if (!_.isString(newDate)) return
     if (newDate.length !== 8) return
     let m = moment(newDate, 'DD/MM/YYYY')
     if (timezone) m = m.tz(timezone)
     if (!m.isValid()) return
-    if (defaultTime) m.set(defaultTime)
 
-    handleChange({ date: newDate, time })
+    handleChange(m, true)
   }
 
   const handleTimeChange = newTime => {
     if (moment.isMoment(newTime)) {
-      handleChange({ date, time: newTime })
+      handleChange(newTime, true)
       return
     }
     if (!_.isString(newTime)) return
     if (newTime.length !== 8) return
-    const m = moment(newTime, 'hh:mm A').utc()
-    if (!m.isValid()) return
-
-    handleChange({ date, time: newTime })
+    const parsedTime = moment(newTime, 'hh:mm A')
+    if (!parsedTime.isValid()) return
+    const newDate = date.minutes(parsedTime.minutes()).hours(parsedTime.hours())
+    handleChange(newDate, true)
   }
+
+  React.useEffect(() => {
+    handleChange(date.tz(timezone, true), true)
+  }, [timezone])
+
+  React.useEffect(() => {
+    if (!input.value) return
+    if (moment(input.value).isSame(date)) return
+    handleChange(input.value, false)
+  }, [input.value])
 
   let help = props.help
   if (_.isUndefined(help) && helpMd) {
@@ -67,7 +72,6 @@ export default function SplitDatetime(props) {
   const error = validationError(meta)
 
   const dateInputProps = {
-    utc: true,
     dateFormat,
     placeholder: dateFormat,
     timeFormat: null,
@@ -84,7 +88,6 @@ export default function SplitDatetime(props) {
   }
 
   const timeInputProps = {
-    utc: true,
     timeFormat,
     placeholder: '9:00 am',
     dateFormat: null,
@@ -95,7 +98,7 @@ export default function SplitDatetime(props) {
       readOnly,
     },
     ..._.omit(inputProps, 'onChange', 'onFocus'),
-    value: time,
+    value: date,
   }
 
   if (!meta.dirty && _.isString(inputProps.value)) {
