@@ -14,7 +14,6 @@ export default function SplitDatetime(props) {
 
   const momentDateFromDate = date => {
     let m = moment(date || new Date())
-    console.log('m', m.format())
     if (timezone) m = m.tz(timezone)
     // set default time if no initial value
     if (!date && defaultTime) m.set(defaultTime)
