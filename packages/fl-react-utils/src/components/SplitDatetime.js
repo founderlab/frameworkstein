@@ -19,12 +19,12 @@ export default function SplitDatetime(props) {
     if (!date && defaultTime) m.set(defaultTime)
     return m
   }
-  const [date, setDate] = React.useState(input.value && momentDateFromDate(input.value))
+  const [date, setDate] = React.useState(momentDateFromDate(input.value))
   const dateFormat = props.dateFormat || moment.localeData().longDateFormat(props.localeDateFormat)
 
   const handleChange = (value, triggerInputChange) => {
     const newDate = momentDateFromDate(value)
-    if (!newDate || newDate.isValid()) return  // don't update if invalid
+    if (!newDate || !newDate.isValid()) return  // don't update if invalid
     setDate(newDate)
     if (triggerInputChange) input.onChange(newDate.toDate())
   }
