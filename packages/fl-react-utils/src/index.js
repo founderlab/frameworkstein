@@ -1,4 +1,3 @@
-import AsyncSelect from './components/AsyncSelect'
 import Button from './components/LoaderButton'
 import Pagination from './components/Pagination'
 import S3Image from './components/S3Image'
@@ -29,7 +28,6 @@ import { validationState, validationStyle, validationError, validDate, allFields
 
 export {
   allFieldsRequiredFn,
-  AsyncSelect,
   BelongsToInput,
   BelongsToInputAsync,
   Button,
