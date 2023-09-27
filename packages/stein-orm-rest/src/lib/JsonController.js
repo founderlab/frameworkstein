@@ -77,6 +77,7 @@ export default class JSONController {
         case 'POST': return 'create'
         case 'DELETE': return 'destroyByQuery'
         case 'HEAD': return 'headByQuery'
+        default: return ''
       }
     }
     else if (this.requestId(req) && (reqPath === `${this.route}/${this.requestId(req)}`)) {
@@ -85,6 +86,7 @@ export default class JSONController {
         case 'PUT': return 'update'
         case 'DELETE': return 'destroy'
         case 'HEAD': return 'head'
+        default: return ''
       }
     }
   }
