@@ -26,7 +26,7 @@ export async function executeRequest(request) {
 
   // assume fetch result if a json() method is present
   if (_.isFunction(res.json)) {
-    if (!res.ok) return handleFetchError(res, {maxErrorMessageLength: 100, method: request.method})
+    if (!res.ok) return handleFetchError(res, { maxErrorMessageLength: 100, method: request.method })
     return res.json()
   }
   // otherwise just pass the result on
@@ -42,7 +42,7 @@ export async function executeRequestWithRetries(request, options) {
       }
       catch (err) {
         if (!options.shouldRetry(err)) return bail(err)
-        throw new Error(err)
+        throw err
       }
     }, options.retry)
   }
@@ -61,18 +61,18 @@ export async function processAction(next, _action, options) {
   const ERROR = type + options.suffixes.ERROR
   const SUCCESS = type + options.suffixes.SUCCESS
 
-  next({type: START, ...rest})
+  next({ type: START, ...rest })
 
   let finalAction = {}
   let error
   try {
     const res = await executeRequestWithRetries(request, options)
-    finalAction = {res, type: SUCCESS, ...rest}
+    finalAction = { res, type: SUCCESS, ...rest }
     if (parseResponse) finalAction = parseResponse(finalAction)
   }
   catch (err) {
     error = err
-    finalAction = {error: err, type: ERROR, ...rest}
+    finalAction = { error: err, type: ERROR, ...rest }
   }
 
   try {
@@ -85,7 +85,7 @@ export async function processAction(next, _action, options) {
   }
 
   // Return the final action for the benefit of components dispatching the action
-  if (callback && _.isFunction(callback))  {
+  if (callback && _.isFunction(callback)) {
     return callback(error, finalAction)
   }
   if (error) throw error
@@ -101,13 +101,13 @@ const defaults = {
     SUCCESS: '_SUCCESS',
   },
   retry: {
-    retries: 10,
+    retries: 5,
   },
   shouldRetry,
 }
 
-export default function createRequestMiddleware(_options={}) {
-  const options = {...defaults, ..._options}
+export default function createRequestMiddleware(_options = {}) {
+  const options = { ...defaults, ..._options }
 
   return function requestMiddleware() {
     return next => async action => processAction(next, action, options)

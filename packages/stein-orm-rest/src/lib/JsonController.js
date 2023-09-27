@@ -5,9 +5,9 @@ import { promisify } from 'util'
 
 export default class JSONController {
 
-  constructor(app, options={}) {
+  constructor(app, options = {}) {
     _.extend(this, options)
-    if (!this.headers) this.headers = {'Cache-Control': 'no-cache', 'Content-Type': 'application/json'}
+    if (!this.headers) this.headers = { 'Cache-Control': 'no-cache', 'Content-Type': 'application/json' }
     if (!this.logger) this.logger = console
     if (!this.events) this.events = new EventEmitter()
   }
@@ -18,14 +18,15 @@ export default class JSONController {
   }
 
   sendStatus = (res, status, message) => {
-    res.status(status).json(message ? {message} : {})
+    res.status(status).json(message ? { message } : {})
   }
 
   sendError = (res, err) => {
     const { req } = res
-    this.events.emit('err', {req, res, err})
+    const errorMsg = err.message || (err && err.toString()) || 'Error'
+    this.events.emit('err', { req, res, err })
     this.logger.error(`Error 500 from ${req.method} ${req.url}: ${(err != null ? err.stack : undefined) || err}`)
-    res.status(500).json({error: err.toString()})
+    res.status(500).json({ error: errorMsg })
   }
 
   wrap = (fn) => {
@@ -57,7 +58,7 @@ export default class JSONController {
 
   _promiseOrCallbackFn(fn) {
     return (...args) => {
-      const maybeCb = args[args.length-1]
+      const maybeCb = args[args.length - 1]
       if (_.isFunction(maybeCb)) return fn.bind(this)(...args)
       return promisify(fn.bind(this))(...args)
     }
@@ -99,7 +100,7 @@ export default class JSONController {
     if (!_.isArray(auth)) { return auth(req, res, next) }
 
     let index = -1
-    var exec = function() { if (++index >= auth.length) { return next() }  return auth[index](req, res, exec)  }
+    var exec = function () { if (++index >= auth.length) { return next() } return auth[index](req, res, exec) }
     return exec()
   }
 }
