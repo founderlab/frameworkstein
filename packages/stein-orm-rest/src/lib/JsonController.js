@@ -38,7 +38,9 @@ export default class JSONController {
       stack.push(this.auth)
     }
     else if (_.isObject(this.auth)) { stack.push(this._dynamicAuth) }
+
     stack.push(this._setHeaders)
+
     stack.push((req, res, next) => {
       if (this.blocked) {
         let needle
