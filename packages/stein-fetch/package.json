@@ -1,6 +1,6 @@
 {
   "name": "stein-fetch",
-  "version": "11.0.0",
+  "version": "11.2.2",
   "description": "Fetch wrapper that allows requests to be built via chaining functions",
   "main": "lib/index.js",
   "author": {
