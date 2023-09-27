@@ -1,6 +1,6 @@
 
 // Generate a more detailed error from a failed fetch request
-export default async function handleFetchError(res, options={}) {
+export default async function handleFetchError(res, options = {}) {
   const method = options.method || ''
   let errorMessage = ''
   try {
@@ -11,7 +11,7 @@ export default async function handleFetchError(res, options={}) {
     const text = await res.clone().text()
     errorMessage = text.slice(0, options.maxErrorMessageLength)
   }
-  const err = new Error(`${method} ${res.url} (${res.status}): ${errorMessage}`)
+  const err = new Error(options.verbose ? `${method} ${res.url} (${res.status}): ${errorMessage}` : errorMessage)
   err.status = res.status
   throw err
 }
