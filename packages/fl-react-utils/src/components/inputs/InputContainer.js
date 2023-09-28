@@ -10,14 +10,18 @@ import markdownProps from '../../utils/markdownProps'
 
 export default function InputContainer(props) {
   const { children, className, label, meta, input, placeholder, helpTop, check } = props
-
+  const [wasValidating, setWasValidating] = React.useState(false)
   const validation = props.validationState ? props.validationState(meta) : null
-  const error = validationError(meta)
+  const error = validationError(meta) || (wasValidating && meta.invalid && meta.error)
 
   let help = props.help
   if (_.isUndefined(help) && props.helpMd) {
     help = <ReactMarkdown source={props.helpMd} {...props.markdownProps} />
   }
+
+  React.useEffect(() => {
+    if (meta.validating && !wasValidating) setWasValidating(true)
+  }, [meta.validating])
 
   return (
     <FormGroup check={check} className={classNames(className, { 'mb-4': !check })}>
@@ -28,8 +32,9 @@ export default function InputContainer(props) {
       {children({
         ...input,
         placeholder,
-        valid: validation === 'success',
-        invalid: validation === 'error',
+        valid: validation === 'success' || (wasValidating && meta.valid),
+        invalid: validation === 'error' || (wasValidating && meta.invalid),
+        validating: meta.validating ? meta.validating : undefined,
       })}
 
       {!helpTop && help && <div className={`small text-muted ${check ? 'ms-2' : 'mt-2'}`}>{help}</div>}

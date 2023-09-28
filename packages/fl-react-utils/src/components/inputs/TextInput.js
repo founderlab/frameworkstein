@@ -10,22 +10,20 @@ export default function TextInput(props) {
   return (
     <InputContainer {...props}>
       {innerProps => {
-        const input = <Input type={type} {...innerProps} {...inputProps} />
+        const { validating, ...rest } = innerProps
 
-        if (prepend || append) {
-          return (
-            <InputGroup>
-              {prepend && (
-                <InputGroupText>{prepend}</InputGroupText>
-              )}
-              {input}
-              {append && (
-                <InputGroupText>{append}</InputGroupText>
-              )}
-            </InputGroup>
-          )
-        }
-        return input
+        return (
+          <InputGroup>
+            {prepend && (
+              <InputGroupText>{prepend}</InputGroupText>
+            )}
+            <Input type={type} {...rest} {...inputProps} />
+            {append && (
+              <InputGroupText>{append}</InputGroupText>
+            )}
+            {innerProps.validating ? <i className="fa fa-loader fa-spin pos-absolute" style={{ right: -24, top: 13 }} /> : null}
+          </InputGroup>
+        )
       }}
     </InputContainer>
   )
