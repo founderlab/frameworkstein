@@ -9,7 +9,7 @@ import markdownProps from '../../utils/markdownProps'
 
 
 export default function InputContainer(props) {
-  const { children, className, label, meta, input, placeholder, helpTop, check } = props
+  const { children, className, label, input, meta, placeholder, helpTop, check } = props
   const [wasValidating, setWasValidating] = React.useState(false)
   const validation = props.validationState ? props.validationState(meta) : null
   const error = validationError(meta) || (wasValidating && meta.invalid && meta.error)
@@ -64,4 +64,5 @@ InputContainer.defaultProps = {
   markdownProps,
   helpTop: true,
   input: {},
+  meta: {},
 }
