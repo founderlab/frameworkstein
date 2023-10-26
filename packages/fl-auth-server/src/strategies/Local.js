@@ -4,7 +4,7 @@ import { findOrCreateAccessToken } from '../lib'
 
 
 export default class LocalStrategy extends Strategy {
-  constructor(options={}, verify) {
+  constructor(options = {}, verify) {
     super()
     _.merge(this, options)
     if (!this.User) throw new Error('[fl-auth] LocalStrategy: Missing User from options')
@@ -21,7 +21,7 @@ export default class LocalStrategy extends Strategy {
       if (!user) return this.fail(info)
 
       try {
-        const { token, refreshToken, info } = await findOrCreateAccessToken({user_id: user.id})
+        const { token, refreshToken, info } = await findOrCreateAccessToken({ user_id: user.id })
 
         if (!req.session) {
           const msg = '[fl-auth] LocalStrategy: Missing session from req. Is redis running?'
@@ -29,9 +29,9 @@ export default class LocalStrategy extends Strategy {
           return this.error(new Error(msg))
         }
 
-        req.session.accessToken = {token, expiresDate: info.expiresDate}
-        req.session.save(err => {if (err) console.log('[fl-auth] Error saving session', err)})
-        this.success(_.omit(user.toJSON(), 'password'), {accessToken: token})
+        req.session.accessToken = { token, expiresDate: info.expiresDate }
+        req.session.save(err => { if (err) console.log('[fl-auth] Error saving session', err) })
+        this.success(_.omit(user.toJSON(), 'password'), { accessToken: token })
       }
       catch (err) {
         return this.error(err)
