@@ -51,6 +51,7 @@ export default function createPaginationSelector(paginateOn, selectState, _optio
     results.totalItems = +pagination.get('total')
     results.currentPage = +pagination.get('currentPage')
     const itemsPerPage = _itemsPerPage || options.perPage
+    results.itemsPerPage = itemsPerPage
 
     if (pagination.get('append')) {
       results.visibleIds = pagination.get('ids').toJSON()
