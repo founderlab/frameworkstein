@@ -2,34 +2,35 @@ import _ from 'lodash'
 import { createToken } from '../lib'
 import LocalStrategy from './Local'
 
+
 export default class RegisterStrategy extends LocalStrategy {
 
-  verify(req, email, password, callback) {
-    const User = this.User
-    User.findOne(this.userQuery(email), (err, existingUser) => {
-      if (err) return callback(err)
+  async verify(req, email, password, callback) {
+    try {
+      const User = this.User
+      const existingUser = await User.findOne(this.userQuery(email))
       if (existingUser) return callback(null, false, 'User already exists')
 
       const extraParams = _.pick(req.body, this.extraRegisterParams)
-      const user = new User({email, password: User.createHash(password), emailConfirmationToken: createToken(), ...extraParams})
-      user.save(err => {
-        if (err) return callback(err)
+      const user = new User({ email, password: User.createHash(password), emailConfirmationToken: createToken(), ...extraParams })
+      await user.save()
 
-        if (user.onCreate) {
-          user.onCreate({req}, err => {
-            callback(err, user)
-            this.sendConfirmationEmail(user, err => {
-              if (err) console.log('[fl-auth] Error sending confirmation email', err)
-            })
-          })
+      if (user.onCreate) {
+        const createResult = await user.onCreate({ req })
+        console.log('createResult', createResult)
+        if (!createResult.ok) {
+          return callback(null, false, createResult.message)
         }
-        else {
-          callback(null, user)
-          this.sendConfirmationEmail(user, err => {
-            if (err) console.log('[fl-auth] Error sending confirmation email', err)
-          })
-        }
+      }
+
+      this.sendConfirmationEmail(user, err => {
+        if (err) console.log('[fl-auth] Error sending confirmation email', err)
       })
-    })
+
+      callback(null, user)
+    }
+    catch (err) {
+      callback(err)
+    }
   }
 }
