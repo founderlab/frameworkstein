@@ -17,8 +17,7 @@ export default class RegisterStrategy extends LocalStrategy {
 
       if (user.onCreate) {
         const createResult = await user.onCreate({ req })
-        console.log('createResult', createResult)
-        if (!createResult.ok) {
+        if (createResult && createResult.invalid) {
           return callback(null, false, createResult.message)
         }
       }
