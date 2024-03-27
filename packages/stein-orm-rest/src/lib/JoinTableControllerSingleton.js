@@ -38,7 +38,15 @@ class JoinTableControllerSingleton {
       const joinTableOptions = _.clone(options)
       joinTableOptions.route = path.join(routeRoot, joinTableEndpoint)
       if (joinTableOptions.route[0] !== '/') { joinTableOptions.route = `/${joinTableOptions.route}` }
-      if (this.joinTables[joinTableOptions.route]) return // already exists
+
+      // join table has already been created, make sure this controller is added to the cache dependencies and bail
+      const existingJoinTable = this.joinTables[joinTableOptions.route]
+      if (existingJoinTable) {
+        if (existingJoinTable.cache && existingJoinTable.cache.createHash) {
+          existingJoinTable.cache.cascade = _.uniq([...(existingJoinTable.cache.cascade || []), existingJoinTable.cache.createHash(options)])
+        }
+        return
+      }
 
       for (const _key of ['whitelist', 'templates', 'defaultTemplate']) {
         delete joinTableOptions[_key]
