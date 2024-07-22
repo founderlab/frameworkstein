@@ -1,6 +1,6 @@
 {
   "name": "fl-stripe-server",
-  "version": "11.4.3",
+  "version": "11.4.5",
   "description": "Stripe controller for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "fl-auth-server": "^11.4.3",
-    "fl-server-utils": "^11.0.0",
+    "fl-server-utils": "^11.4.5",
     "lodash": "^4.0.0",
     "moment": "^2.0.0",
     "stripe": "^8.24.0"
