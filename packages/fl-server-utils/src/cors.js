@@ -1,4 +1,3 @@
-import _ from 'lodash'
 
 export function addCORSHeaders(res, origin) {
   if (origin) res.set('Access-Control-Allow-Origin', origin)
@@ -14,9 +13,4 @@ export default function cors(origin) {
     if (req.method.toLowerCase() === 'options') return res.status(200).end()
     next()
   }
-}
-
-export function allowOrigin(app, paths_, origin) {
-  const paths = _.isArray(paths) ? paths_ : [paths_]
-  paths.forEach(path => app.all(path, allow(origin)))
 }

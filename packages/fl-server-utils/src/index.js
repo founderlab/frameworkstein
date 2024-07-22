@@ -2,10 +2,10 @@ import _ from 'lodash'
 import Queue from 'queue-async'
 import fs from 'fs'
 import path from 'path'
-import cors from './cors'
+import cors, { addCORSHeaders } from './cors'
 
 
-export { cors }
+export { cors, addCORSHeaders }
 
 const EXCLUDED_FILES = ['.DS_Store']
 
