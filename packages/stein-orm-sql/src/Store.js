@@ -13,7 +13,7 @@ const connectionPool = {}
 
 export default class SqlStore {
 
-  constructor(modelType, options={}) {
+  constructor(modelType, options = {}) {
     this.modelType = modelType
     this.url = options.url
     if (!this.url) throw new Error(`Missing url for model ${this.modelType.name}`)
@@ -30,10 +30,10 @@ export default class SqlStore {
    */
   connection = () => {
     const databaseUrl = this.databaseUrl
-    const connectionInfo = _.extend({host: databaseUrl.hostname, database: databaseUrl.database, charset: 'utf8'}, databaseUrl.parseAuth() || {})
-    if (!this.poolUrl) this.poolUrl = databaseUrl.format({excludeTable: true, excludeQuery: true})
+    const connectionInfo = _.extend({ host: databaseUrl.hostname, database: databaseUrl.database, charset: 'utf8' }, databaseUrl.parseAuth() || {})
+    if (!this.poolUrl) this.poolUrl = databaseUrl.format({ excludeTable: true, excludeQuery: true })
 
-    if (!connectionPool[this.poolUrl]) connectionPool[this.poolUrl] = knex({client: databaseUrl.protocol, connection: connectionInfo})
+    if (!connectionPool[this.poolUrl]) connectionPool[this.poolUrl] = knex({ client: databaseUrl.protocol, connection: connectionInfo })
     return connectionPool[this.poolUrl]
   }
 
@@ -55,7 +55,7 @@ export default class SqlStore {
   /*
    * Return a database cursor for query building
    */
-  cursor = (query={}) => {
+  cursor = (query = {}) => {
     const options = {
       modelType: this.modelType,
       connection: this.connection(),
@@ -71,8 +71,9 @@ export default class SqlStore {
     const saveJson = this.parseJSON(json)
     return this.connection()(this.table).insert(saveJson, 'id').asCallback((err, res) => {
       if (err) return callback(err)
-      if (!(res != null ? res.length : undefined)) return callback(new Error(`Failed to create model with data: ${JSON.stringify(model.data)}`))
-      json.id = res[0]
+      const id = res && res[0] && res[0].id
+      if (!id) return callback(new Error(`Failed to create model with data: ${JSON.stringify(model.data)}, received res: ${JSON.stringify(res)}`))
+      json.id = id
       return callback(null, parseJson(json, this.modelType.schema))
     })
   }
