@@ -1,6 +1,6 @@
 {
   "name": "fl-cache-manager-redis",
-  "version": "11.0.0",
+  "version": "11.6.0",
   "description": "Redis store for the node-cache-manager that stores keys in hashes based on a key's prefix",
   "main": "lib/index.js",
   "author": {
