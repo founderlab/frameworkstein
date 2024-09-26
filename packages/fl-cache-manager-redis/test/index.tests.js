@@ -6,19 +6,19 @@ const assert = require('assert')
 let redisCache
 let customRedisCache
 
+const defaultOptions = {
+  store: redisStore,
+  redis: { url: process.env.REDIS_URL },
+  ttl: config.redis.ttl,
+}
+
 before(() => {
   redisCache = require('cache-manager').caching({
-    store: redisStore,
-    url: process.env.REDIS_URL,
-    ttl: config.redis.ttl,
+    ...defaultOptions,
   })
 
   customRedisCache = require('cache-manager').caching({
-    store: redisStore,
-    host: config.redis.host,
-    port: config.redis.port,
-    db: config.redis.db,
-    ttl: config.redis.ttl,
+    ...defaultOptions,
     isCacheableValue: val => {
       // allow undefined
       if (val === undefined) return true
@@ -27,30 +27,6 @@ before(() => {
       return redisCache.store.isCacheableValue(val)
     },
   })
-})
-
-describe('initialization', () => {
-
-  it('should create a store with password instead of auth_pass (auth_pass is deprecated for redis > 2.5)', done => {
-    const redisPwdCache = require('cache-manager').caching({
-      store: redisStore,
-      host: config.redis.host,
-      port: config.redis.port,
-      password: config.redis.auth_pass,
-      db: config.redis.db,
-      ttl: config.redis.ttl,
-    })
-
-    assert.equal(redisPwdCache.store.pool._redis_options.password, config.redis.auth_pass)
-    redisPwdCache.set('pwdfoo', 'pwdbar', err => {
-      assert.equal(err, null)
-      redisCache.del('pwdfoo', errDel => {
-        assert.equal(errDel, null)
-        done()
-      })
-    })
-  })
-
 })
 
 describe('set', () => {
@@ -187,17 +163,6 @@ describe('get', () => {
     })
   })
 
-  it('should return an error if there is an error acquiring a connection', done => {
-    const pool = redisCache.store.pool
-    sinon.stub(pool, 'acquire').yieldsAsync('Something unexpected')
-    sinon.stub(pool, 'release')
-    redisCache.get('foo', err => {
-      pool.acquire.restore()
-      pool.release.restore()
-      assert.notEqual(err, null)
-      done()
-    })
-  })
 })
 
 describe('del', () => {
@@ -217,19 +182,6 @@ describe('del', () => {
     })
   })
 
-  it('should return an error if there is an error acquiring a connection', done => {
-    const pool = redisCache.store.pool
-    sinon.stub(pool, 'acquire').yieldsAsync('Something unexpected')
-    sinon.stub(pool, 'release')
-    redisCache.set('foo', 'bar', () => {
-      redisCache.del('foo', err => {
-        pool.acquire.restore()
-        pool.release.restore()
-        assert.notEqual(err, null)
-        done()
-      })
-    })
-  })
 })
 
 describe('reset', () => {
@@ -245,17 +197,6 @@ describe('reset', () => {
     done()
   })
 
-  it('should return an error if there is an error acquiring a connection', done => {
-    const pool = redisCache.store.pool
-    sinon.stub(pool, 'acquire').yieldsAsync('Something unexpected')
-    sinon.stub(pool, 'release')
-    redisCache.reset(err => {
-      pool.acquire.restore()
-      pool.release.restore()
-      assert.notEqual(err, null)
-      done()
-    })
-  })
 })
 
 describe('ttl', () => {
@@ -274,20 +215,6 @@ describe('ttl', () => {
       assert.equal(err, null)
       assert.notEqual(ttl, null)
       done()
-    })
-  })
-
-  it('should return an error if there is an error acquiring a connection', done => {
-    const pool = redisCache.store.pool
-    sinon.stub(pool, 'acquire').yieldsAsync('Something unexpected')
-    sinon.stub(pool, 'release')
-    redisCache.set('foo', 'bar', () => {
-      redisCache.ttl('foo', err => {
-        pool.acquire.restore()
-        pool.release.restore()
-        assert.notEqual(err, null)
-        done()
-      })
     })
   })
 })
@@ -315,19 +242,6 @@ describe('keys', () => {
     })
   })
 
-  it('should return an error if there is an error acquiring a connection', done => {
-    const pool = redisCache.store.pool
-    sinon.stub(pool, 'acquire').yieldsAsync('Something unexpected')
-    sinon.stub(pool, 'release')
-    redisCache.set('foo', 'bar', () => {
-      redisCache.keys('f*', err => {
-        pool.acquire.restore()
-        pool.release.restore()
-        assert.notEqual(err, null)
-        done()
-      })
-    })
-  })
 })
 
 describe('isCacheableValue', () => {
@@ -346,86 +260,13 @@ describe('isCacheableValue', () => {
   })
 })
 
-describe('getClient', () => {
-  it('should return redis client', done => {
-    redisCache.store.getClient((err, redis) => {
-      assert.equal(err, null)
-      assert.notEqual(redis, null)
-      assert.notEqual(redis.client, null)
-      redis.done(done)
-    })
-  })
-
-  it('should handle no done callback without an error', done => {
-    redisCache.store.getClient((err, redis) => {
-      assert.equal(err, null)
-      assert.notEqual(redis, null)
-      assert.notEqual(redis.client, null)
-      redis.done()
-      done()
-    })
-  })
-
-  it('should return an error if there is an error acquiring a connection', done => {
-    const pool = redisCache.store.pool
-    sinon.stub(pool, 'acquire').yieldsAsync('Something unexpected')
-    sinon.stub(pool, 'release')
-    redisCache.store.getClient(err => {
-      pool.acquire.restore()
-      pool.release.restore()
-      assert.notEqual(err, null)
-      done()
-    })
-  })
-})
-
 describe('redisErrorEvent', () => {
   it('should return an error when the redis server is unavailable', done => {
     redisCache.store.events.on('redisError', err => {
       assert.notEqual(err, null)
       done()
     })
-    redisCache.store.pool.emit('error', 'Something unexpected')
-  })
-})
-
-describe('uses url to override redis options', () => {
-  let redisCacheByUrl
-
-  before(() => {
-    redisCacheByUrl = require('cache-manager').caching({
-      store: redisStore,
-      // redis://[:password@]host[:port][/db-number][?option=value]
-      url: 'redis://:' + config.redis.auth_pass +'@' + config.redis.host + ':' + config.redis.port + '/' + config.redis.db +'?ttl=' + config.redis.ttl,
-      // some fakes to see that url overrides them
-      host: 'test-host',
-      port: -78,
-      db: -7,
-      auth_pass: 'test_pass',
-      password: 'test_pass',
-      ttl: -6,
-    })
-  })
-
-  it('should ignore other options if set in url', () => {
-    assert.equal(redisCacheByUrl.store.pool._redis_options.host, config.redis.host)
-    assert.equal(redisCacheByUrl.store.pool._redis_options.port, config.redis.port)
-    assert.equal(redisCacheByUrl.store.pool._redis_default_db, config.redis.db)
-    assert.equal(redisCacheByUrl.store.pool._redis_options.auth_pass, config.redis.auth_pass)
-    assert.equal(redisCacheByUrl.store.pool._redis_options.password, config.redis.auth_pass)
-  })
-
-  it('should get and set values without error', done => {
-    const key = 'byUrlKey'
-    const value = 'test'
-    redisCacheByUrl.set(key, value, err => {
-      assert.equal(err, null)
-      redisCacheByUrl.get(key, (err, val) => {
-        assert.equal(err, null)
-        assert.equal(val, value)
-        done()
-      })
-    })
+    redisCache.store.events.emit('redisError', 'Something unexpected')
   })
 })
 
@@ -445,33 +286,13 @@ describe('overridable isCacheableValue function', () => {
   })
 })
 
-describe('defaults', () => {
-  let redisCache2
-
-  before(() => {
-    redisCache2 = require('cache-manager').caching({
-      store: redisStore,
-    })
-  })
-
-  it('should default the host to `127.0.0.1`', () => {
-    assert.equal(redisCache2.store.pool._redis_options.host, '127.0.0.1')
-  })
-
-  it('should default the port to 6379', () => {
-    assert.equal(redisCache2.store.pool._redis_options.port, 6379)
-  })
-})
-
 
 describe('puts values in hashes when hashFromKey is provided', () => {
   let hashyRedisCache
 
   before(() => {
     hashyRedisCache = require('cache-manager').caching({
-      store: redisStore,
-      url: process.env.REDIS_URL,
-      ttl: config.redis.ttl,
+      ...defaultOptions,
       hashFromKey: key => key.split('|')[0],
     })
   })

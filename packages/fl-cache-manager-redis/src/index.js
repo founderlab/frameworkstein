@@ -1,7 +1,14 @@
 import _ from 'lodash'
-import RedisPool from 'sol-redis-pool'
 import { EventEmitter } from 'events'
-import redisUrl from 'redis-url'
+import redis from 'redis'
+
+
+function createRedisClient(redisOptions) {
+  const redisClient = redis.createClient(redisOptions)
+  redisClient.on('error', err => this.events.emit('redisError', err))
+
+  return redisClient
+}
 
 /**
  * The cache manager Redis Store module
@@ -17,19 +24,10 @@ class RedisStore {
   constructor(options) {
     this.name = 'redis'
     this.events = new EventEmitter()
-    const redisOptions = this.getFromUrl(options) || options || {}
-    const poolSettings = redisOptions
+    this.client = createRedisClient(options.redis)
 
-    redisOptions.host = redisOptions.host || '127.0.0.1'
-    redisOptions.port = redisOptions.port || 6379
-    this.pool = new RedisPool(redisOptions, poolSettings)
-
-    this.pool.on('error', err => {
-      this.events.emit('redisError', err)
-    })
-
-    this._ttl = redisOptions.ttl
-    this.db = redisOptions.db
+    this._ttl = options.ttl
+    this.db = options.db
     this.hashFromKey = options.hashFromKey
     this.stringifyKey = options.stringifyKey
 
@@ -43,59 +41,6 @@ class RedisStore {
      * @return {Boolean} - Returns true if the value is cacheable, otherwise false.
      */
     this.isCacheableValue = options.isCacheableValue || (value => value !== undefined && value !== null)
-  }
-
-  /**
-   * Extracts options from an args.url
-   * @param {Object} args
-   * @param {String} args.url a string in format of redis://[:password@]host[:port][/db-number][?option=value]
-   * @returns {Object} the input object args if it is falsy, does not contain url or url is not string, otherwise a new object with own properties of args
-   * but with host, port, db, ttl and auth_pass properties overridden by those provided in args.url.
-   */
-  getFromUrl(args) {
-    if (!args || typeof args.url !== 'string') {
-      return args
-    }
-
-    try {
-      const options = redisUrl.parse(args.url)
-      const newArgs = _.cloneDeep(args)
-      newArgs.host = options.hostname
-      newArgs.port = parseInt(options.port, 10)
-      newArgs.db = parseInt(options.database, 10)
-      newArgs.auth_pass = options.password
-      newArgs.password = options.password
-      if (options.query && options.query.ttl) {
-        newArgs.ttl = parseInt(options.query.ttl, 10)
-      }
-      return newArgs
-
-    }
-    catch (e) {
-      //url is unparsable so returning original
-      return args
-    }
-
-  }
-
-  /**
-   * Helper to connect to a connection pool
-   * @private
-   * @param {Function} callback - A callback that returns
-   */
-  connect = callback => {
-    this.pool.acquire((err, conn) => {
-      if (err) {
-        this.pool.release(conn)
-        return callback(err)
-      }
-
-      if (this.db || this.db === 0) {
-        conn.select(this.db)
-      }
-
-      callback(null, conn)
-    })
   }
 
   parse = (values, key) => {
@@ -112,7 +57,7 @@ class RedisStore {
     else if (_.isString(values)) {
       try {
         // Date
-        if ((values.length >= 20) && values[values.length-1] === 'Z') {
+        if ((values.length >= 20) && values[values.length - 1] === 'Z') {
           const date = new Date(values)
           const isValidDate = date.getTime() !== 0 && !!date.getTime()
           if (isValidDate) return date
@@ -138,16 +83,14 @@ class RedisStore {
   }
 
   /**
-   * Helper to handle callback and release the connection
+   * Helper to handle callback
    * @private
-   * @param {Object} conn - The Redis connection
    * @param {Function} [callback] - A callback that returns a potential error and the result
    * @param {Object} [opts] - The options (optional)
    */
-  handleResponse = (conn, _options, _callback) => {
-    const { callback, options } = typeof _options === 'function' ? {callback: _options, options: {}} : {callback: _callback, options: _options || {}}
+  handleResponse = (_options, _callback) => {
+    const { callback, options } = typeof _options === 'function' ? { callback: _options, options: {} } : { callback: _callback, options: _options || {} }
     return (err, _result) => {
-      this.pool.release(conn)
       if (err) return callback(err)
       let result = _result
 
@@ -192,22 +135,16 @@ class RedisStore {
   get = (key, options, _callback) => {
     const callback = typeof options === 'function' ? options : _callback
 
-    this.connect((err, conn) => {
-      if (err) {
-        return callback && callback(err)
+    // If we can get a hash from this key that's where we'll store the value
+    // We need to manually set the expiry in this case, as there's no hsetex operation in redis
+    if (this.hashFromKey) {
+      const hash = this.hashFromKey(key)
+      if (hash) {
+        return this.client.hget(hash, key, this.handleResponse({ hash, key, hashParse: true }, callback))
       }
+    }
 
-      // If we can get a hash from this key that's where we'll store the value
-      // We need to manually set the expiry in this case, as there's no hsetex operation in redis
-      if (this.hashFromKey) {
-        const hash = this.hashFromKey(key)
-        if (hash) {
-          return conn.hget(hash, key, this.handleResponse(conn, {hash, key, hashParse: true}, callback))
-        }
-      }
-
-      conn.get(key, this.handleResponse(conn, {parse: true}, callback))
-    })
+    this.client.get(key, this.handleResponse({ parse: true }, callback))
   }
 
   /**
@@ -220,7 +157,7 @@ class RedisStore {
    * @param {Function} [callback] - A callback that returns a potential error, otherwise null
    */
   set = (key, value, _options, _callback) => {
-    const { callback, options } = typeof _options === 'function' ? {callback: _options, options: {}} : {callback: _callback, options: _options || {}}
+    const { callback, options } = typeof _options === 'function' ? { callback: _options, options: {} } : { callback: _callback, options: _options || {} }
 
     if (!this.isCacheableValue(value)) {
       return callback(new Error('value cannot be ' + value))
@@ -228,33 +165,27 @@ class RedisStore {
 
     const ttl = (options.ttl || options.ttl === 0) ? options.ttl : this._ttl
 
-    this.connect((err, conn) => {
-      if (err) {
-        return callback && callback(err)
-      }
-
-      // If we can get a hash from this key that's where we'll store the value
-      // We need to manually set the expiry in this case, as there's no hsetex operation in redis
-      if (this.hashFromKey) {
-        const hash = this.hashFromKey(key)
-        if (hash) {
-          const valueContainer = {
-            ttl,
-            value,
-            _redis_set_at: new Date().toISOString(),
-          }
-          return conn.hset(hash, key, JSON.stringify(valueContainer), this.handleResponse(conn, callback))
+    // If we can get a hash from this key that's where we'll store the value
+    // We need to manually set the expiry in this case, as there's no hsetex operation in redis
+    if (this.hashFromKey) {
+      const hash = this.hashFromKey(key)
+      if (hash) {
+        const valueContainer = {
+          ttl,
+          value,
+          _redis_set_at: new Date().toISOString(),
         }
+        return this.client.hset(hash, key, JSON.stringify(valueContainer), this.handleResponse(callback))
       }
+    }
 
-      const val = JSON.stringify(value) || '"undefined"'
-      if (ttl) {
-        conn.setex(key, ttl, val, this.handleResponse(conn, callback))
-      }
-      else {
-        conn.set(key, val, this.handleResponse(conn, callback))
-      }
-    })
+    const val = JSON.stringify(value) || '"undefined"'
+    if (ttl) {
+      this.client.setex(key, ttl, val, this.handleResponse(callback))
+    }
+    else {
+      this.client.set(key, val, this.handleResponse(callback))
+    }
   }
 
   /**
@@ -265,7 +196,7 @@ class RedisStore {
    * @param {Function} [callback] - A callback that returns a potential error, otherwise null
    */
   del = (key, _options, _callback) => {
-    const { callback, options } = typeof _options === 'function' ? {callback: _options, options: {}} : {callback: _callback, options: _options || {}}
+    const { callback, options } = typeof _options === 'function' ? { callback: _options, options: {} } : { callback: _callback, options: _options || {} }
 
     if (this.hashFromKey && !options.skipHashFromKey) {
       const hash = this.hashFromKey(key)
@@ -274,12 +205,7 @@ class RedisStore {
       }
     }
 
-    this.connect((err, conn) => {
-      if (err) {
-        return callback && callback(err)
-      }
-      conn.del(key, this.handleResponse(conn, callback))
-    })
+    this.client.del(key, this.handleResponse(callback))
   }
 
   /**
@@ -293,12 +219,7 @@ class RedisStore {
   hdel = (hash, key, options, _callback) => {
     const callback = typeof options === 'function' ? options : _callback
 
-    this.connect((err, conn) => {
-      if (err) {
-        return callback && callback(err)
-      }
-      conn.hdel(hash, key, this.handleResponse(conn, callback))
-    })
+    this.client.hdel(hash, key, this.handleResponse(callback))
   }
 
   /**
@@ -307,12 +228,7 @@ class RedisStore {
    * @param {Function} [callback] - A callback that returns a potential error, otherwise null
    */
   reset = callback => {
-    this.connect((err, conn) => {
-      if (err) {
-        return callback && callback(err)
-      }
-      conn.flushdb(this.handleResponse(conn, callback))
-    })
+    this.client.flushdb(this.handleResponse(callback))
   }
 
   /**
@@ -321,7 +237,7 @@ class RedisStore {
    * @method hreset
    * @param {Function} [callback] - A callback that returns a potential error, otherwise null
    */
-  hreset = (hash, callback) => this.del(hash, {skipHashFromKey: true}, callback)
+  hreset = (hash, callback) => this.del(hash, { skipHashFromKey: true }, callback)
 
   /**
    * Returns the remaining time to live of a key that has a timeout.
@@ -330,12 +246,7 @@ class RedisStore {
    * @param {Function} callback - A callback that returns a potential error and the response
    */
   ttl = (key, callback) => {
-    this.connect((err, conn) => {
-      if (err) {
-        return callback && callback(err)
-      }
-      conn.ttl(key, this.handleResponse(conn, callback))
-    })
+    this.client.ttl(key, this.handleResponse(callback))
   }
 
   /**
@@ -345,37 +256,9 @@ class RedisStore {
    * @param {Function} callback - A callback that returns a potential error and the response
    */
   keys = (_pattern, _callback) => {
-    const { callback, pattern } = typeof _pattern === 'function' ? {callback: _pattern, pattern: '*'} : {callback: _callback, pattern: _pattern}
+    const { callback, pattern } = typeof _pattern === 'function' ? { callback: _pattern, pattern: '*' } : { callback: _callback, pattern: _pattern }
 
-    this.connect((err, conn) => {
-      if (err) {
-        return callback && callback(err)
-      }
-      conn.keys(pattern, this.handleResponse(conn, callback))
-    })
-  }
-
-  /**
-   * Returns the underlying redis client connection
-   * @method getClient
-   * @param {Function} callback - A callback that returns a potential error and an object containing the Redis client and a done method
-   */
-  getClient = callback => {
-    this.connect((err, conn) => {
-      if (err) {
-        return callback && callback(err)
-      }
-      callback(null, {
-        client: conn,
-        done: (done, ...args) => {
-          this.pool.release(conn)
-
-          if (done && typeof done === 'function') {
-            done(...args)
-          }
-        },
-      })
-    })
+    this.client.keys(pattern, this.handleResponse(callback))
   }
 
 }
