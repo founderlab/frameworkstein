@@ -30,7 +30,7 @@
     "cache-manager": "^2.0.0",
     "lodash": "^4.0.0",
     "queue-async": "^1.0.0",
-    "redis": ">=2.0.0",
+    "redis": "^3.0.0",
     "redis-url": "^1.0.0"
   },
   "gitHead": "e1e1a50162bd4b054f52769c447e5abe76af1383"
