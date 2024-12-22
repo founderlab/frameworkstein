@@ -367,4 +367,69 @@ describe('puts values in hashes when hashFromKey is provided', () => {
     })
   })
 
+  it('returns keys with values older than given date', done => {
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    // set 2 keys, wait 200ms then set the third
+    hashyRedisCache.set('hashkeyprefix|key1', { key: 1 }, async err => {
+      assert.equal(err, null)
+
+      await sleep(50)
+
+      hashyRedisCache.set('hashkeyprefix|key2', { key: 2 }, async err => {
+        assert.equal(err, null)
+
+        const beforeDate = new Date()
+        await sleep(200)
+
+        hashyRedisCache.set('hashkeyprefix|key3', { key: 3 }, err => {
+          assert.equal(err, null)
+
+          hashyRedisCache.store.hscanBefore('hashkeyprefix', beforeDate, (err, oldKeys) => {
+            assert.equal(err, null)
+
+            assert.strictEqual(oldKeys.length, 2)
+            assert(oldKeys.includes('hashkeyprefix|key1'))
+            assert(oldKeys.includes('hashkeyprefix|key2'))
+            assert(!oldKeys.includes('hashkeyprefix|key3'))
+            done()
+          })
+        })
+      })
+    })
+  })
+
+  it('deletes keys with values older than given date', done => {
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    // set 2 keys, wait 200ms then set the third
+    hashyRedisCache.set('hashkeyprefix|key1', { key: 1 }, async err => {
+      assert.equal(err, null)
+
+      await sleep(50)
+
+      hashyRedisCache.set('hashkeyprefix|key2', { key: 2 }, async err => {
+        assert.equal(err, null)
+
+        const beforeDate = new Date()
+        await sleep(200)
+
+        hashyRedisCache.set('hashkeyprefix|key3', { key: 3 }, err => {
+          assert.equal(err, null)
+
+          hashyRedisCache.store.hdelBefore('hashkeyprefix', beforeDate, (err) => {
+            assert.equal(err, null)
+
+            hashyRedisCache.store.hscanBefore('hashkeyprefix', new Date(), (err, keys) => {
+              assert.equal(err, null)
+
+              assert.strictEqual(keys.length, 1)
+              assert(keys.includes('hashkeyprefix|key3'))
+              done()
+            })
+          })
+        })
+      })
+    })
+  })
 })

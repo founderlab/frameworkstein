@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { EventEmitter } from 'events'
 import redis from 'redis'
+import Queue from 'queue-async'
 
 
 function createRedisClient(redisOptions) {
@@ -261,6 +262,52 @@ class RedisStore {
     this.client.keys(pattern, this.handleResponse(callback))
   }
 
+  hscanBefore = (hash, beforeDate, callback) => {
+    const oldKeys = []
+    const client = this.client
+
+    function scan() {
+      client.hscan(hash, 0, 'MATCH', '*', 'COUNT', 100, (err, reply) => {
+        if (err) return callback(err)
+
+        const results = reply[1]
+
+        if (results.length === 0) {
+          return callback(null, oldKeys)
+        }
+
+        for (let i = 0; i < results.length; i += 2) {
+          const key = results[i]
+          const value = JSON.parse(results[i + 1])
+          const setDate = new Date(value._redis_set_at)
+
+          if (value && setDate < beforeDate) {
+            oldKeys.push(key)
+          }
+        }
+
+        callback(null, oldKeys)
+      })
+    }
+
+    scan()
+  }
+
+  hdelBefore = (hash, beforeDate, options, _callback) => {
+    const callback = typeof options === 'function' ? options : _callback
+    const pallellism = options.pallellism || 10
+
+    this.hscanBefore(hash, beforeDate, (err, keys) => {
+      if (err) return callback(err)
+
+      const q = new Queue(pallellism)
+      for (const key of keys) {
+        q.defer(callback => this.hdel(hash, key, callback))
+      }
+
+      q.await(callback)
+    })
+  }
 }
 
 module.exports = {
