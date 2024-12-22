@@ -262,6 +262,26 @@ export default class RestController extends JsonController {
     return this._promiseOrCallbackFn(this._clearCache)(...args)
   }
 
+  _clearExpiredCacheKeys(callback) {
+    const cache = this.cache ? this.cache.cache : null
+    if (!callback) callback = () => {}
+    if (!cache) return callback()
+
+    if (!cache.store.hdelBefore) {
+      return callback()
+    }
+
+    const beforeDate = new Date(Date.now() - (this.cache.ttl || 5 * 60 * 1000))
+
+    cache.store.hdelBefore(this.cache.hash, beforeDate, (err) => {
+      if (err) console.log(`[${this.modelType.name} controller] Error clearing cache before ${beforeDate}: `, err)
+      callback(err)
+    })
+  }
+  clearExpiredCacheKeys(...args) {
+    return this._promiseOrCallbackFn(this._clearExpiredCacheKeys)(...args)
+  }
+
   async render(req, json) {
     let templateName = req.query.$render || req.query.$template || this.defaultTemplate
     const key = `render_${templateName}_${this.route}`
