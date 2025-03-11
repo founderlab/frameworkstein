@@ -21,6 +21,10 @@ export default class RestController extends JsonController {
     if (!this.templates) this.templates = {}
     if (this.routePrefix) this.route = path.join(this.routePrefix, this.route)
 
+    // Initialize timing options
+    this.enableTiming = options.enableTiming || this.verbose || !!options.timingCallback || false
+    this.timingCallback = options.timingCallback || null
+
     app.get(this.route, this.wrap(this.index))
     app.get(`${this.route}/:id`, this.wrap(this.show))
 
@@ -112,7 +116,26 @@ export default class RestController extends JsonController {
 
   async fetchJSON(req, whitelist) {
     const key = `fetchJSON_${this.route}`
-    if (this.verbose) console.time(key)
+    const startTime = Date.now()
+    let timingData = null
+
+    if (this.enableTiming) {
+      // Initialize timing data for this request
+      timingData = {
+        route: this.route,
+        method: req.method,
+        startTime,
+        query: req.query,
+        sqlQuery: null,
+        duration: null,
+        endTime: null,
+      }
+
+      if (this.verbose) console.time(key)
+    }
+    else if (this.verbose) {
+      console.time(key)
+    }
 
     let query = this.parseSearchQuery(parseQuery(req.query))
     if (this.preprocessQuery) {
@@ -122,8 +145,30 @@ export default class RestController extends JsonController {
     let cursor = this.modelType.cursor(query)
     if (whitelist) cursor = cursor.whiteList(whitelist)
 
+    // Store the SQL query if timing is enabled
+    if (this.enableTiming && timingData) {
+      timingData.sqlQuery = cursor.toString()
+    }
+
     const json = await cursor.toJSON()
-    if (this.verbose) console.timeEnd(key)
+
+    if (this.enableTiming && timingData) {
+      timingData.duration = Date.now() - startTime
+      timingData.endTime = Date.now()
+
+      // Store timing info in the request for middleware access
+      req.timingData = timingData
+
+      // Call the timing callback if provided
+      if (this.timingCallback && typeof this.timingCallback === 'function') {
+        this.timingCallback(timingData, req)
+      }
+
+      if (this.verbose) console.timeEnd(key)
+    }
+    else if (this.verbose) {
+      console.timeEnd(key)
+    }
 
     if (cursor.hasCursorQuery('$count') || cursor.hasCursorQuery('$exists')) return {json: {result: json}}
 
@@ -156,12 +201,17 @@ export default class RestController extends JsonController {
     try {
       let json = parseDates(this.whitelist.create ? _.pick(req.body, this.whitelist.create) : req.body)
       const model = new this.modelType(this.parse(json))
-      await model.save()
-      this.clearCache()
 
-      json = this.whitelist.create ? _.pick(model.toJSON(), this.whitelist.create) : model.toJSON()
+      if (this.modelType.canCreateJSON) {
+        const authResult = await this.modelType.canCreateJSON({...req, json, model})
+        if (authResult === false || (_.isObject(authResult) && !authResult.authorised)) return this.sendStatus(res, 401, (authResult && authResult.message) || 'Unauthorised')
+      }
+
+      await model.save()
+      json = await model.toJSON()
       const renderedJson = await this.render(req, json)
       this.events.emit('create', {req, res, model, json: renderedJson})
+
       return res.json(renderedJson)
     }
     catch (err) {
@@ -173,13 +223,18 @@ export default class RestController extends JsonController {
     try {
       let json = parseDates(this.whitelist.update ? _.pick(req.body, this.whitelist.update) : req.body)
       const model = await this.modelType.find(this.requestId(req))
-      if (!model) return this.sendStatus(res, 404)
-      await model.save(this.parse(json))
-      this.clearCache()
+      if (!model) return this.sendStatus(res, 404, 'Not found')
 
-      json = this.whitelist.update ? _.pick(model.toJSON(), this.whitelist.update) : model.toJSON()
+      if (this.modelType.canUpdateJSON) {
+        const authResult = await this.modelType.canUpdateJSON({...req, json, model})
+        if (authResult === false || (_.isObject(authResult) && !authResult.authorised)) return this.sendStatus(res, 401, (authResult && authResult.message) || 'Unauthorised')
+      }
+
+      await model.save(json)
+      json = await model.toJSON()
       const renderedJson = await this.render(req, json)
       this.events.emit('update', {req, res, model, json: renderedJson})
+
       return res.json(renderedJson)
     }
     catch (err) {
@@ -191,12 +246,15 @@ export default class RestController extends JsonController {
     try {
       const id = this.requestId(req)
 
-      const exists = await this.modelType.exists(id)
-      if (!exists) return this.sendStatus(res, 404)
+      if (this.modelType.canDestroyJSON) {
+        const authResult = await this.modelType.canDestroyJSON({...req, id})
+        if (authResult === false || (_.isObject(authResult) && !authResult.authorised)) return this.sendStatus(res, 401, (authResult && authResult.message) || 'Unauthorised')
+      }
 
       await this.modelType.destroy(id)
       this.clearCache()
       this.events.emit('destroy', {req, res, id})
+
       return res.json({})
     }
     catch (err) {
@@ -209,6 +267,7 @@ export default class RestController extends JsonController {
       await this.modelType.destroy(parseQuery(req.query))
       this.clearCache()
       this.events.emit('destroyByQuery', {req, res})
+
       return res.json({})
     }
     catch (err) {
@@ -394,5 +453,15 @@ export default class RestController extends JsonController {
 
   __testEmit() {
     this.events.emit('__testevent', {stuff: 'yep'})
+  }
+
+  // Set a callback function to be called with timing information
+  setTimingCallback(callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('Timing callback must be a function')
+    }
+    this.enableTiming = true
+    this.timingCallback = callback
+    return this
   }
 }

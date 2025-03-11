@@ -21,8 +21,10 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
+    "express": "^4.21.2",
     "jest": "^27.0.0",
     "stein-orm": "^11.0.0",
+    "stein-orm-sql": "^11.5.1",
     "supertest": "^4.0.2"
   },
   "peerDependencies": {
