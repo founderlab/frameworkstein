@@ -1,6 +1,6 @@
 {
   "name": "stein-orm-rest",
-  "version": "11.7.1",
+  "version": "11.7.2",
   "description": "",
   "main": "lib/index.js",
   "author": {
@@ -24,7 +24,7 @@
     "express": "^4.21.2",
     "jest": "^27.0.0",
     "stein-orm": "^11.0.0",
-    "stein-orm-sql": "^11.5.1",
+    "stein-orm-sql": "^11.7.2",
     "supertest": "^4.0.2"
   },
   "peerDependencies": {
