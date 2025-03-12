@@ -69,6 +69,25 @@ export default class SqlCursor extends Cursor {
     }
   }
 
+  createAst = () => {
+    if (this.hasCursorQuery('$count')) {
+      this._cursor.$count = true
+      this._cursor.$include = null
+    }
+    if (this.hasCursorQuery('$exists')) { this._cursor.$exists = true }
+
+    return new Ast({
+      find: this._find,
+      cursor: this._cursor,
+      modelType: this.modelType,
+    })
+  }
+
+  toSql = (options = { depth: null, colors: true }) => {
+    const ast = this.createAst()
+    return buildQuery(this.connection(this.modelType.tableName), ast, options).toString()
+  }
+
   queryToJSON = callback => {
     if (this.hasCursorQuery('$zero')) { return callback(null, this.hasCursorQuery('$one') ? null : []) }
 
@@ -77,26 +96,16 @@ export default class SqlCursor extends Cursor {
       this.start_time = new Date().getTime()
     }
 
-    if (this.hasCursorQuery('$count')) {
-      this._cursor.$count = true
-      this._cursor.$include = null
-    }
-    if (this.hasCursorQuery('$exists')) { this._cursor.$exists = true }
-
     // Unique
     if (this._cursor.$unique) { return this.execUnique(callback) }
 
     try {
-      const ast = new Ast({
-        find: this._find,
-        cursor: this._cursor,
-        modelType: this.modelType,
-      })
-      let query = this.connection(this.modelType.tableName)
-      query = buildQuery(query, ast)
-
+      const ast = this.createAst()
       // $in : [] or another query that would result in an empty result set in mongo has been given
       if (ast.abort) { return callback(null, this._cursor.$count ? 0 : (this._cursor.$one ? null : [])) }
+
+      let query = this.connection(this.modelType.tableName)
+      query = buildQuery(query, ast)
 
       return this.runQuery(query, ast, callback)
     }

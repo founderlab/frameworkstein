@@ -147,7 +147,7 @@ export default class RestController extends JsonController {
 
     // Store the SQL query if timing is enabled
     if (this.enableTiming && timingData) {
-      timingData.sqlQuery = cursor.toString()
+      timingData.sqlQuery = cursor.toSql()
     }
 
     const json = await cursor.toJSON()
