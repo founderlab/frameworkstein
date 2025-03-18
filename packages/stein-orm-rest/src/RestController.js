@@ -201,17 +201,12 @@ export default class RestController extends JsonController {
     try {
       let json = parseDates(this.whitelist.create ? _.pick(req.body, this.whitelist.create) : req.body)
       const model = new this.modelType(this.parse(json))
-
-      if (this.modelType.canCreateJSON) {
-        const authResult = await this.modelType.canCreateJSON({...req, json, model})
-        if (authResult === false || (_.isObject(authResult) && !authResult.authorised)) return this.sendStatus(res, 401, (authResult && authResult.message) || 'Unauthorised')
-      }
-
       await model.save()
-      json = await model.toJSON()
-      const renderedJson = await this.render(req, json)
-      this.events.emit('create', {req, res, model, json: renderedJson})
+      this.clearCache()
 
+      json = this.whitelist.create ? _.pick(model.toJSON(), this.whitelist.create) : model.toJSON()
+      const renderedJson = await this.render(req, json)
+      this.events.emit('create', { req, res, model, json: renderedJson })
       return res.json(renderedJson)
     }
     catch (err) {
@@ -223,18 +218,13 @@ export default class RestController extends JsonController {
     try {
       let json = parseDates(this.whitelist.update ? _.pick(req.body, this.whitelist.update) : req.body)
       const model = await this.modelType.find(this.requestId(req))
-      if (!model) return this.sendStatus(res, 404, 'Not found')
+      if (!model) return this.sendStatus(res, 404)
+      await model.save(this.parse(json))
+      this.clearCache()
 
-      if (this.modelType.canUpdateJSON) {
-        const authResult = await this.modelType.canUpdateJSON({...req, json, model})
-        if (authResult === false || (_.isObject(authResult) && !authResult.authorised)) return this.sendStatus(res, 401, (authResult && authResult.message) || 'Unauthorised')
-      }
-
-      await model.save(json)
-      json = await model.toJSON()
+      json = this.whitelist.update ? _.pick(model.toJSON(), this.whitelist.update) : model.toJSON()
       const renderedJson = await this.render(req, json)
-      this.events.emit('update', {req, res, model, json: renderedJson})
-
+      this.events.emit('update', { req, res, model, json: renderedJson })
       return res.json(renderedJson)
     }
     catch (err) {
