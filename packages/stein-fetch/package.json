@@ -1,6 +1,6 @@
 {
   "name": "stein-fetch",
-  "version": "11.2.2",
+  "version": "11.7.4-beta.0",
   "description": "Fetch wrapper that allows requests to be built via chaining functions",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -40,11 +40,16 @@
     "testEnvironment": "node",
     "verbose": true,
     "bail": true,
-    "testMatch": ["**/__tests__/**/*.test.ts"],
+    "testMatch": [
+      "**/__tests__/**/*.test.ts"
+    ],
     "transform": {
-      "^.+\\.ts$": ["ts-jest", {
-        "tsconfig": "tsconfig.test.json"
-      }]
+      "^.+\\.ts$": [
+        "ts-jest",
+        {
+          "tsconfig": "tsconfig.test.json"
+        }
+      ]
     }
   },
   "gitHead": "e1e1a50162bd4b054f52769c447e5abe76af1383"
