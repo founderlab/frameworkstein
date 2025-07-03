@@ -1,51 +1,49 @@
 {
-  "name": "fl-redux-utils",
-  "version": "11.4.1",
-  "description": "Boilerplate and helper functions for redux that can be shared amongst FounderLab apps",
-  "main": "lib/index.js",
-  "author": {
-    "name": "Gwilym Humphreys",
-    "url": "https://github.com/gwilymhumphreys"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/fl-redux-utils"
-  },
-  "scripts": {
-    "prepare": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
-    "build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
-    "watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
-    "test": "eval $(cat __tests__/.env) jest --runInBand",
-    "cover": "eval $(cat test/.env) istanbul cover _mocha -- test/**/*.tests.js"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "babel-jest": "^24.0.0",
-    "jest": "^27.0.0"
-  },
-  "dependencies": {
-    "classnames": "^2.0.0",
-    "immutable": "^3.0.0",
-    "lodash": "^4.0.0",
-    "queue-async": "^1.0.0",
-    "react": ">=16.0.0",
-    "redux": "^4.0.0",
-    "reselect": "^4.0.0",
-    "warning": "^2.0.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "verbose": true,
-    "bail": true,
-    "modulePathIgnorePatterns": [
-      "checkfiles",
-      "data"
-    ],
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
-  },
-  "gitHead": "e1e1a50162bd4b054f52769c447e5abe76af1383"
+	"name": "fl-redux-utils",
+	"version": "11.4.1",
+	"description": "Boilerplate and helper functions for redux that can be shared amongst FounderLab apps",
+	"main": "lib/index.js",
+	"author": {
+		"name": "Gwilym Humphreys",
+		"url": "https://github.com/gwilymhumphreys"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/founderlab/frameworkstein/tree/master/packages/fl-redux-utils"
+	},
+	"scripts": {
+		"prepare": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
+		"build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
+		"watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
+		"test": "eval $(cat __tests__/.env) jest --runInBand",
+		"cover": "eval $(cat test/.env) istanbul cover _mocha -- test/**/*.tests.js"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.0.0",
+		"babel-jest": "^29.0.0"
+	},
+	"dependencies": {
+		"classnames": "^2.0.0",
+		"immutable": "^3.0.0",
+		"lodash": "^4.0.0",
+		"queue-async": "^1.0.0",
+		"react": ">=16.0.0",
+		"redux": "^4.0.0",
+		"reselect": "^4.0.0",
+		"warning": "^2.0.0"
+	},
+	"jest": {
+		"testEnvironment": "node",
+		"verbose": true,
+		"bail": true,
+		"modulePathIgnorePatterns": [
+			"checkfiles",
+			"data"
+		],
+		"transform": {
+			"^.+\\.js$": "babel-jest"
+		}
+	},
+	"gitHead": "e1e1a50162bd4b054f52769c447e5abe76af1383"
 }

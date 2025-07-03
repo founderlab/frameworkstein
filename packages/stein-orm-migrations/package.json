@@ -22,11 +22,7 @@
     "url": "https://github.com/founderlab/frameworkstein/issues"
   },
   "homepage": "https://github.com/founderlab/packages/stein-orm-migrations#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "jest": "^27.0.0"
-  },
+  "devDependencies": {},
   "dependencies": {
     "fl-server-utils": "^11.4.5",
     "stein-orm": "^11.0.0",

@@ -19,9 +19,6 @@
     "test": "eval $(cat __tests__/.env) jest --runInBand"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "jest": "^27.0.0",
     "stein-orm": "^11.0.0",
     "util.promisify": "^1.0.0"
   },

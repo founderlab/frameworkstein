@@ -1,41 +1,39 @@
 {
-  "name": "redux-request-middleware",
-  "version": "11.7.4-beta.0",
-  "description": "Redux middleware to dispatch stein-orm or stein-fetch requests",
-  "main": "lib/index.js",
-  "author": {
-    "name": "Gwilym Humphreys",
-    "url": "https://github.com/gwilymhumphreys"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/redux-request-middleware"
-  },
-  "scripts": {
-    "prepare": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
-    "build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
-    "watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
-    "test": "eval $(cat __tests__/.env) jest --runInBand"
-  },
-  "dependencies": {
-    "async-retry": "^1.0.0",
-    "lodash": "^4.0.0",
-    "stein-fetch": "^11.7.4-beta.0"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "babel-jest": "^24.0.0",
-    "jest": "^27.0.0"
-  },
-  "jest": {
-    "verbose": true,
-    "bail": true,
-    "testURL": "http://localhost/",
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
-  },
-  "gitHead": "00134cad8cbb845a26eb1115d05824f7d5e727c9"
+	"name": "redux-request-middleware",
+	"version": "11.7.4-beta.0",
+	"description": "Redux middleware to dispatch stein-orm or stein-fetch requests",
+	"main": "lib/index.js",
+	"author": {
+		"name": "Gwilym Humphreys",
+		"url": "https://github.com/gwilymhumphreys"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/founderlab/frameworkstein/tree/master/packages/redux-request-middleware"
+	},
+	"scripts": {
+		"prepare": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
+		"build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
+		"watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
+		"test": "eval $(cat __tests__/.env) jest --runInBand"
+	},
+	"dependencies": {
+		"async-retry": "^1.0.0",
+		"lodash": "^4.0.0",
+		"stein-fetch": "^11.7.4-beta.0"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.0.0",
+		"babel-jest": "^29.0.0"
+	},
+	"jest": {
+		"verbose": true,
+		"bail": true,
+		"testURL": "http://localhost/",
+		"transform": {
+			"^.+\\.js$": "babel-jest"
+		}
+	},
+	"gitHead": "00134cad8cbb845a26eb1115d05824f7d5e727c9"
 }

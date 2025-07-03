@@ -1,50 +1,46 @@
 {
-  "name": "stein-orm-sql",
-  "version": "11.7.2",
-  "description": "",
-  "main": "lib/index.js",
-  "author": {
-    "name": "Gwilym Humphreys",
-    "url": "https://github.com/gwilymhumphreys"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm-sql"
-  },
-  "scripts": {
-    "prepare": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
-    "build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
-    "watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
-    "test": "eval $(cat __tests__/.env) jest --runInBand"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "babel-jest": "^24.0.0",
-    "jest": "^27.0.0",
-    "stein-orm": "^11.0.0"
-  },
-  "peerDependencies": {
-    "stein-orm": ">=8"
-  },
-  "dependencies": {
-    "inflection": "^1.0.0",
-    "knex": "^3.1.0",
-    "lodash": "^4.0.0",
-    "pg": "^8.0.0",
-    "queue-async": "^1.0.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "verbose": true,
-    "bail": true,
-    "modulePathIgnorePatterns": [
-      "node_modules/!(stein-orm)/*"
-    ],
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
-  },
-  "gitHead": "e1e1a50162bd4b054f52769c447e5abe76af1383"
+	"name": "stein-orm-sql",
+	"version": "11.7.2",
+	"description": "",
+	"main": "lib/index.js",
+	"author": {
+		"name": "Gwilym Humphreys",
+		"url": "https://github.com/gwilymhumphreys"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/founderlab/frameworkstein/tree/master/packages/stein-orm-sql"
+	},
+	"scripts": {
+		"prepare": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
+		"build": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start",
+		"watch": "babel --root-mode upward ./src --out-dir ./lib --delete-dir-on-start --watch",
+		"test": "eval $(cat __tests__/.env) jest --runInBand"
+	},
+	"devDependencies": {
+		"babel-jest": "^29.0.0"
+	},
+	"peerDependencies": {
+		"stein-orm": ">=8"
+	},
+	"dependencies": {
+		"inflection": "^1.0.0",
+		"knex": "^3.1.0",
+		"lodash": "^4.0.0",
+		"pg": "^8.0.0",
+		"queue-async": "^1.0.0"
+	},
+	"jest": {
+		"testEnvironment": "node",
+		"verbose": true,
+		"bail": true,
+		"modulePathIgnorePatterns": [
+			"node_modules/!(stein-orm)/*"
+		],
+		"transform": {
+			"^.+\\.js$": "babel-jest"
+		}
+	},
+	"gitHead": "e1e1a50162bd4b054f52769c447e5abe76af1383"
 }
